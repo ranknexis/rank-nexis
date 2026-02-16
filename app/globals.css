@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Brand Palette - RankNexis */
+  --color-brand: #FF7A00; /* Orange Lightning */
+  --color-brand-hover: #E66E00;
+  --color-background-dark: #FFFFFF; /* Now White */
+  --color-surface: #F9FAFB; /* Light Gray */
+  --color-surface-light: #F3F4F6;
+  --color-surface-alt: #F3F4F6;
+  
+  /* Text Palette */
+  --color-text-primary: #0F0F0F; /* Now Deep Black */
+  --color-text-secondary: #1F2937;
+  --color-text-muted: #4B5563;
+  
+  /* Legacy/Common Mappings */
+  --color-text-main: #0F0F0F;
+  --color-text-dim: #4B5563;
+  --color-text-soft: #6B7280;
+  
+  /* UI elements */
+  --color-stroke: #E5E7EB;
+  --color-stroke-active: #FF7A00;
+}
+
+@layer base {
+  :root {
+    --background: #FFFFFF;
+    --foreground: #0F0F0F;
+  }
+
+  body {
+    @apply bg-background-dark text-text-primary font-sans antialiased selection:bg-brand/20 selection:text-brand;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-text-primary;
+  }
+
+  /* Transition Defaults */
+  * {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  /* Corporate Button Styles */
+  .btn-primary {
+    @apply h-12 px-6 bg-brand hover:bg-brand-hover text-white font-semibold rounded-lg flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply h-12 px-6 bg-white border border-stroke hover:bg-surface-alt text-text-main font-semibold rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98];
+  }
+
+  /* Corporate Card Styles */
+  .corporate-card {
+    @apply bg-white border border-stroke rounded-xl p-8 hover:shadow-2xl hover:shadow-brand/5 hover:border-brand/40 transition-all duration-300;
+  }
+
+  .hover-lift {
+    @apply hover:-translate-y-1 hover:shadow-lg transition-all duration-300;
+  }
+
+  /* Input & Field Styles */
+  .input-field {
+    @apply w-full h-12 px-4 bg-surface-alt border border-stroke rounded-lg text-text-main placeholder:text-text-soft focus:outline-none focus:ring-2 focus:ring-brand/10 focus:border-brand transition-all font-medium;
+  }
+
+  .text-area {
+    @apply w-full p-4 bg-surface-alt border border-stroke rounded-lg text-text-main placeholder:text-text-soft focus:outline-none focus:ring-2 focus:ring-brand/10 focus:border-brand transition-all font-medium resize-none;
+  }
+
+  .label-text {
+    @apply text-[10px] font-bold text-text-dim uppercase tracking-wider mb-2 block;
+  }
+
+  /* Section Utlities */
+  .section-padding {
+    @apply py-24 px-6;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+}
+
+/* Typography Scale & Polish */
+h1 { @apply text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-6; }
+h2 { @apply text-3xl md:text-4xl leading-[1.1] mb-4; }
+h3 { @apply text-xl md:text-2xl leading-[1.2] mb-3; }
+p { @apply text-base md:text-lg text-text-dim leading-relaxed; }
+
+/* Scrollbar Polish */
+::-webkit-scrollbar {
+  @apply w-1.5;
+}
+::-webkit-scrollbar-track {
+  @apply bg-gray-50;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 hover:bg-gray-300 transition-colors rounded-full;
+}
