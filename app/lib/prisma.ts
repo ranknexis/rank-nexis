@@ -1,5 +1,11 @@
-import { PrismaClient } from './generated/prisma'
+// import { PrismaClient } from './generated/prisma'
 
+// Stub for UI-only deployment
+const prisma: any = {};
+
+export default prisma;
+
+/*
 const prismaClientSingleton = () => {
   return new PrismaClient()
 }
@@ -13,3 +19,4 @@ const prisma = globalThis.prisma ?? prismaClientSingleton()
 export default prisma
 
 if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma
+*/
