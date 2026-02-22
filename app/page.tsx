@@ -2,18 +2,18 @@
 
 import { motion } from "framer-motion";
 import {
-    Activity,
-    ArrowRight,
-    ArrowUpRight,
-    Box,
-    Code2,
-    Globe,
-    Layers,
-    MessageSquare,
-    Palette,
-    ShieldCheck,
-    TrendingUp,
-    Zap
+  Activity,
+  ArrowRight,
+  ArrowUpRight,
+  Box,
+  Code2,
+  Globe,
+  Layers,
+  MessageSquare,
+  Palette,
+  ShieldCheck,
+  TrendingUp,
+  Zap
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -25,23 +25,23 @@ import { cn } from "./lib/utils";
 const SERVICES = [
   {
     icon: TrendingUp,
-    title: "Digital Marketing",
-    desc: "Targeted strategies to grow your brand, increase traffic, and drive measurable sales through expert marketing.",
-    features: ["Social Media Marketing", "Facebook Ads", "Google Ads"],
+    title: "Performance Marketing",
+    desc: "Aggressive, data-driven strategies to dominate your market, scale revenue, and maximize ROI through precision targeting.",
+    features: ["Growth Hacking", "Paid Acquisition", "SEO Authority", "Market Analysis"],
     slug: "marketing"
   },
   {
     icon: Palette,
-    title: "Graphic Design",
-    desc: "Professional visual identities and creative designs that make your brand stand out and build trust.",
-    features: ["Logo Design", "Packaging", "Social Posts"],
+    title: "Brand Architecture",
+    desc: "Elite visual identities and strategic design systems that establish absolute market authority and consumer trust.",
+    features: ["Identity Systems", "Elite Design", "Conversion UX"],
     slug: "design"
   },
   {
     icon: Code2,
-    title: "Web Development",
-    desc: "Robust, high-performance websites and applications built to provide a seamless user experience.",
-    features: ["Full-Stack Dev", "UI/UX Design", "eCommerce"],
+    title: "Systems Engineering",
+    desc: "High-performance, scalable digital infrastructure and ecosystems built for enterprise reliability and seamless scaling.",
+    features: ["Custom Software", "MVP Engineering", "Cloud Infrastructure"],
     slug: "development"
   }
 ];
@@ -153,7 +153,7 @@ export default function Home() {
                   className="inline-flex items-center gap-3 px-5 py-1.5 glass rounded-full shadow-premium border border-brand/5 mb-2"
                 >
                    <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
-                   <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-brand">Full-Service Digital Agency</p>
+                   <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand">Full-Service Digital Agency</p>
                 </motion.div>
 
                 <div className="space-y-4">
@@ -195,8 +195,8 @@ export default function Home() {
                   transition={{ duration: 0.8, delay: 0.9 }}
                   className="flex flex-col sm:flex-row gap-6 pt-4"
                 >
-                  <Link href="/#contact" className="btn-primary group h-16 px-12 text-[11px] font-bold uppercase tracking-wider bg-brand hover:brightness-110">
-                    Schedule Strategy Consultation
+                    <Link href="/#contact" className="btn-primary group h-16 px-12 text-[11px] font-bold uppercase tracking-wider bg-brand hover:brightness-110">
+                      Book a Free Call
                     <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-500" />
                   </Link>
                   <Link href="/work" className="btn-outline h-16 px-12 text-[11px] font-bold uppercase tracking-wider border border-stroke hover:border-brand/40">
@@ -206,78 +206,77 @@ export default function Home() {
               </div>
 
               <motion.div 
-                initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
-                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                transition={{ duration: 1.2, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                initial={{ opacity: 0, x: 50, filter: "blur(20px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                transition={{ duration: 1, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
                 className="lg:col-span-5 relative hidden lg:block"
               >
                 {/* Visual System Diagram Mockup */}
-                <div className="aspect-square glass rounded-[4rem] p-12 overflow-hidden relative group shadow-premium grain">
-                  <div className="absolute inset-0 bg-gradient-to-br from-brand/20 via-transparent to-transparent opacity-40" />
+                <div className="aspect-square bg-surface border border-stroke rounded-[3rem] p-10 overflow-hidden relative group shadow-premium">
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand/10 via-transparent to-transparent opacity-50" />
                   
                   {/* Abstract System visualization */}
-                  <div className="relative h-full flex flex-col justify-center items-center gap-12">
+                  <div className="relative h-full flex flex-col justify-center items-center gap-10">
                     <motion.div 
                       animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                      className="px-8 py-5 glass-dark border border-white/5 rounded-2xl flex items-center justify-center shadow-premium relative z-10"
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      className="w-52 h-20 bg-white border border-brand/20 rounded-2xl flex items-center justify-center shadow-xl relative z-10"
                     >
                       <Code2 className="text-brand mr-4" size={24} />
-                      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white">Platform Design</span>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-text-primary">Scalable Systems</span>
                     </motion.div>
                     
                     <div className="flex gap-10">
                        <motion.div 
                         animate={{ x: [-15, 0, -15], y: [-5, 5, -5] }}
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                        className="w-44 h-36 glass border border-white/20 rounded-3xl flex flex-col items-center justify-center shadow-xl backdrop-blur-2xl"
+                        className="w-48 h-40 bg-white border border-stroke rounded-3xl flex flex-col items-center justify-center shadow-lg"
                       >
-                        <TrendingUp className="text-brand mb-3" size={32} />
-                        <span className="text-[11px] font-bold uppercase tracking-wider">Growth Results</span>
+                        <TrendingUp className="text-brand mb-4" size={36} />
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-text-primary">Market Growth</span>
                       </motion.div>
                       
                        <motion.div 
                         animate={{ x: [15, 0, 15], y: [5, -5, 5] }}
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                        className="w-44 h-36 glass border border-white/20 rounded-3xl flex flex-col items-center justify-center shadow-xl backdrop-blur-2xl"
+                        className="w-48 h-40 bg-white border border-stroke rounded-3xl flex flex-col items-center justify-center shadow-lg"
                       >
-                        <Zap className="text-brand mb-3" size={32} />
-                        <span className="text-[11px] font-bold uppercase tracking-wider">Enterprise Ready</span>
+                        <Zap className="text-brand mb-4" size={36} />
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-text-primary">High Precision</span>
                       </motion.div>
                     </div>
 
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-10 pointer-events-none">
-                       <div className="w-full h-px bg-brand absolute top-1/2 blur-sm" />
-                       <div className="h-full w-px bg-brand absolute left-1/2 blur-sm" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-5 pointer-events-none">
+                       <div className="w-full h-px bg-brand absolute top-1/2" />
+                       <div className="h-full w-px bg-brand absolute left-1/2" />
                     </div>
                   </div>
 
-                  {/* Lightning Icon Overlay */}
-                  <div className="absolute -top-10 -right-10 text-brand opacity-5 group-hover:opacity-20 transition-opacity duration-1000 rotate-12">
-                    <Zap size={240} fill="currentColor" />
-                  </div>
+                  {/* Aesthetic Polishing Elements */}
+                  <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand/5 rounded-full blur-3xl" />
+                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand/5 rounded-full blur-3xl" />
                 </div>
 
                 {/* Floating Metric Badge */}
                 <motion.div 
-                  initial={{ x: 50, opacity: 0 }}
+                  initial={{ x: -50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ duration: 1, delay: 1.2 }}
-                  className="absolute -bottom-12 -right-2 glass border border-white/30 p-6 rounded-[2.5rem] shadow-premium flex items-center gap-7 backdrop-blur-3xl grain min-w-[300px]"
+                  className="absolute -bottom-8 -left-8 bg-surface border border-stroke p-6 rounded-[1.5rem] shadow-premium flex items-center gap-5 backdrop-blur-3xl grain min-w-[260px] z-20"
                 >
-                  <div className="w-16 h-16 bg-brand rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-brand/30 shrink-0">
-                    <Zap size={32} />
+                  <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white shadow-2xl shadow-brand/30 shrink-0">
+                    <Zap size={24} />
                   </div>
                   <div>
                     <motion.p 
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.5 }}
-                      className="text-3xl font-bold tracking-tighter leading-none mb-1.5"
+                      className="text-3xl font-bold tracking-tighter leading-none mb-1"
                     >
                       100%
                     </motion.p>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-text-muted leading-relaxed">Campaign Success <br /> Guaranteed</p>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted leading-relaxed">Campaign Success <br /> Guaranteed</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -286,47 +285,93 @@ export default function Home() {
         </section>
 
         {/* 2. TRUST & RECOGNITION */}
-        <section className="py-24 border-y border-stroke bg-surface/30 relative overflow-hidden">
+        {/* 2. OUR GROWTH PROCESS */}
+        <section className="py-32 border-y border-stroke bg-surface/30 relative overflow-hidden">
           <div className="container-max">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
-              <div className="max-w-sm">
-                <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand mb-6">Partner Network</p>
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight uppercase">Trusted By <br /> Industry Leaders.</h2>
-              </div>
-              
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 w-full">
-                {[
-                  { label: "Platform Uptime", val: "99.9%", icon: ShieldCheck },
-                  { label: "Systems Launched", val: "12+", icon: Box },
-                  { label: "Global Latency", val: "<2ms", icon: Zap },
-                  { label: "Project Success", val: "100%", icon: Activity },
-                ].map((stat, i) => (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+              {/* Left Column: Manifesto */}
+              <div className="lg:col-span-5 space-y-10">
+                <div className="space-y-6">
                   <motion.div 
-                    key={stat.label}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="group"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    className="inline-flex items-center gap-3 px-4 py-1.5 bg-white border border-stroke rounded-full shadow-sm"
                   >
-                    <div className="flex items-center gap-5 mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-brand/5 flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm border border-brand/10">
-                        <stat.icon size={24} strokeWidth={1.5} />
-                      </div>
-                      <span className="text-5xl font-bold tracking-tighter">{stat.val}</span>
+                    <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">How We Work</p>
+                  </motion.div>
+                  <h2 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight uppercase">
+                    Bridging <span className="text-brand">Design</span><br /> & Tech.
+                  </h2>
+                </div>
+                
+                <p className="text-text-secondary text-xl font-medium leading-relaxed max-w-md">
+                  We don't just build websites; we create high-performance systems where great design meets expert tech.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-12 opacity-30 pt-4 grayscale hover:grayscale-0 transition-all duration-700">
+                  {["VERCEL", "STRIPE", "LINEAR", "NEXTJS"].map(logo => (
+                    <span key={logo} className="text-sm font-black tracking-[0.3em]">{logo}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: Strategic Verticals */}
+              <div className="lg:col-span-7 grid grid-cols-1 gap-6">
+                {[
+                  { 
+                    id: "01", 
+                    title: "Customer Growth", 
+                    desc: "Smart marketing strategies designed to help your brand lead the market and find more customers.",
+                    icon: TrendingUp
+                  },
+                  { 
+                    id: "02", 
+                    title: "Premium Design", 
+                    desc: "Modern design systems that turn your brand into a high-performance business.",
+                    icon: Palette 
+                  },
+                  { 
+                    id: "03", 
+                    title: "Modern Software", 
+                    desc: "Fast, scalable software built to handle high traffic and help your business grow rapidly.",
+                    icon: Layers
+                  }
+                ].map((vertical, i) => (
+                  <motion.div 
+                    key={vertical.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.15 }}
+                    className="group flex flex-col md:flex-row items-center gap-10 p-10 bg-white border border-stroke rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden"
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-brand/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand/10 transition-colors" />
+                    
+                    <div className="w-20 h-20 rounded-3xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shrink-0 shadow-sm">
+                      <vertical.icon size={36} strokeWidth={1.2} />
                     </div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-text-muted">{stat.label}</p>
+                    
+                    <div className="space-y-4 text-center md:text-left">
+                      <div className="flex flex-col md:flex-row md:items-center gap-4">
+                        <span className="text-brand text-[10px] font-bold tracking-[0.3em] uppercase">{vertical.id}</span>
+                        <h4 className="text-2xl font-bold uppercase tracking-tight">{vertical.title}</h4>
+                      </div>
+                      <p className="text-text-muted text-sm font-medium leading-relaxed max-w-md">{vertical.desc}</p>
+                    </div>
+
+                    <div className="hidden md:flex flex-col items-center justify-center ml-auto">
+                       <div className="w-12 h-12 rounded-full border border-stroke group-hover:border-brand/20 flex items-center justify-center transition-all bg-surface">
+                          <ArrowRight className="text-text-muted group-hover:text-brand transition-all -rotate-45 group-hover:rotate-0" size={18} />
+                       </div>
+                    </div>
                   </motion.div>
                 ))}
               </div>
             </div>
-
-            {/* Logo Cloud - Grayscale to Color */}
-            <div className="mt-24 pt-16 border-t border-stroke flex flex-wrap justify-center items-center gap-16 lg:gap-24 opacity-40 hover:opacity-100 transition-opacity duration-700">
-               {["VERCEL", "STRIPE", "LINEAR", "PRISMA", "NEXTJS"].map(logo => (
-                 <span key={logo} className="text-xl font-bold tracking-[0.4em] grayscale hover:grayscale-0 transition-all cursor-default text-text-muted hover:text-brand">{logo}</span>
-               ))}
-            </div>
           </div>
+          
+          <div className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none" />
         </section>
 
         {/* 3. SERVICES OVERVIEW */}
@@ -340,7 +385,7 @@ export default function Home() {
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full"
                 >
                   <div className="w-2 h-2 bg-brand rounded-full" />
-                  <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">What We Do</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">What We Do</p>
                 </motion.div>
                 <h2 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight uppercase">
                   Tailored Solutions <br /> <span className="text-brand">Designed</span> For Growth.
@@ -368,24 +413,24 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
               <div className="lg:col-span-5 space-y-8">
                 <div className="space-y-4">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-brand">Industry Expertise</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Industry Expertise</p>
                   <h2 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight uppercase">Sectors <br /> <span className="text-brand">We Support.</span></h2>
                 </div>
                 <p className="text-text-secondary text-xl font-medium leading-relaxed">
                   We bring deep domain expertise to high-growth sectors, delivering customized solutions that align with specific market requirements.
                 </p>
-                <Link href="/work" className="btn-primary h-16 px-10 text-[10px] font-bold uppercase tracking-[0.3em] group bg-brand">
+                <Link href="/work" className="btn-primary h-16 px-10 text-[10px] font-bold uppercase tracking-[0.2em] group bg-brand">
                   See Case History <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
 
               <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-6">
                 {[
-                  { name: "SaaS", icon: Box },
-                  { name: "E-commerce", icon: Globe },
-                  { name: "Fintech", icon: ShieldCheck },
+                  { name: "SaaS Systems", icon: Box },
+                  { name: "Global Commerce", icon: Globe },
+                  { name: "Fintech Systems", icon: ShieldCheck },
                   { name: "Healthcare", icon: Activity },
-                  { name: "Education", icon: MessageSquare },
+                  { name: "Ed-Tech", icon: MessageSquare },
                   { name: "Enterprise", icon: Layers }
                 ].map((industry, i) => (
                   <motion.div 
@@ -398,7 +443,7 @@ export default function Home() {
                     <div className="w-16 h-16 rounded-[1.5rem] bg-brand/5 flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 border border-brand/10 shadow-inner">
                       <industry.icon size={32} strokeWidth={1} />
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-center text-text-muted group-hover:text-text-primary transition-colors">{industry.name}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-center text-text-muted group-hover:text-text-primary transition-colors">{industry.name}</span>
                   </motion.div>
                 ))}
               </div>
@@ -417,13 +462,13 @@ export default function Home() {
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full"
                 >
                   <div className="w-2 h-2 bg-brand rounded-full" />
-                  <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">Case History</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Case History</p>
                 </motion.div>
                 <h2 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight uppercase">
                   Proven Success <br /> <span className="text-brand">Strategic</span> Growth.
                 </h2>
               </div>
-              <Link href="/work" className="btn-outline h-14 px-8 text-[11px] font-bold uppercase tracking-[0.3em] group/arch border border-stroke hover:border-brand/40">
+              <Link href="/work" className="btn-outline h-14 px-8 text-[11px] font-bold uppercase tracking-[0.2em] group/arch border border-stroke hover:border-brand/40">
                 View All Projects <ArrowUpRight size={16} className="group-hover/arch:translate-x-1 group-hover/arch:-translate-y-1 transition-transform" />
               </Link>
             </div>
@@ -454,16 +499,16 @@ export default function Home() {
         <section className="section-padding border-y border-stroke bg-surface/30 relative">
           <div className="container-max relative z-10">
             <div className="text-center mb-32 space-y-6">
-               <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Working with Us</p>
+               <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">Working with Us</p>
                <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase">Our Partnership Process.</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12 relative">
-              <ProcessItem step="01" title="Assessment" desc="Understanding your technical requirements and business goals." />
-              <ProcessItem step="02" title="Blueprint" desc="Designing a comprehensive roadmap for development and growth." />
-              <ProcessItem step="03" title="Implementation" desc="Building high-performance systems with precision engineering." />
-              <ProcessItem step="04" title="Refinement" desc="Iterating based on real-world data and user feedback." />
-              <ProcessItem step="05" title="Scale" desc="Expanding impact through sustained technical excellence." />
+              <ProcessItem step="01" title="Business Review" desc="Deep-dive into your growth potential and technical needs." />
+              <ProcessItem step="02" title="Growth Plan" desc="Designing a high-performance roadmap for market success." />
+              <ProcessItem step="03" title="Expert Engineering" desc="Building elite digital infrastructure with precision." />
+              <ProcessItem step="04" title="Performance" desc="Continuous improvement based on real-world data." />
+              <ProcessItem step="05" title="Rapid Growth" desc="Scaling your business through sustained expert help." />
               
               {/* Connecting Desktop Line */}
               <div className="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-px bg-brand/20 -z-10" />
@@ -478,7 +523,7 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div className="space-y-10 order-2 lg:order-1">
                 <div className="space-y-6">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Strategic Approach</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">Strategic Approach</p>
                   <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase leading-tight">
                     Beyond <br /> Agency.
                   </h2>
@@ -493,15 +538,15 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-xl bg-brand/5 flex items-center justify-center text-brand">
                       <Code2 size={24} />
                     </div>
-                    <h4 className="text-lg font-bold uppercase tracking-tight">Technical Mastery</h4>
-                    <p className="text-text-muted text-sm font-medium">We maintain absolute control over our tech stack, ensuring reliability and security.</p>
+                    <h4 className="text-lg font-bold uppercase tracking-tight">Expert Engineering</h4>
+                    <p className="text-text-muted text-sm font-medium">We maintain full control over our tech stack, ensuring elite reliability.</p>
                   </div>
                   <div className="space-y-4">
                     <div className="w-12 h-12 rounded-xl bg-brand/5 flex items-center justify-center text-brand">
                       <Zap size={24} />
                     </div>
-                    <h4 className="text-lg font-bold uppercase tracking-tight">Performance Driven</h4>
-                    <p className="text-text-muted text-sm font-medium">Optimization is built into every layer, from initial architecture to final deployment.</p>
+                    <h4 className="text-lg font-bold uppercase tracking-tight">Growth Speed</h4>
+                    <p className="text-text-muted text-sm font-medium">Speed is built into every layer to ensure your business scales quickly.</p>
                   </div>
                 </div>
               </div>
@@ -529,7 +574,7 @@ export default function Home() {
                           transition={{ duration: 5, repeat: Infinity }}
                           className="px-8 py-4 bg-surface border border-stroke rounded-2xl flex items-center gap-4 text-xs font-bold uppercase tracking-wider bg-brand text-white"
                         >
-                           <Zap size={16} />
+                           <Zap size={16} className="text-brand" />
                            System Hub
                         </motion.div>
                         <motion.div 
@@ -579,7 +624,7 @@ export default function Home() {
                   
                   {/* Floating Metric */}
                   <div className="absolute bottom-10 left-10 right-10 p-8 glass-dark rounded-3xl backdrop-blur-2xl space-y-4">
-                     <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-brand brightness-125">The Standard</p>
+                     <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand brightness-125">The Standard</p>
                      <h4 className="text-3xl font-bold tracking-tighter text-white">Growth Focused.</h4>
                      <p className="text-white/90 text-[11px] font-medium uppercase tracking-wider">We measure our success by your brand's actual growth.</p>
                   </div>
@@ -588,16 +633,16 @@ export default function Home() {
 
               <div className="space-y-16">
                 <div className="space-y-6">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Partnership Values</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Partnership Values</p>
                   <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase leading-tight">
                     Engineering <br /> Excellence.
                   </h2>
                 </div>
                 
                 <div className="space-y-10">
-                  <ValueProp title="Strategic Mindset" desc="We focus on long-term value, designing systems that grow alongside your business objectives." />
-                  <ValueProp title="Modular Architecture" desc="Our systems are built using reusable, scalable components for efficient deployment." />
-                  <ValueProp title="Transparent Delivery" desc="Clear, data-backed insights into every phase of our technical and strategic execution." />
+                  <ValueProp title="Smart Strategy" desc="We focus on long-term value, designing systems that grow alongside your business goals." />
+                  <ValueProp title="Modern Architecture" desc="Our systems are built using reusable, high-performance components for fast scaling." />
+                  <ValueProp title="Clear Reporting" desc="Honest, data-backed insights into every phase of our work." />
                 </div>
 
                 <Link href="/contact" className="btn-primary group h-16 px-12 text-xs font-bold uppercase tracking-wider bg-brand">
@@ -719,16 +764,16 @@ export default function Home() {
                 <form onSubmit={handleContactSubmit} className="space-y-10">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-3">
-                      <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Full Name</label>
+                      <label className="text-[11px] font-bold uppercase tracking-wider text-brand ml-4">Full Name</label>
                       <input required name="name" type="text" placeholder="John Doe" className="input-field" />
                     </div>
                     <div className="space-y-3">
-                      <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Email Address</label>
+                      <label className="text-[11px] font-bold uppercase tracking-wider text-brand ml-4">Email Address</label>
                       <input required name="email" type="email" placeholder="john@example.com" className="input-field" />
                     </div>
                   </div>
                   <div className="space-y-3">
-                     <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Your Inquiry</label>
+                     <label className="text-[11px] font-bold uppercase tracking-wider text-brand ml-4">Your Inquiry</label>
                      <textarea required name="message" rows={4} placeholder="Tell us about your project goals..." className="input-field h-auto py-6 resize-none" />
                   </div>
                   
