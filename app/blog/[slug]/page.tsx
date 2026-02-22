@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowLeft, Calendar, Share2, User } from "lucide-react";
+import { motion } from "framer-motion";
+import { Calendar, Share2, TrendingUp, User } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import BlogCard from "../../components/BlogCard";
@@ -50,74 +51,125 @@ export default function BlogPostDetail() {
     <div className="min-h-screen bg-white text-text-primary">
       <Navbar />
 
-      <main className="pt-32 pb-40">
-        <div className="container-max px-6">
-          {/* BACK LINK */}
-          <Link href="/blog" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-600 hover:text-brand transition-colors mb-20 group">
-            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-            Back to Intel Central
-          </Link>
+      <main className="pt-24 pb-24 md:pt-32 md:pb-40 grain">
+        <div className="container-max">
+          {/* IMPACT HERO SECTION */}
+          <header className="max-w-4xl mx-auto mb-20 text-center">
+            <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               className="inline-flex items-center gap-3 px-4 py-2 bg-brand/5 border border-brand/10 rounded-full mb-8"
+            >
+               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand">Publication / Knowledge Hub</span>
+            </motion.div>
 
-          {/* ARTICLE HEADER */}
-          <header className="max-w-4xl mx-auto mb-20">
-            <div className="flex items-center gap-3 mb-8">
-               <span className="px-3 py-1 bg-brand text-black text-[10px] font-black uppercase tracking-widest rounded-full">
-                {post.category}
-              </span>
-              <div className="w-1 h-1 bg-gray-200 rounded-full" />
-              <div className="flex items-center gap-4 text-[10px] font-bold text-gray-600 uppercase tracking-widest">
-                <div className="flex items-center gap-1.5">
-                  <User size={12} className="text-brand" />
-                  {post.author}
-                </div>
-                <div className="w-1 h-1 bg-gray-200 rounded-full" />
-                <div className="flex items-center gap-1.5">
-                  <Calendar size={12} className="text-brand" />
-                  {post.date}
-                </div>
-              </div>
-            </div>
-
-            <h1 className="text-4xl md:text-7xl font-black mb-10 tracking-tighter leading-[1.1] uppercase">
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tighter leading-[1.1] uppercase"
+            >
               {post.title}
-            </h1>
+            </motion.h1>
             
-            <p className="text-xl md:text-2xl text-gray-600 font-medium leading-relaxed italic border-l-4 border-brand pl-8 mb-12">
-              "{post.excerpt}"
-            </p>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="flex items-center justify-center gap-6 mb-16 px-6"
+            >
+               <div className="flex items-center gap-3 text-left">
+                  <div className="w-12 h-12 rounded-full border-2 border-brand/20 p-0.5 bg-white">
+                     <div className="w-full h-full rounded-full bg-brand/10 flex items-center justify-center text-brand">
+                        <User size={20} strokeWidth={1.5} />
+                     </div>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-text-primary leading-none mb-1">{post.author}</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Principal Architect</p>
+                  </div>
+               </div>
+               <div className="h-10 w-px bg-gray-100 hidden sm:block" />
+               <div className="flex items-center gap-3 text-left">
+                  <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400">
+                     <Calendar size={18} />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-text-primary leading-none mb-1">{post.date}</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Eng. Timestamp</p>
+                  </div>
+               </div>
+            </motion.div>
 
-            <div className="aspect-[21/9] rounded-[3rem] overflow-hidden border border-gray-100 mb-20 shadow-xl">
-              <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="aspect-[4/3] md:aspect-[21/9] rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-gray-100 shadow-premium group relative"
+            >
+               <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
+               <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+               
+               <div className="absolute bottom-8 right-8 z-20">
+                  <button className="w-14 h-14 bg-white/90 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-brand shadow-xl hover:rotate-12 transition-all">
+                     <Share2 size={24} />
+                  </button>
+               </div>
+            </motion.div>
           </header>
 
-          {/* ARTICLE CONTENT */}
-          <article className="max-w-3xl mx-auto prose prose-orange">
-            <div 
-              className="text-gray-700 text-lg leading-[1.8] font-medium space-y-8"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
-          </article>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+            {/* SIDEBAR / TOC */}
+            <aside className="lg:col-span-3 lg:sticky lg:top-32 order-2 lg:order-1">
+               <div className="space-y-12">
+                  <div className="space-y-6">
+                    <h4 className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand pb-4 border-b border-brand/20">System Content</h4>
+                    <nav className="space-y-4">
+                       {["Executive Summary", "Dynamic Context", "Growth Protocol", "Structural Audit"].map((link, i) => (
+                         <a href="#" key={link} className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-brand transition-colors pl-4 border-l border-gray-100 hover:border-brand">
+                           {link}
+                         </a>
+                       ))}
+                    </nav>
+                  </div>
 
-          {/* SOCIAL SHARE & TAGS */}
-          <div className="max-w-3xl mx-auto mt-20 pt-10 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex flex-wrap gap-3">
-              {["Strategy", "Scale", "Engineering"].map(tag => (
-                <span key={tag} className="px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-bold uppercase tracking-widest text-gray-600">#{tag}</span>
-              ))}
-            </div>
-            <button className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-text-primary hover:text-brand transition-colors p-4 bg-gray-50 border border-gray-100 rounded-2xl active:scale-95 shadow-sm">
-              <Share2 size={16} className="text-brand" />
-              Synchronize Intent
-            </button>
+                  <div className="corporate-card bg-brand p-8 text-white space-y-4">
+                     <TrendingUp size={32} strokeWidth={1} />
+                     <h4 className="text-[10px] font-bold uppercase tracking-[0.3em]">Deploy Scaling Pulse</h4>
+                     <p className="text-white/80 text-[10px] leading-relaxed uppercase font-bold tracking-widest">Architect your growth engine with 1:1 precision.</p>
+                     <Link href="/contact" className="inline-flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest py-3 px-6 bg-white text-brand rounded-lg hover:scale-105 transition-transform">
+                        Initialize Sync
+                     </Link>
+                  </div>
+               </div>
+            </aside>
+
+            {/* MAIN ARTICLE BODY */}
+            <article className="lg:col-span-9 order-1 lg:order-2">
+               <div className="max-w-3xl prose prose-lg prose-gray prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase">
+                  <div 
+                    className="text-gray-800 text-xl leading-[1.8] font-medium space-y-12 drop-cap"
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                  
+                  <div className="mt-20 pt-10 border-t border-gray-100 flex flex-wrap gap-4">
+                    {["Strategy", "Systems", "Growth", "Engineering"].map(tag => (
+                      <span key={tag} className="px-5 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-[9px] font-bold uppercase tracking-[0.2em] text-gray-500">#{tag}</span>
+                    ))}
+                  </div>
+               </div>
+            </article>
           </div>
 
           {/* RELATED PUBLICATIONS */}
-          <section className="mt-40 pt-40 border-t border-gray-100">
-            <div className="flex justify-between items-end mb-20">
-              <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase">Related <br /><span className="text-brand">Strategy.</span></h2>
-              <Link href="/blog" className="text-xs font-bold uppercase tracking-[0.2em] text-brand hover:translate-x-2 transition-transform pb-2">
-                View All Intel Central
+          <section className="mt-40 pt-20 border-t border-gray-200">
+            <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-20">
+              <div className="space-y-4">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand">Deep Stack Analysis</span>
+                <h2 className="text-2xl md:text-4xl font-bold tracking-tighter uppercase leading-none">Related <br />Engineering.</h2>
+              </div>
+              <Link href="/blog" className="btn-outline h-14 px-10 text-[10px] uppercase tracking-[0.3em]">
+                View All Intelligence
               </Link>
             </div>
             

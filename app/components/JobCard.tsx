@@ -17,40 +17,44 @@ const JobCard: React.FC<JobCardProps> = ({ title, location, type, slug, departme
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="group bg-white border border-gray-100 p-8 rounded-[2rem] hover:border-brand transition-all duration-500 shadow-lg hover:shadow-2xl"
+      transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+      className="corporate-card p-10 group hover:-translate-y-2 shadow-premium grain"
     >
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <span className="px-3 py-1 bg-brand/10 border border-brand/20 text-brand text-[9px] font-black uppercase tracking-[0.2em] rounded-full">
-              {department === "Systems" ? "Engineering" : department === "Marketing" ? "Growth" : department}
-            </span>
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+        <div className="space-y-6 flex-grow max-w-2xl">
+          <div className="flex items-center gap-4">
+             <div className="px-4 py-1.5 glass-dark border border-white/5 bg-brand text-white text-[11px] font-bold uppercase tracking-[0.3em] rounded-full shadow-lg">
+                {department === "Systems" ? "Engineering" : department === "Marketing" ? "Growth" : department}
+             </div>
+             <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse opacity-40" />
+             <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-muted">Active Opening</p>
           </div>
-          <h3 className="text-2xl font-black tracking-tighter uppercase group-hover:text-brand transition-colors">
+          
+          <h3 className="text-3xl font-bold tracking-tighter uppercase leading-[0.9] group-hover:text-brand transition-colors">
             {title}
           </h3>
-          <div className="flex flex-wrap items-center gap-6 text-[10px] font-bold text-gray-600 uppercase tracking-widest">
-             <div className="flex items-center gap-2">
-                <MapPin size={14} className="text-brand" />
+          
+          <div className="flex flex-wrap items-center gap-8 text-[11px] font-bold text-text-muted uppercase tracking-[0.3em]">
+             <div className="flex items-center gap-2.5">
+                <MapPin size={16} className="text-brand" />
                 {location}
              </div>
-             <div className="flex items-center gap-2">
-                <Briefcase size={14} className="text-brand" />
+             <div className="flex items-center gap-2.5">
+                <Briefcase size={16} className="text-brand" />
                 {type}
              </div>
-             <div className="flex items-center gap-2">
-                <TrendingUp size={14} className="text-brand" />
-                Rapid Scale Role
+             <div className="flex items-center gap-2.5">
+                <TrendingUp size={16} className="text-brand" />
+                Full-time Role
              </div>
           </div>
         </div>
-
+ 
         <Link 
           href={`/careers/${slug}`} 
-          className="w-full md:w-auto px-8 py-4 bg-text-primary border border-text-primary hover:bg-brand hover:border-brand text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all active:scale-95 text-center shadow-lg hover:shadow-brand/20"
+          className="btn-primary h-18 px-12 text-[11px] font-bold uppercase tracking-[0.4em] shadow-xl shadow-brand/10 hover:shadow-brand/20 active:scale-95 transition-all text-center whitespace-nowrap min-w-[240px]"
         >
-          View Position Sync
+          Apply Now
         </Link>
       </div>
     </motion.div>

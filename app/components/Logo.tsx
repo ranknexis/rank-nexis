@@ -14,17 +14,17 @@ const Logo = ({ className = "" }: { className?: string }) => {
           alt="RankNexis" 
           width={300} 
           height={100} 
-          className="h-16 w-auto object-contain"
+          className="h-10 w-auto object-contain"
           onError={() => setError(true)}
         />
       ) : (
-        <div className="flex items-center gap-2 font-bold text-2xl tracking-tighter">
-          <div className="relative w-8 h-8 flex items-center justify-center bg-brand rounded-lg rotate-12 overflow-hidden shadow-[0_0_15px_rgba(255,122,0,0.5)]">
+        <div className="flex items-center gap-2 font-bold text-xl tracking-tighter">
+          <div className="relative w-7 h-7 flex items-center justify-center bg-brand rounded-lg rotate-12 overflow-hidden shadow-[0_0_10px_rgba(255,122,0,0.4)]">
             <svg
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5 text-black -rotate-12"
+              className="w-4 h-4 text-black -rotate-12"
             >
               <path
                 d="M13 2L3 14H12L11 22L21 10H12L13 2Z"

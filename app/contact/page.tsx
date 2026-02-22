@@ -39,7 +39,7 @@ export default function ContactPage() {
 
       if (!response.ok) throw new Error("Sync Failed");
       
-      toast.success("Inquiry Synchronized. A growth architect will reach out shortly.");
+      toast.success("Request received. One of our experts will reach out shortly.");
       (e.target as HTMLFormElement).reset();
     } catch (err) {
       toast.error("Process error. Please retry submission.");
@@ -52,34 +52,44 @@ export default function ContactPage() {
     <div className="min-h-screen bg-white text-text-primary">
       <Navbar />
 
-      <main className="pt-32 pb-40">
-        <div className="container-max px-6">
+      <main className="grain">
+        <div className="container-max">
           {/* HERO */}
-          <section className="mb-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <p className="text-[10px] font-bold text-brand uppercase tracking-[0.5em] mb-8">Strategic Discovery</p>
-              <h1 className="text-5xl md:text-8xl font-black mb-10 tracking-tighter leading-[0.9] uppercase">
-                Initialize <br /> <span className="text-brand">The Sync.</span>
-              </h1>
-              <p className="text-gray-600 max-w-2xl text-xl leading-relaxed font-medium">
-                Ready to engineer your growth? Fill out our surgical discovery form below or choose a direct contact path.
-              </p>
-            </motion.div>
+          <section className="relative py-24 overflow-hidden">
+             <div className="absolute inset-0 -z-10 overflow-hidden">
+                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4" />
+             </div>
+
+             <motion.div
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ duration: 0.8 }}
+               className="space-y-12"
+             >
+               <div className="inline-flex items-center gap-3 px-5 py-2 glass rounded-full shadow-premium">
+                  <div className="w-2 h-2 bg-brand rounded-full animate-pulse" />
+                   <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Get Started</p>
+               </div>
+               
+                <h1 className="text-6xl md:text-8xl font-bold tracking-tight uppercase leading-tight">
+                  <span className="text-brand">Get In</span> <br /> Touch.
+                </h1>
+                <p className="text-text-secondary text-xl font-medium leading-relaxed max-w-xl mx-auto">
+                  Connect with us to discuss how we can help your brand grow through expert marketing and development.
+                </p>
+             </motion.div>
           </section>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 pb-48">
             {/* LEFT: DIRECT PATHS & FAQ */}
-            <div className="lg:col-span-5 space-y-16">
-              <div className="space-y-12">
+            <div className="lg:col-span-5 space-y-20">
+              <div className="space-y-14">
                 <ContactInfo 
                   icon={Mail} 
-                  title="Direct Intel" 
+                  title="Direct Email" 
                   value="hello@ranknexis.com" 
-                  desc="For general inquiries and partnerships." 
+                  desc="General inquiries and partnership opportunities." 
                 />
                 <ContactInfo 
                   icon={MessageSquare} 
@@ -91,64 +101,71 @@ export default function ContactPage() {
                   icon={MapPin} 
                   title="Operations Hub" 
                   value="Dhaka, Bangladesh" 
-                  desc="Engineering and Strategy HQ." 
+                  desc="Our main office for strategy and development." 
                 />
               </div>
 
               {/* FAQ MINI */}
-              <div className="space-y-8 pt-16 border-t border-gray-100">
-                <h3 className="text-xl font-black uppercase tracking-tighter flex items-center gap-3">
-                  <HelpCircle size={20} className="text-brand" />
-                  Surgical Discovery FAQ
-                </h3>
-                <div className="space-y-6">
-                  <FaqItem question="When can I expect a response?" answer="Our architects analyze every inquiry. You'll receive a detailed strategic response within 24-48 hours." />
-                  <FaqItem question="Do you have a minimum engagement?" answer="We focus on high-ticket sector scaling. Our typical engagement starts at $2k/mo or $5k per project node." />
-                  <FaqItem question="Can we schedule a call directly?" answer="Yes, after initial sync via the form, we'll provide a Calendly link for a technical discovery call." />
+              <div className="space-y-10 pt-20 border-t border-stroke">
+                <div className="space-y-2">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Diagnostics</p>
+                   <h3 className="text-4xl font-bold uppercase tracking-tighter leading-none">Frequently Asked.</h3>
+                </div>
+                
+                <div className="space-y-10">
+                  <FaqItem question="When can I expect a response?" answer="We review every request carefully. You can expect a response within 24 hours." />
+                  <FaqItem question="Do you have a minimum engagement?" answer="We focus on high-ticket sector scaling. Typical engagements start at $2k/mo or $5k per project node." />
+                  <FaqItem question="Can we schedule a call directly?" answer="Yes, after initial sync via this form, we'll provide a secure link for a technical discovery call." />
                 </div>
               </div>
             </div>
 
             {/* RIGHT: ADVANCED FORM */}
             <div className="lg:col-span-7">
-               <div className="p-8 md:p-14 bg-gray-50 border border-gray-100 rounded-[3rem] shadow-xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-brand/5 rounded-full blur-[80px] -z-10" />
+               <div className="p-8 md:p-16 glass border border-stroke rounded-[4rem] shadow-premium relative overflow-hidden grain">
+                  <div className="absolute top-0 right-0 w-96 h-96 bg-brand/[0.03] rounded-full blur-[100px] -z-10" />
                   
-                  <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-text-primary ml-2">Your Name</label>
-                        <input name="name" type="text" required className="w-full h-14 bg-white border border-gray-100 rounded-2xl px-6 focus:outline-none focus:border-brand transition-all font-medium placeholder:text-gray-500" placeholder="System Lead" />
+                  <form onSubmit={handleSubmit} className="space-y-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                      <div className="space-y-3">
+                         <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary ml-2">Lead Name</label>
+                        <input name="name" type="text" required className="input-field shadow-sm" placeholder="Your Full Name" />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-text-primary ml-2">Company Name</label>
-                        <input name="company" type="text" required className="w-full h-14 bg-white border border-gray-100 rounded-2xl px-6 focus:outline-none focus:border-brand transition-all font-medium placeholder:text-gray-500" placeholder="Ecosystem Inc." />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-text-primary ml-2">Work Email</label>
-                        <input name="email" type="email" required className="w-full h-14 bg-white border border-gray-100 rounded-2xl px-6 focus:outline-none focus:border-brand transition-all font-medium placeholder:text-gray-500" placeholder="lead@ecosystem.com" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-text-primary ml-2">Primary Objective</label>
-                        <select name="service" required className="w-full h-14 bg-white border border-gray-100 rounded-2xl px-6 focus:outline-none focus:border-brand transition-all font-medium appearance-none">
-                          <option value="Growth Marketing">Growth Marketing</option>
-                          <option value="Software Engineering">Software Engineering</option>
-                          <option value="AI & Automation">AI & Automation</option>
-                          <option value="Full Digital Transformation">Ecosystem Sync</option>
-                        </select>
+                      <div className="space-y-3">
+                         <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary ml-2">Company Node</label>
+                        <input name="company" type="text" required className="input-field shadow-sm" placeholder="Your Company Name" />
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-primary ml-2">Monthly Scale Budget</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                      <div className="space-y-3">
+                         <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary ml-2">Email Address</label>
+                        <input name="email" type="email" required className="input-field shadow-sm" placeholder="hello@example.com" />
+                      </div>
+                      <div className="space-y-3">
+                         <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary ml-2">Service Needed</label>
+                        <div className="relative">
+                           <select name="service" required className="input-field shadow-sm appearance-none cursor-pointer">
+                              <option value="Digital Marketing">Digital Marketing</option>
+                              <option value="Web Development">Web Development</option>
+                              <option value="Graphic Design">Graphic Design</option>
+                              <option value="SEO Services">SEO Services</option>
+                              <option value="Video Editing">Video Editing</option>
+                           </select>
+                           <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">
+                              <HelpCircle size={16} />
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                       <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary ml-2">Project Budget</label>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {["< $2k", "$2k - $5k", "$5k - $15k", "$15k+"].map(tier => (
                           <label key={tier} className="relative group cursor-pointer">
                             <input type="radio" name="budget" value={tier} className="peer sr-only" required />
-                            <div className="h-12 border border-gray-100 peer-checked:border-brand peer-checked:bg-brand/10 rounded-xl flex items-center justify-center text-[10px] font-bold uppercase tracking-widest text-gray-600 peer-checked:text-brand transition-all">
+                             <div className="h-14 border border-stroke bg-white peer-checked:border-brand peer-checked:bg-brand/5 rounded-2xl flex items-center justify-center text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted peer-checked:text-brand transition-all shadow-sm">
                               {tier}
                             </div>
                           </label>
@@ -156,26 +173,26 @@ export default function ContactPage() {
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-primary ml-2">Operational Message</label>
-                      <textarea name="message" required rows={5} className="w-full py-4 bg-white border border-gray-100 rounded-2xl px-6 focus:outline-none focus:border-brand transition-all font-medium resize-none shadow-sm placeholder:text-gray-500" placeholder="Tell us about your current digital bottlenecks..."></textarea>
-                    </div>
+                     <div className="space-y-3">
+                        <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary ml-2">Your Message</label>
+                       <textarea name="message" required rows={6} className="w-full py-6 bg-white border border-stroke rounded-3xl px-8 focus:outline-none focus:border-brand transition-all text-lg font-medium resize-none shadow-sm placeholder:text-text-muted/30" placeholder="Tell us about your project goals and how we can help..."></textarea>
+                     </div>
 
                     <button 
                       disabled={isSubmitting}
-                      className="w-full h-20 bg-brand text-white font-black uppercase tracking-widest rounded-2xl active:scale-95 transition-all shadow-xl shadow-brand/20 flex items-center justify-center gap-4"
+                      className="btn-primary w-full h-24 text-xs font-bold uppercase tracking-[0.4em] group shadow-premium"
                     >
                       {isSubmitting ? (
                         <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       ) : (
                         <>
-                          Initialize Growth Sync <Send size={20} />
+                          Schedule Consultation <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                         </>
                       )}
                     </button>
                   </form>
-                  <div className="pt-8 border-t border-gray-100 mt-10">
-                     <p className="text-[9px] text-center text-gray-600 font-bold uppercase tracking-[0.3em]">SECURE SYSTEM SYNC • GLOBAL OPERATIONS • ROI-MANDATED ARCHITECTURE</p>
+                  <div className="pt-10 border-t border-stroke mt-12">
+                     <p className="text-[11px] text-center text-text-muted font-bold uppercase tracking-[0.5em]">24/7 SUPPORT • WORLDWIDE SERVICE • RESULTS-DRIVEN APPROACH</p>
                   </div>
                </div>
             </div>
@@ -190,14 +207,14 @@ export default function ContactPage() {
 
 function ContactInfo({ icon: Icon, title, value, desc }: any) {
   return (
-    <div className="flex gap-6 group">
-      <div className="w-14 h-14 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-500 shadow-lg">
-        <Icon size={28} />
+    <div className="flex gap-8 group">
+      <div className="w-16 h-16 glass border border-stroke rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-premium">
+        <Icon size={32} strokeWidth={1.5} />
       </div>
       <div>
-        <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600 mb-1">{title}</h4>
-        <p className="text-2xl font-black tracking-tighter text-text-primary mb-2">{value}</p>
-        <p className="text-xs font-medium text-gray-500">{desc}</p>
+         <h4 className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand mb-2">{title}</h4>
+        <p className="text-3xl font-bold tracking-tighter text-text-primary mb-3 leading-none uppercase">{value}</p>
+        <p className="text-lg font-medium text-text-muted leading-relaxed">{desc}</p>
       </div>
     </div>
   );
@@ -205,12 +222,12 @@ function ContactInfo({ icon: Icon, title, value, desc }: any) {
 
 function FaqItem({ question, answer }: any) {
   return (
-    <div className="space-y-2">
-      <h5 className="text-sm font-black uppercase tracking-widest text-text-primary flex items-center gap-2">
-        <div className="w-1 h-1 bg-brand rounded-full" />
+    <div className="space-y-4 group">
+      <h5 className="text-sm font-bold uppercase tracking-[0.2em] text-text-primary flex items-center gap-3 group-hover:text-brand transition-colors">
+        <div className="w-2 h-2 bg-brand rounded-full shadow-lg shadow-brand/20" />
         {question}
       </h5>
-      <p className="text-xs text-gray-600 leading-relaxed font-medium pl-3">{answer}</p>
+      <p className="text-lg text-text-muted leading-relaxed font-medium pl-5 border-l border-stroke">{answer}</p>
     </div>
   );
 }

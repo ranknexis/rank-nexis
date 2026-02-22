@@ -9,12 +9,12 @@ interface ValueCardProps {
 
 const ValueCard: React.FC<ValueCardProps> = ({ icon: Icon, title, desc }) => {
   return (
-    <div className="p-10 bg-white border border-gray-100 rounded-[3rem] hover:border-brand transition-all duration-500 group shadow-xl">
-      <div className="w-14 h-14 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center text-brand mb-8 group-hover:bg-brand group-hover:text-white transition-all duration-500 shadow-inner">
-        <Icon size={28} />
+    <div className="corporate-card grain group">
+      <div className="w-16 h-16 bg-brand/5 border border-brand/10 rounded-2xl flex items-center justify-center text-brand mb-10 group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-xl shadow-brand/5">
+        <Icon size={32} strokeWidth={1.5} />
       </div>
-      <h4 className="text-2xl font-black tracking-tighter uppercase mb-4">{title}</h4>
-      <p className="text-gray-600 leading-relaxed font-medium">{desc}</p>
+      <h4 className="text-3xl font-bold tracking-tighter uppercase mb-6 leading-none">{title}</h4>
+      <p className="text-text-muted text-lg leading-relaxed font-medium">{desc}</p>
     </div>
   );
 };

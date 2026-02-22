@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import {
-    ChevronRight,
-    Layers,
-    ShieldCheck,
-    Target,
-    Zap
+   ArrowRight,
+   Layers,
+   ShieldCheck,
+   Target,
+   Zap
 } from "lucide-react";
 import Link from "next/link";
 import Footer from "../components/Footer";
@@ -19,102 +19,124 @@ export default function AboutPage() {
     <div className="min-h-screen bg-white text-text-primary">
       <Navbar />
 
-      <main>
+      <main className="grain">
         {/* 1. PHILOSOPHICAL HERO */}
-        <section className="relative pt-32 pb-20 md:pt-56 md:pb-32 px-6 overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,122,0,0.03),transparent)] pointer-events-none" />
+        <section className="relative py-24 overflow-hidden">
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
+             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4" />
+          </div>
           
-          <div className="container-max relative z-10 text-center">
+          <div className="container-max relative z-10 text-center space-y-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              className="space-y-10"
             >
-              <p className="text-[10px] font-bold text-brand uppercase tracking-[0.5em] mb-8">Studio Philosophy</p>
-              <h1 className="text-5xl md:text-8xl font-black mb-10 tracking-tighter leading-[0.9]">
-                Engineering <br /> <span className="text-brand">The Future of Growth.</span>
+              <div className="inline-flex items-center gap-3 px-5 py-2 glass rounded-full shadow-premium">
+                 <div className="w-2 h-2 bg-brand rounded-full animate-pulse" />
+                 <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-brand">Studio Philosophy</p>
+              </div>
+              
+              <h1 className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.85] uppercase">
+                Expert <br /> <span className="text-brand">Agency.</span>
               </h1>
-              <p className="text-gray-600 max-w-3xl mx-auto text-xl leading-relaxed font-medium">
-                We believe that modern growth is not a creative output, but a technical requirement. We build the systems that build brands.
+              <p className="text-text-secondary max-w-3xl mx-auto text-xl md:text-2xl font-medium leading-relaxed">
+                We believe that modern growth comes from a combination of strategic marketing, creative design, and expert development. We build the systems that help your brand succeed.
               </p>
             </motion.div>
           </div>
         </section>
 
         {/* 2. THE GROWTH NARRATIVE */}
-        <section className="section-padding bg-gray-50 border-y border-gray-100 relative overflow-hidden">
-           <div className="container-max">
+        <section className="section-padding border-y border-stroke bg-surface/30 relative overflow-hidden">
+           <div className="container-max relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-                 <div className="space-y-10">
-                    <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-tight">Beyond <br /><span className="text-brand">Digital Marketing.</span></h2>
-                    <p className="text-gray-600 text-xl leading-relaxed font-medium">
-                       RankNexis was founded on a single observation: traditional marketing is failing because it's disconnected from engineering. In a world driven by algorithms and sub-second performance, a pretty design isn't enough.
-                    </p>
-                    <p className="text-gray-600 text-xl leading-relaxed font-medium">
-                       We've spent 8+ years building integrated revenue ecosystems where code and copy act as a single unit. Our mission is to provide ambitious brands with the high-precision machinery required to dominate their sectors.
-                    </p>
-                    <div className="flex gap-12 pt-10 border-t border-gray-200">
-                       <div>
-                          <p className="text-4xl font-black text-brand tracking-tighter">08+</p>
-                          <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Years Experience</p>
+                 <div className="space-y-12">
+                    <div className="space-y-6">
+                       <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Our Philosophy</p>
+                       <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] uppercase">Driven By <br /><span className="text-brand">Results.</span></h2>
+                    </div>
+                    
+                    <div className="space-y-8">
+                       <p className="text-text-secondary text-xl font-medium leading-relaxed">
+                         Our methodology integrates precision engineering with strategic thinking to deliver sustainable impact for your organization.
+                       </p>
+                       <p className="text-text-secondary text-xl font-medium leading-relaxed">
+                          We've spent 8+ years building integrated digital solutions where marketing and development work together seamlessly. Our mission is to provide brands with the tools and strategies they need to lead their industry.
+                       </p>
+                    </div>
+
+                    <div className="flex gap-16 pt-12 border-t border-stroke">
+                       <div className="space-y-2">
+                          <p className="text-5xl font-bold text-brand tracking-tighter">08+</p>
+                          <p className="text-[11px] font-bold text-text-muted uppercase tracking-[0.3em]">Years Active</p>
                        </div>
-                       <div>
-                          <p className="text-4xl font-black text-brand tracking-tighter">120+</p>
-                          <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Scale Partners</p>
+                       <div className="space-y-2">
+                          <p className="text-5xl font-bold text-brand tracking-tighter">180+</p>
+                          <p className="text-[11px] font-bold text-text-muted uppercase tracking-[0.3em]">Systems Implemented</p>
                        </div>
                     </div>
                  </div>
-                  <div className="relative">
-                     <div className="aspect-square bg-white border border-gray-100 rounded-[3.5rem] overflow-hidden group shadow-2xl">
+
+                  <div className="relative group p-4">
+                     <div className="aspect-square glass rounded-[4rem] overflow-hidden relative shadow-premium grain">
                         <img 
                            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=2071" 
                            alt="RankNexis Lab" 
-                           className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-100 group-hover:scale-110" 
+                           className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" 
                         />
-                        <div className="absolute inset-0 bg-brand/5 group-hover:bg-transparent transition-colors" />
+                        <div className="absolute inset-0 bg-brand/[0.03] group-hover:bg-transparent transition-colors" />
                      </div>
                     {/* Floating Accent */}
-                    <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand rounded-3xl flex items-center justify-center -rotate-12 shadow-2xl hidden md:flex">
-                       <Layers size={64} className="text-black" />
-                    </div>
+                    <motion.div 
+                      animate={{ y: [0, -10, 0], rotate: [-12, -10, -12] }}
+                      transition={{ duration: 5, repeat: Infinity }}
+                      className="absolute -bottom-8 -left-8 w-44 h-44 glass border border-stroke rounded-[2rem] flex items-center justify-center shadow-premium backdrop-blur-3xl hidden md:flex"
+                    >
+                       <Layers size={64} className="text-brand" strokeWidth={1} />
+                    </motion.div>
                  </div>
               </div>
            </div>
         </section>
 
         {/* 3. EXPERTISE STACK (TEAM) */}
-        <section className="section-padding bg-white">
-           <div className="container-max">
-              <div className="mb-24 text-center">
-                 <p className="text-[10px] font-bold text-brand uppercase tracking-[0.4em] mb-6">Expertise Stack</p>
-                 <h2 className="text-4xl md:text-7xl font-black tracking-tighter mb-8 max-w-4xl mx-auto uppercase">The Architects Behind <br /> <span className="text-brand">The Systems.</span></h2>
+        <section className="section-padding bg-white relative overflow-hidden">
+           <div className="container-max relative z-10">
+              <div className="mb-32 text-center space-y-6">
+                 <p className="text-[11px] font-bold text-brand uppercase tracking-[0.6em]">The Core Team</p>
+                 <h2 className="text-4xl md:text-8xl font-bold tracking-tighter uppercase leading-none">The People <br /> <span className="text-brand">Behind Your Success.</span></h2>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                  <TeamMemberCard 
-                    name="Mahdi Monir" 
-                    role="Founder / Growth Architect" 
-                    image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=2070" 
-                    bio="Expert in high-ticket sector scaling and technical revenue ecosystem design. Over 8 years of surgical growth precision."
-                 />
-                 <TeamMemberCard 
-                    name="System Principal" 
-                    role="Lead Engineering" 
-                    image="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=2070" 
-                    bio="Specializing in multi-tenant SaaS architecture and sub-second digital infrastructure optimization."
-                 />
-                 <TeamMemberCard 
-                    name="Data Node" 
-                    role="Performance Director" 
+                    name="Sourav Hasan" 
+                    role="Founder & Creative Director" 
                     image="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2070" 
-                    bio="Focusing on attribution modeling and algorithmic paid acquisition strategies for ambitious brands."
+                    bio="Expert in digital strategy and brand growth, Mahdi leads our vision for high-impact results."
+                 />
+                 <TeamMemberCard 
+                    name="Israt Jahan" 
+                    role="Head of Design" 
+                    image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=2070" 
+                    bio="Specializing in premium design systems and conversion-centric user experiences."
+                 />
+                 <TeamMemberCard 
+                    name="Maruf Hossen" 
+                    role="Marketing Manager" 
+                    image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=2070" 
+                    bio="Focusing on data-driven performance marketing and sustainable brand growth."
                  />
               </div>
            </div>
+           
+           <div className="absolute top-1/2 left-0 w-full h-full bg-brand/5 blur-[120px] -z-10 translate-y-1/2" />
         </section>
 
         {/* 4. CORE VALUES */}
-        <section className="section-padding bg-gray-50 border-y border-gray-100">
+        <section className="section-padding border-y border-stroke bg-surface/30">
            <div className="container-max">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                  <ValueCard 
@@ -137,17 +159,24 @@ export default function AboutPage() {
         </section>
 
         {/* 5. FINAL CTA */}
-        <section className="py-40 bg-white relative px-6 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[150px] -z-10" />
+        <section className="py-48 bg-white relative px-6 overflow-hidden grain">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-brand/5 rounded-full blur-[200px] -z-10" />
           
-          <div className="container-max text-center relative z-10">
-            <h2 className="text-4xl md:text-7xl font-black mb-12 tracking-tighter">Ready to Start a <br /> <span className="text-brand">Growth Conversation?</span></h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-xl mb-16 font-medium">
-              Connect with our strategy team to discuss how we can engineer a scalable revenue ecosystem for your company.
+          <div className="container-max text-center relative z-10 space-y-16">
+            <div className="space-y-8">
+               <p className="text-[11px] font-bold uppercase tracking-wider text-brand">Connect With Us</p>
+                  <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-tight">
+                    Our <span className="text-brand text-5xl md:text-7xl block mt-4">Technical Expertise.</span>
+                  </h2>
+            </div>
+            
+            <p className="text-text-secondary max-w-2xl mx-auto text-xl md:text-2xl font-medium leading-relaxed">
+               Connect with our team to discuss how we can build a scalable digital strategy for your brand.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="/#contact" className="btn-primary h-20 px-16 text-sm font-black uppercase tracking-widest active:scale-95 group">
-                Request Strategy Call <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            
+            <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
+              <Link href="/#contact" className="btn-primary h-20 px-16 text-xs font-bold uppercase tracking-[0.3em] group shadow-premium">
+                Request Optimization Call <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>
           </div>

@@ -6,24 +6,30 @@
   /* Brand Palette - RankNexis */
   --color-brand: #FF7A00; /* Orange Lightning */
   --color-brand-hover: #E66E00;
-  --color-background-dark: #FFFFFF; /* Now White */
-  --color-surface: #F9FAFB; /* Light Gray */
+  --color-background-dark: #FFFFFF;
+  --color-surface: #F9FAFB;
   --color-surface-light: #F3F4F6;
-  --color-surface-alt: #F3F4F6;
+  --color-surface-alt: #E5E7EB;
   
   /* Text Palette */
-  --color-text-primary: #0F0F0F; /* Now Deep Black */
-  --color-text-secondary: #1F2937;
-  --color-text-muted: #4B5563;
-  
-  /* Legacy/Common Mappings */
-  --color-text-main: #0F0F0F;
-  --color-text-dim: #4B5563;
-  --color-text-soft: #6B7280;
+  --color-text-primary: #0F0F0F;
+  --color-text-secondary: #374151;
+  --color-text-muted: #6B7280;
   
   /* UI elements */
   --color-stroke: #E5E7EB;
   --color-stroke-active: #FF7A00;
+
+  /* Premium Shadows */
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.01);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.02);
+  --shadow-lg: 0 12px 24px rgba(0,0,0,0.04);
+  --shadow-xl: 0 20px 48px rgba(0,0,0,0.06);
+  --shadow-premium: 0 40px 80px rgba(0,0,0,0.08);
+  --shadow-3xl: 0 50px 100px rgba(0,0,0,0.12);
+
+  /* Typography Utilities */
+  --leading-tight-impact: 0.85;
 }
 
 @layer base {
@@ -49,50 +55,56 @@
 @layer components {
   /* Corporate Button Styles */
   .btn-primary {
-    @apply h-12 px-6 bg-brand hover:bg-brand-hover text-white font-semibold rounded-lg flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98];
+    @apply h-14 px-8 bg-brand hover:bg-brand-hover text-white font-bold rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-brand/20 transition-all active:scale-[0.98] tracking-tight;
   }
 
   .btn-outline {
-    @apply h-12 px-6 bg-white border border-stroke hover:bg-surface-alt text-text-main font-semibold rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98];
+    @apply h-14 px-8 bg-white border border-stroke hover:bg-surface-alt text-text-primary font-bold rounded-xl flex items-center justify-center gap-3 transition-all active:scale-[0.98] tracking-tight hover:border-brand/40;
   }
 
   /* Corporate Card Styles */
   .corporate-card {
-    @apply bg-white border border-stroke rounded-xl p-8 hover:shadow-2xl hover:shadow-brand/5 hover:border-brand/40 transition-all duration-300;
+    @apply bg-white border border-stroke rounded-[2rem] p-10 hover:shadow-premium hover:border-brand/20 transition-all duration-500 relative overflow-hidden;
   }
 
   .hover-lift {
-    @apply hover:-translate-y-1 hover:shadow-lg transition-all duration-300;
+    @apply hover:-translate-y-2 hover:shadow-xl transition-all duration-500;
+  }
+
+  /* Premium Glassmorphism */
+  .glass {
+    @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-xl;
+  }
+
+  .glass-dark {
+    @apply bg-black/60 backdrop-blur-2xl border border-white/10 shadow-3xl;
+  }
+
+  /* Texture */
+  .grain {
+    @apply relative after:content-[''] after:absolute after:inset-0 after:opacity-[0.03] after:pointer-events-none after:bg-[url('https://grainy-gradients.vercel.app/noise.svg')];
   }
 
   /* Input & Field Styles */
   .input-field {
-    @apply w-full h-12 px-4 bg-surface-alt border border-stroke rounded-lg text-text-main placeholder:text-text-soft focus:outline-none focus:ring-2 focus:ring-brand/10 focus:border-brand transition-all font-medium;
+    @apply w-full h-14 px-6 bg-surface border border-stroke rounded-xl text-text-primary placeholder:text-text-muted/50 focus:outline-none focus:ring-4 focus:ring-brand/5 focus:border-brand transition-all font-medium;
   }
 
-  .text-area {
-    @apply w-full p-4 bg-surface-alt border border-stroke rounded-lg text-text-main placeholder:text-text-soft focus:outline-none focus:ring-2 focus:ring-brand/10 focus:border-brand transition-all font-medium resize-none;
-  }
-
-  .label-text {
-    @apply text-[10px] font-bold text-text-dim uppercase tracking-wider mb-2 block;
-  }
-
-  /* Section Utlities */
+  /* Section Utilities */
   .section-padding {
-    @apply py-24 px-6;
+    @apply py-20 px-6 md:px-12;
   }
-
+  
   .container-max {
-    @apply max-w-7xl mx-auto;
+    @apply max-w-7xl mx-auto px-6 md:px-12;
   }
 }
 
 /* Typography Scale & Polish */
-h1 { @apply text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-6; }
-h2 { @apply text-3xl md:text-4xl leading-[1.1] mb-4; }
-h3 { @apply text-xl md:text-2xl leading-[1.2] mb-3; }
-p { @apply text-base md:text-lg text-text-dim leading-relaxed; }
+h1 { @apply text-4xl md:text-6xl lg:text-7xl leading-[1.1] mb-8 tracking-tighter; }
+h2 { @apply text-3xl md:text-5xl leading-[1.2] mb-6 tracking-tight; }
+h3 { @apply text-xl md:text-2xl leading-[1.3] mb-4 tracking-tight; }
+p { @apply text-base md:text-lg text-text-secondary leading-relaxed font-normal; }
 
 /* Scrollbar Polish */
 ::-webkit-scrollbar {

@@ -17,31 +17,31 @@ const CaseStudyItem: React.FC<CaseStudyItemProps> = ({ title, category, stats, i
   return (
     <motion.div 
       layout
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.5 }}
-      className="group bg-surface border border-stroke rounded-[2.5rem] overflow-hidden hover:border-brand transition-all duration-500 shadow-2xl"
+      transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+      className="corporate-card p-0 group overflow-hidden hover:-translate-y-2 transition-all duration-700 shadow-premium"
     >
-      <div className="aspect-video relative overflow-hidden">
+      <div className="aspect-[16/9] relative overflow-hidden">
         <img 
           src={image} 
           alt={title} 
-          className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" 
+          className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" 
         />
-        <div className="absolute top-8 left-8 px-4 py-2 bg-white/90 backdrop-blur-md border border-gray-100 rounded-full text-[10px] font-black uppercase tracking-widest text-text-primary shadow-sm">
+        <div className="absolute top-8 left-8 px-6 py-2 glass-dark border border-white/10 rounded-full text-[11px] font-bold uppercase tracking-[0.3em] text-white shadow-xl">
           {category}
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-700 opacity-60 group-hover:opacity-40" />
       </div>
       
-      <div className="p-10 space-y-8">
+      <div className="p-12 space-y-10">
         <div className="space-y-4">
-          <p className="text-xs font-bold text-brand uppercase tracking-[0.2em]">{brand}</p>
-          <h3 className="text-3xl font-black tracking-tighter leading-tight group-hover:text-brand transition-colors">{title}</h3>
+          <p className="text-[11px] font-bold text-brand uppercase tracking-[0.5em]">{brand}</p>
+          <h3 className="text-4xl font-bold tracking-tighter uppercase leading-[0.9] group-hover:text-brand transition-colors">{title}</h3>
         </div>
 
-        <div className="flex flex-wrap gap-8 py-6 border-y border-stroke">
+        <div className="grid grid-cols-3 gap-8 py-8 border-y border-stroke">
           {stats.map((stat, index) => (
             <MetricNode key={index} label={stat.label} value={stat.value} />
           ))}
@@ -49,10 +49,10 @@ const CaseStudyItem: React.FC<CaseStudyItemProps> = ({ title, category, stats, i
 
         <Link 
           href={`/work/${slug}`} 
-          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-text-primary hover:text-brand transition-colors group/link pb-2"
+          className="inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.3em] text-text-muted hover:text-brand transition-colors group/link"
         >
-          View Implementation Sync 
-          <ArrowUpRight size={18} className="group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
+          View Case Study 
+          <ArrowUpRight size={20} className="group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
         </Link>
       </div>
     </motion.div>

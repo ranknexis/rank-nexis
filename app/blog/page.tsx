@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { useState } from "react";
 import BlogCard from "../components/BlogCard";
 import Footer from "../components/Footer";
@@ -21,12 +21,12 @@ const BLOG_POSTS = [
   },
   {
     id: "2",
-    title: "The SEO Engine: Beyond Keywords and Backlinks",
-    excerpt: "Learn how we build automated content pipelines and technical SEO infrastructure that dominates enterprise Search Nodes.",
+    title: "Advanced Search Strategies: Beyond Keywords and Backlinks",
+    excerpt: "Learn how we build automated content pipelines and technical SEO infrastructure that dominates enterprise Search Results.",
     category: "Marketing",
     author: "SEO Lead",
     date: "Feb 12, 2026",
-    slug: "technical-seo-engine",
+    slug: "advanced-search-strategy",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426"
   },
   {
@@ -68,6 +68,36 @@ const BLOG_POSTS = [
     date: "Feb 01, 2026",
     slug: "sub-second-ux-performance",
     image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=2055"
+  },
+  {
+    id: "7",
+    title: "Architecting the Future: Multi-Agent Systems in Enterprise",
+    excerpt: "Moving beyond simple LLM implementations to robust, hierarchical agent architectures that drive real business value.",
+    category: "AI",
+    author: "Mahdi Monir",
+    date: "Jan 28, 2026",
+    slug: "enterprise-multi-agent-systems",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2070"
+  },
+  {
+    id: "8",
+    title: "The Death of Static Content: Dynamic Personalization at Scale",
+    excerpt: "How we use edge-side rendering and real-time user intent signals to deliver hyper-relevant experiences without performance hits.",
+    category: "Strategy",
+    author: "Growth Lead",
+    date: "Jan 25, 2026",
+    slug: "dynamic-personalization-scale",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426"
+  },
+  {
+    id: "9",
+    title: "Technical Debt vs. Growth Speed: A Balancing Act",
+    excerpt: "Strategic diagnostics on when to build for scale and when to optimize for market speed in high-growth engineering environments.",
+    category: "Engineering",
+    author: "System Principal",
+    date: "Jan 20, 2026",
+    slug: "technical-debt-vs-growth",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=2070"
   }
 ];
 
@@ -88,43 +118,51 @@ export default function BlogPage() {
     <div className="min-h-screen bg-white text-text-primary">
       <Navbar />
 
-      <main>
+      <main className="grain">
         {/* HERO SECTION */}
-        <section className="relative pt-32 pb-20 md:pt-56 md:pb-32 px-6 overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,122,0,0.05),transparent)] pointer-events-none" />
+        <section className="relative py-20 overflow-hidden">
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
+             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4" />
+          </div>
           
-          <div className="container-max relative z-10 text-center">
+          <div className="container-max relative z-10 text-center space-y-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              className="space-y-10"
             >
-              <p className="text-[10px] font-bold text-brand uppercase tracking-[0.5em] mb-8">Strategic Intelligence</p>
-              <h1 className="text-5xl md:text-8xl font-black mb-10 tracking-tighter leading-[0.9]">
-                Insights & <span className="text-brand">Strategy.</span>
+              <div className="inline-flex items-center gap-3 px-5 py-2 glass rounded-full shadow-premium">
+                 <div className="w-2 h-2 bg-brand rounded-full animate-pulse" />
+                 <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Strategic Intelligence</p>
+              </div>
+              
+              <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.85] uppercase">
+                Insights & <br /> <span className="text-brand">Strategy.</span>
               </h1>
-              <p className="text-gray-600 max-w-3xl mx-auto text-xl leading-relaxed font-medium">
-                Deep dives into growth engineering, technical SEO systems, and the future of digital revenue ecosystems.
+              <p className="text-text-secondary max-w-2xl mx-auto text-lg md:text-xl font-medium leading-relaxed">
+                Technical diagnostics, architectural patterns, and strategic growth logic for the modern enterprise.
               </p>
             </motion.div>
           </div>
         </section>
 
         {/* SEARCH & FILTER SECTION */}
-        <section className="pb-32 px-6">
+        <section className="pb-24">
           <div className="container-max">
-            <div className="flex flex-col lg:flex-row justify-between items-center mb-16 gap-8">
+            <div className="flex flex-col lg:flex-row justify-between items-center mb-16 gap-12">
               {/* Categories */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-3 p-2 bg-gray-50 border border-gray-100 rounded-2xl overflow-x-auto max-w-full">
+              <div className="flex flex-wrap justify-center lg:justify-start gap-3 p-2 glass border border-stroke rounded-[2rem] shadow-premium overflow-x-auto max-w-full">
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
                     className={cn(
-                      "px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                      "px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500",
                       activeCategory === cat 
-                        ? "bg-text-primary text-white shadow-xl shadow-black/20" 
-                        : "bg-gray-50 text-gray-600 border border-gray-100 hover:border-brand"
+                        ? "bg-brand text-white shadow-lg shadow-brand/20" 
+                        : "text-text-muted hover:text-brand hover:bg-brand/5"
                     )}
                   >
                     {cat}
@@ -133,20 +171,20 @@ export default function BlogPage() {
               </div>
 
               {/* Search */}
-              <div className="relative w-full lg:w-80 group">
-                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-brand transition-colors" />
+              <div className="relative w-full lg:w-96 group">
+                <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-brand transition-colors" />
                 <input 
                   type="text" 
-                  placeholder="Search Publications..." 
+                  placeholder="Search articles..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-14 bg-gray-50 border border-gray-100 rounded-2xl pl-12 pr-6 text-sm font-medium focus:outline-none focus:border-brand transition-all text-text-primary placeholder:text-gray-500"
+                  className="w-full h-14 glass border border-stroke rounded-2xl pl-16 pr-8 text-[10px] font-bold uppercase tracking-[0.2em] focus:outline-none focus:border-brand transition-all text-text-primary placeholder:text-text-muted shadow-sm"
                 />
               </div>
             </div>
 
             {/* BLOG GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
               {filteredPosts.length > 0 ? (
                 filteredPosts.map((post) => (
                   <BlogCard 
@@ -161,13 +199,13 @@ export default function BlogPage() {
                   />
                 ))
               ) : (
-                <div className="col-span-full py-32 text-center">
-                  <p className="text-gray-600 text-lg font-medium italic">"No strategic publications found in this node."</p>
+                <div className="col-span-full py-48 text-center glass border border-stroke rounded-[4rem] grain shadow-premium">
+                  <p className="text-text-muted text-xl font-medium italic mb-8">"No strategic publications found in this category."</p>
                   <button 
                     onClick={() => { setActiveCategory("All"); setSearchQuery(""); }} 
-                    className="mt-6 text-brand font-black uppercase tracking-widest text-xs hover:underline"
+                    className="btn-outline h-14 px-10 text-[11px] font-bold uppercase tracking-[0.3em] glass"
                   >
-                    Reset Filter
+                    Reset Archive Filter
                   </button>
                 </div>
               )}
@@ -176,22 +214,28 @@ export default function BlogPage() {
         </section>
 
         {/* NEWSLETTER CTA */}
-        <section className="py-40 bg-gray-50 border-y border-gray-100 relative overflow-hidden px-6">
-          <div className="absolute inset-0 bg-brand/[0.01] -z-10" />
-          <div className="container-max text-center max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tighter uppercase text-text-primary">Stay Synchronized.</h2>
-            <p className="text-gray-600 text-xl mb-12 leading-relaxed font-medium">
-              Join 5,000+ growth leaders receiving our weekly technical strategy and sector intelligence. No fluff, just engineering logic.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4 p-2 bg-white border border-gray-100 rounded-[2rem] shadow-xl">
+        <section className="py-24 bg-white border-t border-stroke relative overflow-hidden grain">
+          <div className="absolute top-0 left-0 w-full h-full bg-brand/[0.02] -z-10" />
+          <div className="container-max text-center max-w-4xl mx-auto space-y-12">
+            <div className="space-y-6">
+               <p className="text-[10px] font-bold uppercase tracking-[0.6em] text-brand">Stay Synchronized</p>
+                <h1 className="text-6xl md:text-8xl font-bold tracking-tight uppercase leading-tight">
+                  <span className="text-brand">Knowledge</span> <br /> Hub.
+                </h1>
+                <p className="text-text-secondary text-xl font-medium leading-relaxed max-w-xl mx-auto">
+                  Insights, strategies, and technical benchmarks from our team of digital engineers and growth specialists.
+                </p>
+            </div>
+            
+            <form className="flex flex-col sm:flex-row gap-4 p-2 glass border border-stroke rounded-[2rem] shadow-premium max-w-2xl mx-auto">
               <input 
                 type="email" 
-                placeholder="Synchronize your email address..." 
-                className="flex-grow h-16 bg-transparent px-8 focus:outline-none text-text-primary font-medium placeholder:text-gray-500"
+                placeholder="Email address" 
+                className="flex-grow h-14 bg-transparent px-8 focus:outline-none text-[10px] uppercase font-bold tracking-widest text-text-primary placeholder:text-text-muted"
                 required
               />
-              <button type="submit" className="h-16 px-12 bg-brand text-white font-black uppercase tracking-widest rounded-2xl active:scale-95 transition-all shadow-xl shadow-brand/20">
-                Subscribe to Intel
+              <button type="submit" className="btn-primary h-14 px-10 text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl group shadow-xl shadow-brand/10">
+                Subscribe <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
           </div>
