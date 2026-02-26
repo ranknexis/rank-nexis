@@ -45,7 +45,7 @@ export default async function AdminLeadsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-stroke">
-              {leads.map((lead) => (
+              {leads.map((lead: any) => (
                 <tr key={lead.id} className="hover:bg-surface/30 transition-colors group">
                   <td className="px-10 py-8">
                     <div className="flex items-center gap-6">

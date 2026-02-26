@@ -2,13 +2,13 @@
 
 import { motion } from "framer-motion";
 import {
-    Activity,
-    ArrowUpRight,
-    Briefcase,
-    FileText,
-    TrendingUp,
-    Users,
-    Zap
+   Activity,
+   ArrowUpRight,
+   Briefcase,
+   FileText,
+   TrendingUp,
+   Users,
+   Zap
 } from "lucide-react";
 import Link from "next/link";
 
@@ -46,7 +46,7 @@ export default function DashboardContent({ stats, recentLeads }: DashboardConten
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-         {STATS_CONFIG.map((stat, i) => (
+         {STATS_CONFIG.map((stat: any, i: number) => (
            <motion.div 
              key={stat.label}
              initial={{ opacity: 0, scale: 0.9 }}
@@ -76,7 +76,7 @@ export default function DashboardContent({ stats, recentLeads }: DashboardConten
             </div>
             
             <div className="space-y-4">
-               {recentLeads.map((lead, i) => (
+               {recentLeads.map((lead: any, i: number) => (
                  <div key={lead.id} className="flex items-center justify-between p-6 rounded-2xl hover:bg-surface transition-colors cursor-pointer group">
                     <div className="flex items-center gap-6">
                        <div className="w-12 h-12 rounded-full bg-surface border border-stroke flex items-center justify-center text-brand font-bold text-xl uppercase">
@@ -109,7 +109,7 @@ export default function DashboardContent({ stats, recentLeads }: DashboardConten
                     { label: "Page Speed", val: "98/100", status: "Healthy" },
                     { label: "Mobile View", val: "Optimal", status: "Healthy" },
                     { label: "SEO Status", val: "Active", status: "Healthy" }
-                  ].map((node, i) => (
+                  ].map((node: any, i: number) => (
                     <div key={i} className="space-y-3">
                        <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
                           <span className="text-text-muted">{node.label}</span>

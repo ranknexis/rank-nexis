@@ -57,7 +57,7 @@ export default async function AdminWorkPage() {
                     </div>
                   </td>
                   <td className="px-10 py-8">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted">{study.clientName || 'N/A'}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted">{study.client || 'N/A'}</span>
                   </td>
                   <td className="px-10 py-8">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted">{new Date(study.createdAt).toLocaleDateString()}</span>

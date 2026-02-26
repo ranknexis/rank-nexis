@@ -25,7 +25,7 @@ export default async function AdminCareersPage() {
             <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
             <input type="text" placeholder="Filter positions..." className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:border-brand transition-all" />
           </div>
-          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted">Active Roles: <span className="text-brand">{jobs.filter(j => j.active).length}</span></p>
+          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted">Active Roles: <span className="text-brand">{jobs.filter((j: any) => j.active).length}</span></p>
         </div>
 
         <div className="overflow-x-auto">
@@ -39,7 +39,7 @@ export default async function AdminCareersPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-stroke">
-              {jobs.map((job) => (
+              {jobs.map((job: any) => (
                 <tr key={job.id} className="hover:bg-surface/30 transition-colors group">
                   <td className="px-10 py-8">
                     <div>

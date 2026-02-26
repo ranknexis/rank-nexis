@@ -44,7 +44,7 @@ export default async function AdminBlogPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-stroke">
-              {posts.map((post) => (
+              {posts.map((post: any) => (
                 <tr key={post.id} className="hover:bg-surface/30 transition-colors group">
                   <td className="px-10 py-8">
                     <div className="flex items-center gap-6">
