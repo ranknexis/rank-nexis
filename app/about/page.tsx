@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import {
-   ArrowRight,
-   Layers,
-   ShieldCheck,
-   Target,
-   Zap
+    ArrowRight,
+    Layers,
+    ShieldCheck,
+    Target,
+    Zap
 } from "lucide-react";
 import Link from "next/link";
 import Footer from "../components/Footer";
@@ -40,10 +40,10 @@ export default function AboutPage() {
               </div>
               
               <h1 className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.85] uppercase">
-                Expert <br /> <span className="text-brand">Agency.</span>
+                Smart & <br /> <span className="text-brand">Affordable.</span>
               </h1>
               <p className="text-text-secondary max-w-3xl mx-auto text-xl md:text-2xl font-medium leading-relaxed">
-                We believe that modern growth comes from a combination of strategic marketing, creative design, and expert development. We build the systems that help your brand succeed.
+                Ranknexis – Smart & Affordable Digital Marketing for Small Businesses. We focus on strengthening the online presence of businesses with modern digital marketing solutions.
               </p>
             </motion.div>
           </div>
@@ -59,14 +59,14 @@ export default function AboutPage() {
                        <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] uppercase">Driven By <br /><span className="text-brand">Results.</span></h2>
                     </div>
                     
-                    <div className="space-y-8">
+                     <div className="space-y-8">
                        <p className="text-text-secondary text-xl font-medium leading-relaxed">
-                         Our methodology integrates precision engineering with strategic thinking to deliver sustainable impact for your organization.
+                         Ranknexis is a reliable and professional digital marketing agency. We provide top-rated digital marketing services, including SEO, Social Media Marketing, Graphic Design, and Web Design.
                        </p>
                        <p className="text-text-secondary text-xl font-medium leading-relaxed">
-                          We've spent 8+ years building integrated digital solutions where marketing and development work together seamlessly. Our mission is to provide brands with the tools and strategies they need to lead their industry.
+                          At Ranknexis, we believe in simple, clear, and effective work. Our team is experienced and creative, and we complete every project with full attention and responsibility. We aim to build long-term relationships with our clients.
                        </p>
-                    </div>
+                     </div>
 
                     <div className="flex gap-16 pt-12 border-t border-stroke">
                        <div className="space-y-2">
@@ -111,24 +111,24 @@ export default function AboutPage() {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-                 <TeamMemberCard 
-                    name="Sourav Hasan" 
-                    role="Founder & Creative Director" 
-                    image="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2070" 
-                    bio="Expert in digital strategy and brand growth, Mahdi leads our vision for high-impact results."
-                 />
-                 <TeamMemberCard 
-                    name="Israt Jahan" 
-                    role="Head of Design" 
-                    image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=2070" 
-                    bio="Specializing in premium design systems and conversion-centric user experiences."
-                 />
-                 <TeamMemberCard 
-                    name="Maruf Hossen" 
-                    role="Marketing Manager" 
-                    image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=2070" 
-                    bio="Focusing on data-driven performance marketing and sustainable brand growth."
-                 />
+                  <TeamMemberCard 
+                     name="MD Sourav Hasan" 
+                     role="Google Ads Specialist" 
+                     image="/team/MD_Sourav_Hasan.png" 
+                     bio="Expert in managing Google Ads campaigns to drive targeted traffic and measurable results for businesses."
+                  />
+                  <TeamMemberCard 
+                     name="S.M. Tanveer" 
+                     role="SEO Specialist" 
+                     image="/team/S_M_Tanveer.png" 
+                     bio="Dedicated SEO specialist focused on improving search visibility and organic rankings for our clients."
+                  />
+                  <TeamMemberCard 
+                     name="MD Maruf Hossen" 
+                     role="Meta Ads Specialist" 
+                     image="/team/MD_Maruf_Hossen.png" 
+                     bio="Specialist in creating and optimizing high-performing Facebook and Instagram ad campaigns."
+                  />
               </div>
            </div>
            

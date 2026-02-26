@@ -11,6 +11,7 @@ import {
   Layers,
   MessageSquare,
   Palette,
+  Search,
   ShieldCheck,
   TrendingUp,
   Zap
@@ -24,25 +25,39 @@ import { cn } from "./lib/utils";
 
 const SERVICES = [
   {
+    icon: Search,
+    title: "Search Engine Optimization (SEO)",
+    desc: "We help your business rank higher on search engines, making it easier for potential customers to find you online.",
+    features: ["On-Page SEO", "Keywork Research", "Technical SEO", "Backlink Building"],
+    slug: "seo"
+  },
+  {
     icon: TrendingUp,
-    title: "Performance Marketing",
-    desc: "Aggressive, data-driven strategies to dominate your market, scale revenue, and maximize ROI through precision targeting.",
-    features: ["Growth Hacking", "Paid Acquisition", "SEO Authority", "Market Analysis"],
-    slug: "marketing"
+    title: "Social Media Marketing",
+    desc: "Engage with your audience and build a strong brand presence across all major social media platforms.",
+    features: ["Content Strategy", "Community Management", "Brand Awareness", "Engagement"],
+    slug: "social-media"
   },
   {
     icon: Palette,
-    title: "Brand Architecture",
-    desc: "Elite visual identities and strategic design systems that establish absolute market authority and consumer trust.",
-    features: ["Identity Systems", "Elite Design", "Conversion UX"],
+    title: "Graphic Design",
+    desc: "Create a lasting impression with professional and creative designs that reflect your brand's identity.",
+    features: ["Logo Design", "Social Graphics", "Brand Identity", "Print Design"],
     slug: "design"
   },
   {
-    icon: Code2,
-    title: "Systems Engineering",
-    desc: "High-performance, scalable digital infrastructure and ecosystems built for enterprise reliability and seamless scaling.",
-    features: ["Custom Software", "MVP Engineering", "Cloud Infrastructure"],
-    slug: "development"
+     icon: Globe,
+     title: "Web Design",
+     desc: "Build beautiful, user-friendly websites that provide a seamless experience for your customers.",
+     features: ["Responsive Design", "UI/UX Focus", "Modern Layouts", "Performance"],
+     slug: "web"
+  },
+  {
+     icon: Zap,
+     title: "Facebook Ads Management",
+     desc: "Reach the right audience and drive real results with targeted Facebook advertising campaigns.",
+     features: ["Audience Targeting", "Ad Creation", "Campaign Optimization", "ROI Metrics"],
+     slug: "marketing"
   }
 ];
 
@@ -158,8 +173,8 @@ export default function Home() {
 
                 <div className="space-y-4">
                   {[
-                    "Strategic Growth,",
-                    "Driven by Design."
+                    "Best Digital Marketing",
+                    "Agency for Small Businesses"
                   ].map((text, idx) => (
                     <motion.h1 
                       key={idx}
@@ -180,14 +195,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                <motion.p 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.7 }}
-                  className="text-gray-500 max-w-xl text-xl md:text-2xl font-medium leading-relaxed"
-                >
-                  We help brands scale through high-performance marketing, creative design, and expert web development for measurable growth.
-                </motion.p>
+                  Ranknexis is a professional digital marketing agency dedicated to helping businesses grow online. We focus on creating strong digital strategies that improve visibility, engagement, and results.
                 
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
@@ -301,7 +309,7 @@ export default function Home() {
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">How We Work</p>
                   </motion.div>
                   <h2 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight uppercase">
-                    Bridging <span className="text-brand">Design</span><br /> & Tech.
+                    Our <span className="text-brand">Expertise.</span>
                   </h2>
                 </div>
                 
@@ -321,20 +329,20 @@ export default function Home() {
                 {[
                   { 
                     id: "01", 
-                    title: "Customer Growth", 
-                    desc: "Smart marketing strategies designed to help your brand lead the market and find more customers.",
+                    title: "What We Do", 
+                    desc: "We provide complete digital marketing solutions designed to meet the needs of modern businesses.",
                     icon: TrendingUp
                   },
                   { 
                     id: "02", 
-                    title: "Premium Design", 
-                    desc: "Modern design systems that turn your brand into a high-performance business.",
+                    title: "Why Choose Ranknexis", 
+                    desc: "We believe in clear communication, honest work, and measurable results through smart strategies.",
                     icon: Palette 
                   },
                   { 
                     id: "03", 
-                    title: "Modern Software", 
-                    desc: "Fast, scalable software built to handle high traffic and help your business grow rapidly.",
+                    title: "Our Approach", 
+                    desc: "Every business is different, so we create custom strategies focused on quality and long-term growth.",
                     icon: Layers
                   }
                 ].map((vertical, i) => (
@@ -388,7 +396,7 @@ export default function Home() {
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">What We Do</p>
                 </motion.div>
                 <h2 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight uppercase">
-                  Tailored Solutions <br /> <span className="text-brand">Designed</span> For Growth.
+                  Complete Tools <br /> <span className="text-brand">Built</span> For Growth.
                 </h2>
               </div>
               <p className="text-text-muted max-w-sm text-lg font-medium leading-relaxed pb-2">
@@ -631,18 +639,18 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="space-y-16">
+               <div className="space-y-16">
                 <div className="space-y-6">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Partnership Values</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Our Goal</p>
                   <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase leading-tight">
-                    Engineering <br /> Excellence.
+                    Your Business <br /> Success.
                   </h2>
                 </div>
                 
                 <div className="space-y-10">
-                  <ValueProp title="Smart Strategy" desc="We focus on long-term value, designing systems that grow alongside your business goals." />
-                  <ValueProp title="Modern Architecture" desc="Our systems are built using reusable, high-performance components for fast scaling." />
-                  <ValueProp title="Clear Reporting" desc="Honest, data-backed insights into every phase of our work." />
+                  <ValueProp title="Simple Work" desc="We believe in simple, clear, and effective solutions for every project." />
+                  <ValueProp title="Creative Team" desc="Our team uses customized strategies to ensure the best results based on your needs." />
+                  <ValueProp title="Long-term Growth" desc="We do not just provide services; we aim to build long-term relationships with our clients." />
                 </div>
 
                 <Link href="/contact" className="btn-primary group h-16 px-12 text-xs font-bold uppercase tracking-wider bg-brand">

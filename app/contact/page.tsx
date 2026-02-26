@@ -10,39 +10,28 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { submitContactForm } from "../actions/contact";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     const formData = new FormData(e.target as HTMLFormElement);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      company: formData.get("company"),
-      budget: formData.get("budget"),
-      service: formData.get("service"),
-      message: formData.get("message"),
-    };
-
+    
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const result = await submitContactForm(formData);
 
-      if (!response.ok) throw new Error("Sync Failed");
+      if (result.error) throw new Error(result.error);
       
       toast.success("Request received. One of our experts will reach out shortly.");
       (e.target as HTMLFormElement).reset();
-    } catch (err) {
-      toast.error("Process error. Please retry submission.");
+    } catch (err: any) {
+      toast.error(err.message || "Process error. Please retry submission.");
     } finally {
       setIsSubmitting(false);
     }
@@ -88,20 +77,20 @@ export default function ContactPage() {
                 <ContactInfo 
                   icon={Mail} 
                   title="Direct Email" 
-                  value="hello@ranknexis.com" 
-                  desc="General inquiries and partnership opportunities." 
+                  value="ranknexis@gmail.com" 
+                  desc="General inquiries and project requests." 
                 />
                 <ContactInfo 
                   icon={MessageSquare} 
-                  title="Priority Sync" 
+                  title="Quick Response" 
                   value="+880 1700-000000" 
-                  desc="WhatsApp enabled for rapid strategy response." 
+                  desc="Available for quick chat and support." 
                 />
                 <ContactInfo 
                   icon={MapPin} 
-                  title="Operations Hub" 
-                  value="Dhaka, Bangladesh" 
-                  desc="Our main office for strategy and development." 
+                  title="Our Location" 
+                  value="Chattogram, Bangladesh" 
+                  desc="Our main office for project management." 
                 />
               </div>
 
@@ -113,9 +102,9 @@ export default function ContactPage() {
                 </div>
                 
                 <div className="space-y-10">
-                  <FaqItem question="When can I expect a response?" answer="We review every request carefully. You can expect a response within 24 hours." />
-                  <FaqItem question="Do you have a minimum engagement?" answer="We focus on high-ticket sector scaling. Typical engagements start at $2k/mo or $5k per project node." />
-                  <FaqItem question="Can we schedule a call directly?" answer="Yes, after initial sync via this form, we'll provide a secure link for a technical discovery call." />
+                   <FaqItem question="When will I get a response?" answer="We review all messages carefully and usually get back to you within 24 hours." />
+                   <FaqItem question="Do you work with small businesses?" answer="Yes! We specialize in providing smart and affordable solutions for small businesses of all sizes." />
+                   <FaqItem question="Can we have a meeting?" answer="Of course. We can schedule a call or meeting to discuss your project needs." />
                 </div>
               </div>
             </div>
@@ -146,11 +135,13 @@ export default function ContactPage() {
                          <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary ml-2">Service Needed</label>
                         <div className="relative">
                            <select name="service" required className="input-field shadow-sm appearance-none cursor-pointer">
-                              <option value="Digital Marketing">Digital Marketing</option>
-                              <option value="Web Development">Web Development</option>
-                              <option value="Graphic Design">Graphic Design</option>
-                              <option value="SEO Services">SEO Services</option>
-                              <option value="Video Editing">Video Editing</option>
+                               <option value="SEO">SEO Services</option>
+                               <option value="Social Media Marketing">Social Media Marketing</option>
+                               <option value="Graphic Design">Graphic Design</option>
+                               <option value="Web Design">Web Design</option>
+                               <option value="Facebook Ads">Facebook Ads Management</option>
+                               <option value="Google Ads">Google Ads</option>
+                               <option value="Video Editing">Video Editing</option>
                            </select>
                            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">
                               <HelpCircle size={16} />
@@ -162,7 +153,7 @@ export default function ContactPage() {
                     <div className="space-y-4">
                        <label className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-primary ml-2">Project Budget</label>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {["< $2k", "$2k - $5k", "$5k - $15k", "$15k+"].map(tier => (
+                         {["Starter", "Standard", "Professional", "Custom"].map(tier => (
                           <label key={tier} className="relative group cursor-pointer">
                             <input type="radio" name="budget" value={tier} className="peer sr-only" required />
                              <div className="h-14 border border-stroke bg-white peer-checked:border-brand peer-checked:bg-brand/5 rounded-2xl flex items-center justify-center text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted peer-checked:text-brand transition-all shadow-sm">

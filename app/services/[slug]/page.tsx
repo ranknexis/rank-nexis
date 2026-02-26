@@ -13,60 +13,60 @@ import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 
 const SERVICES_DATA: Record<string, any> = {
-  "growth": {
-    title: "Growth Engine",
-    subtitle: "High-Velocity Acquisition Infrastructure",
-    description: "We architect and deploy end-to-end growth ecosystems designed to dominate search auctions and social feeds. Our approach treats marketing as a technical engineering challenge, not just a creative exercise.",
+  "seo": {
+    title: "Search Optimization",
+    subtitle: "Grow Your Online Visibility",
+    description: "We help your business get noticed on search engines by improving your website's ranking and attracting more potential customers.",
     highlights: [
-      { title: "Surgical SEO", desc: "Technical site architecture and semantic authority mapping." },
-      { title: "Paid Performance", desc: "Intent-based funnels optimized for sub-second precision." },
-      { title: "Social Sync", desc: "Algorithmic brand signaling across all social nodes." }
+      { title: "Smart Keywords", desc: "Finding the best terms your customers are searching for." },
+      { title: "Better Ranking", desc: "Helping your site appear at the top of results." },
+      { title: "Local Presence", desc: "Connecting you with customers in your area." }
     ],
     features: [
-      "Technical Core Optimization",
-      "Strategic Overview Clusters",
-      "Algorithmic Authority Building",
-      "Performance Max Optimization",
-      "Creative Strategy & Production",
-      "Funnel-Wide Tracking"
+      "Website Performance Check",
+      "Creative Content Writing",
+      "Link Building Strategy",
+      "Local Map Optimization",
+      "Monthly Growth Reports",
+      "Full Site SEO Audit"
     ],
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426"
   },
   "design": {
-    title: "Design Systems",
-    subtitle: "Visual Logic That Converts",
-    description: "We build scalable design languages that elevate brand authority and remove friction from the user journey. Every pixel is calculated to support your brand signal.",
+    title: "Graphic Design",
+    subtitle: "Professional Brand Identity",
+    description: "Our creative team designs beautiful logos, social media graphics, and brand materials that make your business stand out from the competition.",
     highlights: [
-      { title: "UI/UX Systems", desc: "Atomic design logic for scalable interfaces." },
-      { title: "Brand Identity", desc: "Engineering the DNA of your visual presence." },
-      { title: "Graphic Nodes", desc: "High-precision assets for digital distribution." }
+      { title: "Custom Logos", desc: "Unique designs that represent your brand perfectly." },
+      { title: "Social Media", desc: "Eye-catching graphics for all your platforms." },
+      { title: "Print Materials", desc: "Professional designs for banners and cards." }
     ],
     features: [
-      "Atomic Design Systems",
-      "User Psychology Mapping",
-      "Interactive Prototyping",
-      "Accessibility Compliance",
-      "Brand Guidelines Node",
-      "Ad Creative Production"
+      "Brand Color Palette",
+      "Modern Typography",
+      "Custom Illustrations",
+      "Banner & Ad Design",
+      "Professional Layouts",
+      "Unlimited Revisions"
     ],
     image: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=2070"
   },
-  "engineering": {
-    title: "Digital Infrastructure",
-    subtitle: "High-Performance Engineering",
-    description: "We architect sub-second digital experiences that handle scale without breaking. Our engineering board focuses on performance-first frontend and robust enterprise backend systems.",
+  "web": {
+    title: "Web Development",
+    subtitle: "Fast & Modern Websites",
+    description: "We build easy-to-use and high-performing websites that help you provide a great experience for your customers on any device.",
     highlights: [
-      { title: "Web Systems", desc: "Full-stack Next.js and React engineering." },
-      { title: "Architecture", desc: "Scaling backend for global operations." },
-      { title: "Security", desc: "Encryption-first protocol layer." }
+      { title: "Custom Build", desc: "Websites tailored to your specific needs." },
+      { title: "Fast Loading", desc: "Ensuring your customers don't have to wait." },
+      { title: "Mobile Ready", desc: "Perfect experience on phones and tablets." }
     ],
     features: [
-      "Next.js/React Optimization",
-      "API & Headless Systems",
-      "Database Design & Scaling",
-      "Cloud Deployment Ops",
-      "Security Protocol Audit",
-      "System Integration Sync"
+      "Responsive Layouts",
+      "Modern Web Tech",
+      "Clean Dashboard",
+      "Secure Hosting",
+      "Ongoing Support",
+      "E-commerce Ready"
     ],
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=2070"
   }
@@ -74,7 +74,7 @@ const SERVICES_DATA: Record<string, any> = {
 
 export default function ServiceDetailPage() {
   const { slug } = useParams();
-  const service = SERVICES_DATA[slug as string] || SERVICES_DATA["growth"];
+  const service = SERVICES_DATA[slug as string] || SERVICES_DATA["seo"];
 
   return (
     <div className="min-h-screen bg-white text-text-primary">

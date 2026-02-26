@@ -1,14 +1,14 @@
 "use client";
 
 import {
-   BarChart3,
-   Briefcase,
-   FileText,
-   LayoutDashboard,
-   LogOut,
-   Settings,
-   Users,
-   Zap
+    BarChart3,
+    Briefcase,
+    FileText,
+    LayoutDashboard,
+    LogOut,
+    Settings,
+    Users,
+    Zap
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,8 +36,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Zap size={24} fill="currentColor" />
            </div>
            <div>
-              <p className="text-xl font-bold uppercase tracking-tighter">RankNexis</p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand">Admin Dashboard</p>
+              <p className="text-xl font-bold uppercase tracking-tighter">Ranknexis</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand">Business Dashboard</p>
            </div>
         </div>
 

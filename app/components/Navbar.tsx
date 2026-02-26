@@ -3,22 +3,22 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import {
-  BarChart3,
-  Box,
-  ChevronDown,
-  ChevronRight,
-  Code2,
-  Cpu,
-  Layers,
-  Layout,
-  Menu,
-  Palette,
-  Search,
-  Share2,
-  Target,
-  TrendingUp,
-  X,
-  Zap
+    BarChart3,
+    Box,
+    ChevronDown,
+    ChevronRight,
+    Code2,
+    Cpu,
+    Layers,
+    Layout,
+    Menu,
+    Palette,
+    Search,
+    Share2,
+    Target,
+    TrendingUp,
+    X,
+    Zap
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,33 +27,33 @@ import Logo from "./Logo";
 
 const services = [
   {
-    category: "Digital Marketing",
+    category: "Services",
     icon: TrendingUp,
-    status: "Top Service",
+    status: "Popular",
     items: [
-      { name: "Social Media Marketing", href: "/services#smm", icon: Share2 },
-      { name: "Facebook Ads Management", href: "/services#fb-ads", icon: Target },
-      { name: "Google Ads Performance", href: "/services#google-ads", icon: BarChart3 },
-      { name: "SEO Excellence", href: "/services#seo", icon: Search },
+      { name: "SEO Service", href: "/services#seo", icon: Search },
+      { name: "Social Media Marketing", href: "/services#social-media", icon: Share2 },
+      { name: "Facebook Ads", href: "/services#facebook-ads", icon: Target },
+      { name: "Google Ads", href: "/services#google-ads", icon: BarChart3 },
     ]
   },
   {
-    category: "Creative Design",
+    category: "Design",
     icon: Palette,
-    status: "Active",
+    status: "Creative",
     items: [
-      { name: "Graphic Design", href: "/services#graphics", icon: Layout },
-      { name: "Video & Motion", href: "/services#video", icon: Zap },
-      { name: "UI/UX Design", href: "/services#uiux", icon: Layers },
+      { name: "Graphic Design", href: "/services#graphic-design", icon: Layout },
+      { name: "Video & Motion", href: "/services#video-motion", icon: Zap },
+      { name: "UI/UX Design", href: "/services#ui-ux", icon: Layers },
     ]
   },
   {
     category: "Development",
     icon: Code2,
-    status: "Active",
+    status: "Tech",
     items: [
-      { name: "Web Development", href: "/services#web", icon: Code2 },
-      { name: "Full-Stack Solutions", href: "/services#fullstack", icon: Cpu },
+      { name: "Web Development", href: "/services#web-development", icon: Code2 },
+      { name: "Full-Stack Solution", href: "/services#full-stack", icon: Cpu },
     ]
   }
 ];
@@ -203,11 +203,11 @@ export default function Navbar() {
                 </div>
                 
                 {[
-                  { name: "About Us", href: "/about", desc: "Our vision & mission" },
-                  { name: "Our Team", href: "/team", desc: "Meet the experts" },
-                  { name: "Knowledge Hub", href: "/blog", desc: "Expertise & strategy" },
-                  { name: "Careers", href: "/careers", desc: "Join our team" },
-                  { name: "Contact", href: "/contact", desc: "Get in touch" }
+                   { name: "About Us", href: "/about", desc: "Our story & mission" },
+                   { name: "Our Team", href: "/team", desc: "Meet our experts" },
+                   { name: "Knowledge Hub", href: "/blog", desc: "Tips & strategies" },
+                   { name: "Careers", href: "/careers", desc: "Work with us" },
+                   { name: "Contact", href: "/contact", desc: "Get in touch" }
                 ].map((item) => (
                   <Link 
                     key={item.href}

@@ -70,11 +70,11 @@ export default function Footer() {
             <div className="space-y-6">
               <div className="space-y-2">
                  <p className="text-[11px] font-bold text-text-primary uppercase tracking-widest">Headquarters</p>
-                 <p className="text-sm font-medium text-text-muted">Dhaka, Bangladesh</p>
+                 <p className="text-sm font-medium text-text-muted">Chattogram, Bangladesh</p>
               </div>
               <div className="space-y-2">
                  <p className="text-[11px] font-bold text-text-primary uppercase tracking-widest">Email</p>
-                 <a href="mailto:hello@ranknexis.com" className="text-sm font-bold text-brand hover:underline tracking-tight">hello@ranknexis.com</a>
+                 <a href="mailto:ranknexis@gmail.com" className="text-sm font-bold text-brand hover:underline tracking-tight">ranknexis@gmail.com</a>
               </div>
             </div>
           </div>

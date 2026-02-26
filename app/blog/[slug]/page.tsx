@@ -12,30 +12,30 @@ import Navbar from "../../components/Navbar";
 const getPostBySlug = (slug: string) => {
   const posts = [
     {
-      title: "Engineering Growth: Why Traditional Marketing is Dying",
-      excerpt: "In a world driven by algorithms and sub-second precision, traditional creative agencies are falling behind. Here's why you need an engineering-first approach.",
-      category: "Strategy",
-      author: "Mahdi Monir",
+      title: "How to Grow Your Small Business Online in 2026",
+      excerpt: "In today's digital world, traditional marketing isn't enough. Here's how to build a strong online presence that actually drives sales.",
+      category: "Marketing",
+      author: "MD Sourav Hasan",
       date: "Feb 15, 2026",
-      slug: "engineering-growth-philosophy",
+      slug: "grow-business-online-2026",
       image: "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070",
       content: `
-        <p>The digital landscape is undergoing a fundamental shift. For decades, "marketing" was synonymous with creativity—catchy slogans, beautiful imagery, and emotional storytelling. While these elements still hold value, the <strong>mechanism of delivery</strong> has changed entirely.</p>
+        <p>The digital landscape is changing fast. For small businesses, "marketing" is about more than just having a website—it's about being where your customers are.</p>
         
-        <h3>The Algorithmic Reality</h3>
-        <p>Today, your growth is governed by complex mathematical models. Whether it's the Google Search algorithm, Meta's ad auction logic, or TikTok's recommendation engine, these systems don't care about your mood board. They care about data, signals, and technical precision.</p>
+        <h3>The Importance of Being Online</h3>
+        <p>Most customers today search for products and services online before they buy. If your business isn't easy to find on Google or active on social media, you are missing out on huge opportunities.</p>
         
-        <p>This is where the traditional agency model fails. They treat digital platforms as canvas, when they should be treating them as <strong>infrastructure</strong>. When you separate "the creative" from "the implementation," you create friction. In an environment where sub-second latency and attribution accuracy determine ROI, friction is fatal.</p>
+        <p>At Ranknexis, we believe in simple, clear, and effective strategies. Instead of using confusing technical terms, we focus on what matters most to you: <strong>getting more customers</strong>.</p>
         
-        <h3>Enter Growth Engineering</h3>
-        <p>At RankNexis, we view growth as an engineering problem. This means:</p>
+        <h3>Our Simple Strategy for Success</h3>
+        <p>We focus on three main areas to help your business grow:</p>
         <ul>
-          <li><strong>Integrated Loops:</strong> Copy is optimized in real-time based on conversion data pipelines.</li>
-          <li><strong>Technical Dominance:</strong> SEO is treated as search node optimization, ensuring site architecture is perfectly aligned with crawler logic.</li>
-          <li><strong>Sub-Second UX:</strong> We treat load times as a primary conversion factor, knowing that every 100ms of delay kills revenue.</li>
+          <li><strong>SEO:</strong> Making sure your website shows up when people search for your services.</li>
+          <li><strong>Social Media:</strong> Engaging with your audience on platforms like Facebook and Instagram.</li>
+          <li><strong>Great Design:</strong> Creating a professional look that builds trust with your customers.</li>
         </ul>
         
-        <p>The companies that will dominate the next decade are the ones that stop "doing marketing" and start <strong>engineering growth systems</strong>. The era of the generalist agency is over. The era of the Growth Architect has begun.</p>
+        <p>The businesses that succeed in the future will be the ones that embrace digital tools today. Don't wait—start building your online presence now.</p>
       `
     }
     // ... other posts would be here
@@ -86,7 +86,7 @@ export default function BlogPostDetail() {
                   </div>
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-text-primary leading-none mb-1">{post.author}</p>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Principal Architect</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Marketing Specialist</p>
                   </div>
                </div>
                <div className="h-10 w-px bg-gray-100 hidden sm:block" />
@@ -96,7 +96,7 @@ export default function BlogPostDetail() {
                   </div>
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-text-primary leading-none mb-1">{post.date}</p>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Eng. Timestamp</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Published Date</p>
                   </div>
                </div>
             </motion.div>
@@ -135,10 +135,10 @@ export default function BlogPostDetail() {
 
                   <div className="corporate-card bg-brand p-8 text-white space-y-4">
                      <TrendingUp size={32} strokeWidth={1} />
-                     <h4 className="text-[10px] font-bold uppercase tracking-[0.3em]">Deploy Scaling Pulse</h4>
-                     <p className="text-white/80 text-[10px] leading-relaxed uppercase font-bold tracking-widest">Architect your growth engine with 1:1 precision.</p>
+                     <h4 className="text-[10px] font-bold uppercase tracking-[0.3em]">Grow Your Business</h4>
+                     <p className="text-white/80 text-[10px] leading-relaxed uppercase font-bold tracking-widest">Let us help you build a professional online presence.</p>
                      <Link href="/contact" className="inline-flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest py-3 px-6 bg-white text-brand rounded-lg hover:scale-105 transition-transform">
-                        Initialize Sync
+                        Get Started
                      </Link>
                   </div>
                </div>
@@ -166,10 +166,10 @@ export default function BlogPostDetail() {
             <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-20">
               <div className="space-y-4">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand">Deep Stack Analysis</span>
-                <h2 className="text-2xl md:text-4xl font-bold tracking-tighter uppercase leading-none">Related <br />Engineering.</h2>
+                <h2 className="text-2xl md:text-4xl font-bold tracking-tighter uppercase leading-none">More <br />Insights.</h2>
               </div>
               <Link href="/blog" className="btn-outline h-14 px-10 text-[10px] uppercase tracking-[0.3em]">
-                View All Intelligence
+                View All Articles
               </Link>
             </div>
             

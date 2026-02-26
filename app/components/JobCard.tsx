@@ -24,7 +24,7 @@ const JobCard: React.FC<JobCardProps> = ({ title, location, type, slug, departme
         <div className="space-y-6 flex-grow max-w-2xl">
           <div className="flex items-center gap-4">
              <div className="px-4 py-1.5 glass-dark border border-white/5 bg-brand text-white text-[11px] font-bold uppercase tracking-[0.3em] rounded-full shadow-lg">
-                {department === "Systems" ? "Engineering" : department === "Marketing" ? "Growth" : department}
+                {department === "Systems" ? "Design" : department === "Marketing" ? "Marketing" : department}
              </div>
              <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse opacity-40" />
              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-text-muted">Active Opening</p>

@@ -1,4 +1,4 @@
-// import prisma from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -14,8 +14,7 @@ export async function POST(req: Request) {
             );
         }
 
-        // Save to NeonDB via Prisma (Disabled for UI-only deploy)
-        /*
+        // Save to NeonDB via Prisma
         const lead = await prisma.lead.create({
             data: {
                 name,
@@ -25,7 +24,6 @@ export async function POST(req: Request) {
                 status: "NEW"
             }
         });
-        */
 
         console.log("Lead Received (UI-Only Mode):", { name, email });
 

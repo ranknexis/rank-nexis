@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../app/lib/generated/prisma"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -49,12 +49,16 @@ model CaseStudy {
   id           String   @id @default(cuid())
   title        String
   slug         String   @unique
-  clientName   String?
-  problem      String
-  strategy     String
-  execution    String
-  results      String
+  client       String?
+  description  String
+  challenge    String
+  solution     String
+  execution    String[]
+  results      String[]
   image        String?
+  stats        String
+  kpi          String
+  tag          String
   technologies String[]
   createdAt    DateTime @default(now())
 }
@@ -87,14 +91,16 @@ model Application {
 }
 
 model TeamMember {
-  id       String  @id @default(cuid())
-  name     String
-  role     String
-  image    String?
-  twitter  String?
-  linkedin String?
-  bio      String?
-  order    Int     @default(0)
+  id        String  @id @default(cuid())
+  name      String
+  role      String
+  image     String?
+  facebook  String?
+  linkedin  String?
+  email     String?
+  pinterest String?
+  bio       String?
+  order     Int     @default(0)
 }
 
 model Testimonial {
@@ -125,5 +131,7 @@ model Service {
   icon        String?
   category    String   // SOFTWARE, MARKETING, AI
   features    String[]
+  active      Boolean  @default(true)
+  order       Int      @default(0)
 }
 

@@ -2,12 +2,12 @@
 
 import { motion } from "framer-motion";
 import {
-    ArrowLeft,
-    ArrowRight,
-    CheckCircle2,
-    Clock,
-    DollarSign,
-    MapPin
+   ArrowLeft,
+   ArrowRight,
+   CheckCircle2,
+   Clock,
+   DollarSign,
+   MapPin
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -17,60 +17,60 @@ import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 
 const JOBS_DATA: Record<string, any> = {
-  "snr-backend": {
-    title: "Senior Backend Engineer",
-    department: "Engineering",
-    location: "Remote / Dhaka",
+  "seo-specialist": {
+    title: "SEO Specialist",
+    department: "SEO",
+    location: "Remote / Chattogram",
     type: "Full-Time",
-    salary: "$60k - $90k",
-    overview: "We are seeking a high-precision backend architect to own the core infrastructure nodes of our global scaling systems. You will be responsible for sub-second API performance and multi-tenant database sovereignty.",
+    salary: "$600 - $900",
+    overview: "We are looking for a dedicated SEO Specialist to help our clients rank higher on search engines and grow their organic traffic. You will be responsible for keyword research, on-page optimization, and reporting.",
     requirements: [
-      "8+ years of core backend engineering experience.",
-      "Expertise in Node.js, Go, or Rust.",
-      "Deep understanding of PostgreSQL and Redis at scale.",
-      "Proven experience with AWS/GCP infrastructure board.",
-      "Ability to architect sub-second data pipelines."
+      "2+ years of SEO experience.",
+      "Knowledge of Google Search Console and Analytics.",
+      "Ability to perform keyword research and competitor analysis.",
+      "Good understanding of on-page and technical SEO.",
+      "Excellent communication and reporting skills."
     ],
     benefits: [
-      "Competitive Equity Participation",
-      "Global Remote Node Setup",
-      "Advanced Learning Budget",
-      "Performance-Based ROI Bonuses"
+      "Competitive Salary",
+      "Flexible Remote Work",
+      "Learning Opportunities",
+      "Performance Bonuses"
     ]
   },
-  "growth-lead": {
-    title: "Growth Strategy Lead",
-    department: "Marketing",
-    location: "Hybrid / Dubai",
+  "web-designer": {
+    title: "Web Designer",
+    department: "Design",
+    location: "Hybrid / Chattogram",
     type: "Full-Time",
-    salary: "$50k - $80k",
-    overview: "Help us architect the next generation of acquisition engines. You will lead the strategy for enterprise-grade performance marketing loops and algorithmic brand signaling.",
+    salary: "$500 - $800",
+    overview: "Join our creative team to design beautiful and easy-to-use websites for small businesses. You will work closely with developers to bring your designs to life.",
     requirements: [
-       "5+ years in high-velocity growth marketing.",
-       "Technical understanding of ad-tech and tracking protocols.",
-       "Ability to build intent-based conversion funnels.",
-       "Data-first mindset with radical transparency focus.",
-       "Experience managing $100k+ monthly ad deployments."
+       "3+ years in web or UI design.",
+       "Proficiency in Figma or Adobe XD.",
+       "Ability to create user-friendly and responsive layouts.",
+       "Strong eye for typography and color theory.",
+       "Experience working with small business brands."
     ],
     benefits: [
-      "Performance Multiplier Bonuses",
-      "Global Hub Access",
-      "Strategic Freedom Nodes",
-      "Health & Wellness Sync"
+      "Creativity Bonuses",
+      "Professional Growth",
+      "Team Activities",
+      "Modern Workspace"
     ]
   }
 };
 
 export default function JobDetailPage() {
   const { slug } = useParams();
-  const job = JOBS_DATA[slug as string] || JOBS_DATA["snr-backend"];
+  const job = JOBS_DATA[slug as string] || JOBS_DATA["seo-specialist"];
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleApply = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setTimeout(() => {
-      toast.success("Application Signal Received. Our talent board will audit your status.");
+      toast.success("Application Received. Our team will review your application soon.");
       setIsSubmitting(false);
       //@ts-ignore
       e.target.reset();
@@ -139,14 +139,14 @@ export default function JobDetailPage() {
                  {/* Main Content */}
                  <div className="lg:col-span-7 space-y-24">
                     <div className="space-y-10">
-                       <h2 className="text-3xl font-bold uppercase tracking-tighter">Diagnostic <span className="text-brand">Overview.</span></h2>
+                       <h2 className="text-3xl font-bold uppercase tracking-tighter">Role <span className="text-brand">Overview.</span></h2>
                        <p className="text-text-secondary text-xl font-medium leading-relaxed">
                           {job.overview}
                        </p>
                     </div>
 
                     <div className="space-y-10">
-                       <h2 className="text-3xl font-bold uppercase tracking-tighter">System <span className="text-brand">Requirements.</span></h2>
+                       <h2 className="text-3xl font-bold uppercase tracking-tighter">Job <span className="text-brand">Requirements.</span></h2>
                        <div className="space-y-6">
                           {job.requirements.map((req: string) => (
                              <div key={req} className="flex items-start gap-4 p-6 glass border border-stroke rounded-2xl group hover:border-brand transition-all">
@@ -158,7 +158,7 @@ export default function JobDetailPage() {
                     </div>
 
                     <div className="space-y-10">
-                       <h2 className="text-3xl font-bold uppercase tracking-tighter">Talent <span className="text-brand">Dividends.</span></h2>
+                       <h2 className="text-3xl font-bold uppercase tracking-tighter">Team <span className="text-brand">Benefits.</span></h2>
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           {job.benefits.map((ben: string) => (
                              <div key={ben} className="flex items-center gap-4 p-5 bg-surface/30 border border-stroke rounded-2xl">
@@ -175,29 +175,29 @@ export default function JobDetailPage() {
                  {/* Apply Sidebar */}
                  <aside className="lg:col-span-5 lg:sticky lg:top-32 h-fit">
                     <div className="corporate-card grain p-12 space-y-10 shadow-premium border-stroke hover:border-brand transition-all duration-700">
-                       <div className="space-y-4">
-                          <h3 className="text-3xl font-bold uppercase tracking-tighter">Application Process <span className="text-brand">Application.</span></h3>
-                          <p className="text-text-muted text-sm font-medium leading-relaxed">
-                             Submit your technical profile to the RankNexis board today.
-                          </p>
-                       </div>
+                        <div className="space-y-4">
+                           <h3 className="text-3xl font-bold uppercase tracking-tighter">Join Our <span className="text-brand">Team.</span></h3>
+                           <p className="text-text-muted text-sm font-medium leading-relaxed">
+                              Apply today to be a part of our growing agency.
+                           </p>
+                        </div>
 
                        <form onSubmit={handleApply} className="space-y-8">
                           <div className="space-y-2">
-                             <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Full Identity</label>
+                              <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Full Name</label>
                              <input required type="text" placeholder="John Doe" className="input-field" />
                           </div>
-                          <div className="space-y-2">
-                             <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Digital Link (LinkedIn/Portfolio)</label>
-                             <input required type="url" placeholder="https://..." className="input-field" />
-                          </div>
-                          <div className="space-y-4">
-                             <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Capability Statement</label>
-                             <textarea required rows={4} placeholder="Tell us why you'd be a great fit for the RankNexis team..." className="input-field h-auto py-6 resize-none" />
-                          </div>
+                           <div className="space-y-2">
+                              <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Portfolio Link (Optional)</label>
+                              <input required type="url" placeholder="https://..." className="input-field" />
+                           </div>
+                           <div className="space-y-4">
+                              <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Why should we hire you?</label>
+                              <textarea required rows={4} placeholder="Tell us about your experience..." className="input-field h-auto py-6 resize-none" />
+                           </div>
                           
-                          <button disabled={isSubmitting} type="submit" className="btn-primary w-full h-20 text-[10px] uppercase tracking-[0.3em] group">
-                             {isSubmitting ? "Broadcasting Signal..." : "Broadcast Application Signal"}
+                           <button disabled={isSubmitting} type="submit" className="btn-primary w-full h-20 text-[10px] uppercase tracking-[0.3em] group">
+                              {isSubmitting ? "Sending..." : "Submit Application"}
                              <ArrowRight size={16} className="ml-3 group-hover:translate-x-2 transition-transform" />
                           </button>
                        </form>

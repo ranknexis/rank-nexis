@@ -1,0 +1,107 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowRight, Filter } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
+interface WorkContentProps {
+  initialStudies: any[];
+}
+
+const CATEGORIES = ["All", "Social Media Marketing", "Web Design", "Graphic Design", "SEO"];
+
+export default function WorkContent({ initialStudies }: WorkContentProps) {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredStudies = activeCategory === "All" 
+    ? initialStudies 
+    : initialStudies.filter(s => s.tag === activeCategory);
+
+  return (
+    <>
+      {/* FILTER BAR */}
+      <section className="sticky top-20 z-40 bg-white/80 backdrop-blur-md border-b border-stroke py-6">
+         <div className="container-max flex items-center justify-between gap-8">
+            <div className="flex items-center gap-4">
+               <Filter size={18} className="text-text-muted" />
+               <div className="flex flex-wrap gap-2">
+                  {CATEGORIES.map(cat => (
+                     <button
+                        key={cat}
+                        onClick={() => setActiveCategory(cat)}
+                        className={`px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all ${
+                           activeCategory === cat 
+                           ? "bg-brand text-white shadow-lg shadow-brand/20" 
+                           : "glass text-text-muted hover:text-brand"
+                        }`}
+                     >
+                        {cat}
+                     </button>
+                  ))}
+               </div>
+            </div>
+         </div>
+      </section>
+
+      {/* CASE STUDIES GRID */}
+      <section className="py-24">
+         <div className="container-max">
+            <div className="grid grid-cols-1 gap-32">
+               {filteredStudies.map((study, i) => (
+                  <motion.div 
+                     key={study.id}
+                     initial={{ opacity: 0, y: 40 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     viewport={{ once: true }}
+                     className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center group"
+                  >
+                     <div className="lg:col-span-7 relative overflow-hidden rounded-[3rem] shadow-premium grain">
+                        <img 
+                           src={study.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426"} 
+                           alt={study.title} 
+                           className="w-full aspect-[16/9] object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" 
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+                        <div className="absolute bottom-10 left-10 p-4 glass-dark rounded-2xl text-white">
+                           <p className="text-4xl font-bold tracking-tighter text-brand">{study.stats}</p>
+                           <p className="text-[10px] font-bold uppercase tracking-wider opacity-80">{study.kpi}</p>
+                        </div>
+                     </div>
+                     
+                     <div className="lg:col-span-5 space-y-10">
+                        <div className="space-y-6">
+                           <div className="inline-flex items-center gap-2 px-3 py-1 glass rounded-full text-[10px] font-bold uppercase tracking-wider text-brand">
+                              {study.tag}
+                           </div>
+                           <h3 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-[0.9] group-hover:text-brand transition-colors">
+                              {study.title}
+                           </h3>
+                           <p className="text-text-muted text-lg font-medium leading-relaxed">
+                              {study.description}
+                           </p>
+                        </div>
+                        
+                        <Link href={`/work/${study.slug}`} className="btn-primary h-16 inline-flex items-center px-10 text-[10px] uppercase tracking-[0.3em] shadow-lg shadow-brand/10">
+                           View Case Study <ArrowRight size={14} className="ml-3 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                     </div>
+                  </motion.div>
+               ))}
+               {filteredStudies.length === 0 && (
+                 <div className="py-48 text-center glass border border-stroke rounded-[4rem] shadow-premium grain">
+                    <p className="text-text-muted text-xl font-medium italic mb-8">"No operational case studies match this filter protocol."</p>
+                    <button 
+                      onClick={() => setActiveCategory("All")} 
+                      className="btn-outline h-14 px-10 text-[11px] font-bold uppercase tracking-[0.3em] glass"
+                    >
+                      Reset Filter Archive
+                    </button>
+                 </div>
+               )}
+            </div>
+         </div>
+      </section>
+    </>
+  );
+}
