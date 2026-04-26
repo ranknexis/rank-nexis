@@ -16,14 +16,14 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, bio 
           <img 
             src={image} 
             alt={name} 
-            className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-100 group-hover:scale-105" 
+            className="w-full h-full object-cover opacity-100 md:opacity-80 md:grayscale md:group-hover:grayscale-0 md:group-hover:opacity-100 transition-all duration-1000 scale-100 md:group-hover:scale-105" 
           />
           <div className="absolute inset-0 bg-brand/[0.03] group-hover:bg-transparent transition-colors" />
        </div>
        <div className="space-y-6">
           <div className="space-y-2">
              <h3 className="text-3xl font-bold text-text-primary group-hover:text-brand transition-colors uppercase tracking-tighter leading-none">{name}</h3>
-             <p className="text-[11px] font-bold text-brand uppercase tracking-[0.3em]">{role}</p>
+             <p className="text-[11px] font-bold text-brand uppercase">{role}</p>
           </div>
           <p className="text-lg text-text-muted leading-relaxed font-medium line-clamp-3">{bio}</p>
        </div>
@@ -32,3 +32,4 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, bio 
 };
 
 export default TeamMemberCard;
+

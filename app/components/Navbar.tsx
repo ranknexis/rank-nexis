@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
+
 import {
     BarChart3,
     Box,
@@ -27,14 +28,14 @@ import Logo from "./Logo";
 
 const services = [
   {
-    category: "Services",
+    category: "Marketing",
     icon: TrendingUp,
     status: "Popular",
     items: [
-      { name: "SEO Service", href: "/services#seo", icon: Search },
-      { name: "Social Media Marketing", href: "/services#social-media", icon: Share2 },
-      { name: "Facebook Ads", href: "/services#facebook-ads", icon: Target },
-      { name: "Google Ads", href: "/services#google-ads", icon: BarChart3 },
+      { name: "SEO Service", href: "/services/seo-service", icon: Search },
+      { name: "Social Media Marketing", href: "/services/social-media-marketing", icon: Share2 },
+      { name: "Facebook Ads", href: "/services/facebook-ads", icon: Target },
+      { name: "Google Ads", href: "/services/google-ads", icon: BarChart3 },
     ]
   },
   {
@@ -42,9 +43,9 @@ const services = [
     icon: Palette,
     status: "Creative",
     items: [
-      { name: "Graphic Design", href: "/services#graphic-design", icon: Layout },
-      { name: "Video & Motion", href: "/services#video-motion", icon: Zap },
-      { name: "UI/UX Design", href: "/services#ui-ux", icon: Layers },
+      { name: "Graphic Design", href: "/services/graphic-design", icon: Layout },
+      { name: "Video & Motion", href: "/services/video-motion", icon: Zap },
+      { name: "UI/UX Design", href: "/services/ui-ux-design", icon: Layers },
     ]
   },
   {
@@ -52,8 +53,8 @@ const services = [
     icon: Code2,
     status: "Tech",
     items: [
-      { name: "Web Development", href: "/services#web-development", icon: Code2 },
-      { name: "Full-Stack Solution", href: "/services#full-stack", icon: Cpu },
+      { name: "Web Development", href: "/services/web-development", icon: Code2 },
+      { name: "Full-Stack Solution", href: "/services/full-stack-solution", icon: Cpu },
     ]
   }
 ];
@@ -61,17 +62,33 @@ const services = [
 export default function Navbar() {
   const pathname = usePathname();
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
+
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-    // Hide when scrolling down, show when scrolling up
+    const diff = latest - previous;
+    
+    // Threshold to prevent micro-stutter
+    if (Math.abs(diff) < 5) {
+      if (latest > 50 && !isScrolled) setIsScrolled(true);
+      if (latest <= 50 && isScrolled) setIsScrolled(false);
+      return;
+    }
+
     if (latest > previous && latest > 100) {
-      setIsVisible(false);
+      if (isVisible) setIsVisible(false);
     } else {
-      setIsVisible(true);
+      if (!isVisible) setIsVisible(true);
+    }
+
+    if (latest > 50) {
+      if (!isScrolled) setIsScrolled(true);
+    } else {
+      if (isScrolled) setIsScrolled(false);
     }
   });
 
@@ -87,10 +104,11 @@ export default function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-500",
         isVisible ? "translate-y-0" : "-translate-y-full",
-        scrollY.get() > 50 ? "glass border-b border-white/10" : "bg-transparent"
+        isScrolled ? "glass border-b border-white/10" : "bg-transparent"
       )}
       onMouseLeave={() => setIsMegaMenuOpen(false)}
     >
+
       <div className="container-max h-full flex items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 group relative z-[60] hover:scale-105 transition-transform duration-300">
           <Logo />
@@ -104,7 +122,7 @@ export default function Navbar() {
           >
             <button 
               className={cn(
-                "text-[11px] font-bold uppercase tracking-wider flex items-center gap-2 transition-all duration-300",
+                "text-[11px] font-bold uppercase flex items-center gap-2 transition-all duration-300",
                 isMegaMenuOpen || pathname === "/services" ? "text-brand" : "text-text-primary hover:text-brand"
               )}
             >
@@ -133,7 +151,7 @@ export default function Navbar() {
                         <div className="flex items-center justify-between pb-3 border-b border-black/5">
                           <div className="flex items-center gap-3 text-brand">
                             <section.icon size={20} className="shrink-0" />
-                            <h3 className="text-[11px] font-bold uppercase tracking-wider">{section.category}</h3>
+                            <h3 className="text-[11px] font-bold uppercase">{section.category}</h3>
                           </div>
                           <span className="text-[10px] font-bold uppercase px-2 py-0.5 bg-brand/5 text-brand rounded-lg border border-brand/10">
                             {section.status}
@@ -161,7 +179,7 @@ export default function Navbar() {
                   <div className="mt-10 pt-6 border-t border-black/5 flex items-center justify-center">
                     <Link 
                       href="/services" 
-                      className="text-[11px] font-bold uppercase tracking-wider text-gray-400 hover:text-brand flex items-center gap-3 transition-all group/explore"
+                      className="text-[11px] font-bold uppercase text-gray-400 hover:text-brand flex items-center gap-3 transition-all group/explore"
                     >
                       View All Services <Box size={14} className="group-hover/explore:rotate-12 transition-transform" />
                     </Link>
@@ -174,7 +192,7 @@ export default function Navbar() {
           <Link 
             href="/work" 
             className={cn(
-              "text-[11px] font-bold uppercase tracking-wider transition-all duration-300 relative group",
+              "text-[11px] font-bold uppercase transition-all duration-300 relative group",
               pathname === "/work" ? "text-brand" : "text-text-primary hover:text-brand"
             )}
           >
@@ -188,7 +206,7 @@ export default function Navbar() {
           <div className="relative h-20 flex items-center group/company">
             <button 
               className={cn(
-                "text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all duration-300",
+                "text-xs font-bold uppercase flex items-center gap-2 transition-all duration-300",
                 ["/about", "/blog", "/careers"].some(p => pathname.startsWith(p)) ? "text-brand" : "text-text-primary hover:text-brand"
               )}
             >
@@ -215,7 +233,7 @@ export default function Navbar() {
                     className="flex flex-col gap-1 p-4 rounded-2xl hover:bg-brand/5 group/link transition-all duration-300 relative z-10"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-gray-800 group-hover/link:text-brand transition-colors">{item.name}</span>
+                      <span className="text-[11px] font-bold uppercase text-gray-800 group-hover/link:text-brand transition-colors">{item.name}</span>
                       <ChevronRight size={12} className="text-brand opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all" />
                     </div>
                     <span className="text-[10px] font-medium text-gray-400">{item.desc}</span>
@@ -225,7 +243,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Link href="/contact" className="btn-primary h-12 px-10 text-[11px] font-bold uppercase tracking-wider bg-brand hover:bg-brand-hover shadow-xl shadow-brand/20 transition-all">
+          <Link href="/contact" className="btn-primary h-12 px-10 text-[11px] font-bold uppercase bg-brand hover:bg-brand-hover shadow-xl shadow-brand/20 transition-all">
             Book Call
           </Link>
         </div>
@@ -259,7 +277,8 @@ export default function Navbar() {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="fixed top-0 right-0 bottom-0 w-[60%] z-[100] bg-white shadow-[-20px_0_80px_rgba(0,0,0,0.1)] p-6 pt-24 overflow-y-auto lg:hidden flex flex-col"
+                className="fixed top-0 right-0 bottom-0 w-[85%] sm:w-[60%] z-[100] bg-white shadow-[-20px_0_80px_rgba(0,0,0,0.1)] p-6 pt-20 overflow-y-auto lg:hidden flex flex-col"
+
               >
                 {/* Dedicated Close Button */}
                 <button 
@@ -273,7 +292,7 @@ export default function Navbar() {
                   {services.map((section) => (
                     <div key={section.category} className="space-y-4">
                       <div className="flex items-center justify-between border-b border-gray-100 pb-1.5">
-                        <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-brand/70">{section.category}</p>
+                        <p className="text-[8px] font-bold uppercase text-brand/70">{section.category}</p>
                         <span className="text-[5px] font-bold uppercase px-1.5 py-0.5 bg-gray-50 text-gray-400 rounded-sm border border-gray-100 shrink-0">{section.status}</span>
                       </div>
                       <div className="grid grid-cols-1 gap-2.5">
@@ -297,38 +316,38 @@ export default function Navbar() {
                      <div className="grid grid-cols-1 gap-2.5">
                         <Link 
                           href="/work" 
-                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase tracking-wider hover:bg-brand/5 hover:text-brand transition-all text-center"
+                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase hover:bg-brand/5 hover:text-brand transition-all text-center"
                         >
                           Work
                         </Link>
                         <Link 
                           href="/about" 
-                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase tracking-wider hover:bg-brand/5 hover:text-brand transition-all text-center"
+                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase hover:bg-brand/5 hover:text-brand transition-all text-center"
                         >
                           About
                         </Link>
                         <Link 
                           href="/blog" 
-                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase tracking-wider hover:bg-brand/5 hover:text-brand transition-all text-center"
+                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase hover:bg-brand/5 hover:text-brand transition-all text-center"
                         >
                           Insights
                         </Link>
                         <Link 
                           href="/careers" 
-                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase tracking-wider hover:bg-brand/5 hover:text-brand transition-all text-center"
+                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase hover:bg-brand/5 hover:text-brand transition-all text-center"
                         >
                           Careers
                         </Link>
                         <Link 
                           href="/#contact" 
-                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase tracking-wider hover:bg-brand/5 hover:text-brand transition-all text-center"
+                          className="p-3 rounded-xl bg-gray-50 text-[11px] font-bold uppercase hover:bg-brand/5 hover:text-brand transition-all text-center"
                         >
                           Contact
                         </Link>
                      </div>
                      <Link 
                        href="/#contact" 
-                       className="btn-primary w-full h-12 text-[11px] uppercase tracking-[0.2em] shadow-lg shadow-brand/20 active:scale-[0.98] transition-all"
+                       className="btn-primary w-full h-12 text-[11px] uppercase shadow-lg shadow-brand/20 active:scale-[0.98] transition-all"
                      >
                         Book Call
                      </Link>
@@ -341,3 +360,4 @@ export default function Navbar() {
   </>
 );
 }
+
