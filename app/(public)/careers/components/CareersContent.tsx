@@ -29,7 +29,7 @@ export default function CareersContent({ initialJobs }: CareersContentProps) {
                    placeholder="Search positions (e.g. Designer, Engineer)..." 
                    value={searchQuery}
                    onChange={(e) => setSearchQuery(e.target.value)}
-                   className="w-full h-16 pl-16 pr-8 glass border border-stroke rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] focus:border-brand transition-all outline-none text-text-primary placeholder:text-text-muted/50" 
+                   className="w-full h-16 pl-16 pr-8 glass border border-stroke rounded-2xl text-[10px] font-bold uppercase focus:border-brand transition-all outline-none text-text-primary placeholder:text-text-muted/50" 
                />
             </div>
          </div>
@@ -51,13 +51,13 @@ export default function CareersContent({ initialJobs }: CareersContentProps) {
                         <div className="corporate-card grain flex flex-col md:flex-row md:items-center justify-between gap-8 group-hover:border-brand transition-all duration-500">
                            <div className="space-y-4">
                               <div className="flex flex-wrap gap-4">
-                                 <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-brand px-3 py-1 glass rounded-full">
+                                 <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase text-brand px-3 py-1 glass rounded-full">
                                     Engineering
                                  </div>
-                                 <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-text-muted">
+                                 <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted">
                                     <Briefcase size={12} /> {job.type}
                                  </div>
-                                 <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-text-muted">
+                                 <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted">
                                     <MapPin size={12} /> {job.location}
                                  </div>
                               </div>
@@ -69,7 +69,7 @@ export default function CareersContent({ initialJobs }: CareersContentProps) {
                            
                            <div className="flex flex-col items-end gap-4 min-w-[200px]">
                               <span className="text-xl font-bold tracking-tighter text-text-primary">Competitive Salary</span>
-                              <div className="btn-outline h-12 px-6 text-[10px] font-bold uppercase tracking-[0.2em] group-hover:bg-brand group-hover:text-white group-hover:border-brand transition-all shadow-sm">
+                              <div className="btn-outline h-12 px-6 text-[10px] font-bold uppercase group-hover:bg-brand group-hover:text-white group-hover:border-brand transition-all shadow-sm">
                                  Apply Now
                               </div>
                            </div>
@@ -81,7 +81,7 @@ export default function CareersContent({ initialJobs }: CareersContentProps) {
                      <p className="text-text-muted text-xl font-medium italic mb-8">"No operational roles currently match your search."</p>
                      <button 
                         onClick={() => setSearchQuery("")} 
-                        className="btn-outline h-14 px-10 text-[11px] font-bold uppercase tracking-[0.3em] glass"
+                        className="btn-outline h-14 px-10 text-[11px] font-bold uppercase glass"
                       >
                         Reset Search Archive
                       </button>
@@ -93,3 +93,4 @@ export default function CareersContent({ initialJobs }: CareersContentProps) {
     </>
   );
 }
+

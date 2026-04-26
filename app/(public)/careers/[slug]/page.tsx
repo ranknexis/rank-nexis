@@ -2,19 +2,17 @@
 
 import { motion } from "framer-motion";
 import {
-   ArrowLeft,
-   ArrowRight,
-   CheckCircle2,
-   Clock,
-   DollarSign,
-   MapPin
+    ArrowLeft,
+    ArrowRight,
+    CheckCircle2,
+    Clock,
+    DollarSign,
+    MapPin
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
-import Footer from "../../components/Footer";
-import Navbar from "../../components/Navbar";
 
 const JOBS_DATA: Record<string, any> = {
   "seo-specialist": {
@@ -79,7 +77,6 @@ export default function JobDetailPage() {
 
   return (
     <div className="min-h-screen bg-white text-text-primary">
-      <Navbar />
 
       <main className="grain">
         {/* HERO SECTION */}
@@ -94,17 +91,17 @@ export default function JobDetailPage() {
                    initial={{ opacity: 0, x: -20 }}
                    animate={{ opacity: 1, x: 0 }}
                  >
-                   <Link href="/careers" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-brand hover:text-brand/80 pb-1 border-b border-brand">
+                   <Link href="/careers" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase text-brand hover:text-brand/80 pb-1 border-b border-brand">
                      <ArrowLeft size={12} /> Back to Open Nodes
                    </Link>
                  </motion.div>
                  
                  <div className="space-y-8">
                     <div className="flex flex-wrap gap-4">
-                       <div className="inline-flex items-center gap-2 px-4 py-1.5 glass bg-brand/5 border border-brand/10 text-brand text-[10px] font-bold uppercase tracking-wider rounded-full">
+                       <div className="inline-flex items-center gap-2 px-4 py-1.5 glass bg-brand/5 border border-brand/10 text-brand text-[10px] font-bold uppercase rounded-full">
                           {job.department}
                        </div>
-                       <div className="inline-flex items-center gap-2 px-4 py-1.5 glass text-text-muted text-[10px] font-bold uppercase tracking-wider rounded-full">
+                       <div className="inline-flex items-center gap-2 px-4 py-1.5 glass text-text-muted text-[10px] font-bold uppercase rounded-full">
                           <MapPin size={12} /> {job.location}
                        </div>
                     </div>
@@ -151,7 +148,7 @@ export default function JobDetailPage() {
                           {job.requirements.map((req: string) => (
                              <div key={req} className="flex items-start gap-4 p-6 glass border border-stroke rounded-2xl group hover:border-brand transition-all">
                                 <CheckCircle2 className="text-brand shrink-0 mt-1" size={20} />
-                                <p className="text-sm font-bold uppercase tracking-wider leading-relaxed text-text-muted group-hover:text-text-primary">{req}</p>
+                                <p className="text-sm font-bold uppercase leading-relaxed text-text-muted group-hover:text-text-primary">{req}</p>
                              </div>
                           ))}
                        </div>
@@ -165,7 +162,7 @@ export default function JobDetailPage() {
                                 <div className="w-8 h-8 rounded-lg bg-brand/5 flex items-center justify-center text-brand">
                                    <ArrowRight size={14} />
                                 </div>
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted">{ben}</span>
+                                <span className="text-[10px] font-bold uppercase text-text-muted">{ben}</span>
                              </div>
                           ))}
                        </div>
@@ -184,19 +181,19 @@ export default function JobDetailPage() {
 
                        <form onSubmit={handleApply} className="space-y-8">
                           <div className="space-y-2">
-                              <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Full Name</label>
+                              <label className="text-[10px] font-bold uppercase text-brand ml-4">Full Name</label>
                              <input required type="text" placeholder="John Doe" className="input-field" />
                           </div>
                            <div className="space-y-2">
-                              <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Portfolio Link (Optional)</label>
+                              <label className="text-[10px] font-bold uppercase text-brand ml-4">Portfolio Link (Optional)</label>
                               <input required type="url" placeholder="https://..." className="input-field" />
                            </div>
                            <div className="space-y-4">
-                              <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand ml-4">Why should we hire you?</label>
+                              <label className="text-[10px] font-bold uppercase text-brand ml-4">Why should we hire you?</label>
                               <textarea required rows={4} placeholder="Tell us about your experience..." className="input-field h-auto py-6 resize-none" />
                            </div>
                           
-                           <button disabled={isSubmitting} type="submit" className="btn-primary w-full h-20 text-[10px] uppercase tracking-[0.3em] group">
+                           <button disabled={isSubmitting} type="submit" className="btn-primary w-full h-20 text-[10px] uppercase group">
                               {isSubmitting ? "Sending..." : "Submit Application"}
                              <ArrowRight size={16} className="ml-3 group-hover:translate-x-2 transition-transform" />
                           </button>
@@ -207,8 +204,7 @@ export default function JobDetailPage() {
            </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }
+
