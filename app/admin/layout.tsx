@@ -8,7 +8,8 @@ import {
     LogOut,
     Settings,
     Users,
-    Zap
+    Zap,
+    FileEdit
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,6 +19,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const NAV_ITEMS = [
     { icon: LayoutDashboard, label: "Overview", href: "/admin" },
+    { icon: FileEdit, label: "Pages", href: "/admin/pages" },
     { icon: FileText, label: "Blog", href: "/admin/blog" },
     { icon: BarChart3, label: "Work Archive", href: "/admin/work" },
     { icon: Briefcase, label: "Careers", href: "/admin/careers" },
@@ -37,7 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
            </div>
            <div>
               <p className="text-xl font-bold uppercase tracking-tighter">Ranknexis</p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand">Business Dashboard</p>
+              <p className="text-[10px] font-bold uppercase text-brand">Business Dashboard</p>
            </div>
         </div>
 
@@ -48,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <Link 
                   key={item.href} 
                   href={item.href}
-                  className={`flex items-center gap-4 px-6 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-all ${
+                  className={`flex items-center gap-4 px-6 py-4 rounded-2xl text-[10px] font-bold uppercase transition-all ${
                     isActive 
                     ? "bg-brand text-white shadow-xl shadow-brand/20" 
                     : "text-text-muted hover:bg-surface hover:text-brand"
@@ -64,15 +66,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-6 border-t border-stroke space-y-4">
            <div className="flex items-center gap-4 px-6 py-4">
               <div className="w-10 h-10 rounded-full bg-surface border border-stroke overflow-hidden">
-                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1974" alt="Admin" className="w-full h-full object-cover grayscale" />
+                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1974" alt="Admin" className="w-full h-full object-cover" />
               </div>
               <div>
                  <p className="text-xs font-bold uppercase tracking-tight leading-none">Mahdi Monir</p>
-                 <p className="text-[9px] font-bold uppercase tracking-widest text-text-muted">Administrator</p>
+                 <p className="text-[9px] font-bold uppercase text-text-muted">Administrator</p>
               </div>
            </div>
            
-           <Link href="/" className="flex items-center gap-4 px-6 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-red-500 hover:bg-red-50 transition-all">
+           <Link href="/" className="flex items-center gap-4 px-6 py-4 rounded-2xl text-[10px] font-bold uppercase text-red-500 hover:bg-red-50 transition-all">
               <LogOut size={18} />
               Log Out
            </Link>
@@ -86,3 +88,4 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </div>
   );
 }
+

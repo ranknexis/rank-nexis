@@ -55,3 +55,4 @@ export async function deleteJob(id: string) {
         return { error: "Failed to delete job opening." };
     }
 }
+

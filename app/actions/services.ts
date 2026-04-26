@@ -69,3 +69,4 @@ export async function deleteService(id: string) {
         return { error: "Failed to delete service." };
     }
 }
+

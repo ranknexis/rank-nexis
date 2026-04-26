@@ -21,3 +21,4 @@ export default async function AdminDashboard() {
 
   return <DashboardContent stats={stats} recentLeads={recentLeads} />;
 }
+

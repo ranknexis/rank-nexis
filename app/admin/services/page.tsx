@@ -12,9 +12,9 @@ export default async function AdminServicesPage() {
       <div className="flex justify-between items-end">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Service <span className="text-brand">Nodes.</span></h1>
-          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">Manage your core operating systems and service verticals.</p>
+          <p className="text-text-muted text-[10px] font-bold uppercase">Manage your core operating systems and service verticals.</p>
         </div>
-        <Link href="/admin/services/new" className="btn-primary h-14 px-8 text-[10px] font-bold uppercase tracking-widest flex items-center gap-3 shadow-xl shadow-brand/10">
+        <Link href="/admin/services/new" className="btn-primary h-14 px-8 text-[10px] font-bold uppercase flex items-center gap-3 shadow-xl shadow-brand/10">
           <Plus size={18} /> New Service
         </Link>
       </div>
@@ -23,19 +23,19 @@ export default async function AdminServicesPage() {
         <div className="p-8 border-b border-stroke flex justify-between items-center bg-surface/30">
           <div className="relative w-full md:w-96">
             <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
-            <input type="text" placeholder="Filter services..." className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:border-brand transition-all" />
+            <input type="text" placeholder="Filter services..." className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all" />
           </div>
-          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted">Total verticals: <span className="text-brand">{services.length}</span></p>
+          <p className="text-[9px] font-bold uppercase text-text-muted">Total verticals: <span className="text-brand">{services.length}</span></p>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-stroke bg-surface/10">
-                <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-text-muted">Order</th>
-                <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-text-muted">Service Protocol</th>
-                <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-text-muted">Status</th>
-                <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-text-muted text-right">Actions</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Order</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Service Protocol</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Status</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stroke">
@@ -46,18 +46,18 @@ export default async function AdminServicesPage() {
                   </td>
                   <td className="px-10 py-8">
                     <div>
-                      <p className="text-sm font-bold uppercase tracking-tight text-text-primary group-hover:text-brand transition-colors">{service.title}</p>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Slug: {service.slug}</p>
+                      <p className="text-sm font-bold uppercase text-text-primary group-hover:text-brand transition-colors">{service.title}</p>
+                      <p className="text-[10px] font-bold uppercase text-text-muted">Slug: {service.slug}</p>
                     </div>
                   </td>
                   <td className="px-10 py-8">
                     <div className="flex items-center gap-2">
                        {service.active ? (
-                         <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-emerald-500">
+                         <span className="flex items-center gap-2 text-[9px] font-bold uppercase text-emerald-500">
                            <CheckCircle2 size={14} /> Global
                          </span>
                        ) : (
-                         <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-red-500">
+                         <span className="flex items-center gap-2 text-[9px] font-bold uppercase text-red-500">
                            <XCircle size={14} /> Offline
                          </span>
                        )}
@@ -75,7 +75,7 @@ export default async function AdminServicesPage() {
               {services.length === 0 && (
                 <tr>
                   <td colSpan={4} className="px-10 py-24 text-center">
-                    <p className="text-text-muted font-bold uppercase tracking-widest text-[10px]">No service protocols found in the database.</p>
+                    <p className="text-text-muted font-bold uppercase text-[10px]">No service protocols found in the database.</p>
                   </td>
                 </tr>
               )}
@@ -86,3 +86,4 @@ export default async function AdminServicesPage() {
     </div>
   );
 }
+
