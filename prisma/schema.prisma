@@ -30,6 +30,8 @@ model Blog {
   slug        String       @unique
   content     String
   image       String?
+  metaTitle       String?
+  metaDescription String?
   categoryId  String
   category    BlogCategory @relation(fields: [categoryId], references: [id])
   authorId    String
@@ -135,3 +137,70 @@ model Service {
   order       Int      @default(0)
 }
 
+model PageContent {
+  id              String        @id @default(cuid())
+  slug            String        @unique    // "home", "about", "blog", etc.
+  title           String                    // "Home Page"
+  
+  // SEO Fields
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String[]
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  canonicalUrl    String?
+  noIndex         Boolean       @default(false)
+  
+  // Internal Links (JSON array)
+  internalLinks   Json          @default("[]")
+  
+  // Sections
+  sections        PageSection[]
+  
+  // Meta
+  status          String        @default("published")
+  updatedAt       DateTime      @updatedAt
+  updatedBy       String?
+}
+
+model PageSection {
+  id            String      @id @default(cuid())
+  pageId        String
+  page          PageContent @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  
+  sectionKey    String      // Unique per page, e.g., "hero"
+  sectionType   String      // "hero", "text_block", etc.
+  label         String      // Display label
+  
+  content       Json        @default("{}")
+  isVisible     Boolean     @default(true)
+  order         Int         @default(0)
+  
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([pageId, sectionKey])
+}
+
+
+model SiteSettings {
+  id              String   @id @default("global")
+  siteName        String   @default("RankNexis")
+  siteTitleSuffix String   @default("RankNexis Strategy & Vision")
+  siteDescription String?
+  ogImage         String?
+  
+  // Business Info
+  contactEmail    String?
+  contactPhone    String?
+  address         String?
+  
+  // Social Links
+  facebookUrl     String?
+  twitterUrl      String?
+  linkedinUrl     String?
+  instagramUrl    String?
+  youtubeUrl      String?
+
+  updatedAt       DateTime @updatedAt
+}

@@ -1,304 +1,292 @@
-import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
-import * as bcrypt from 'bcryptjs';
-import 'dotenv/config';
-import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg'
+import { Pool } from 'pg'
+import bcrypt from 'bcryptjs';
+import { BLOG_CONTENT } from './blogContent';
+import { PAGES_DATA } from './pageData';
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const adapter = new PrismaPg(pool)
+const prisma = new PrismaClient({ adapter })
+
 
 async function main() {
-    console.log('--- Starting Seeding Protocol ---');
+  console.log('--- RankNexis Production Seeding Started ---');
 
-    // 1. CLEANUP
-    await prisma.lead.deleteMany();
-    await prisma.service.deleteMany();
-    await prisma.teamMember.deleteMany();
-    await prisma.job.deleteMany();
-    await prisma.caseStudy.deleteMany();
-    await prisma.blog.deleteMany();
-    await prisma.blogCategory.deleteMany();
-    await prisma.user.deleteMany();
+  // 1. CLEANUP
+  await prisma.pageSection.deleteMany();
+  await prisma.pageContent.deleteMany();
+  await prisma.blog.deleteMany();
+  await prisma.blogCategory.deleteMany();
+  await prisma.caseStudy.deleteMany();
+  await prisma.teamMember.deleteMany();
+  await prisma.service.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.siteSettings.deleteMany();
 
-    console.log('✓ Archive cleared');
+  // 2. USERS
+  const hashedAdminPassword = await bcrypt.hash('admin123', 10);
+  const hashedEditorPassword = await bcrypt.hash('editor123', 10);
 
-    // 2. USERS (ADMINS)
-    const hashedPass = await bcrypt.hash('admin123', 10);
-    const admin = await prisma.user.create({
-        data: {
-            email: 'admin@ranknexis.com',
-            password: hashedPass,
-            name: 'System Administrator',
-            role: 'ADMIN',
-        },
-    });
+  const adminUser = await prisma.user.create({
+    data: { email: 'admin@ranknexis.com', password: hashedAdminPassword, name: 'MD Sourav Hasan', role: 'ADMIN' }
+  });
 
-    const editor = await prisma.user.create({
-        data: {
-            email: 'editor@ranknexis.com',
-            password: hashedPass,
-            name: 'Content Lead',
-            role: 'ADMIN',
-        },
-    });
+  const editorUser = await prisma.user.create({
+    data: { email: 'editor@ranknexis.com', password: hashedEditorPassword, name: 'S.M. Tanveer', role: 'EDITOR' }
+  });
 
-    console.log('✓ Admin nodes initialized');
+  // 3. BLOG CATEGORIES
+  const categoryData = [
+    { name: 'Strategy', slug: 'strategy' },
+    { name: 'Tutorials', slug: 'tutorials' },
+    { name: 'Insights', slug: 'insights' }
+  ];
+  const categories = await Promise.all(categoryData.map(c => prisma.blogCategory.create({ data: c })));
 
-    // 3. BLOG CATEGORIES
-    const categories = await Promise.all([
-        prisma.blogCategory.create({ data: { name: 'Search Engine Optimization', slug: 'seo' } }),
-        prisma.blogCategory.create({ data: { name: 'Performance Marketing', slug: 'performance-marketing' } }),
-        prisma.blogCategory.create({ data: { name: 'Visual Identity', slug: 'visual-identity' } }),
-        prisma.blogCategory.create({ data: { name: 'Technical Engineering', slug: 'technical-engineering' } }),
-    ]);
-
-    console.log('✓ Content taxonomies established');
-
-    // 4. BLOG POSTS
-    await prisma.blog.create({
-        data: {
-            title: 'The Evolution of Search Intent in 2026',
-            slug: 'evolution-of-search-intent',
-            content: `Search engines are no longer just matching keywords; they are interpreting human desire. In 2026, the shift towards "Zero-Click" searches and AI-driven answers has fundamentally changed how we approach SEO. 
-
-At RankNexis, we focus on semantic relevance rather than just volume. This means understanding the 'why' behind the query. Is the user seeking information, looking to purchase, or comparing services? 
-
-Our deployment strategies prioritize comprehensive topic authority. By building knowledge clusters, we ensure that search engines recognize your brand as the definitive source of truth in your industry.`,
-            image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426',
-            categoryId: categories[0].id,
-            authorId: admin.id,
-        },
-    });
-
-    await prisma.blog.create({
-        data: {
-            title: 'Mastering Meta Ads: A Data-First Approach',
-            slug: 'mastering-meta-ads',
-            content: `While creative is king, data is the kingdom. Managing effective Facebook and Instagram ad campaigns requires a delicate balance of disruptive visual storytelling and granular audience segmentation.
-
-We've observed that high-performance ads share a common trait: they don't look like ads. They look like native value-adds to the user's feed. By utilizing Meta's Advantage+ algorithms combined with our custom audience layers, we drive ROI that traditional methods can't match.
-
-Iterative testing is at the core of our performance marketing node. We test everything from hook lines to CTA colors, ensuring every dollar of your budget is deployed at maximum efficiency.`,
-            image: 'https://images.unsplash.com/photo-1551288049-bbbda5366991?auto=format&fit=crop&q=80&w=2070',
-            categoryId: categories[1].id,
-            authorId: editor.id,
-        },
-    });
-
-    await prisma.blog.create({
-        data: {
-            title: 'The Psychology of High-Convertive Design',
-            slug: 'psychology-of-convertive-design',
-            content: `Design is not about making things pretty; it's about leading the eye and motivating the hand. Visual identity is the silent ambassador of your brand.
-
-At RankNexis, we utilize psychological triggers like Fitts's Law and the von Restorff effect to create interfaces that feel intuitive. When a user lands on your site, they should know exactly where to go and what to do within three seconds.
-
-Modern brands need a visual system that scales across platforms—from mobile-responsive web nodes to social graphics and corporate presentations. Consistency breeds trust, and trust drives growth.`,
-            image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2070',
-            categoryId: categories[2].id,
-            authorId: admin.id,
-        },
-    });
-
-    console.log('✓ Knowledge base populated');
-
-    // 5. SERVICES
-    const servicesData = [
-        {
-            title: 'SEO Strategy',
-            slug: 'seo',
-            description: 'Strategic search engine optimization designed to capture high-intent traffic and build long-term brand authority.',
-            icon: 'Search',
-            category: 'MARKETING',
-            features: ['Technical Audit', 'Keyword Intelligence', 'Authoritative Linking', 'Content Hubs', 'Local SEO Map Pack', 'Semantic Analysis', 'Penalty Recovery', 'Performance Tracking'],
-            order: 1,
-            active: true,
-        },
-        {
-            title: 'Meta Advertising',
-            slug: 'meta-ads',
-            description: 'High-performance Facebook and Instagram ad campaigns focused on precise targeting and creative disruption.',
-            icon: 'TrendingUp',
-            category: 'MARKETING',
-            features: ['Audience Segmentation', 'Creative Strategy', 'A/B Multi-Variant Testing', 'Retargeting Funnels', 'Catalog Optimization', 'Conversion API Setup', 'Lead Generation', 'Weekly Reports'],
-            order: 2,
-            active: true,
-        },
-        {
-            title: 'Google Ads (SEM)',
-            slug: 'google-ads',
-            description: 'Capture immediate demand with highly targeted Search Engine Marketing campaigns that yield measurable ROI.',
-            icon: 'Zap',
-            category: 'MARKETING',
-            features: ['Search Network Ops', 'Display Syndication', 'YouTube Placement', 'Bid Strategy Tuning', 'Negative Keyword Lists', 'Landing Page Audits', 'Quality Score Boost', 'Merchant Center Setup'],
-            order: 3,
-            active: true,
-        },
-        {
-            title: 'Full-Stack Development',
-            slug: 'web-dev',
-            description: 'Custom web applications and high-performance websites built with the latest Next.js and React technology.',
-            icon: 'Code2',
-            category: 'SOFTWARE',
-            features: ['Next.js Architecture', 'API Integrations', 'Database Systems', 'Headless CMS', 'E-commerce Engine', 'Custom Dashboards', 'Cloud Deployment', 'Performance Tuning'],
-            order: 4,
-            active: true,
-        },
-        {
-            title: 'Brand Visual Identity',
-            slug: 'design',
-            description: 'Create a distinctive brand presence with professional graphic design and comprehensive visual systems.',
-            icon: 'Palette',
-            category: 'MARKETING',
-            features: ['Logo Systems', 'Typography Sets', 'Color Palettes', 'Style Guides', 'Social Graphics', 'Print Collateral', 'Corporate Slides', 'Motion Graphics'],
-            order: 5,
-            active: true,
-        }
-    ];
-
-    for (const s of servicesData) {
-        await prisma.service.create({ data: s });
+  // 4. BLOGS (AUTHENTIC CONTENT)
+  const blogs = [
+    { 
+      title: 'What is a Digital Marketing Agency', 
+      slug: 'what-is-digital-marketing-agency', 
+      content: BLOG_CONTENT['what-is-digital-marketing-agency'], 
+      image: '/blog-images/what-is-a-digital-marketing-agency-1.webp', 
+      metaTitle: 'What is a Digital Marketing Agency? The Secret to Rapid Business Growth',
+      metaDescription: 'Discover what a digital marketing agency is and how it can help your business grow online using SEO, social media, and paid ads.',
+      categoryId: categories[2].id, 
+      authorId: adminUser.id 
+    },
+    { 
+      title: 'How to Choose a Digital Marketing Agency', 
+      slug: 'how-choose-digital-marketing-agency', 
+      content: BLOG_CONTENT['how-choose-digital-marketing-agency'], 
+      image: '/blog-images/how-to-choose-a-digital-marketing-agency.webp', 
+      metaTitle: 'How to Choose a Digital Marketing Agency: A Complete Guide for Smart Decisions',
+      metaDescription: 'Learn the essential factors to consider when selecting the right digital marketing partner for your business success.',
+      categoryId: categories[0].id, 
+      authorId: editorUser.id 
+    },
+    { 
+      title: 'Why Do You Need a Digital Marketing Agency', 
+      slug: 'why-do-you-need-a-digital-marketing-agency-1', 
+      content: BLOG_CONTENT['why-do-you-need-a-digital-marketing-agency-1'], 
+      image: '/blog-images/why-do-you-need-a-digital-marketing-agency-1.webp', 
+      metaTitle: 'Why Do You Need a Digital Marketing Agency for Success',
+      metaDescription: 'Explore the top reasons why hiring a professional agency is crucial for your business growth in the digital-first world.',
+      categoryId: categories[2].id, 
+      authorId: adminUser.id 
+    },
+    { 
+      title: 'How to Remove Two-Factor Authentication in Facebook Ads Manager (2026)', 
+      slug: 'how-remove-2fa-facebook-ads', 
+      content: BLOG_CONTENT['how-remove-2fa-facebook-ads'], 
+      image: '/blog-images/how-to-remove-two-factor-authentication-in-facebook-ads-manager.webp', 
+      metaTitle: 'How to Remove Two-Factor Authentication in Facebook Ads Manager Step-by-Step',
+      metaDescription: 'A complete legal guide on managing and disabling 2FA for your Facebook ad account to regain access and improve security management.',
+      categoryId: categories[1].id, 
+      authorId: editorUser.id 
+    },
+    { 
+      title: 'Car Review Website SEO Optimization: The Ultimate 2026 Guide', 
+      slug: 'car-review-website-seo', 
+      content: BLOG_CONTENT['car-review-website-seo'], 
+      image: '/blog-images/car-review-website-seo-optimization-2-1.webp', 
+      metaTitle: 'Car Review Website SEO Optimization Guide for Traffic Growth',
+      metaDescription: 'Master SEO for car review websites. Learn keyword research, on-page optimization, and technical SEO for the automotive niche.',
+      categoryId: categories[0].id, 
+      authorId: adminUser.id 
+    },
+    { 
+      title: 'Website Design Services for Aesthetic Clinics (2026 Guide)', 
+      slug: 'website-design-aesthetic-clinics', 
+      content: BLOG_CONTENT['website-design-aesthetic-clinics'], 
+      image: '/blog-images/website-design-services-for-aesthetic-clinics-2.webp', 
+      metaTitle: 'Website Design Services for Aesthetic Clinics to Grow Clients',
+      metaDescription: 'Clean, luxury website design for aesthetic clinics. Learn how to convert visitors into patients with professional medical web design.',
+      categoryId: categories[2].id, 
+      authorId: editorUser.id 
+    },
+    { 
+      title: 'Google Ads Optimization for Doctors: Top 10 SERP Analysis', 
+      slug: 'google-ads-for-doctors', 
+      content: BLOG_CONTENT['google-ads-for-doctors'], 
+      image: '/blog-images/google-ads-optimization-for-doctors.webp', 
+      metaTitle: 'Google Ads Optimization for Doctors to Get More Patients',
+      metaDescription: 'Analyze top-performing ads and optimize your medical PPC campaigns to reach high-intent patients and maximize your ROI.',
+      categoryId: categories[1].id, 
+      authorId: adminUser.id 
+    },
+    { 
+      title: 'How to Get Rid of Facebook Ads (2026 Guide)', 
+      slug: 'how-to-get-rid-of-facebook-ads', 
+      content: BLOG_CONTENT['how-to-get-rid-of-facebook-ads'], 
+      image: '/blog-images/how-to-get-rid-of-facebook-ads.webp', 
+      metaTitle: 'How to Get Rid of Facebook Ads Easily in 2026',
+      metaDescription: 'Take control of your feed. Learn how to hide ads, adjust preferences, and limit data tracking on Facebook.',
+      categoryId: categories[1].id, 
+      authorId: editorUser.id 
     }
+  ];
 
-    console.log('✓ Service verticals deployed');
+  for (const b of blogs) await prisma.blog.create({ data: b });
 
-    // 6. TEAM MEMBERS
-    const teamMembers = [
-        {
-            name: "S.M. Tanveer",
-            role: "SEO specialist",
-            bio: "Focused on helping businesses rank higher on search engines through expert SEO strategies and analysis.",
-            email: "ranknexis@gmail.com",
-            facebook: "#",
-            linkedin: "#",
-            image: "/team/S_M_Tanveer.png",
-            order: 1
-        },
-        {
-            name: "Mobtaseem Moshfiq Fahim",
-            role: "SEO Content Specialist",
-            bio: "Specializing in creating high-quality, SEO-optimized content that engages audiences and drives organic growth.",
-            email: "ranknexis@gmail.com",
-            facebook: "#",
-            linkedin: "#",
-            image: "/team/Mobtaseem_Moshfiq_Fahim.png",
-            order: 2
-        },
-        {
-            name: "MD Maruf Hossen",
-            role: "Meta Ads Specialist",
-            bio: "Expert in designing and managing effective ad campaigns across Facebook and Instagram to drive ROI.",
-            email: "ranknexis@gmail.com",
-            facebook: "#",
-            linkedin: "#",
-            image: "/team/MD_Maruf_Hossen.png",
-            order: 3
-        },
-        {
-            name: "MD Sourav Hasan",
-            role: "Google Ads Specialist",
-            bio: "Specialist in Google Ads, dedicated to helping brands reach the right customers through targeted advertising.",
-            email: "ranknexis@gmail.com",
-            facebook: "#",
-            linkedin: "#",
-            image: "/team/MD_Sourav_Hasan.png",
-            order: 4
-        },
-        {
-            name: "Omer Faruqe Anas",
-            role: "Social Media Specialist",
-            bio: "Passionate about building strong social media presences and engaging communities across digital platforms.",
-            email: "ranknexis@gmail.com",
-            facebook: "#",
-            linkedin: "#",
-            image: "/team/Omer_Faruqe_Anas.png",
-            order: 5
-        }
-    ];
+  // 5. SERVICES
+  const services = [
+    { title: 'SEO Service', slug: 'seo-service', category: 'MARKETING', icon: 'Search', order: 1, description: 'Affordable and results-driven SEO services for growth.' },
+    { title: 'Social Media Marketing', slug: 'social-media-marketing', category: 'MARKETING', icon: 'Share2', order: 2, description: 'Strategic SMM to build authority and engagement.' },
+    { title: 'Facebook Ads', slug: 'facebook-ads', category: 'MARKETING', icon: 'Facebook', order: 3, description: 'High-converting campaigns for Meta platforms.' },
+    { title: 'Google Ads', slug: 'google-ads', category: 'MARKETING', icon: 'Zap', order: 4, description: 'Performance PPC management for instant traffic.' },
+    { title: 'Graphic Design', slug: 'graphic-design', category: 'BRANDING', icon: 'Palette', order: 5, description: 'Professional visuals for a strong brand identity.' },
+    { title: 'Video & Motion', slug: 'video-motion', category: 'CREATIVE', icon: 'Video', order: 6, description: 'Engaging video content and motion graphics.' },
+    { title: 'UI/UX Design', slug: 'ui-ux-design', category: 'SOFTWARE', icon: 'Monitor', order: 7, description: 'User-centric design for digital products.' },
+    { title: 'Web Development', slug: 'web-development', category: 'SOFTWARE', icon: 'Code', order: 8, description: 'Scalable and modern website development.' },
+    { title: 'Full Stack Solution', slug: 'full-stack-solution', category: 'SOFTWARE', icon: 'Rocket', order: 9, description: 'Custom web applications built for business.' },
+  ];
+  for (const s of services) await prisma.service.create({ data: { ...s, features: [] } });
 
-    for (const m of teamMembers) {
-        await prisma.teamMember.create({ data: m });
+  // 6. TEAM MEMBERS
+  const team = [
+    { name: "S.M. Tanveer", role: "SEO Specialist", image: "/team/S_M_Tanveer.png", bio: "S.M. Tanveer is a dedicated SEO specialist with over 8 years of experience in driving organic growth.", order: 1 },
+    { name: "Mobtaseem Moshfiq Fahim", role: "SEO Content Specialist", image: "/team/Mobtaseem_Moshfiq_Fahim.png", bio: "Fahim specializes in creating SEO-optimized content that ranks and converts.", order: 2 },
+    { name: "MD Maruf Hossen", role: "Meta Ads Specialist", image: "/team/MD_Maruf_Hossen.png", bio: "Maruf is an expert in managing high-ROI Meta ad campaigns.", order: 3 },
+    { name: "MD Sourav Hasan", role: "Google Ads Specialist", image: "/team/MD_Sourav_Hasan.png", bio: "Sourav manages precision-targeted Google Ads for maximum performance.", order: 4 },
+    { name: "Omer Faruqe Anas", role: "Social Media Specialist", image: "/team/Omer_Faruqe_Anas.png", bio: "Anas handles strategic social engagement and brand visibility.", order: 5 }
+  ];
+  for (const m of team) await prisma.teamMember.create({ data: m });
+
+  // 7. PAGE CONTENT & SECTIONS
+  for (const p of PAGES_DATA) {
+    const page = await prisma.pageContent.create({ 
+      data: { 
+        slug: p.slug, 
+        title: p.slug.toUpperCase(), 
+        metaTitle: p.metaTitle, 
+        metaDescription: p.metaDescription 
+      } 
+    });
+    for (const [idx, s] of p.sections.entries()) {
+      await prisma.pageSection.create({ 
+        data: { 
+          pageId: page.id, 
+          sectionKey: s.key, 
+          sectionType: s.type, 
+          label: s.key.toUpperCase(), 
+          content: s.content, 
+          order: idx 
+        } 
+      });
     }
+  }
 
-    console.log('✓ Agency team synchronized');
+  // 8. CASE STUDIES
+  const caseStudies = [
+    {
+      title: 'FruitsZone ERP System Development',
+      slug: 'fruitszone-erp',
+      client: 'FruitsZone',
+      description: 'FruitsZone ERP is a comprehensive business management system designed to handle inventory, sales, orders, and operational workflows for a fruit distribution business. The goal was to digitize and streamline day-to-day operations, reduce manual errors, and improve overall efficiency.',
+      challenge: 'Manual tracking of inventory leading to frequent errors; Difficulty managing orders and sales records efficiently; Lack of real-time business insights and reporting; Time-consuming administrative processes; No centralized system for managing operations.',
+      solution: 'Developed a tailored ERP system focused on automation, accuracy, and usability. Created a clean and intuitive dashboard interface and automated key workflows such as inventory tracking, order processing, and reporting.',
+      execution: [
+        'Understanding Business Workflow',
+        'System Architecture Planning',
+        'UI/UX Design',
+        'Development & Integration',
+        'Testing & Deployment'
+      ],
+      results: [
+        'Improved inventory accuracy and management',
+        'Faster and more organized order processing',
+        'Real-time business insights and reporting',
+        'Reduced manual workload and human errors',
+        'Centralized system for all operations'
+      ],
+      image: '/case-study/fruitszone-erp.png',
+      stats: '100%',
+      kpi: 'Operational Efficiency',
+      tag: 'ERP Development',
+      technologies: ['Next.js', 'Prisma', 'PostgreSQL', 'Tailwind CSS']
+    },
+    {
+      title: 'West Bound Travels Website Development',
+      slug: 'westbound-travels',
+      client: 'West Bound Travels',
+      description: 'A modern and clean digital platform for a travel & tourism agency that highlights scenic travel visuals and creates a luxury experience for visitors.',
+      challenge: 'The client needed a professional website that represents their brand, creates a luxury experience for scenic travel visuals, and converts visitors into potential travelers.',
+      solution: 'Designed a modern UI/UX interface and developed a responsive, speed-optimized website with SEO-friendly structure and user-focused navigation.',
+      execution: [
+        'Business Understanding',
+        'Website Planning & Structure',
+        'UI/UX Design',
+        'Custom Development',
+        'SEO-Ready Setup',
+        'Testing & Launch'
+      ],
+      results: [
+        'Easily explore travel destinations',
+        'View the houseboat fleet and facilities',
+        'Discover available travel packages',
+        'Contact the travel consultant directly'
+      ],
+      image: '/case-study/westbound-travel.png',
+      stats: '40%',
+      kpi: 'Inquiry Growth',
+      tag: 'Web Development',
+      technologies: ['Next.js', 'React', 'Framer Motion', 'SEO']
+    },
+    {
+      title: 'Umrah All Local SEO Strategy',
+      slug: 'umrah-all-seo',
+      client: 'Umrah All',
+      description: 'An online marketplace platform that helps users discover and compare Umrah packages from multiple verified travel agents.',
+      challenge: 'The platform needed to improve local search visibility so that users searching for Umrah services in specific locations could easily find the website and connect with agents.',
+      solution: 'Implemented a strategic Local SEO approach, including in-depth keyword research, on-page optimization, and schema markup implementation.',
+      execution: [
+        'Local keyword research',
+        'On-page SEO optimization',
+        'Title, Meta, and Heading optimization',
+        'Location-based content creation',
+        'Schema markup implementation'
+      ],
+      results: [
+        'Increased visibility in local search results',
+        'Higher rankings for Umrah-related keywords',
+        'Growth in targeted organic traffic',
+        'Better discovery of verified travel agents'
+      ],
+      image: '/case-study/umrah-all.png',
+      stats: '60%',
+      kpi: 'Traffic Increase',
+      tag: 'Local SEO',
+      technologies: ['SEO', 'Local SEO', 'Keyword Research', 'Google Search Console']
+    }
+  ];
 
-    // 7. CAREERS (JOBS)
-    await prisma.job.create({
-        data: {
-            title: 'Senior SEO Strategist',
-            slug: 'senior-seo-strategist',
-            description: 'Lead large-scale SEO campaigns for international clients, focused on technical auditing and semantic content hubs.',
-            responsibilities: ['Conduct site audits', 'Direct content strategy', 'Manage client communication', 'Monitor ranking trends'],
-            requirements: ['4+ years SEO experience', 'Proficiency in Ahrefs/Semrush', 'Technical SEO expertise', 'Strong analytical skills'],
-            benefits: ['Remote options', 'Competitive salary', 'Personal growth fund', 'Health insurance'],
-            location: 'Dubai / Remote',
-            type: 'FULL_TIME',
-        },
-    });
+  for (const cs of caseStudies) {
+    await prisma.caseStudy.create({ data: cs });
+  }
 
-    await prisma.job.create({
-        data: {
-            title: 'Full-Stack React Developer',
-            slug: 'full-stack-react-developer',
-            description: 'Build high-performance web applications using the Next.js ecosystem for various service nodes.',
-            responsibilities: ['Develop clean UI', 'Integrate APIs', 'Optimize database queries', 'Collaborate on design'],
-            requirements: ['Strong React/Next.js knowledge', 'Prisma experience', 'Tailwind CSS proficiency', 'TypeScript expert'],
-            benefits: ['Flexible hours', 'Training workshops', 'Performance bonuses', 'Modern tech stack'],
-            location: 'Global (Remote)',
-            type: 'FULL_TIME',
-        },
-    });
+  // 9. SITE SETTINGS
+  await prisma.siteSettings.create({
+    data: {
+      id: 'global',
+      siteName: 'RankNexis',
+      siteTitleSuffix: 'RankNexis Strategy & Vision',
+      siteDescription: 'Leading Digital Marketing Agency for Business Growth.',
+      contactEmail: 'hello@ranknexis.com',
+      contactPhone: '+880123456789',
+      address: 'Dhaka, Bangladesh'
+    }
+  });
 
-    console.log('✓ Career pathways operational');
-
-    // 8. CASE STUDIES
-    await prisma.caseStudy.create({
-        data: {
-            title: 'Scaling Raafidan E-commerce Store',
-            slug: 'raafidan-scaling',
-            client: 'Raafidan Enterprise',
-            tag: 'E-commerce',
-            stats: '+220%',
-            kpi: 'Revenue Acceleration',
-            description: 'Strategic funnel optimization and e-commerce performance engineering for a leading regional retailer.',
-            challenge: 'Stagnant sales and high customer acquisition costs through unoptimized Facebook ads that failed to resonate with the target audience.',
-            solution: 'Complete funnel overhaul combined with a dynamic content strategy focused on high-intent search keywords and disruptive creative modules.',
-            execution: ['Meta Ad Funnel Design', 'Conversion API Integration', 'Technical SEO Audit', 'UGC Content Direction'],
-            results: ['220% Revenue Increase', '45% CPA Reduction', '15k Monthly Visitors', '3.2 ROAS'],
-            image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426',
-            technologies: ['Prisma', 'Next.js', 'Meta Ads', 'Google Ads'],
-        },
-    });
-
-    await prisma.caseStudy.create({
-        data: {
-            title: 'NextZen Brand Transformation',
-            slug: 'nextzen-brand',
-            client: 'NextZen Systems',
-            tag: 'SaaS',
-            stats: '3.2x',
-            kpi: 'Retention Efficiency',
-            description: 'Comprehensive visual identity reboot and high-performance technical deployment for a scaling SaaS organization.',
-            challenge: 'Outdated visual identity and slow-loading legacy website hindering enterprise conversions and brand authority in a competitive market.',
-            solution: 'Strategic brand reboot followed by the deployment of a high-performance Next.js corporate node with micro-animation sequences.',
-            execution: ['Brand Style Guide', 'UI/UX Prototypes', 'Next.js Development', 'Speed Optimization'],
-            results: ['3.2x Lead Volume', 'Sub-1s Load Time', 'Top 5 SEO Rankings', '40% Bounce Rate Drop'],
-            image: 'https://images.unsplash.com/photo-1551288049-bbbda5366991?auto=format&fit=crop&q=80&w=2070',
-            technologies: ['Framer Motion', 'React', 'Tailwind CSS', 'PostgreSQL'],
-        },
-    });
-
-    console.log('✓ Strategic portfolio deployed');
-
-    console.log('--- Seeding Logic Complete: System Ready ---');
+  console.log('✓ Ultimate Seed: Success! 60+ Normalized Sections Created');
 }
 
 main()
-    .catch((e) => {
-        console.error('× Seeding Error:', e);
-        process.exit(1);
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
