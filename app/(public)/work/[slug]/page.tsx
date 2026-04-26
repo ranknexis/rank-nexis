@@ -27,6 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: study.title,
       description: study.description,
       images: study.image ? [{ url: study.image }] : [],
+    },
+    alternates: {
+      canonical: `/work/${study.slug}`
     }
   };
 }

@@ -4,6 +4,9 @@ import { Pool } from 'pg'
 import bcrypt from 'bcryptjs';
 import { BLOG_CONTENT } from './blogContent';
 import { PAGES_DATA } from './pageData';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 const adapter = new PrismaPg(pool)
@@ -146,16 +149,17 @@ async function main() {
 
   // 6. TEAM MEMBERS
   const team = [
-    { name: "S.M. Tanveer", role: "SEO Specialist", image: "/team/S_M_Tanveer.png", bio: "S.M. Tanveer is a dedicated SEO specialist with over 8 years of experience in driving organic growth.", order: 1 },
-    { name: "Mobtaseem Moshfiq Fahim", role: "SEO Content Specialist", image: "/team/Mobtaseem_Moshfiq_Fahim.png", bio: "Fahim specializes in creating SEO-optimized content that ranks and converts.", order: 2 },
-    { name: "MD Maruf Hossen", role: "Meta Ads Specialist", image: "/team/MD_Maruf_Hossen.png", bio: "Maruf is an expert in managing high-ROI Meta ad campaigns.", order: 3 },
-    { name: "MD Sourav Hasan", role: "Google Ads Specialist", image: "/team/MD_Sourav_Hasan.png", bio: "Sourav manages precision-targeted Google Ads for maximum performance.", order: 4 },
-    { name: "Omer Faruqe Anas", role: "Social Media Specialist", image: "/team/Omer_Faruqe_Anas.png", bio: "Anas handles strategic social engagement and brand visibility.", order: 5 }
+    { name: "S.M. Tanveer", role: "SEO Specialist", image: "/team/S_M_Tanveer.png", bio: "Focused on helping businesses rank higher on search engines through expert SEO strategies and analysis.", order: 1 },
+    { name: "Mobtaseem Moshfiq Fahim", role: "SEO Content Specialist", image: "/team/Mobtaseem_Moshfiq_Fahim.png", bio: "Specializing in creating high-quality, SEO-optimized content that engages audiences and drives organic growth.", order: 2 },
+    { name: "MD Maruf Hossen", role: "Meta Ads Specialist", image: "/team/MD_Maruf_Hossen.png", bio: "Expert in designing and managing effective ad campaigns across Facebook and Instagram to drive ROI.", order: 3 },
+    { name: "MD Sourav Hasan", role: "Google Ads Specialist", image: "/team/MD_Sourav_Hasan.png", bio: "Specialist in Google Ads, dedicated to helping brands reach the right customers through targeted advertising.", order: 4 },
+    { name: "Omer Faruqe Anas", role: "Social Media Specialist", image: "/team/Omer_Faruqe_Anas.png", bio: "Passionate about building strong social media presences and engaging communities across digital platforms.", order: 5 }
   ];
   for (const m of team) await prisma.teamMember.create({ data: m });
 
   // 7. PAGE CONTENT & SECTIONS
   for (const p of PAGES_DATA) {
+    console.log(`Creating page: ${p.slug}`);
     const page = await prisma.pageContent.create({ 
       data: { 
         slug: p.slug, 
@@ -165,6 +169,7 @@ async function main() {
       } 
     });
     for (const [idx, s] of p.sections.entries()) {
+      console.log(`  - Section: ${s.key}`);
       await prisma.pageSection.create({ 
         data: { 
           pageId: page.id, 

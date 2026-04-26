@@ -24,7 +24,9 @@ export function buildSeoMetadata(page: any, fallback: { title: string; descripti
     title: title,
     description: description,
     keywords: page.metaKeywords?.length ? page.metaKeywords : undefined,
-    alternates: page.canonicalUrl ? { canonical: page.canonicalUrl } : undefined,
+    alternates: { 
+      canonical: page.canonicalUrl || (page.slug === 'home' ? '/' : `/${page.slug}`)
+    },
     robots: page.noIndex ? { index: false, follow: false } : { index: true, follow: true },
     openGraph: {
       title: page.ogTitle || title,

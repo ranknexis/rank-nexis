@@ -13,6 +13,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const suffix = settings?.siteTitleSuffix || "High-Performance Digital Growth";
 
   return {
+    metadataBase: new URL("https://ranknexis.com"),
+    alternates: {
+      canonical: "/",
+    },
     title: {
       default: `${siteName} | ${suffix}`,
       template: `%s | ${siteName}`

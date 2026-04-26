@@ -30,6 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.metaDescription || "",
       images: post.image ? [{ url: post.image }] : [],
+    },
+    alternates: {
+      canonical: `/blog/${post.slug}`
     }
   };
 }
