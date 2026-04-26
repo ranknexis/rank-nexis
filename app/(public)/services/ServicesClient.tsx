@@ -86,13 +86,13 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.filter(s => s.category === 'Marketing').map((s) => (
+                {services.filter(s => s.category === 'MARKETING').map((s) => (
                   <ServiceSummaryCard key={s.id} service={s} />
                 ))}
                </div>
             </div>
 
-            {/* PILLAR 02: DESIGN */}
+            {/* PILLAR 02: BRANDING & CREATIVE */}
             <div className="space-y-16">
                <div className="space-y-6 text-left md:text-right">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 02</p>
@@ -100,13 +100,13 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.filter(s => s.category === 'Design').map((s) => (
+                {services.filter(s => ['BRANDING', 'CREATIVE'].includes(s.category)).map((s) => (
                   <ServiceSummaryCard key={s.id} service={s} />
                 ))}
                </div>
             </div>
 
-            {/* PILLAR 03: DEVELOPMENT */}
+            {/* PILLAR 03: SOFTWARE */}
             <div className="space-y-16">
                <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 03</p>
@@ -114,7 +114,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.filter(s => s.category === 'Development').map((s) => (
+                {services.filter(s => s.category === 'SOFTWARE').map((s) => (
                   <ServiceSummaryCard key={s.id} service={s} />
                 ))}
                </div>
