@@ -1,0 +1,3 @@
+Proti ta image er title gula oi image er alt text hisebe use korien
+
+<img src="image.webp" alt="Description of the image" />

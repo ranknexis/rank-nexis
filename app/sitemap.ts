@@ -24,18 +24,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
     }));
 
-    const staticUrls = [
-        '',
-        '/about',
-        '/services',
-        '/work',
-        '/blog',
-        '/careers',
-        '/contact',
-    ].map((route) => ({
-        url: `${baseUrl}${route}`,
-        lastModified: new Date(),
+    // Fetch dynamic content pages (static routes equivalents)
+    const cmsPages = await prisma.pageContent.findMany({ 
+        select: { slug: true, updatedAt: true } 
+    });
+
+    const cmsUrls = cmsPages.map((page: any) => ({
+        url: `${baseUrl}${page.slug === 'home' ? '' : `/${page.slug}`}`,
+        lastModified: page.updatedAt,
     }));
 
-    return [...staticUrls, ...postUrls, ...studyUrls, ...serviceUrls];
+    return [...cmsUrls, ...postUrls, ...studyUrls, ...serviceUrls];
 }
+
