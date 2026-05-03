@@ -64,7 +64,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.4em]">{hero.badge}</p>
               </div>
               
-              <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight uppercase">
                 {hero.heading} <br /> <span className="text-brand">{hero.headingAccent}</span>
               </h1>
               <p className="text-text-secondary max-w-3xl mx-auto text-xl md:text-2xl font-medium leading-relaxed antialiased">
@@ -82,7 +82,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             <div className="space-y-16">
                <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 01</p>
-                  <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none antialiased">Marketing & <br /> <span className="text-brand">Growth Systems.</span></h2>
+                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Marketing & <br /> <span className="text-brand">Growth Systems.</span></h2>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -96,7 +96,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             <div className="space-y-16">
                <div className="space-y-6 text-left md:text-right">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 02</p>
-                  <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none antialiased">Creative & <br /> <span className="text-brand">Brand Design.</span></h2>
+                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Creative & <br /> <span className="text-brand">Brand Design.</span></h2>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -110,7 +110,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             <div className="space-y-16">
                <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 03</p>
-                  <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none antialiased">Engineering & <br /> <span className="text-brand">Web Protocols.</span></h2>
+                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Engineering & <br /> <span className="text-brand">Web Protocols.</span></h2>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -128,7 +128,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
            <div className="container-max relative z-10">
               <div className="text-center mb-24 space-y-6">
                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.5em]">The Engine</p>
-                 <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter antialiased">System <span className="text-brand">Architecture.</span></h2>
+                 <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight antialiased">System <span className="text-brand">Architecture.</span></h2>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -165,7 +165,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
         {/* FINAL CTA */}
         <section className="py-48 bg-white relative overflow-hidden grain border-t border-stroke text-center">
           <div className="container-max space-y-16">
-            <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter antialiased">Ready to <span className="text-brand">Launch?</span></h2>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight antialiased">Ready to <span className="text-brand">Launch?</span></h2>
             <div className="flex justify-center">
               <Link href="/contact" className="btn-primary h-20 px-20 text-[10px] font-bold uppercase tracking-[0.3em] group shadow-premium flex items-center gap-3">
                 Initiate Strategy Call <ArrowRight className="group-hover:translate-x-2 transition-transform" />

@@ -67,7 +67,7 @@ export default async function TeamPage() {
                    <div className="w-2 h-2 bg-brand rounded-full animate-pulse" />
                    <p className="text-[11px] font-bold uppercase text-brand tracking-[0.4em]">{hero.badge}</p>
                 </div>
-                <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase text-text-primary antialiased">
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight uppercase text-text-primary antialiased">
                   {hero.heading} <br /> <span className="text-brand">{hero.headingAccent}</span>
                 </h1>
                 <p className="text-text-secondary max-w-3xl mx-auto text-xl md:text-2xl font-medium leading-relaxed antialiased">
@@ -130,7 +130,7 @@ export default async function TeamPage() {
         {/* FINAL CTA */}
         <section className="py-48 bg-white text-center relative px-6 overflow-hidden grain">
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-brand/5 rounded-full blur-[200px] -z-10" />
-           <h2 className="text-5xl md:text-9xl font-black tracking-tighter uppercase mb-12 antialiased leading-[0.85]">Ready to grow <br /> <span className="text-brand">Together?</span></h2>
+           <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase mb-12 antialiased leading-tight">Ready to grow <br /> <span className="text-brand">Together?</span></h2>
            <p className="text-text-secondary max-w-2xl mx-auto text-xl md:text-2xl font-medium leading-relaxed mb-16 antialiased">
               Connect with our team of technical experts and let&apos;s build a scalable roadmap for your brand.
            </p>

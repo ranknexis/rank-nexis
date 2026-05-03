@@ -63,7 +63,7 @@ export default async function WorkPage() {
                     <div className="w-2 h-2 bg-brand rounded-full animate-pulse" />
                     <p className="text-[11px] font-bold uppercase text-brand">{hero.badge}</p>
                  </div>
-                 <h1 className="text-5xl md:text-8xl font-bold tracking-tight uppercase leading-tight text-text-primary">
+                 <h1 className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight uppercase leading-tight text-text-primary">
                    <span className="text-brand">{hero.heading}</span> <br /> {hero.headingAccent}
                  </h1>
                  <p className="text-text-secondary text-xl font-medium leading-relaxed max-w-xl">
@@ -95,7 +95,7 @@ export default async function WorkPage() {
 
         {/* FINAL CTA */}
         <section className="py-32 bg-white text-center space-y-12">
-           <h2 className="text-5xl md:text-7xl font-bold tracking-tighter uppercase text-text-primary">Ready To Grow?</h2>
+           <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase text-text-primary">Ready To Grow?</h2>
            <Link href="/contact" className="btn-primary h-20 px-16 text-[11px] font-bold uppercase group shadow-premium inline-flex items-center">
               Schedule Consultation <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
            </Link>

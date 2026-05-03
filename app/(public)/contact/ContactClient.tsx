@@ -74,7 +74,7 @@ export default function ContactClient({ sectionsMap }: { sectionsMap: any }) {
                    <p className="text-[11px] font-bold uppercase text-brand tracking-[0.4em]">{hero.badge}</p>
                </div>
                
-                <h1 className="text-6xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] text-text-primary">
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase leading-tight text-text-primary">
                   {hero.heading} <br /> <span className="text-brand">{hero.headingAccent}</span>
                 </h1>
                 <p className="text-text-secondary text-xl md:text-2xl font-medium leading-relaxed max-w-xl mx-auto antialiased">

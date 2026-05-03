@@ -55,7 +55,7 @@ export default async function CareersPage() {
                    <div className="w-2 h-2 bg-brand rounded-full animate-pulse" />
                    <p className="text-[11px] font-bold uppercase text-brand">{hero.badge}</p>
                 </div>
-                <h1 className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.85] uppercase">
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight uppercase">
                   {hero.heading} <br /> <span className="text-brand">{hero.headingAccent}</span>
                 </h1>
                 <p className="text-text-secondary max-w-2xl mx-auto text-xl md:text-2xl font-medium leading-relaxed">
@@ -68,34 +68,38 @@ export default async function CareersPage() {
         <CareersContent initialJobs={jobs} />
 
         {/* CULTURE SECTION */}
-        <section className="py-48 bg-black text-white relative overflow-hidden grain">
-           <div className="absolute top-0 left-0 w-full h-full bg-brand/5 -z-10" />
+        {/* CULTURE SECTION */}
+        <section className="py-24 bg-white text-text-primary relative overflow-hidden border-t border-stroke grain">
+           <div className="absolute top-0 left-0 w-full h-full bg-brand/[0.01] -z-10" />
            <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div className="space-y-12">
                  <div className="space-y-6">
-                    <p className="text-[11px] font-bold uppercase text-brand">{culture.label}</p>
-                    <h1 className="text-6xl md:text-8xl font-bold tracking-tight uppercase leading-tight">
-                  <span className="text-brand">{culture.heading}</span> <br /> {culture.headingAccent}
-                </h1>
-                <div className="text-text-secondary text-xl font-medium leading-relaxed" dangerouslySetInnerHTML={{ __html: culture.body }} />
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-brand">{culture.label || "The Core Culture"}</p>
+                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-tight">
+                       <span className="text-brand">{culture.heading || "Join Our"}</span> <br /> {culture.headingAccent || "Expert Team."}
+                    </h2>
+                    <div className="text-text-secondary text-lg font-medium leading-relaxed max-w-xl antialiased" dangerouslySetInnerHTML={{ __html: culture.body || "We are looking for creative and hardworking people to join our high-performing team. We pride ourselves on building premium digital solutions for growing brands." }} />
                  </div>
-                 
-                 <div className="grid grid-cols-2 gap-10">
-                    {culture.stats?.map((stat: any, i: number) => {
-                       const Icon = stat.value === "Zap" ? Zap : Layers;
-                       return (
-                        <div key={i} className="space-y-4">
-                           <Icon className="text-brand" size={32} />
-                           <h4 className="text-lg font-bold uppercase tracking-tight">{stat.label}</h4>
-                        </div>
-                       )
-                    })}
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="p-6 bg-white border border-stroke rounded-2xl shadow-sm hover:shadow-premium hover:border-brand/20 transition-all">
+                       <Zap className="text-brand mb-4" size={28} />
+                       <h4 className="text-sm font-bold uppercase tracking-wider text-text-primary mb-2">High Velocity</h4>
+                       <p className="text-sm text-text-muted font-medium">We deliver maximum impact quickly by skipping unnecessary processes and red tape.</p>
+                    </div>
+                    <div className="p-6 bg-white border border-stroke rounded-2xl shadow-sm hover:shadow-premium hover:border-brand/20 transition-all">
+                       <Layers className="text-brand mb-4" size={28} />
+                       <h4 className="text-sm font-bold uppercase tracking-wider text-text-primary mb-2">Modern Stack</h4>
+                       <p className="text-sm text-text-muted font-medium">Work with high-end, modern technologies like React, Next.js, and Prisma.</p>
+                    </div>
                  </div>
               </div>
               
-              <div className="relative">
-                 <div className="aspect-square glass rounded-[4rem] overflow-hidden grain shadow-2xl shadow-brand/10">
-                    <img src={culture.imageUrl} alt="Team Session" className="w-full h-full object-cover opacity-80 transition-all scale-110" />
+              <div className="relative group p-2">
+                 <div className="absolute inset-0 bg-brand/5 blur-3xl group-hover:bg-brand/10 transition-all rounded-[3rem] -z-10" />
+                 <div className="aspect-[4/3] rounded-[2.5rem] overflow-hidden grain shadow-premium border border-stroke bg-white relative">
+                    <img src={culture.imageUrl || "https://images.unsplash.com/photo-15222071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2070"} alt="Team Session" className="w-full h-full object-cover grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-brand/[0.02] group-hover:bg-transparent transition-colors duration-500" />
                  </div>
               </div>
            </div>

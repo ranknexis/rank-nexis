@@ -1,10 +1,10 @@
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg'
-import { Pool } from 'pg'
 import bcrypt from 'bcryptjs';
+import * as dotenv from 'dotenv';
+import { Pool } from 'pg';
 import { BLOG_CONTENT } from './blogContent';
 import { PAGES_DATA } from './pageData';
-import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -49,85 +49,85 @@ async function main() {
 
   // 4. BLOGS (AUTHENTIC CONTENT)
   const blogs = [
-    { 
-      title: 'What is a Digital Marketing Agency', 
-      slug: 'what-is-digital-marketing-agency', 
-      content: BLOG_CONTENT['what-is-digital-marketing-agency'], 
-      image: '/blog-images/what-is-a-digital-marketing-agency-1.webp', 
+    {
+      title: 'What is a Digital Marketing Agency',
+      slug: 'what-is-digital-marketing-agency',
+      content: BLOG_CONTENT['what-is-digital-marketing-agency'],
+      image: '/blog-images/what-is-a-digital-marketing-agency-2.webp',
       metaTitle: 'What is a Digital Marketing Agency? The Secret to Rapid Business Growth',
       metaDescription: 'Discover what a digital marketing agency is and how it can help your business grow online using SEO, social media, and paid ads.',
-      categoryId: categories[2].id, 
-      authorId: adminUser.id 
+      categoryId: categories[2].id,
+      authorId: adminUser.id
     },
-    { 
-      title: 'How to Choose a Digital Marketing Agency', 
-      slug: 'how-choose-digital-marketing-agency', 
-      content: BLOG_CONTENT['how-choose-digital-marketing-agency'], 
-      image: '/blog-images/how-to-choose-a-digital-marketing-agency.webp', 
+    {
+      title: 'How to Choose a Digital Marketing Agency',
+      slug: 'how-choose-digital-marketing-agency',
+      content: BLOG_CONTENT['how-choose-digital-marketing-agency'],
+      image: '/blog-images/how-to-choose-a-digital-marketing-agency.webp',
       metaTitle: 'How to Choose a Digital Marketing Agency: A Complete Guide for Smart Decisions',
       metaDescription: 'Learn the essential factors to consider when selecting the right digital marketing partner for your business success.',
-      categoryId: categories[0].id, 
-      authorId: editorUser.id 
+      categoryId: categories[0].id,
+      authorId: editorUser.id
     },
-    { 
-      title: 'Why Do You Need a Digital Marketing Agency', 
-      slug: 'why-do-you-need-a-digital-marketing-agency-1', 
-      content: BLOG_CONTENT['why-do-you-need-a-digital-marketing-agency-1'], 
-      image: '/blog-images/why-do-you-need-a-digital-marketing-agency-1.webp', 
+    {
+      title: 'Why Do You Need a Digital Marketing Agency',
+      slug: 'why-do-you-need-a-digital-marketing-agency-1',
+      content: BLOG_CONTENT['why-do-you-need-a-digital-marketing-agency-1'],
+      image: '/blog-images/why-do-you-need-a-digital-marketing-agency-1.webp',
       metaTitle: 'Why Do You Need a Digital Marketing Agency for Success',
       metaDescription: 'Explore the top reasons why hiring a professional agency is crucial for your business growth in the digital-first world.',
-      categoryId: categories[2].id, 
-      authorId: adminUser.id 
+      categoryId: categories[2].id,
+      authorId: adminUser.id
     },
-    { 
-      title: 'How to Remove Two-Factor Authentication in Facebook Ads Manager (2026)', 
-      slug: 'how-remove-2fa-facebook-ads', 
-      content: BLOG_CONTENT['how-remove-2fa-facebook-ads'], 
-      image: '/blog-images/how-to-remove-two-factor-authentication-in-facebook-ads-manager.webp', 
+    {
+      title: 'How to Remove Two-Factor Authentication in Facebook Ads Manager (2026)',
+      slug: 'how-remove-2fa-facebook-ads',
+      content: BLOG_CONTENT['how-remove-2fa-facebook-ads'],
+      image: '/blog-images/how-to-remove-two-factor-authentication-in-facebook-ads-manager.webp',
       metaTitle: 'How to Remove Two-Factor Authentication in Facebook Ads Manager Step-by-Step',
       metaDescription: 'A complete legal guide on managing and disabling 2FA for your Facebook ad account to regain access and improve security management.',
-      categoryId: categories[1].id, 
-      authorId: editorUser.id 
+      categoryId: categories[1].id,
+      authorId: editorUser.id
     },
-    { 
-      title: 'Car Review Website SEO Optimization: The Ultimate 2026 Guide', 
-      slug: 'car-review-website-seo', 
-      content: BLOG_CONTENT['car-review-website-seo'], 
-      image: '/blog-images/car-review-website-seo-optimization-2-1.webp', 
+    {
+      title: 'Car Review Website SEO Optimization: The Ultimate 2026 Guide',
+      slug: 'car-review-website-seo',
+      content: BLOG_CONTENT['car-review-website-seo'],
+      image: '/blog-images/car-review-website-seo-optimization-2-1.webp',
       metaTitle: 'Car Review Website SEO Optimization Guide for Traffic Growth',
       metaDescription: 'Master SEO for car review websites. Learn keyword research, on-page optimization, and technical SEO for the automotive niche.',
-      categoryId: categories[0].id, 
-      authorId: adminUser.id 
+      categoryId: categories[0].id,
+      authorId: adminUser.id
     },
-    { 
-      title: 'Website Design Services for Aesthetic Clinics (2026 Guide)', 
-      slug: 'website-design-aesthetic-clinics', 
-      content: BLOG_CONTENT['website-design-aesthetic-clinics'], 
-      image: '/blog-images/website-design-services-for-aesthetic-clinics-2.webp', 
+    {
+      title: 'Website Design Services for Aesthetic Clinics (2026 Guide)',
+      slug: 'website-design-aesthetic-clinics',
+      content: BLOG_CONTENT['website-design-aesthetic-clinics'],
+      image: '/blog-images/website-design-services-for-aesthetic-clinics-2.webp',
       metaTitle: 'Website Design Services for Aesthetic Clinics to Grow Clients',
       metaDescription: 'Clean, luxury website design for aesthetic clinics. Learn how to convert visitors into patients with professional medical web design.',
-      categoryId: categories[2].id, 
-      authorId: editorUser.id 
+      categoryId: categories[2].id,
+      authorId: editorUser.id
     },
-    { 
-      title: 'Google Ads Optimization for Doctors: Top 10 SERP Analysis', 
-      slug: 'google-ads-for-doctors', 
-      content: BLOG_CONTENT['google-ads-for-doctors'], 
-      image: '/blog-images/google-ads-optimization-for-doctors.webp', 
+    {
+      title: 'Google Ads Optimization for Doctors: Top 10 SERP Analysis',
+      slug: 'google-ads-for-doctors',
+      content: BLOG_CONTENT['google-ads-for-doctors'],
+      image: '/blog-images/google-ads-optimization-for-doctors.webp',
       metaTitle: 'Google Ads Optimization for Doctors to Get More Patients',
       metaDescription: 'Analyze top-performing ads and optimize your medical PPC campaigns to reach high-intent patients and maximize your ROI.',
-      categoryId: categories[1].id, 
-      authorId: adminUser.id 
+      categoryId: categories[1].id,
+      authorId: adminUser.id
     },
-    { 
-      title: 'How to Get Rid of Facebook Ads (2026 Guide)', 
-      slug: 'how-to-get-rid-of-facebook-ads', 
-      content: BLOG_CONTENT['how-to-get-rid-of-facebook-ads'], 
-      image: '/blog-images/how-to-get-rid-of-facebook-ads.webp', 
+    {
+      title: 'How to Get Rid of Facebook Ads (2026 Guide)',
+      slug: 'how-to-get-rid-of-facebook-ads',
+      content: BLOG_CONTENT['how-to-get-rid-of-facebook-ads'],
+      image: '/blog-images/how-to-get-rid-of-facebook-ads.webp',
       metaTitle: 'How to Get Rid of Facebook Ads Easily in 2026',
       metaDescription: 'Take control of your feed. Learn how to hide ads, adjust preferences, and limit data tracking on Facebook.',
-      categoryId: categories[1].id, 
-      authorId: editorUser.id 
+      categoryId: categories[1].id,
+      authorId: editorUser.id
     }
   ];
 
@@ -160,25 +160,25 @@ async function main() {
   // 7. PAGE CONTENT & SECTIONS
   for (const p of PAGES_DATA) {
     console.log(`Creating page: ${p.slug}`);
-    const page = await prisma.pageContent.create({ 
-      data: { 
-        slug: p.slug, 
-        title: p.slug.toUpperCase(), 
-        metaTitle: p.metaTitle, 
-        metaDescription: p.metaDescription 
-      } 
+    const page = await prisma.pageContent.create({
+      data: {
+        slug: p.slug,
+        title: p.slug.toUpperCase(),
+        metaTitle: p.metaTitle,
+        metaDescription: p.metaDescription
+      }
     });
     for (const [idx, s] of p.sections.entries()) {
       console.log(`  - Section: ${s.key}`);
-      await prisma.pageSection.create({ 
-        data: { 
-          pageId: page.id, 
-          sectionKey: s.key, 
-          sectionType: s.type, 
-          label: s.key.toUpperCase(), 
-          content: s.content, 
-          order: idx 
-        } 
+      await prisma.pageSection.create({
+        data: {
+          pageId: page.id,
+          sectionKey: s.key,
+          sectionType: s.type,
+          label: s.key.toUpperCase(),
+          content: s.content,
+          order: idx
+        }
       });
     }
   }

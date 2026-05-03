@@ -99,11 +99,11 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
         <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
           {/* Advanced Visual System Visualization */}
           <div className="absolute inset-0 -z-10 overflow-hidden">
-             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 animate-pulse" />
-             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4" />
+             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 animate-pulse hidden md:block" />
+             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4 hidden md:block" />
              
              {/* Subtle Animated Nodes */}
-             <div className="absolute inset-0 opacity-[0.1]">
+             <div className="absolute inset-0 opacity-[0.1] hidden md:block">
                 {[...Array(6)].map((_, i) => (
                    <motion.div
                       key={i}
@@ -171,7 +171,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight uppercase text-text-primary"
+                    className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-text-primary"
                   >
                     {hero.heading}
                   </motion.h1>
@@ -179,7 +179,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.35, ease: [0.23, 1, 0.32, 1] }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight uppercase text-brand"
+                    className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-brand"
                   >
                     {hero.headingAccent}
                   </motion.h1>
@@ -305,7 +305,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                     <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">{trust.badge}</p>
                   </motion.div>
-                  <h2 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight uppercase">
+                  <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight leading-tight uppercase">
                     {trust.heading} <br /><span className="text-brand">{trust.headingAccent}</span>
                   </h2>
                 </div>
@@ -394,7 +394,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                   <div className="w-2 h-2 bg-brand rounded-full" />
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">What We Do</p>
                 </motion.div>
-                <h2 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight uppercase">
+                <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight leading-tight uppercase">
                   Tailored Solutions <br /> <span className="text-brand">Designed</span> For Growth.
                 </h2>
               </div>
@@ -421,7 +421,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
               <div className="lg:col-span-5 space-y-8">
                 <div className="space-y-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Industry Expertise</p>
-                  <h2 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight uppercase">Sectors <br /> <span className="text-brand">We Support.</span></h2>
+                  <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight leading-tight uppercase">Sectors <br /> <span className="text-brand">We Support.</span></h2>
                 </div>
                 <p className="text-text-secondary text-xl font-medium leading-relaxed">
                   We bring deep domain expertise to high-growth sectors, delivering customized solutions that align with specific market requirements.
@@ -473,7 +473,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                   <div className="w-2 h-2 bg-brand rounded-full" />
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Case History</p>
                 </motion.div>
-                <h2 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight uppercase">
+                <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight leading-tight uppercase">
                   Proven Success <br /> <span className="text-brand">Strategic</span> Growth.
                 </h2>
               </div>

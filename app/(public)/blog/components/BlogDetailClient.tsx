@@ -76,7 +76,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
               className="aspect-[4/3] md:aspect-[21/9] rounded-[1.5rem] md:rounded-[3.rem] overflow-hidden border border-gray-100 shadow-premium group relative"
             >
                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
-               <img src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+               <img src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} className="w-full h-full object-contain bg-surface/50 transition-transform duration-1000" />
                
                <div className="absolute bottom-8 right-8 z-20">
                   <button className="w-14 h-14 bg-white/90 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-brand shadow-xl hover:rotate-12 transition-all">

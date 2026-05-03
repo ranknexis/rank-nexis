@@ -1,6 +1,6 @@
 "use client";
 
-import TeamMemberCard from "@/components/TeamMemberCard";
+
 import ValueCard from "@/components/ValueCard";
 import { motion } from "framer-motion";
 import {
@@ -51,7 +51,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.4em]">{hero.badge}</p>
               </div>
               
-              <h1 className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.85] uppercase">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight uppercase">
                 {hero.heading} <br /> <span className="text-brand">{hero.headingAccent}</span>
               </h1>
               <p className="text-text-secondary max-w-3xl mx-auto text-xl md:text-2xl font-medium leading-relaxed">
@@ -68,7 +68,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                  <div className="space-y-12">
                     <div className="space-y-6">
                        <p className="text-[11px] font-bold uppercase text-brand tracking-[0.5em]">{narrative.label}</p>
-                       <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] uppercase">{narrative.heading} <br /><span className="text-brand">{narrative.headingAccent}</span></h2>
+                       <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight uppercase">{narrative.heading} <br /><span className="text-brand">{narrative.headingAccent}</span></h2>
                     </div>
                     
                     <div className="space-y-8 prose prose-xl max-w-none text-text-secondary font-medium leading-relaxed antialiased" dangerouslySetInnerHTML={{ __html: narrative.body }} />
@@ -107,27 +107,6 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
         </section>
 
         {/* 3. EXPERTISE STACK */}
-        <section className="section-padding bg-white relative overflow-hidden">
-           <div className="container-max relative z-10">
-              <div className="mb-32 text-center space-y-6">
-                 <p className="text-[11px] font-bold text-brand uppercase tracking-[0.6em]">The Core Team</p>
-                 <h2 className="text-4xl md:text-8xl font-bold tracking-tighter uppercase leading-none">The People <br /> <span className="text-brand">Behind Your Success.</span></h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-                  {teamMembers.map((member: any) => (
-                    <TeamMemberCard 
-                      key={member.id}
-                      name={member.name}
-                      role={member.role}
-                      image={member.image}
-                      bio={member.bio || `Expert ${member.role} at RankNexis.`}
-                    />
-                  ))}
-              </div>
-           </div>
-           <div className="absolute top-1/2 left-0 w-full h-full bg-brand/5 blur-[120px] -z-10 translate-y-1/2" />
-        </section>
 
         {/* 4. CORE VALUES */}
         <section className="section-padding border-y border-stroke bg-surface/30">
@@ -158,8 +137,8 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
           <div className="container-max relative z-10 space-y-16">
             <div className="space-y-8">
                <p className="text-[11px] font-bold uppercase tracking-wider text-brand">Connect With Us</p>
-                  <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-tight">
-                    Our <span className="text-brand text-5xl md:text-7xl block mt-4 tracking-tighter">Technical Expertise.</span>
+                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-tight">
+                    Our <span className="text-brand text-3xl md:text-5xl block mt-4 tracking-tight">Technical Expertise.</span>
                   </h2>
             </div>
             

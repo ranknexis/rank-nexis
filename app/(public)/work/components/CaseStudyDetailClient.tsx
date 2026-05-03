@@ -111,7 +111,7 @@ export default function CaseStudyDetailClient({ study }: CaseStudyDetailClientPr
                 <img 
                   src={study.image} 
                   alt={study.title}
-                  className="w-full aspect-video object-cover"
+                  className="w-full aspect-video object-contain bg-surface/50"
                 />
               ) : (
                 <div className="w-full aspect-video bg-surface flex items-center justify-center">

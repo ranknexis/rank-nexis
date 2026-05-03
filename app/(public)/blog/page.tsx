@@ -59,7 +59,7 @@ export default async function BlogPage() {
                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.5em]">{hero.badge}</p>
               </div>
               
-              <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] uppercase text-text-primary">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight uppercase text-text-primary">
                 {hero.heading} <br /> <span className="text-brand">{hero.headingAccent}</span>
               </h1>
               <p className="text-text-secondary max-w-3xl mx-auto text-xl md:text-2xl font-medium leading-relaxed antialiased">
@@ -77,7 +77,7 @@ export default async function BlogPage() {
           <div className="container-max max-w-4xl mx-auto space-y-16">
             <div className="space-y-8">
                <p className="text-[11px] font-bold uppercase tracking-[0.6em] text-brand">{newsletter.badge}</p>
-                <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-tight antialiased">
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-tight antialiased">
                   <span className="text-brand">{newsletter.heading}</span> <br /> {newsletter.headingAccent}
                 </h2>
 
