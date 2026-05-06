@@ -175,7 +175,9 @@ async function main() {
       id: "global",
       siteName: "RankNexis",
       siteTitleSuffix: "RankNexis Strategy & Vision",
-      contactEmail: "ranknexis@gmail.com"
+      contactEmail: "ranknexis@gmail.com",
+      address: "Chattogram, Bangladesh",
+      contactPhone: "+880 1949-883830"
     }
   });
 

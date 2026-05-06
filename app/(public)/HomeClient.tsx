@@ -1,5 +1,6 @@
 "use client";
 
+import { getSectionData } from "@/lib/pageUtils";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -18,8 +19,6 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { getSectionData } from "@/lib/pageUtils";
 
 const SERVICES = [
   {
@@ -352,9 +351,9 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                       transition={{ delay: 1.5 }}
                       className="text-3xl font-bold tracking-tighter leading-none mb-1"
                     >
-                      100%
+                      100% Campaign 
                     </motion.p>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted leading-relaxed">Campaign Success Guaranteed</p>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted leading-relaxed">Success Guaranteed</p>
                   </div>
                 </motion.div>
               </motion.div>

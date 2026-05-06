@@ -61,6 +61,7 @@ export default async function Footer() {
               <li><Link href="/work" className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">Case Studies</Link></li>
               <li><Link href="/blog" className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">Blog</Link></li>
               <li><Link href="/about" className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">About</Link></li>
+              <li><Link href="/team" className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">Our Team</Link></li>
             </ul>
           </div>
 
@@ -72,7 +73,6 @@ export default async function Footer() {
               {settings?.contactEmail && (
                 <li><a href={`mailto:${settings.contactEmail}`} className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">Email Support</a></li>
               )}
-              <li><Link href="/team" className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">Our Team</Link></li>
               <li><Link href="/dashboard/login" className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">Staff Login</Link></li>
             </ul>
           </div>
@@ -88,7 +88,7 @@ export default async function Footer() {
               <SiteMapLink />
 
               <li className="pt-2">
-                <p className="text-[10px] font-bold text-text-primary uppercase mb-1">HQ Distribution</p>
+                <p className="text-[10px] font-bold text-text-primary uppercase mb-1">Operations Hub</p>
                 <p className="text-sm font-medium text-text-muted">{settings?.address || "Global Operations"}</p>
               </li>
             </ul>

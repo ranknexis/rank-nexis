@@ -98,7 +98,7 @@ export default function ContactClient({ sectionsMap }: { sectionsMap: any }) {
                 <ContactInfo 
                   icon={MessageSquare} 
                   title="Priority Sync" 
-                  value="+880 1700-000000" 
+                  value="+880 1949-883830" 
                   desc="WhatsApp enabled for rapid strategy response." 
                 />
                 <ContactInfo 
@@ -182,11 +182,11 @@ export default function ContactClient({ sectionsMap }: { sectionsMap: any }) {
                   <div className="pt-10 border-t border-stroke mt-12 flex items-center justify-between">
                      <div className="flex items-center gap-3">
                         <ShieldCheck size={16} className="text-brand" />
-                        <p className="text-[9px] text-text-muted font-bold uppercase tracking-widest">End-to-End Encrypted Inquiry</p>
+                        <p className="text-[5px] text-text-muted font-bold uppercase tracking-widest">End-to-End Encrypted Inquiry</p>
                      </div>
                      <div className="flex gap-4">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <p className="text-[9px] text-emerald-600 font-bold uppercase tracking-widest">Growth Experts Online</p>
+                        <p className="text-[5px] text-emerald-600 font-bold uppercase tracking-widest">Growth Experts Online</p>
                      </div>
                   </div>
                </div>
