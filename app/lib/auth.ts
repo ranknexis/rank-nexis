@@ -4,12 +4,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import prisma from "@/lib/prisma";
 
-export const ACCESS_SECRET = new TextEncoder().encode(
-    process.env.JWT_SECRET || "rank_nexis_access_secret_2026"
-);
-export const REFRESH_SECRET = new TextEncoder().encode(
-    process.env.JWT_REFRESH_SECRET || "rank_nexis_refresh_secret_2026"
-);
+import { ACCESS_SECRET, REFRESH_SECRET } from "./auth-config";
 
 export async function encrypt(payload: any, secret: Uint8Array, expiresIn: string) {
     return await new SignJWT(payload)
