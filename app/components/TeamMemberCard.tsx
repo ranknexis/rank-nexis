@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Linkedin, Twitter, Facebook, Github, Instagram, Youtube, Link2, Plus, Mail } from 'lucide-react';
 
 interface SocialLink {
@@ -56,54 +57,52 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
   const extraSocials = activeSocials.slice(2); // Everything from 3rd onwards
 
   return (
-    <div className="group space-y-6 relative">
-      <div className="aspect-[4/5] rounded-[2rem] overflow-hidden relative border border-stroke bg-surface">
-        <img 
-          src={image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2070"} 
-          alt={name} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-        />
-      </div>
+    <div className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden border border-stroke bg-surface">
+      <Image 
+        src={image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2070"} 
+        alt={name} 
+        fill
+        className="object-cover transition-transform duration-700 group-hover:scale-105" 
+      />
       
-      <div className="flex items-center justify-between relative">
-        <div className="space-y-1 text-left">
-          <h3 className="text-xl md:text-2xl font-bold text-text-primary tracking-tight leading-tight group-hover:text-brand transition-colors duration-300 uppercase">{name}</h3>
-          <p className="text-xs font-bold text-brand uppercase tracking-wider">{role}</p>
-        </div>
-        
-        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 relative z-10">
+      {/* Overlay - Glassmorphic details inside the image */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+        <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 space-y-4">
+          <div className="space-y-1">
+            <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight uppercase leading-none">{name}</h3>
+            <p className="text-[10px] font-bold text-brand uppercase tracking-[0.2em]">{role}</p>
+          </div>
           
-          {/* Always show the first two (or three if exactly three) */}
-          {(hasMore ? visibleSocials : activeSocials).map((s, idx) => (
-             <a key={idx} href={s.url} target="_blank" rel="noreferrer" className="w-10 h-10 bg-surface border border-stroke rounded-xl flex items-center justify-center text-text-primary hover:bg-brand hover:text-white hover:border-brand transition-all">
-               {getSocialIcon(s.platform)}
-             </a>
-          ))}
+          <div className="flex items-center gap-2">
+            {(hasMore ? visibleSocials : activeSocials).map((s, idx) => (
+              <a key={idx} href={s.url} target="_blank" rel="noreferrer" className="w-9 h-9 glass border border-white/20 rounded-xl flex items-center justify-center text-white hover:bg-brand hover:border-brand transition-all">
+                {getSocialIcon(s.platform)}
+              </a>
+            ))}
 
-          {/* If there are more than 3, show the 3rd button as a trigger */}
-          {hasMore && (
-            <div className="relative">
-               <button 
-                 onClick={() => setExpanded(!expanded)}
-                 onMouseEnter={() => setExpanded(true)}
-                 className="w-10 h-10 bg-surface border border-stroke rounded-xl flex items-center justify-center text-text-primary hover:bg-brand hover:text-white hover:border-brand transition-all"
-               >
-                 <Plus size={16} className={`transition-transform duration-300 ${expanded ? 'rotate-45' : ''}`} />
-               </button>
+            {hasMore && (
+              <div className="relative">
+                 <button 
+                   onClick={() => setExpanded(!expanded)}
+                   onMouseEnter={() => setExpanded(true)}
+                   className="w-9 h-9 glass border border-white/20 rounded-xl flex items-center justify-center text-white hover:bg-brand hover:border-brand transition-all"
+                 >
+                   <Plus size={16} className={`transition-transform duration-300 ${expanded ? 'rotate-45' : ''}`} />
+                 </button>
 
-               {/* Expanded Menu */}
-               <div 
-                 onMouseLeave={() => setExpanded(false)}
-                 className={`absolute bottom-full right-0 mb-3 flex flex-col gap-2 transition-all duration-300 origin-bottom ${expanded ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
-               >
-                 {extraSocials.map((s, idx) => (
-                    <a key={idx} href={s.url} target="_blank" rel="noreferrer" className="w-10 h-10 bg-white border border-stroke rounded-xl flex items-center justify-center text-brand hover:bg-brand hover:text-white hover:border-brand transition-all shadow-premium">
-                      {getSocialIcon(s.platform)}
-                    </a>
-                 ))}
-               </div>
-            </div>
-          )}
+                 <div 
+                   onMouseLeave={() => setExpanded(false)}
+                   className={`absolute bottom-full right-0 mb-3 flex flex-col gap-2 transition-all duration-300 origin-bottom ${expanded ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+                 >
+                   {extraSocials.map((s, idx) => (
+                      <a key={idx} href={s.url} target="_blank" rel="noreferrer" className="w-9 h-9 glass-premium border border-white/20 rounded-xl flex items-center justify-center text-white hover:bg-brand hover:border-brand transition-all">
+                        {getSocialIcon(s.platform)}
+                      </a>
+                   ))}
+                 </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

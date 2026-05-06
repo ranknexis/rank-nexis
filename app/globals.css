@@ -106,6 +106,18 @@
   .container-max {
     @apply max-w-7xl mx-auto px-4 md:px-12;
   }
+
+  .contact-input {
+    @apply w-full h-14 px-6 bg-surface/40 border border-stroke rounded-xl text-text-primary placeholder:text-text-muted/40 focus:outline-none focus:ring-4 focus:ring-brand/5 focus:border-brand transition-all text-[13px] font-medium antialiased;
+  }
+
+  .contact-input-premium {
+    @apply w-full h-18 px-8 bg-surface border border-stroke rounded-2xl text-text-primary placeholder:text-text-muted/30 focus:outline-none focus:border-brand transition-all text-[11px] font-bold uppercase tracking-widest antialiased;
+  }
+
+  .glass-premium {
+    @apply bg-white/80 border border-white/40 shadow-premium backdrop-blur-3xl relative overflow-hidden;
+  }
 }
 
 /* Typography Scale & Polish */

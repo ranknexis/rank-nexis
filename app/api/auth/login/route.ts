@@ -27,7 +27,9 @@ export async function POST(request: Request) {
             );
         }
 
-        if (user.role !== "ADMIN") {
+        // Allow all defined roles
+        const allowedRoles = ["ADMIN", "TEAM_MEMBER"];
+        if (!allowedRoles.includes(user.role)) {
             return NextResponse.json(
                 { error: "Unauthorized access" },
                 { status: 403 }
@@ -38,9 +40,13 @@ export async function POST(request: Request) {
             id: user.id,
             email: user.email,
             role: user.role,
+            passwordSet: user.passwordSet
         });
 
-        return NextResponse.json({ success: true });
+        return NextResponse.json({ 
+            success: true,
+            passwordSet: user.passwordSet
+        });
     } catch (error) {
         console.error("Login Error:", error);
         return NextResponse.json(
@@ -49,4 +55,3 @@ export async function POST(request: Request) {
         );
     }
 }
-

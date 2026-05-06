@@ -4,6 +4,8 @@ import { buildSeoMetadata, getSectionData } from "@/lib/pageUtils";
 import BlogContent from "./components/BlogContent";
 import { Metadata } from "next";
 import InternalLinksSection from "@/components/InternalLinksSection";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageData("blog");
@@ -71,32 +73,32 @@ export default async function BlogPage() {
 
         <BlogContent initialPosts={posts} categories={categories} />
 
-        {/* NEWSLETTER CTA */}
-        <section className="py-48 bg-white border-t border-stroke relative overflow-hidden grain text-center">
+        {/* STRATEGIC AUDIT CTA */}
+        <section className="py-32 bg-white border-t border-stroke relative overflow-hidden grain text-center">
           <div className="absolute top-0 left-0 w-full h-full bg-brand/[0.02] -z-10" />
-          <div className="container-max max-w-4xl mx-auto space-y-16">
-            <div className="space-y-8">
-               <p className="text-[11px] font-bold uppercase tracking-[0.6em] text-brand">{newsletter.badge}</p>
-                <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-tight antialiased">
-                  <span className="text-brand">{newsletter.heading}</span> <br /> {newsletter.headingAccent}
+          <div className="container-max max-w-5xl mx-auto">
+            <div className="glass-premium p-16 md:p-24 rounded-[4rem] border border-stroke relative overflow-hidden shadow-premium bg-white">
+              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand/5 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
+              
+              <div className="relative z-10 space-y-10">
+                <p className="text-[11px] font-bold uppercase tracking-[0.6em] text-brand">{newsletter.badge}</p>
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-tight antialiased">
+                  {newsletter.heading} <span className="text-brand">{newsletter.headingAccent}</span>
                 </h2>
-
                 <p className="text-text-secondary text-xl md:text-2xl font-medium leading-relaxed max-w-2xl mx-auto antialiased">
                   {newsletter.subtext}
                 </p>
+                
+                <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
+                  <Link href="/contact" className="btn-primary h-20 px-16 text-[11px] font-bold uppercase tracking-[0.3em] shadow-xl shadow-brand/20 flex items-center justify-center gap-3 group">
+                    Request Audit <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                  </Link>
+                  <Link href="/work" className="btn-outline h-20 px-16 text-[11px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3">
+                    View Case Results
+                  </Link>
+                </div>
+              </div>
             </div>
-            
-            <form className="flex flex-col sm:flex-row gap-4 p-2 glass border border-stroke rounded-[2rem] shadow-premium max-w-2xl mx-auto bg-white">
-              <input 
-                type="email" 
-                placeholder="EMAIL ADDRESS" 
-                className="flex-grow h-14 bg-transparent px-8 focus:outline-none text-[11px] font-bold uppercase tracking-widest text-text-primary placeholder:text-text-muted/30"
-                required
-              />
-              <button type="submit" className="btn-primary h-14 px-12 text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl shadow-lg shadow-brand/10">
-                {newsletter.buttonText}
-              </button>
-            </form>
           </div>
         </section>
 

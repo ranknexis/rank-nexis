@@ -7,12 +7,11 @@ export async function submitContactForm(formData: FormData) {
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const company = formData.get("company") as string;
-    const budget = formData.get("budget") as string;
     const service = formData.get("service") as string;
     const message = formData.get("message") as string;
 
     if (!name || !email || !message) {
-        return { error: "Missing required fields" };
+        return { error: "Missing required identification or mission objectives." };
     }
 
     try {
@@ -21,16 +20,16 @@ export async function submitContactForm(formData: FormData) {
                 name,
                 email,
                 company: company || null,
-                message: `[Service: ${service}] [Budget: ${budget}] ${message}`,
+                service: service || "Strategic Sync",
+                message,
                 status: "NEW"
             }
         });
 
-        revalidatePath("/admin");
+        revalidatePath("/dashboard/leads");
         return { success: true };
     } catch (error) {
         console.error("Submission Error:", error);
-        return { error: "Submission failed. Please try again later." };
+        return { error: "Transmission error. Please verify your connection and retry." };
     }
 }
-

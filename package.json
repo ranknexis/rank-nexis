@@ -11,7 +11,12 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "^7.4.0",
+    "@tiptap/extension-bubble-menu": "^3.22.5",
+    "@tiptap/extension-floating-menu": "^3.22.5",
+    "@tiptap/extension-image": "^3.22.5",
     "@tiptap/extension-link": "^3.22.4",
+    "@tiptap/extension-placeholder": "^3.22.5",
+    "@tiptap/extension-text-align": "^3.22.5",
     "@tiptap/extension-underline": "^3.22.4",
     "@tiptap/react": "^3.22.4",
     "@tiptap/starter-kit": "^3.22.4",
@@ -26,7 +31,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sonner": "^1.7.1",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "nodemailer": "^6.10.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -40,7 +46,8 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@types/nodemailer": "^6.4.17"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

@@ -11,6 +11,7 @@ import {
     Zap
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { getSectionData } from "@/lib/pageUtils";
 
 export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap: any, teamMembers: any[] }) {
@@ -87,10 +88,11 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
 
                   <div className="relative group p-4">
                      <div className="aspect-square glass rounded-[4rem] overflow-hidden relative shadow-premium grain border border-stroke">
-                        <img 
-                           src={narrative.imageUrl} 
+                        <Image 
+                           src={narrative.imageUrl && !narrative.imageUrl.includes('unsplash') ? narrative.imageUrl : "/images/about_agency.png"} 
                            alt="RankNexis Lab" 
-                           className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" 
+                           fill
+                           className="object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" 
                         />
                         <div className="absolute inset-0 bg-brand/[0.03] group-hover:bg-transparent transition-colors" />
                      </div>
@@ -107,6 +109,57 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
         </section>
 
         {/* 3. EXPERTISE STACK */}
+        <section className="py-24 bg-white">
+           <div className="container-max space-y-16">
+              <div className="flex flex-col md:flex-row justify-between items-end gap-8 border-b border-stroke pb-12">
+                 <div className="space-y-4">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-brand">The Collective</p>
+                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-none">High-Agency <br /><span className="text-brand">Expertise.</span></h2>
+                 </div>
+                 <p className="text-text-muted text-sm font-medium max-w-sm leading-relaxed antialiased">
+                    A specialized node of engineers, strategists, and creatives operating at the intersection of performance and design.
+                 </p>
+              </div>
+ 
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                 {teamMembers.map((member, i) => (
+                    <motion.div
+                       key={member.id}
+                       initial={{ opacity: 0, y: 20 }}
+                       whileInView={{ opacity: 1, y: 0 }}
+                       viewport={{ once: true }}
+                       transition={{ delay: i * 0.1 }}
+                       className="group relative aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-stroke shadow-sm hover:shadow-premium transition-all duration-700"
+                    >
+                       <Image 
+                          src={member.image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2424"} 
+                          alt={member.name} 
+                          fill
+                          className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
+                       />
+                       
+                       {/* Content Inside Image Placeholder */}
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                       
+                       <div className="absolute bottom-0 left-0 w-full p-8 space-y-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                          <p className="text-brand text-[10px] font-bold uppercase tracking-[0.3em]">{member.role}</p>
+                          <h4 className="text-white text-2xl font-bold tracking-tight uppercase leading-none antialiased">{member.name}</h4>
+                          <div className="pt-4 flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+                             {/* Optional Socials or Bio snippet */}
+                             <div className="h-px w-8 bg-brand self-center" />
+                             <span className="text-white/60 text-[9px] font-bold uppercase tracking-widest italic">Core Expert</span>
+                          </div>
+                       </div>
+                    </motion.div>
+                 ))}
+                 {teamMembers.length === 0 && (
+                    <div className="col-span-full py-24 text-center glass border border-stroke rounded-[3rem] grain">
+                       <p className="text-text-muted font-bold uppercase text-[10px] tracking-widest italic">Technical team data is being synchronized...</p>
+                    </div>
+                 )}
+              </div>
+           </div>
+        </section>
 
         {/* 4. CORE VALUES */}
         <section className="section-padding border-y border-stroke bg-surface/30">

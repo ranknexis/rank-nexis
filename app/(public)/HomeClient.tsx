@@ -63,6 +63,79 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
     subtext: "We don't just build websites; we create high-performance systems where great design meets expert tech."
   });
 
+  const servicesSection = getSectionData(sectionsMap, "services", {
+    badge: "What We Do",
+    heading: "Tailored Solutions",
+    headingAccent: "Designed For Growth.",
+    subtext: "We create effective digital strategies that drive results for businesses and brands."
+  });
+
+  const expertise = getSectionData(sectionsMap, "expertise", {
+    badge: "Industry Expertise",
+    heading: "Sectors",
+    headingAccent: "We Support.",
+    subtext: "We bring deep domain expertise to high-growth sectors, delivering customized solutions."
+  });
+
+  const partnership = getSectionData(sectionsMap, "partnership", {
+    badge: "Working with Us",
+    heading: "Our Partnership Process.",
+    headingAccent: ""
+  });
+
+  const strategy = getSectionData(sectionsMap, "strategy", {
+    badge: "Strategic Approach",
+    heading: "Beyond",
+    headingAccent: "Agency.",
+    subtext: "Our approach integrates precision engineering with strategic thinking to deliver sustainable impact."
+  });
+
+  const excellence = getSectionData(sectionsMap, "excellence", {
+    badge: "Partnership Values",
+    heading: "Engineering",
+    headingAccent: "Excellence.",
+    subtext: "We focus on long-term value, designing systems that grow alongside your business goals."
+  });
+
+  const testimonials = getSectionData(sectionsMap, "testimonials", {
+    badge: "Expert Feedback",
+    heading: "Global Synergy",
+    headingAccent: "",
+    items: [
+      { 
+        quote: "The FruitsZone ERP transformed our chaotic inventory into a precision-guided operation. RankNexis delivered a system that actually thinks like our business.", 
+        name: "A. Rahman", 
+        company: "FruitsZone CEO",
+        photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=2340"
+      },
+      { 
+        quote: "Our digital presence now matches the luxury experience we provide. West Bound's inquiry volume tripled within two months of the new platform launch.", 
+        name: "Sarah J.", 
+        company: "West Bound Travels",
+        photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=2340"
+      },
+      { 
+        quote: "Dominating local search was our primary goal, and RankNexis achieved it. The Umrah All marketplace is now a leader in targeted organic traffic.", 
+        name: "Imran Khan", 
+        company: "Umrah All Strategy",
+        photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=2340"
+      }
+    ]
+  });
+
+  const insights = getSectionData(sectionsMap, "insights", {
+    badge: "Knowledge Hub",
+    heading: "Strategic",
+    headingAccent: "Insights."
+  });
+
+  const connect = getSectionData(sectionsMap, "connect", {
+    badge: "Let's Connect",
+    heading: "Start Your",
+    headingAccent: "Strategy.",
+    subtext: "Ready to build your next-generation platform? Connect with our team to discuss your strategic objectives."
+  });
+
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFormSubmitting(true);
@@ -281,7 +354,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                     >
                       100%
                     </motion.p>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted leading-relaxed">Campaign Success <br /> Guaranteed</p>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-muted leading-relaxed">Campaign Success Guaranteed</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -292,10 +365,8 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
         {/* 2. OUR GROWTH PROCESS */}
         <section className="py-32 border-y border-stroke bg-surface/30 relative overflow-hidden">
           <div className="container-max">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
-              {/* Left Column: Manifesto */}
-              <div className="lg:col-span-5 space-y-10">
-                <div className="space-y-6">
+            <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
+               <div className="max-w-2xl space-y-6">
                   <motion.div 
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -305,41 +376,70 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                     <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">{trust.badge}</p>
                   </motion.div>
-                  <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight leading-tight uppercase">
-                    {trust.heading} <br /><span className="text-brand">{trust.headingAccent}</span>
+                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-none">
+                    {trust.heading} <span className="text-brand">{trust.headingAccent}</span>
                   </h2>
-                </div>
-                
-                <p className="text-text-secondary text-xl font-medium leading-relaxed max-w-md">
-                  {trust.subtext}
-                </p>
- 
-                <div className="flex flex-wrap items-center gap-12 opacity-30 pt-4 grayscale hover:grayscale-0 transition-all duration-700">
-                  {["VERCEL", "STRIPE", "LINEAR", "NEXTJS"].map(logo => (
-                    <span key={logo} className="text-sm font-black tracking-[0.3em]">{logo}</span>
-                  ))}
-                </div>
-              </div>
- 
-              {/* Right Column: Strategic Verticals */}
-              <div className="lg:col-span-7 grid grid-cols-1 gap-6">
+               </div>
+               <p className="text-text-secondary text-lg font-medium leading-relaxed max-w-sm pb-1">
+                 {trust.subtext}
+               </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+              {/* Left Side: Step 01 */}
+              {[
+                { 
+                  id: "01", 
+                  title: "Customer Growth", 
+                  desc: "Aggressive marketing strategies designed to help your brand lead the market and find more customers through data-driven precision.",
+                  icon: TrendingUp 
+                }
+              ].map((vertical) => (
+                <motion.div 
+                  key={vertical.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="group flex flex-col justify-between p-12 bg-white border border-stroke rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain"
+                >
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-brand/[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand/5 transition-colors" />
+                  
+                  <div className="space-y-12 relative z-10">
+                    <div className="w-24 h-24 rounded-[2rem] bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm">
+                      <vertical.icon size={48} strokeWidth={1} />
+                    </div>
+                    
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-4">
+                        <span className="text-brand text-xs font-black tracking-[0.4em] uppercase">{vertical.id}</span>
+                        <h4 className="text-3xl font-bold uppercase tracking-tight">{vertical.title}</h4>
+                      </div>
+                      <p className="text-text-muted text-lg font-medium leading-relaxed max-w-md">{vertical.desc}</p>
+                    </div>
+                  </div>
+
+                  <div className="pt-12 border-t border-stroke/50 flex items-center justify-between mt-auto">
+                     <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted group-hover:text-brand transition-colors">Phase Alpha Protocol</span>
+                     <div className="w-12 h-12 rounded-full border border-stroke group-hover:border-brand/20 flex items-center justify-center transition-all bg-surface">
+                        <ArrowRight className="text-text-muted group-hover:text-brand transition-all -rotate-45 group-hover:rotate-0" size={20} />
+                     </div>
+                  </div>
+                </motion.div>
+              ))}
+
+              {/* Right Side: Step 02 & 03 Stacked */}
+              <div className="flex flex-col gap-8">
                 {[
-                  { 
-                    id: "01", 
-                    title: "Customer Growth", 
-                    desc: "Smart marketing strategies designed to help your brand lead the market and find more customers.",
-                    icon: TrendingUp
-                  },
                   { 
                     id: "02", 
                     title: "Premium Design", 
-                    desc: "Modern design systems that turn your brand into a high-performance business.",
+                    desc: "Modern design systems that turn your brand into a high-performance asset.",
                     icon: Palette 
                   },
                   { 
                     id: "03", 
                     title: "Modern Software", 
-                    desc: "Fast, scalable software built to handle high traffic and help your business grow rapidly.",
+                    desc: "Fast, scalable software built to handle high traffic and rapid growth.",
                     icon: Layers
                   }
                 ].map((vertical, i) => (
@@ -348,11 +448,9 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.15 }}
-                    className="group flex flex-col md:flex-row items-center gap-10 p-10 bg-white border border-stroke rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden"
+                    transition={{ delay: i * 0.1 }}
+                    className="group flex-1 flex flex-col md:flex-row items-center gap-10 p-10 bg-white border border-stroke rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden"
                   >
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-brand/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand/10 transition-colors" />
-                    
                     <div className="w-20 h-20 rounded-3xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shrink-0 shadow-sm">
                       <vertical.icon size={36} strokeWidth={1.2} />
                     </div>
@@ -362,12 +460,12 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                         <span className="text-brand text-[10px] font-bold tracking-[0.3em] uppercase">{vertical.id}</span>
                         <h4 className="text-2xl font-bold uppercase tracking-tight">{vertical.title}</h4>
                       </div>
-                      <p className="text-text-muted text-sm font-medium leading-relaxed max-w-md">{vertical.desc}</p>
+                      <p className="text-text-muted text-sm font-medium leading-relaxed max-w-sm">{vertical.desc}</p>
                     </div>
- 
-                    <div className="hidden md:flex flex-col items-center justify-center ml-auto">
-                       <div className="w-12 h-12 rounded-full border border-stroke group-hover:border-brand/20 flex items-center justify-center transition-all bg-surface">
-                          <ArrowRight className="text-text-muted group-hover:text-brand transition-all -rotate-45 group-hover:rotate-0" size={18} />
+
+                    <div className="hidden md:flex ml-auto">
+                       <div className="w-10 h-10 rounded-full border border-stroke flex items-center justify-center bg-surface">
+                          <ArrowRight className="text-text-muted -rotate-45" size={16} />
                        </div>
                     </div>
                   </motion.div>
@@ -392,14 +490,14 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full"
                 >
                   <div className="w-2 h-2 bg-brand rounded-full" />
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">What We Do</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">{servicesSection.badge}</p>
                 </motion.div>
-                <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight leading-tight uppercase">
-                  Tailored Solutions <br /> <span className="text-brand">Designed</span> For Growth.
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-none">
+                  {servicesSection.heading} <span className="text-brand">{servicesSection.headingAccent}</span>
                 </h2>
               </div>
               <p className="text-text-muted max-w-sm text-lg font-medium leading-relaxed pb-2">
-                We create effective digital strategies that drive results for businesses and brands.
+                {servicesSection.subtext}
               </p>
             </div>
  
@@ -420,11 +518,13 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
               <div className="lg:col-span-5 space-y-8">
                 <div className="space-y-4">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Industry Expertise</p>
-                  <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight leading-tight uppercase">Sectors <br /> <span className="text-brand">We Support.</span></h2>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">{expertise.badge}</p>
+                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-none">
+                    {expertise.heading} <span className="text-brand">{expertise.headingAccent}</span>
+                  </h2>
                 </div>
                 <p className="text-text-secondary text-xl font-medium leading-relaxed">
-                  We bring deep domain expertise to high-growth sectors, delivering customized solutions that align with specific market requirements.
+                  {expertise.subtext}
                 </p>
                 <Link href="/work" className="btn-primary h-16 px-10 text-[10px] font-bold uppercase tracking-[0.2em] group bg-brand flex items-center justify-center gap-2">
                   See Case History <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -473,8 +573,8 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                   <div className="w-2 h-2 bg-brand rounded-full" />
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Case History</p>
                 </motion.div>
-                <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight leading-tight uppercase">
-                  Proven Success <br /> <span className="text-brand">Strategic</span> Growth.
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-none">
+                  Proven Success <span className="text-brand">Strategic Growth.</span>
                 </h2>
               </div>
               <Link href="/work" className="btn-outline h-14 px-8 text-[11px] font-bold uppercase tracking-[0.2em] group/arch border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
@@ -503,8 +603,8 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
         <section className="section-padding border-y border-stroke bg-surface/30 relative">
           <div className="container-max relative z-10">
             <div className="text-center mb-32 space-y-6">
-               <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">Working with Us</p>
-               <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase">Our Partnership Process.</h2>
+               <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">{partnership.badge}</p>
+               <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">{partnership.heading}</h2>
             </div>
  
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12 relative">
@@ -526,14 +626,14 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div className="space-y-10 order-2 lg:order-1">
                 <div className="space-y-6">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">Strategic Approach</p>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase leading-tight">
-                    Beyond <br /> Agency.
+                  <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">{strategy.badge}</p>
+                  <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">
+                    {strategy.heading} <span className="text-brand">{strategy.headingAccent}</span>
                   </h2>
                 </div>
                 
                 <p className="text-text-secondary text-xl font-medium leading-relaxed">
-                  Our approach integrates precision engineering with strategic thinking to deliver sustainable impact for your organization.
+                  {strategy.subtext}
                 </p>
  
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
@@ -605,7 +705,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                    <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-10">
                       <defs>
                         <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                           <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5"/>
                         </pattern>
                       </defs>
                       <rect width="100%" height="100%" fill="url(#grid)" />
@@ -636,9 +736,9 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
  
               <div className="space-y-16">
                 <div className="space-y-6">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Partnership Values</p>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight uppercase leading-tight">
-                    Engineering <br /> Excellence.
+                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">{excellence.badge}</p>
+                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight uppercase leading-none">
+                    {excellence.heading} <span className="text-brand">{excellence.headingAccent}</span>
                   </h2>
                 </div>
                 
@@ -659,27 +759,22 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
         {/* 8. TESTIMONIALS */}
         <section className="section-padding relative overflow-hidden bg-white">
           <div className="container-max relative z-10">
-            <div className="text-center mb-32 space-y-6">
-              <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Client Feedback</p>
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-tight">The Partnership Experience.</h2>
+            <div className="text-center mb-24 space-y-6">
+              <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">{testimonials.badge}</p>
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">
+                {testimonials.heading} <br /> <span className="text-brand">{testimonials.headingAccent}</span>
+              </h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <TestimonyCard 
-                name="Ayman Sadiq" 
-                role="Founder, 10 Minute School" 
-                quote="The RankNexis methodology delivered sub-second infrastructure and measurable ROAS lift in under 90 days. Their engineering logic is unparalleled."
-              />
-              <TestimonyCard 
-                name="Fahim Mashroor" 
-                role="CEO, Bdjobs" 
-                quote="They don't just build software—they build digital leverage. RankNexis solved architectural bottlenecks that were costing us millions."
-              />
-              <TestimonyCard 
-                name="Zubayer Ahmed" 
-                role="Founder, Hishab" 
-                quote="RankNexis is our tactical advantage. Their ROI-first approach and technical precision has been a key driver in our category dominance."
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {testimonials.items?.map((item: any, i: number) => (
+                <TestimonyCard 
+                  key={i}
+                  name={item.name} 
+                  role={item.role} 
+                  quote={item.quote}
+                />
+              ))}
             </div>
           </div>
           <div className="absolute bottom-0 left-0 w-full h-1/2 bg-brand/5 blur-[120px] -z-10" />
@@ -690,9 +785,9 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
           <div className="container-max relative z-10">
             <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-10">
               <div className="space-y-6">
-                <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Knowledge Hub</p>
-                <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-tight">
-                  Strategic <br /> Insights.
+                <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">{insights.badge}</p>
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">
+                  {insights.heading} <span className="text-brand">{insights.headingAccent}</span>
                 </h2>
               </div>
               <Link href="/blog" className="btn-outline h-14 px-10 text-[11px] font-bold uppercase tracking-[0.3em] group/intel bg-surface border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
@@ -724,13 +819,13 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10">
                 <div className="space-y-10">
                    <div className="space-y-6">
-                      <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">Let's Connect</p>
-                      <h2 className="text-5xl md:text-7xl font-bold tracking-tight uppercase leading-tight">
-                        Start <br /> Your <span className="text-brand">Strategy.</span>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">{connect.badge}</p>
+                      <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">
+                        {connect.heading} <span className="text-brand">{connect.headingAccent}</span>
                       </h2>
                    </div>
                    <p className="text-text-secondary text-xl font-medium leading-relaxed max-w-sm">
-                      Ready to build your next-generation platform? Connect with our team to discuss your strategic objectives.
+                      {connect.subtext}
                    </p>
                    
                    <div className="pt-10 border-t border-stroke space-y-8">
@@ -794,29 +889,31 @@ function ServiceCard({ icon: Icon, title, desc, features, index, slug }: any) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.8 }}
-      className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all"
+      className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-8 md:p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-[500px] flex flex-col justify-between"
     >
-      <div className="relative z-10 space-y-12">
-        <div className="w-20 h-20 bg-brand/5 border border-brand/10 rounded-2xl flex items-center justify-center text-brand mb-10 group-hover:bg-brand group-hover:text-white transition-all duration-700">
-          <Icon size={32} strokeWidth={1.5} />
+      <div className="relative z-10 space-y-8">
+        <div className="w-16 h-16 bg-brand/5 border border-brand/10 rounded-2xl flex items-center justify-center text-brand mb-6 group-hover:bg-brand group-hover:text-white transition-all duration-700">
+          <Icon size={28} strokeWidth={1.5} />
         </div>
         
-        <div className="space-y-4">
-          <h3 className="text-3xl font-bold mb-3 tracking-tight uppercase leading-tight">{title}</h3>
-          <p className="text-text-muted text-lg leading-relaxed line-clamp-2 pr-4">{desc}</p>
+        <div className="space-y-3">
+          <h3 className="text-2xl md:text-3xl font-bold tracking-tight uppercase leading-none">{title}</h3>
+          <p className="text-text-muted text-base leading-relaxed line-clamp-3 pr-4 font-medium">{desc}</p>
         </div>
  
-        <ul className="space-y-4 pt-8 border-t border-stroke">
+        <ul className="grid grid-cols-2 gap-4 pt-8 border-t border-stroke">
           {features && features.map((item: string) => (
-            <li key={item} className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-text-muted">
-              <div className="w-1.5 h-1.5 bg-brand rounded-full" />
-              {item}
+            <li key={item} className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-wider text-text-muted">
+              <div className="w-1.5 h-1.5 bg-brand rounded-full shrink-0" />
+              <span className="truncate">{item}</span>
             </li>
           ))}
         </ul>
- 
+      </div>
+
+      <div className="pt-8 mt-auto">
         <Link href={`/services/${slug}`} className="btn-outline h-14 w-full text-[10px] font-bold uppercase tracking-wider group/link border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
-          Learn More <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform" />
+          Explore Solution <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform" />
         </Link>
       </div>
     </motion.div>

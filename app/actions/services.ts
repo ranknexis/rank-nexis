@@ -20,7 +20,7 @@ export async function createService(data: {
             }
         });
         revalidatePath("/services");
-        revalidatePath("/admin/services");
+        revalidatePath("/dashboard/services");
         return { success: true, service };
     } catch (error) {
         console.error("Create Service Error:", error);
@@ -35,7 +35,7 @@ export async function updateService(id: string, data: any) {
             data
         });
         revalidatePath("/services");
-        revalidatePath("/admin/services");
+        revalidatePath("/dashboard/services");
         return { success: true };
     } catch (error) {
         console.error("Update Service Error:", error);
@@ -50,7 +50,7 @@ export async function toggleServiceStatus(id: string, active: boolean) {
             data: { active }
         });
         revalidatePath("/services");
-        revalidatePath("/admin/services");
+        revalidatePath("/dashboard/services");
         return { success: true };
     } catch (error) {
         console.error("Toggle Service Status Error:", error);
@@ -62,7 +62,7 @@ export async function deleteService(id: string) {
     try {
         await prisma.service.delete({ where: { id } });
         revalidatePath("/services");
-        revalidatePath("/admin/services");
+        revalidatePath("/dashboard/services");
         return { success: true };
     } catch (error) {
         console.error("Delete Service Error:", error);

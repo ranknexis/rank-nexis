@@ -40,7 +40,7 @@ export async function updateSettings(data: any) {
     });
 
     revalidatePath("/", "layout");
-    revalidatePath("/admin/settings");
+    revalidatePath("/dashboard/settings");
     
     return { success: true, data: updated };
   } catch (error) {

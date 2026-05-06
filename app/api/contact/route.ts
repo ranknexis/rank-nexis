@@ -25,12 +25,9 @@ export async function POST(req: Request) {
             }
         });
 
-        console.log("Lead Received (UI-Only Mode):", { name, email });
-
-        return NextResponse.json({
+        return NextResponse.json({ 
             success: true,
-            message: "Growth Sync Initialized Successfully",
-            syncId: "mock-sync-id-" + Date.now(),
+            message: "Success"
         });
     } catch (error) {
         console.error("Contact API Error:", error);

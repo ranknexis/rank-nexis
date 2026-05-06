@@ -10,7 +10,7 @@ export async function updateBlogPost(id: string, data: any) {
       where: { id },
       data,
     });
-    revalidatePath("/admin/blog");
+    revalidatePath("/dashboard/blog");
     revalidatePath(`/blog/${updated.slug}`);
     return { success: true, data: updated };
   } catch (error) {
@@ -24,7 +24,7 @@ export async function createBlogPost(data: any) {
     const created = await prisma.blog.create({
       data,
     });
-    revalidatePath("/admin/blog");
+    revalidatePath("/dashboard/blog");
     return { success: true, data: created };
   } catch (error) {
     console.error("Failed to create blog post:", error);
@@ -35,7 +35,7 @@ export async function createBlogPost(data: any) {
 export async function deleteBlogPost(id: string) {
   try {
     await prisma.blog.delete({ where: { id } });
-    revalidatePath("/admin/blog");
+    revalidatePath("/dashboard/blog");
     return { success: true };
   } catch (error) {
     return { success: false };
@@ -49,7 +49,7 @@ export async function updateCaseStudy(id: string, data: any) {
       where: { id },
       data,
     });
-    revalidatePath("/admin/work");
+    revalidatePath("/dashboard/work");
     revalidatePath(`/work/${updated.slug}`);
     return { success: true, data: updated };
   } catch (error) {
@@ -60,7 +60,7 @@ export async function updateCaseStudy(id: string, data: any) {
 export async function createCaseStudy(data: any) {
   try {
     const created = await prisma.caseStudy.create({ data });
-    revalidatePath("/admin/work");
+    revalidatePath("/dashboard/work");
     return { success: true, data: created };
   } catch (error) {
     return { success: false, error: "Failed to create case study." };
@@ -70,7 +70,7 @@ export async function createCaseStudy(data: any) {
 export async function deleteCaseStudy(id: string) {
   try {
     await prisma.caseStudy.delete({ where: { id } });
-    revalidatePath("/admin/work");
+    revalidatePath("/dashboard/work");
     return { success: true };
   } catch (error) {
     return { success: false };
@@ -84,7 +84,7 @@ export async function updateJob(id: string, data: any) {
       where: { id },
       data,
     });
-    revalidatePath("/admin/careers");
+    revalidatePath("/dashboard/careers");
     revalidatePath(`/careers`); // List page
     return { success: true, data: updated };
   } catch (error) {
@@ -95,7 +95,7 @@ export async function updateJob(id: string, data: any) {
 export async function createJob(data: any) {
   try {
     const created = await prisma.job.create({ data });
-    revalidatePath("/admin/careers");
+    revalidatePath("/dashboard/careers");
     return { success: true, data: created };
   } catch (error) {
     return { success: false, error: "Failed to create job listing." };
@@ -105,7 +105,7 @@ export async function createJob(data: any) {
 export async function deleteJob(id: string) {
   try {
     await prisma.job.delete({ where: { id } });
-    revalidatePath("/admin/careers");
+    revalidatePath("/dashboard/careers");
     return { success: true };
   } catch (error) {
     return { success: false };

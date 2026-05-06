@@ -9,7 +9,7 @@ export async function updateLeadStatus(id: string, status: string) {
       where: { id },
       data: { status }
     });
-    revalidatePath("/admin/leads");
+    revalidatePath("/dashboard/leads");
     return { success: true };
   } catch (error) {
     console.error("Failed to update lead status:", error);
@@ -22,7 +22,7 @@ export async function deleteLead(id: string) {
     await prisma.lead.delete({
       where: { id }
     });
-    revalidatePath("/admin/leads");
+    revalidatePath("/dashboard/leads");
     return { success: true };
   } catch (error) {
     console.error("Failed to delete lead:", error);

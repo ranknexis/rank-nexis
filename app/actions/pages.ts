@@ -2,12 +2,16 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getSession } from "@/lib/auth";
 
 /**
  * ── PAGE LEVEL OPERATIONS ──
  */
 
 export async function getAllPages() {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
   try {
     const pages = await prisma.pageContent.findMany({
       include: {
@@ -42,6 +46,9 @@ export async function getPageBySlug(slug: string) {
 }
 
 export async function updatePageSeo(slug: string, data: any) {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
   try {
     const page = await prisma.pageContent.update({
       where: { slug },
@@ -57,15 +64,17 @@ export async function updatePageSeo(slug: string, data: any) {
       }
     });
     revalidatePath(`/${slug === 'home' ? '' : slug}`);
-    revalidatePath(`/admin/pages/${slug}`);
     return { success: true, page };
   } catch (error) {
     console.error("Update SEO Error:", error);
-    return { error: "Failed to update SEO settings." };
+    return { error: "Failed to update SEO." };
   }
 }
 
-export async function updatePageStatus(slug: string, status: "published" | "draft") {
+export async function updatePageStatus(slug: string, status: string) {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
   try {
     await prisma.pageContent.update({
       where: { slug },
@@ -74,22 +83,22 @@ export async function updatePageStatus(slug: string, status: "published" | "draf
     revalidatePath(`/${slug === 'home' ? '' : slug}`);
     return { success: true };
   } catch (error) {
-    console.error("Update Status Error:", error);
-    return { error: "Failed to update page status." };
+    return { error: "Failed to update status" };
   }
 }
 
 export async function updateInternalLinks(slug: string, links: any[]) {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
   try {
     await prisma.pageContent.update({
       where: { slug },
       data: { internalLinks: links }
     });
-    revalidatePath(`/${slug === 'home' ? '' : slug}`);
     return { success: true };
   } catch (error) {
-    console.error("Update Links Error:", error);
-    return { error: "Failed to update internal links." };
+    return { error: "Failed to update internal links" };
   }
 }
 
@@ -97,22 +106,66 @@ export async function updateInternalLinks(slug: string, links: any[]) {
  * ── SECTION LEVEL OPERATIONS ──
  */
 
+export async function addSection(pageId: string, data: { label: string, sectionType: string, content: any }) {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
+  try {
+    // Get highest order
+    const lastSection = await prisma.pageSection.findFirst({
+      where: { pageId },
+      orderBy: { order: 'desc' }
+    });
+    const order = (lastSection?.order || 0) + 1;
+
+    // Create unique key
+    const sectionKey = `${data.sectionType}_${Date.now()}`;
+
+    const section = await prisma.pageSection.create({
+      data: {
+        pageId,
+        sectionKey,
+        sectionType: data.sectionType,
+        label: data.label,
+        content: data.content,
+        order
+      }
+    });
+
+    return { success: true, section };
+  } catch (error) {
+    console.error("Add Section Error:", error);
+    return { error: "Failed to create section" };
+  }
+}
+
+export async function deleteSection(id: string) {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
+  try {
+    await prisma.pageSection.delete({ where: { id } });
+    return { success: true };
+  } catch (error) {
+    return { error: "Failed to delete section" };
+  }
+}
+
 export async function updateSection(sectionId: string, content: any, isVisible?: boolean) {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
   try {
     const section = await prisma.pageSection.update({
       where: { id: sectionId },
-      include: { page: true },
       data: { 
         content,
         ...(isVisible !== undefined && { isVisible })
-      }
+      },
+      include: { page: true }
     });
     
-    // Revalidate public page
-    const slug = section.page.slug;
-    revalidatePath(`/${slug === 'home' ? '' : slug}`);
-    revalidatePath(`/admin/pages/${slug}`);
-    
+    revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     return { success: true, section };
   } catch (error) {
     console.error("Update Section Error:", error);
@@ -120,43 +173,40 @@ export async function updateSection(sectionId: string, content: any, isVisible?:
   }
 }
 
-export async function toggleSectionVisibility(id: string, isVisible: boolean) {
+export async function toggleSectionVisibility(sectionId: string, isVisible: boolean) {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
   try {
     const section = await prisma.pageSection.update({
-      where: { id },
-      include: { page: true },
-      data: { isVisible }
+      where: { id: sectionId },
+      data: { isVisible },
+      include: { page: true }
     });
-    
-    const slug = section.page.slug;
-    revalidatePath(`/${slug === 'home' ? '' : slug}`);
+    revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     return { success: true };
   } catch (error) {
     console.error("Toggle Visibility Error:", error);
-    return { error: "Failed to toggle visibility." };
+    return { error: "Failed to toggle section visibility." };
   }
 }
 
-export async function reorderSections(pageId: string, orderedIds: string[]) {
+export async function reorderSections(pageId: string, sectionIds: string[]) {
+  const session = await getSession();
+  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
   try {
     await prisma.$transaction(
-      orderedIds.map((id, index) =>
+      sectionIds.map((id, index) => 
         prisma.pageSection.update({
           where: { id },
           data: { order: index }
         })
       )
     );
-    
-    const page = await prisma.pageContent.findUnique({ where: { id: pageId } });
-    if (page) {
-      revalidatePath(`/${page.slug === 'home' ? '' : page.slug}`);
-    }
-    
     return { success: true };
   } catch (error) {
-    console.error("Reorder Sections Error:", error);
+    console.error("Reorder Error:", error);
     return { error: "Failed to reorder sections." };
   }
 }
-

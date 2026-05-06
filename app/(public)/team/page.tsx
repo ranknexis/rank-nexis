@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import { Metadata } from "next";
 import InternalLinksSection from "@/components/InternalLinksSection";
+import TeamMemberCard from "@/components/TeamMemberCard";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageData("team");
@@ -82,26 +83,13 @@ export default async function TeamPage() {
            <div className="container-max">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                  {team.map((member: any) => (
-                    <div key={member.id} className="group">
-                       <div className="space-y-10">
-                          <div className="aspect-[3/4] rounded-[3.5rem] overflow-hidden glass border border-stroke shadow-premium group-hover:shadow-2xl transition-all duration-1000 relative grain group-hover:-translate-y-2">
-                             <img 
-                               src={member.image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2070"} 
-                               alt={member.name} 
-                               className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100 antialiased" 
-                             />
-                             <div className="absolute inset-0 bg-brand/[0.03] group-hover:bg-transparent transition-colors" />
-                          </div>
-                          
-                          <div className="space-y-6 text-center">
-                             <div className="space-y-2">
-                                <h3 className="text-4xl font-bold uppercase tracking-tighter group-hover:text-brand transition-colors leading-none text-text-primary antialiased">{member.name}</h3>
-                                <p className="text-[11px] font-bold uppercase text-brand tracking-[0.2em]">{member.role}</p>
-                             </div>
-                             <p className="text-text-muted text-lg font-medium leading-relaxed max-w-[90%] mx-auto antialiased">{member.bio}</p>
-                          </div>
-                       </div>
-                    </div>
+                    <TeamMemberCard 
+                       key={member.id}
+                       name={member.name}
+                       role={member.role}
+                       image={member.image}
+                       socials={member.socials}
+                    />
                  ))}
               </div>
            </div>

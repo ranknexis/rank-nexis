@@ -20,32 +20,45 @@ export default function CookieConsent() {
   });
 
   useEffect(() => {
-    // Check local storage for existing consent
     const consent = localStorage.getItem("ranknexis_cookie_consent");
     if (!consent) {
-      // Delay initialization slightly for a better visual entry
       const timer = setTimeout(() => setIsVisible(true), 1500);
       return () => clearTimeout(timer);
     }
+
+    const handleShow = () => {
+      setIsVisible(true);
+      setShowCustomize(true);
+    };
+
+    window.addEventListener("show-cookie-consent", handleShow);
+    return () => window.removeEventListener("show-cookie-consent", handleShow);
   }, []);
+
+  const dispatchUpdate = () => {
+    window.dispatchEvent(new Event("cookie-consent-updated"));
+  };
 
   const handleAcceptAll = () => {
     localStorage.setItem("ranknexis_cookie_consent", "all");
+    dispatchUpdate();
     setIsVisible(false);
   };
 
   const handleRejectAll = () => {
     localStorage.setItem("ranknexis_cookie_consent", "rejected");
+    dispatchUpdate();
     setIsVisible(false);
   };
 
   const handleSavePreferences = () => {
     localStorage.setItem("ranknexis_cookie_consent", JSON.stringify(preferences));
+    dispatchUpdate();
     setIsVisible(false);
   };
 
   const togglePreference = (key: keyof CookiePreferences) => {
-    if (key === 'necessary') return; // Cannot toggle necessary
+    if (key === 'necessary') return;
     setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
@@ -124,7 +137,7 @@ export default function CookieConsent() {
           ) : (
             <div className="flex flex-col sm:flex-row items-center justify-between w-full max-w-7xl mx-auto gap-4">
               <p className="text-text-primary text-sm font-medium text-center sm:text-left">
-                We use cookies to improve your experience on our site. By using our site, you consent to cookies.
+                We use cookies to improve your experience. Select your preference below.
               </p>
 
               <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 shrink-0">
@@ -154,4 +167,3 @@ export default function CookieConsent() {
     </AnimatePresence>
   );
 }
-

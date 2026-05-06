@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Filter, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface WorkContentProps {
   initialStudies: any[];
@@ -14,6 +14,23 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
   const CATEGORIES = ["All", ...Array.from(new Set(initialStudies.map(s => s.tag)))];
   
   const [activeCategory, setActiveCategory] = useState("All");
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsNavVisible(false);
+      } else {
+        setIsNavVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const filteredStudies = activeCategory === "All" 
     ? initialStudies 
@@ -22,7 +39,11 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
   return (
     <>
       {/* FILTER BAR */}
-      <section className="sticky top-20 z-40 bg-white/80 backdrop-blur-md border-b border-stroke py-6">
+      <section 
+        className={`sticky z-40 bg-white/80 backdrop-blur-md border-b border-stroke py-6 transition-all duration-500 ${
+          isNavVisible ? "top-20" : "top-0"
+        }`}
+      >
          <div className="container-max flex items-center justify-between gap-8">
             <div className="flex items-center gap-4">
                <Filter size={18} className="text-text-muted" />

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import CookieConsent from "./components/CookieConsent";
+import AnalyticsScripts from "./components/AnalyticsScripts";
 import "./globals.css";
 import prisma from "@/lib/prisma";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await prisma.siteSettings.findUnique({
@@ -51,19 +55,23 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await prisma.siteSettings.findUnique({
+    where: { id: "global" }
+  });
+
   return (
     <html lang="en">
-      <body className="font-sans antialiased text-text-primary bg-background">
+      <body className={`${inter.className} antialiased text-text-primary bg-background`}>
         <Toaster position="top-center" expand visibleToasts={3} richColors />
         <CookieConsent />
+        <AnalyticsScripts settings={settings} />
         {children}
       </body>
     </html>
   );
 }
-

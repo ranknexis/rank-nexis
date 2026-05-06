@@ -1,69 +1,134 @@
+"use server";
+
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
-const SECRET_KEY = new TextEncoder().encode(
-    process.env.JWT_SECRET || "rank_nexis_secret_fallback_key_2026"
+export const ACCESS_SECRET = new TextEncoder().encode(
+    process.env.JWT_SECRET || "rank_nexis_access_secret_2026"
+);
+export const REFRESH_SECRET = new TextEncoder().encode(
+    process.env.JWT_REFRESH_SECRET || "rank_nexis_refresh_secret_2026"
 );
 
-export async function encrypt(payload: any) {
+export async function encrypt(payload: any, secret: Uint8Array, expiresIn: string) {
     return await new SignJWT(payload)
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
-        .setExpirationTime("24h")
-        .sign(SECRET_KEY);
+        .setExpirationTime(expiresIn)
+        .sign(secret);
 }
 
-export async function decrypt(input: string): Promise<any> {
-    const { payload } = await jwtVerify(input, SECRET_KEY, {
+export async function decrypt(input: string, secret: Uint8Array): Promise<any> {
+    const { payload } = await jwtVerify(input, secret, {
         algorithms: ["HS256"],
     });
     return payload;
 }
 
-export async function login(userData: { id: string; email: string; role: string }) {
-    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
-    const session = await encrypt({ ...userData, expires });
+export async function verifyToken(token: string) {
+    return await decrypt(token, ACCESS_SECRET);
+}
+
+export async function login(userData: { id: string; email: string; role: string; passwordSet: boolean }) {
+    const accessToken = await encrypt(userData, ACCESS_SECRET, "15m");
+    const refreshToken = await encrypt({ id: userData.id }, REFRESH_SECRET, "7d");
+
+    // Store refresh token in DB
+    await prisma.refreshToken.create({
+        data: {
+            token: refreshToken,
+            userId: userData.id,
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        }
+    });
 
     const cookieStore = await cookies();
-    cookieStore.set("session", session, {
-        expires,
+    
+    // Access Token Cookie
+    cookieStore.set("session", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
+        maxAge: 15 * 60, // 15 mins
+        path: "/"
+    });
+
+    // Refresh Token Cookie
+    cookieStore.set("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60, // 7 days
         path: "/"
     });
 }
 
 export async function logout() {
     const cookieStore = await cookies();
+    const refreshToken = cookieStore.get("refreshToken")?.value;
+
+    if (refreshToken) {
+        await prisma.refreshToken.deleteMany({
+            where: { token: refreshToken }
+        });
+    }
+
     cookieStore.set("session", "", { expires: new Date(0) });
+    cookieStore.set("refreshToken", "", { expires: new Date(0) });
 }
 
 export async function getSession() {
     const cookieStore = await cookies();
-    const session = cookieStore.get("session")?.value;
-    if (!session) return null;
-    return await decrypt(session);
+    const token = cookieStore.get("session")?.value;
+    if (!token) return null;
+    
+    try {
+        return await decrypt(token, ACCESS_SECRET);
+    } catch (error) {
+        return null;
+    }
 }
 
-export async function updateSession(request: NextRequest) {
-    const session = request.cookies.get("session")?.value;
-    if (!session) return;
+/**
+ * Server-side Refresh Logic
+ */
+export async function refreshAccessToken() {
+    const cookieStore = await cookies();
+    const refreshToken = cookieStore.get("refreshToken")?.value;
+    if (!refreshToken) return null;
 
-    // Refresh the session so it doesn't expire
-    const parsed = await decrypt(session);
-    parsed.expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
-    const res = NextResponse.next();
-    res.cookies.set({
-        name: "session",
-        value: await encrypt(parsed),
-        httpOnly: true,
-        expires: parsed.expires,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/"
-    });
-    return res;
+    try {
+        const payload = await decrypt(refreshToken, REFRESH_SECRET);
+        
+        // Verify in DB
+        const dbToken = await prisma.refreshToken.findUnique({
+            where: { token: refreshToken },
+            include: { user: true }
+        });
+
+        if (!dbToken || dbToken.expiresAt < new Date()) {
+            return null;
+        }
+
+        const user = dbToken.user;
+        const newAccessToken = await encrypt({
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            passwordSet: user.passwordSet
+        }, ACCESS_SECRET, "15m");
+
+        cookieStore.set("session", newAccessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 15 * 60,
+            path: "/"
+        });
+
+        return { accessToken: newAccessToken, user: { id: user.id, email: user.email, role: user.role } };
+    } catch (error) {
+        return null;
+    }
 }
-

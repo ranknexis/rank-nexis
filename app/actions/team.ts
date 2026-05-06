@@ -15,7 +15,7 @@ export async function createTeamMember(data: any) {
         socials: data.socials || [],
       }
     });
-    revalidatePath("/admin/team");
+    revalidatePath("/dashboard/team");
     revalidatePath("/team");
     revalidatePath("/about");
     return { success: true, data: member };
@@ -37,7 +37,7 @@ export async function updateTeamMember(id: string, data: any) {
         socials: data.socials || [],
       }
     });
-    revalidatePath("/admin/team");
+    revalidatePath("/dashboard/team");
     revalidatePath("/team");
     revalidatePath("/about");
     return { success: true, data: member };
@@ -51,7 +51,7 @@ export async function deleteTeamMember(id: string) {
     await prisma.teamMember.delete({
       where: { id }
     });
-    revalidatePath("/admin/team");
+    revalidatePath("/dashboard/team");
     revalidatePath("/team");
     revalidatePath("/about");
     return { success: true };

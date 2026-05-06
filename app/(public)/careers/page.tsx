@@ -3,6 +3,7 @@ import { getPageData } from "@/lib/pageContent";
 import { buildSeoMetadata, getSectionData } from "@/lib/pageUtils";
 import CareersContent from "./components/CareersContent";
 import { Metadata } from "next";
+import Image from "next/image";
 import { Layers, Zap } from "lucide-react";
 import InternalLinksSection from "@/components/InternalLinksSection";
 
@@ -98,7 +99,7 @@ export default async function CareersPage() {
               <div className="relative group p-2">
                  <div className="absolute inset-0 bg-brand/5 blur-3xl group-hover:bg-brand/10 transition-all rounded-[3rem] -z-10" />
                  <div className="aspect-[4/3] rounded-[2.5rem] overflow-hidden grain shadow-premium border border-stroke bg-white relative">
-                    <img src={culture.imageUrl || "/images/careers_culture.png"} alt="Team Session" className="w-full h-full object-cover grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
+                    <Image src={culture.imageUrl && !culture.imageUrl.includes('unsplash') ? culture.imageUrl : "/images/careers_culture.png"} alt="Team Session" fill className="object-cover grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-brand/[0.02] group-hover:bg-transparent transition-colors duration-500" />
                  </div>
               </div>

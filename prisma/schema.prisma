@@ -14,30 +14,36 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
-  role      String   @default("ADMIN")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  blogs     Blog[]
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  name        String?
+  role        String   @default("TEAM_MEMBER") // ADMIN, TEAM_MEMBER
+  permissions Json     @default("[]")    // e.g., ["manage_pages", "manage_leads"]
+  passwordSet Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  blogs       Blog[]
+  caseStudies CaseStudy[]
+  tokens      RefreshToken[]
+  teamProfile TeamMember?
 }
 
 model Blog {
-  id          String       @id @default(cuid())
-  title       String
-  slug        String       @unique
-  content     String
-  image       String?
+  id              String       @id @default(cuid())
+  title           String
+  slug            String       @unique
+  content         String
+  image           String?
   metaTitle       String?
   metaDescription String?
-  categoryId  String
-  category    BlogCategory @relation(fields: [categoryId], references: [id])
-  authorId    String
-  author      User         @relation(fields: [authorId], references: [id])
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  categoryId      String
+  category        BlogCategory @relation(fields: [categoryId], references: [id])
+  authorId        String
+  author          User         @relation(fields: [authorId], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }
 
 model BlogCategory {
@@ -62,7 +68,28 @@ model CaseStudy {
   kpi          String
   tag          String
   technologies String[]
+  
+  authorId     String?
+  author       User?    @relation(fields: [authorId], references: [id])
+  
   createdAt    DateTime @default(now())
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }
 
 model Job {
@@ -100,6 +127,9 @@ model TeamMember {
   bio       String?
   order     Int     @default(0)
   socials   Json    @default("[]")
+  
+  userId    String? @unique
+  user      User?   @relation(fields: [userId], references: [id])
 }
 
 model Testimonial {
@@ -117,6 +147,8 @@ model Lead {
   email     String
   phone     String?
   company   String?
+  service   String?
+  budget    String?
   message   String
   status    String   @default("NEW")
   createdAt DateTime @default(now())
@@ -198,6 +230,21 @@ model SiteSettings {
   linkedinUrl     String?
   instagramUrl    String?
   youtubeUrl      String?
+
+  // Analytics & Tracking
+  gtmId             String?
+  gaId              String?
+  pixelId           String?
+  linkedinInsightId String?
+  hotjarId          String?
+  clarityId         String?
+  pinterestId       String?
+  tiktokId          String?
+  twitterId         String?
+  snapchatId        String?
+  redditId          String?
+  quoraId           String?
+  googleAdsId       String?
 
   updatedAt       DateTime @updatedAt
 }

@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: '/admin/',
+            disallow: '/dashboard/',
         },
         sitemap: 'https://ranknexis.com/sitemap.xml',
     };
