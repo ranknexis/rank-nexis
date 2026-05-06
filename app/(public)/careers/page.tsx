@@ -36,7 +36,7 @@ export default async function CareersPage() {
      heading: "Join",
      headingAccent: "Our Team.",
      body: "We are looking for creative and hardworking people to join our team.",
-     imageUrl: "https://images.unsplash.com/photo-15222071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2070",
+     imageUrl: "/images/careers_culture.png",
      stats: []
   });
 
@@ -98,7 +98,7 @@ export default async function CareersPage() {
               <div className="relative group p-2">
                  <div className="absolute inset-0 bg-brand/5 blur-3xl group-hover:bg-brand/10 transition-all rounded-[3rem] -z-10" />
                  <div className="aspect-[4/3] rounded-[2.5rem] overflow-hidden grain shadow-premium border border-stroke bg-white relative">
-                    <img src={culture.imageUrl || "https://images.unsplash.com/photo-15222071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2070"} alt="Team Session" className="w-full h-full object-cover grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
+                    <img src={culture.imageUrl || "/images/careers_culture.png"} alt="Team Session" className="w-full h-full object-cover grayscale opacity-90 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-brand/[0.02] group-hover:bg-transparent transition-colors duration-500" />
                  </div>
               </div>

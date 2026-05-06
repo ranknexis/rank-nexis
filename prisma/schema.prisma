@@ -97,12 +97,9 @@ model TeamMember {
   name      String
   role      String
   image     String?
-  facebook  String?
-  linkedin  String?
-  email     String?
-  pinterest String?
   bio       String?
   order     Int     @default(0)
+  socials   Json    @default("[]")
 }
 
 model Testimonial {

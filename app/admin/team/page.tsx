@@ -55,7 +55,9 @@ export default async function AdminTeamPage() {
                       </div>
                       <div>
                         <p className="text-sm font-bold uppercase tracking-tight text-text-primary group-hover:text-brand transition-colors">{member.name}</p>
-                        <p className="text-[10px] font-bold uppercase text-text-muted">{member.email || 'No email protocol'}</p>
+                        <p className="text-[10px] font-bold uppercase text-text-muted">
+                           {Array.isArray(member.socials) ? `${member.socials.length} Social Links` : 'No social links'}
+                        </p>
                       </div>
                     </div>
                   </td>
@@ -64,8 +66,9 @@ export default async function AdminTeamPage() {
                   </td>
                   <td className="px-10 py-8 text-right">
                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-3 bg-white border border-stroke hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted shadow-sm"><Edit2 size={16} /></button>
-                      <button className="p-3 bg-white border border-stroke hover:bg-red-500 hover:text-white rounded-lg transition-all text-text-muted shadow-sm"><Trash2 size={16} /></button>
+                      <Link href={`/admin/team/${member.id}`} className="p-3 bg-white border border-stroke hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted shadow-sm block">
+                         <Edit2 size={16} />
+                      </Link>
                     </div>
                     <button className="p-3 text-text-muted group-hover:hidden"><MoreVertical size={16} /></button>
                   </td>

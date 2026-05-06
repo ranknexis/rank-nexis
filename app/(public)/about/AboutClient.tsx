@@ -26,7 +26,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
      heading: "Strategic",
      headingAccent: "Impact.",
      body: "Our methodology integrates precision engineering with strategic thinking to deliver sustainable impact for your organization. We've spent 8+ years building integrated digital solutions where marketing and development work together seamlessly.",
-     imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=2071"
+     imageUrl: "/images/about_agency.png"
   });
 
   return (
