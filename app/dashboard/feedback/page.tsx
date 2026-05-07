@@ -1,5 +1,4 @@
 import { getTestimonials } from "@/actions/feedback";
-import DashboardShell from "../components/DashboardShell";
 import FeedbackList from "./components/FeedbackList";
 
 export const metadata = {
@@ -16,7 +15,6 @@ export default async function FeedbackPage() {
   ]);
 
   return (
-    <DashboardShell session={session}>
       <div className="space-y-10">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -29,6 +27,5 @@ export default async function FeedbackPage() {
 
         <FeedbackList initialTestimonials={testimonials} />
       </div>
-    </DashboardShell>
   );
 }

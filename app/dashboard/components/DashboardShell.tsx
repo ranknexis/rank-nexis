@@ -1,7 +1,7 @@
 "use client";
 
 import { logout } from "@/actions/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
    Activity,
    BarChart3,
@@ -18,11 +18,13 @@ import {
    Users,
    X,
    Zap,
-   Star
+   Star,
+   PanelLeftClose,
+   PanelLeftOpen
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardShell({ 
     children, 
@@ -34,6 +36,7 @@ export default function DashboardShell({
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
     if (!session && pathname !== "/dashboard/login") {
@@ -45,26 +48,24 @@ export default function DashboardShell({
 
   const NAV_ITEMS = [
     { icon: LayoutDashboard, label: "Overview", href: "/dashboard", roles: ["ADMIN", "TEAM_MEMBER"] },
-    { icon: FileCode, label: "Site Architecture", href: "/dashboard/pages", roles: ["ADMIN"], permission: "manage_pages" },
-    { icon: Zap, label: "Services Hub", href: "/dashboard/services", roles: ["ADMIN"], permission: "manage_services" },
-    { icon: Briefcase, label: "Careers Portal", href: "/dashboard/careers", roles: ["ADMIN"], permission: "manage_careers" },
-    { icon: Users, label: "Experts Node", href: "/dashboard/team", roles: ["ADMIN"], permission: "manage_team" },
-    { icon: FileText, label: "Content (Blog)", href: "/dashboard/blog", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_blog" },
-    { icon: BarChart3, label: "Case Archives", href: "/dashboard/work", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_work" },
-    { icon: MessageSquare, label: "Lead Pipeline", href: "/dashboard/leads", roles: ["ADMIN"], permission: "manage_leads" },
-    { icon: Star, label: "Feedback Loop", href: "/dashboard/feedback", roles: ["ADMIN"], permission: "manage_feedback" },
-    { icon: Users, label: "Access Control", href: "/dashboard/users", roles: ["ADMIN"], permission: "manage_users" },
-    { icon: Activity, label: "System Performance", href: "/dashboard/performance", roles: ["ADMIN"] },
-    { icon: FileText, label: "System Report", href: "/dashboard/report", roles: ["ADMIN"] },
-    { icon: UserCircle, label: "My Profile", href: "/dashboard/profile", roles: ["ADMIN", "TEAM_MEMBER"] },
-    { icon: Settings, label: "Global Settings", href: "/dashboard/settings", roles: ["ADMIN"], permission: "manage_settings" },
+    { icon: FileCode, label: "Pages", href: "/dashboard/pages", roles: ["ADMIN"], permission: "manage_pages" },
+    { icon: Zap, label: "Services", href: "/dashboard/services", roles: ["ADMIN"], permission: "manage_services" },
+    { icon: Briefcase, label: "Careers", href: "/dashboard/careers", roles: ["ADMIN"], permission: "manage_careers" },
+    { icon: Users, label: "Team", href: "/dashboard/team", roles: ["ADMIN"], permission: "manage_team" },
+    { icon: FileText, label: "Blog", href: "/dashboard/blog", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_blog" },
+    { icon: BarChart3, label: "Portfolio", href: "/dashboard/work", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_work" },
+    { icon: MessageSquare, label: "Leads", href: "/dashboard/leads", roles: ["ADMIN"], permission: "manage_leads" },
+    { icon: Star, label: "Feedback", href: "/dashboard/feedback", roles: ["ADMIN"], permission: "manage_feedback" },
+    { icon: Users, label: "Users", href: "/dashboard/users", roles: ["ADMIN"], permission: "manage_users" },
+    { icon: Activity, label: "Performance", href: "/dashboard/performance", roles: ["ADMIN"] },
+    { icon: FileText, label: "Reports", href: "/dashboard/report", roles: ["ADMIN"] },
+    { icon: UserCircle, label: "Profile", href: "/dashboard/profile", roles: ["ADMIN", "TEAM_MEMBER"] },
+    { icon: Settings, label: "Settings", href: "/dashboard/settings", roles: ["ADMIN"], permission: "manage_settings" },
 
   ].filter(item => {
     if (role === "ADMIN") return true;
     if (item.roles.includes("TEAM_MEMBER")) {
-        
-        if (["Overview", "My Profile", "Content (Blog)", "Case Archives"].includes(item.label)) return true;
-
+        if (["Overview", "Profile", "Blog", "Portfolio"].includes(item.label)) return true;
         if (!item.permission) return true;
         const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse(session?.permissions || "[]");
         return userPermissions.includes(item.permission);
@@ -83,94 +84,169 @@ export default function DashboardShell({
 
   if (!session) return null;
 
-  const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-white">
-      <div className="p-8 border-b border-stroke">
-         <div className="flex items-center gap-4">
+  const SidebarContent = ({ isMobile = false }) => (
+    <div className="flex flex-col h-full bg-white relative">
+      {/* Header */}
+      <div className={`p-6 mb-2 ${isCollapsed && !isMobile ? "items-center px-4" : ""}`}>
+         <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand/20 shrink-0">
                <Zap size={20} fill="currentColor" />
             </div>
-            <div>
-               <p className="text-lg font-black uppercase tracking-tighter text-text-primary leading-none">RankNexis</p>
-               <p className="text-[8px] font-bold uppercase text-text-muted tracking-widest mt-1.5 opacity-60">System Hub</p>
-            </div>
+            {(!isCollapsed || isMobile) && (
+               <motion.div 
+                 initial={{ opacity: 0, x: -10 }}
+                 animate={{ opacity: 1, x: 0 }}
+                 className="overflow-hidden whitespace-nowrap"
+               >
+                  <p className="text-lg font-black tracking-tight text-text-primary leading-none">RankNexis</p>
+                  <p className="text-[10px] font-medium text-text-muted mt-1">Admin Dashboard</p>
+               </motion.div>
+            )}
          </div>
       </div>
  
-      <nav className="flex-grow p-6 space-y-1 overflow-y-auto custom-scrollbar">
+      {/* Navigation */}
+      <nav className={`flex-grow px-4 space-y-1 overflow-y-auto custom-scrollbar ${isCollapsed && !isMobile ? "items-center" : ""}`}>
          {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
             return (
               <Link 
                 key={item.href} 
                 href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between px-5 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-wider transition-all duration-300 group ${
+                onClick={() => isMobile && setMobileMenuOpen(false)}
+                className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 group relative ${
                   isActive 
-                  ? "bg-brand text-white shadow-xl shadow-brand/10" 
-                  : "text-text-muted hover:bg-brand/5 hover:text-brand"
-                }`}
+                  ? "bg-brand/5 text-brand" 
+                  : "text-text-muted hover:bg-surface hover:text-text-primary"
+                } ${isCollapsed && !isMobile ? "justify-center px-0 w-10 mx-auto" : "gap-3"}`}
               >
-                 <div className="flex items-center gap-4">
-                    <item.icon size={16} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-white" : "text-text-muted group-hover:text-brand"} />
-                    {item.label}
-                 </div>
-                 {isActive && <ChevronRight size={14} className="opacity-50" />}
+                 <item.icon 
+                   size={20} 
+                   strokeWidth={isActive ? 2.5 : 2} 
+                   className={isActive ? "text-brand" : "text-text-muted group-hover:text-text-primary"} 
+                 />
+                 
+                 {(!isCollapsed || isMobile) && (
+                   <motion.span 
+                     initial={{ opacity: 0 }}
+                     animate={{ opacity: 1 }}
+                     className="text-sm font-semibold whitespace-nowrap overflow-hidden"
+                   >
+                      {item.label}
+                   </motion.span>
+                 )}
+
+                 {isActive && !isCollapsed && (
+                   <div className="absolute right-4">
+                     <div className="w-1.5 h-1.5 rounded-full bg-brand" />
+                   </div>
+                 )}
+
+                 {/* Tooltip for collapsed state */}
+                 {isCollapsed && !isMobile && (
+                   <div className="absolute left-full ml-4 px-2 py-1 bg-text-primary text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 whitespace-nowrap">
+                     {item.label}
+                   </div>
+                 )}
               </Link>
             );
          })}
       </nav>
  
-      <div className="p-6 border-t border-stroke space-y-4 bg-surface/30">
-         <div className="bg-white border border-stroke rounded-2xl p-4 flex items-center gap-4 shadow-sm">
-            <div className="w-9 h-9 rounded-lg bg-brand/5 border border-brand/10 flex items-center justify-center text-brand font-black text-xs uppercase">
-               {session?.name?.substring(0, 2) || "RX"}
+      {/* Footer */}
+      <div className={`p-4 mt-auto border-t border-stroke space-y-2 ${isCollapsed && !isMobile ? "items-center px-2" : ""}`}>
+         <div className={`flex items-center p-2 rounded-xl bg-surface/50 border border-stroke/50 ${isCollapsed && !isMobile ? "justify-center p-1 border-none bg-transparent" : "gap-3"}`}>
+            <div className="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center text-brand font-bold text-xs shrink-0">
+               {session?.name?.substring(0, 1) || "R"}
             </div>
-            <div className="flex-grow min-w-0">
-               <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary truncate">{session?.name || "Expert Account"}</p>
-               <p className="text-[8px] font-bold uppercase text-emerald-500 tracking-wider">{role}</p>
-            </div>
+            {(!isCollapsed || isMobile) && (
+              <div className="min-w-0">
+                 <p className="text-xs font-bold text-text-primary truncate">{session?.name || "Expert"}</p>
+                 <p className="text-[10px] text-text-muted truncate capitalize">{role.toLowerCase().replace('_', ' ')}</p>
+              </div>
+            )}
          </div>
          
          <button 
             onClick={handleLogout}
-            className="w-full flex items-center gap-4 px-6 py-3.5 rounded-xl text-[10px] font-bold uppercase tracking-widest text-text-muted hover:text-red-500 hover:bg-red-50 transition-all"
+            className={`w-full flex items-center p-3 rounded-xl text-sm font-medium text-text-muted hover:text-red-500 hover:bg-red-50 transition-all ${isCollapsed && !isMobile ? "justify-center px-0 w-10 mx-auto" : "gap-3"}`}
          >
-            <LogOut size={16} />
-            Exit System
+            <LogOut size={18} />
+            {(!isCollapsed || isMobile) && <span>Logout</span>}
+            
+            {/* Tooltip for collapsed state */}
+            {isCollapsed && !isMobile && (
+              <div className="absolute left-full ml-4 px-2 py-1 bg-red-500 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 whitespace-nowrap">
+                Logout
+              </div>
+            )}
          </button>
       </div>
+
+      {/* Collapse Toggle Button (Desktop) */}
+      {!isMobile && (
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="absolute -right-3 top-20 w-6 h-6 bg-white border border-stroke rounded-full flex items-center justify-center text-text-muted hover:text-brand hover:border-brand transition-all shadow-sm z-30"
+        >
+          {isCollapsed ? <PanelLeftOpen size={14} /> : <PanelLeftClose size={14} />}
+        </button>
+      )}
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-white flex flex-col md:flex-row overflow-hidden">
-      <div className="md:hidden flex items-center justify-between p-6 border-b border-stroke bg-white sticky top-0 z-30">
+    <div className="min-h-screen bg-surface flex flex-col md:flex-row overflow-hidden font-sans">
+      {/* Mobile Header */}
+      <div className="md:hidden flex items-center justify-between p-4 border-b border-stroke bg-white sticky top-0 z-30">
          <div className="flex items-center gap-3">
-            <Zap size={20} className="text-brand" fill="currentColor" />
-            <p className="text-sm font-black uppercase tracking-tighter">RankNexis</p>
+            <Zap size={24} className="text-brand" fill="currentColor" />
+            <p className="text-lg font-black tracking-tight">RankNexis</p>
          </div>
          <button 
            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-           className="w-10 h-10 rounded-xl bg-surface border border-stroke flex items-center justify-center text-text-primary"
+           className="w-10 h-10 rounded-xl bg-surface border border-stroke flex items-center justify-center text-text-primary active:scale-95 transition-transform"
          >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
          </button>
       </div>
 
-      <aside className="hidden md:flex w-80 border-r border-stroke flex-col h-screen sticky top-0 z-20 shrink-0 shadow-sm">
+      {/* Desktop Sidebar */}
+      <aside 
+        className={`hidden md:flex border-r border-stroke flex-col h-screen sticky top-0 z-20 shrink-0 bg-white transition-all duration-300 ease-in-out ${
+          isCollapsed ? "w-20" : "w-72"
+        }`}
+      >
         <SidebarContent />
       </aside>
 
-      <div className={`fixed inset-0 z-40 md:hidden transition-transform duration-500 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-         <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-         <aside className="relative w-[85%] max-w-[320px] h-full bg-white shadow-2xl flex flex-col">
-            <SidebarContent />
-         </aside>
-      </div>
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden" 
+              onClick={() => setMobileMenuOpen(false)} 
+            />
+            <motion.aside 
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed left-0 top-0 bottom-0 w-[280px] bg-white shadow-2xl z-50 md:hidden flex flex-col"
+            >
+               <SidebarContent isMobile />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
-      <main className="flex-grow h-screen overflow-y-auto bg-surface/10 p-6 md:p-12 relative">
-         <div className="max-w-[1600px] mx-auto">
+      {/* Main Content */}
+      <main className="flex-grow h-screen overflow-y-auto bg-surface/30 relative">
+         <div className="max-w-[1600px] mx-auto p-6 md:p-10 lg:p-12">
             {children}
          </div>
       </main>

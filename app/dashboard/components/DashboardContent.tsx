@@ -84,10 +84,10 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                   <Sparkles size={12} className="animate-pulse" /> RankNexis Active Session
                </p>
             </div>
-            <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-text-primary leading-tight">
-               {isAdmin ? "Administrative" : "Expert"} <span className="text-brand">Node.</span>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary leading-tight">
+               {isAdmin ? "Admin" : "Team"} <span className="text-brand">Dashboard.</span>
             </h1>
-            <p className="text-text-muted text-xs font-medium uppercase tracking-wider">Status: Secure • All backend modules operating normally</p>
+            <p className="text-text-muted text-sm font-medium">Status: Secure • All systems operational</p>
          </div>
          <div className="flex gap-4">
             <button 
@@ -123,8 +123,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                         <Database size={22} />
                     </div>
                     <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Prisma Logic</p>
-                        <p className="text-sm font-bold uppercase text-text-primary">Database Sync</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Prisma Sync</p>
+                        <p className="text-sm font-bold text-text-primary">Database Sync</p>
                     </div>
                     <div className="ml-auto">
                         <div className="flex items-center gap-1.5 text-emerald-500">
@@ -147,8 +147,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                         <HardDrive size={22} />
                     </div>
                     <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Asset Hub</p>
-                        <p className="text-sm font-bold uppercase text-text-primary">Media Storage</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Cloudinary</p>
+                        <p className="text-sm font-bold text-text-primary">Media Assets</p>
                     </div>
                     <div className="ml-auto">
                         <div className="flex items-center gap-1.5 text-emerald-500">
@@ -171,8 +171,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                         <Server size={22} />
                     </div>
                     <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Edge Node</p>
-                        <p className="text-sm font-bold uppercase text-text-primary">Server Status</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Vercel Edge</p>
+                        <p className="text-sm font-bold text-text-primary">Server Status</p>
                     </div>
                     <div className="ml-auto">
                         <div className="flex items-center gap-1.5 text-blue-500">
@@ -225,8 +225,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
             <div className="bg-white rounded-[2rem] border border-stroke p-8 md:p-10 space-y-10 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-1">
-                        <h3 className="text-2xl font-black uppercase tracking-tight text-text-primary">System <span className="text-brand">Intelligence.</span></h3>
-                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Real-time performance & infrastructure telemetry</p>
+                        <h3 className="text-2xl font-bold tracking-tight text-text-primary">System <span className="text-brand">Overview.</span></h3>
+                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Real-time performance & infrastructure metrics</p>
                     </div>
                     <div className="flex gap-2">
                         <span className="px-4 py-2 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase rounded-lg border border-emerald-100">Optimal Load</span>
@@ -307,7 +307,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
 
             <div className="bg-white rounded-[2rem] border border-stroke p-8 space-y-8 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                 <div className="space-y-1">
-                    <h3 className="text-xl font-black uppercase tracking-tight text-text-primary">Critical <span className="text-brand">Logs.</span></h3>
+                    <h3 className="text-xl font-bold tracking-tight text-text-primary">Audit <span className="text-brand">Logs.</span></h3>
                     <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Recent administrative actions</p>
                 </div>
                 
@@ -397,8 +397,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
          <div className={`space-y-8 ${isAdmin ? 'lg:col-span-4' : 'lg:col-span-12'}`}>
             <div className="bg-white rounded-[2rem] border border-stroke p-8 space-y-6 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                <div>
-                  <h3 className="text-2xl font-black uppercase tracking-tight text-text-primary">Health <span className="text-brand">Nodes.</span></h3>
-                  <p className="text-xs text-text-muted mt-1">Operational health indicators</p>
+                  <h3 className="text-2xl font-bold tracking-tight text-text-primary">System <span className="text-brand">Health.</span></h3>
+                  <p className="text-xs text-text-muted mt-1">Operational performance indicators</p>
                </div>
                <div className="space-y-6">
                   {[
