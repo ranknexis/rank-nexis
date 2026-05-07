@@ -1,6 +1,8 @@
 import { jwtVerify } from "jose";
 
-const ACCESS_SECRET = new TextEncoder().encode(process.env.JWT_ACCESS_SECRET || "nexis-secure-access-key-2026-dynamic-node");
+const ACCESS_SECRET = new TextEncoder().encode(
+    process.env.JWT_SECRET || "rank_nexis_access_secret_2026"
+);
 
 export async function decrypt(input: string, secret: Uint8Array): Promise<any> {
     const { payload } = await jwtVerify(input, secret, {
