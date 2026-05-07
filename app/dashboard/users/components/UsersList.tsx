@@ -1,4 +1,7 @@
+"use client";
+
 import { useState, useTransition } from "react";
+
 import { 
     UserPlus, 
     Trash2, 

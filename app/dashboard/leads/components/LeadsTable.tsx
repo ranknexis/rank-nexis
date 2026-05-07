@@ -19,8 +19,11 @@ import {
   Phone,
   Zap,
   Filter,
-  ArrowUpRight
+  ArrowUpRight,
+  Download,
+  Check
 } from "lucide-react";
+
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
@@ -28,6 +31,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
   const [selectedLead, setSelectedLead] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const filteredLeads = leads.filter(l => {
     const matchesSearch = l.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -38,6 +42,22 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
     
     return matchesSearch && matchesStatus;
   });
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === filteredLeads.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(filteredLeads.map(l => l.id));
+    }
+  };
+
+  const toggleSelect = (id: string) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter(i => i !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     const res = await updateLeadStatus(id, newStatus);
@@ -54,23 +74,70 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
     if (res.success) {
       setLeads(leads.filter(l => l.id !== id));
       setSelectedLead(null);
+      setSelectedIds(selectedIds.filter(i => i !== id));
       toast.success("Lead eliminated from registry");
     }
+  };
+
+  const handleBulkDelete = async () => {
+    if (!confirm(`Are you sure you want to delete ${selectedIds.length} leads?`)) return;
+    let successCount = 0;
+    for (const id of selectedIds) {
+      const res = await deleteLead(id);
+      if (res.success) successCount++;
+    }
+    setLeads(leads.filter(l => !selectedIds.includes(l.id)));
+    setSelectedIds([]);
+    toast.success(`${successCount} nodes purged from system.`);
+  };
+
+  const exportToCSV = () => {
+    const headers = ["Name", "Email", "Phone", "Company", "Service", "Status", "Date"];
+    const rows = filteredLeads.map(l => [
+      l.name,
+      l.email,
+      l.phone || "",
+      l.company || "",
+      l.service || "",
+      l.status,
+      new Date(l.createdAt).toLocaleDateString()
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + headers.join(",") + "\n"
+      + rows.map(e => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `ranknexis_leads_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("Intelligence report exported.");
   };
 
   return (
     <div className="space-y-6">
       {/* Controls Bar */}
       <div className="bg-white rounded-[2rem] border border-stroke p-4 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="relative w-full md:w-96">
-          <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
-          <input 
-            type="text" 
-            placeholder="Search Intelligence..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-14 bg-surface/50 border border-stroke rounded-2xl pl-16 pr-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
-          />
+        <div className="flex items-center gap-4 w-full md:w-auto">
+          <div className="relative flex-grow md:w-80">
+            <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+            <input 
+              type="text" 
+              placeholder="Search Intelligence..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full h-14 bg-surface/50 border border-stroke rounded-2xl pl-16 pr-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
+            />
+          </div>
+          <button 
+            onClick={exportToCSV}
+            className="h-14 px-6 bg-white border border-stroke rounded-2xl flex items-center gap-3 text-[10px] font-bold uppercase hover:border-brand hover:text-brand transition-all shadow-sm"
+          >
+            <Download size={16} /> Export
+          </button>
         </div>
 
         <div className="flex items-center gap-3 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
@@ -90,11 +157,56 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
         </div>
       </div>
 
+      {/* Bulk Actions Bar */}
+      <AnimatePresence>
+        {selectedIds.length > 0 && (
+          <motion.div 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 20, opacity: 0 }}
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-black text-white px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-8 border border-white/10 backdrop-blur-xl"
+          >
+            <div className="flex items-center gap-3 border-r border-white/20 pr-8">
+              <div className="w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-xs font-bold">
+                {selectedIds.length}
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Nodes Selected</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={handleBulkDelete}
+                className="flex items-center gap-2 text-[10px] font-bold uppercase text-red-400 hover:text-red-300 transition-colors"
+              >
+                <Trash2 size={16} /> Purge
+              </button>
+              <button 
+                onClick={() => setSelectedIds([])}
+                className="flex items-center gap-2 text-[10px] font-bold uppercase text-white/60 hover:text-white transition-colors"
+              >
+                <X size={16} /> Deselect
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="bg-white rounded-[2.5rem] border border-stroke overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-stroke bg-surface/30">
+                <th className="px-10 py-8 w-20">
+                   <button 
+                    onClick={toggleSelectAll}
+                    className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all ${
+                      selectedIds.length === filteredLeads.length && filteredLeads.length > 0
+                      ? "bg-brand border-brand text-white"
+                      : "border-stroke bg-white"
+                    }`}
+                   >
+                     {selectedIds.length === filteredLeads.length && filteredLeads.length > 0 && <Check size={14} />}
+                   </button>
+                </th>
                 <th className="px-10 py-8 text-[10px] font-black uppercase text-text-muted tracking-widest">Lead Intelligence</th>
                 <th className="px-10 py-8 text-[10px] font-black uppercase text-text-muted tracking-widest">Contact Node</th>
                 <th className="px-10 py-8 text-[10px] font-black uppercase text-text-muted tracking-widest text-center">Status</th>
@@ -103,7 +215,19 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
             </thead>
             <tbody className="divide-y divide-stroke">
               {filteredLeads.map((lead) => (
-                <tr key={lead.id} className="hover:bg-brand/[0.02] transition-colors group">
+                <tr key={lead.id} className={`hover:bg-brand/[0.02] transition-colors group ${selectedIds.includes(lead.id) ? "bg-brand/[0.03]" : ""}`}>
+                  <td className="px-10 py-10">
+                    <button 
+                      onClick={() => toggleSelect(lead.id)}
+                      className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all ${
+                        selectedIds.includes(lead.id)
+                        ? "bg-brand border-brand text-white"
+                        : "border-stroke bg-white group-hover:border-brand/30"
+                      }`}
+                    >
+                      {selectedIds.includes(lead.id) && <Check size={14} />}
+                    </button>
+                  </td>
                   <td className="px-10 py-10">
                     <div className="flex items-center gap-6">
                       <div className="w-14 h-14 rounded-2xl bg-white border border-stroke shadow-sm flex items-center justify-center text-brand font-black text-xl uppercase group-hover:border-brand/30 transition-all">
@@ -177,7 +301,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
               ))}
               {filteredLeads.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-10 py-32 text-center">
+                  <td colSpan={5} className="px-10 py-32 text-center">
                      <div className="flex flex-col items-center gap-4">
                         <Search size={48} className="text-stroke" />
                         <p className="text-[11px] font-black uppercase text-text-muted tracking-widest">No matching intelligence nodes found.</p>
@@ -295,3 +419,4 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
     </div>
   );
 }
+

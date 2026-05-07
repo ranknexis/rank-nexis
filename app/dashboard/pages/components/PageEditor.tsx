@@ -80,7 +80,9 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
   const [activeTab, setActiveTab] = useState<'seo' | 'sections' | 'links'>('sections');
   const [isPending, startTransition] = useTransition();
   const [showAddModal, setShowAddModal] = useState(false);
+  const [hoveredType, setHoveredType] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; id: string | null }>({
+
     isOpen: false,
     id: null
   });
@@ -346,23 +348,81 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                        </button>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[60vh] overflow-y-auto pr-4 scrollbar-hide">
-                       {MODULE_TYPES.map(type => (
-                         <button 
-                           key={type.id}
-                           onClick={() => handleAddSection(type.id)}
-                           className="flex items-start gap-6 p-8 bg-surface border border-stroke rounded-[2rem] text-left hover:border-brand hover:bg-brand/[0.02] hover:-translate-y-1 transition-all group"
-                         >
-                            <div className="w-16 h-16 rounded-2xl bg-white border border-stroke flex items-center justify-center text-text-muted group-hover:text-brand group-hover:border-brand/30 transition-all shrink-0">
-                               <type.icon size={28} strokeWidth={1.5} />
-                            </div>
-                            <div className="space-y-2">
-                               <p className="text-base font-black uppercase tracking-tight text-text-primary leading-none">{type.label}</p>
-                               <p className="text-[11px] font-medium text-text-muted leading-relaxed">{type.desc}</p>
-                            </div>
-                         </button>
-                       ))}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-h-[65vh] overflow-hidden">
+                       <div className="lg:col-span-7 overflow-y-auto pr-6 scrollbar-hide space-y-4">
+                          {MODULE_TYPES.map(type => (
+                            <button 
+                              key={type.id}
+                              onMouseEnter={() => setHoveredType(type.id)}
+                              onMouseLeave={() => setHoveredType(null)}
+                              onClick={() => handleAddSection(type.id)}
+                              className="w-full flex items-start gap-6 p-6 bg-surface border border-stroke rounded-[2rem] text-left hover:border-brand hover:bg-brand/[0.02] hover:-translate-y-1 transition-all group"
+                            >
+                               <div className="w-14 h-14 rounded-2xl bg-white border border-stroke flex items-center justify-center text-text-muted group-hover:text-brand group-hover:border-brand/30 transition-all shrink-0">
+                                  <type.icon size={24} strokeWidth={1.5} />
+                               </div>
+                               <div className="space-y-1.5">
+                                  <p className="text-sm font-black uppercase tracking-tight text-text-primary leading-none">{type.label}</p>
+                                  <p className="text-[10px] font-medium text-text-muted leading-relaxed">{type.desc}</p>
+                               </div>
+                            </button>
+                          ))}
+                       </div>
+
+                       <div className="lg:col-span-5 bg-surface border border-stroke rounded-[3rem] p-8 relative flex flex-col items-center justify-center text-center overflow-hidden">
+                          <AnimatePresence mode="wait">
+                            {hoveredType ? (
+                              <motion.div 
+                                key={hoveredType}
+                                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 1.1, y: -10 }}
+                                className="w-full h-full flex flex-col"
+                              >
+                                 <div className="flex-grow flex items-center justify-center">
+                                    {/* MOCKUP PREVIEW */}
+                                    <div className="w-full aspect-[4/3] bg-white border border-stroke rounded-3xl shadow-2xl overflow-hidden relative group/preview">
+                                       <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent" />
+                                       
+                                       {/* Dynamic Mockup content based on type */}
+                                       <div className="p-6 space-y-4">
+                                          <div className="h-4 w-1/3 bg-brand/10 rounded-full" />
+                                          <div className="h-8 w-full bg-text-primary/5 rounded-xl" />
+                                          <div className="h-8 w-2/3 bg-text-primary/5 rounded-xl" />
+                                          <div className="grid grid-cols-2 gap-4 mt-6">
+                                             <div className="h-20 bg-surface rounded-2xl border border-stroke" />
+                                             <div className="h-20 bg-surface rounded-2xl border border-stroke" />
+                                          </div>
+                                       </div>
+
+                                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/preview:opacity-100 transition-opacity bg-black/5 backdrop-blur-[2px]">
+                                          <p className="text-[10px] font-black uppercase tracking-widest text-text-primary">Module Signature: {hoveredType}</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div className="mt-8 space-y-2">
+                                    <p className="text-[10px] font-black uppercase text-brand tracking-widest">Architecture Analysis</p>
+                                    <p className="text-xs font-bold text-text-primary">{MODULE_TYPES.find(t => t.id === hoveredType)?.label}</p>
+                                    <p className="text-[10px] text-text-muted leading-relaxed max-w-[200px] mx-auto">
+                                       Optimized for {hoveredType.replace('_', ' ')} engagement and high-conversion throughput.
+                                    </p>
+                                 </div>
+                              </motion.div>
+                            ) : (
+                              <div className="space-y-6">
+                                 <div className="w-24 h-24 bg-white border border-stroke rounded-[2rem] flex items-center justify-center text-stroke mx-auto">
+                                    <Layers size={40} strokeWidth={1} />
+                                 </div>
+                                 <div>
+                                    <p className="text-[10px] font-black uppercase text-text-muted tracking-widest">Awaiting Selection</p>
+                                    <p className="text-xs font-medium text-text-muted mt-2">Hover over a module to preview architecture.</p>
+                                 </div>
+                              </div>
+                            )}
+                          </AnimatePresence>
+                       </div>
                     </div>
+
 
                     <div className="flex items-center justify-center gap-6 pt-6 border-t border-stroke">
                        <p className="text-[10px] font-black uppercase text-text-muted tracking-widest">Custom components available via technical sync.</p>
