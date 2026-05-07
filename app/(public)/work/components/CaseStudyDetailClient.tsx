@@ -12,6 +12,7 @@ import {
   Tag,
   Calendar
 } from "lucide-react";
+import Image from "next/image";
 
 interface CaseStudyDetailClientProps {
   study: {
@@ -49,7 +50,7 @@ export default function CaseStudyDetailClient({ study }: CaseStudyDetailClientPr
 
   return (
     <div className="bg-white min-h-screen">
-      {/* HERO SECTION */}
+
       <section className="relative pt-32 pb-20 overflow-hidden bg-surface/30">
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2" />
@@ -97,7 +98,6 @@ export default function CaseStudyDetailClient({ study }: CaseStudyDetailClientPr
         </div>
       </section>
 
-      {/* FEATURE IMAGE & STATS */}
       <section className="relative -mt-10 pb-24">
         <div className="container-max">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -108,11 +108,16 @@ export default function CaseStudyDetailClient({ study }: CaseStudyDetailClientPr
               className="lg:col-span-8 relative rounded-[3rem] overflow-hidden shadow-2xl bg-surface grain"
             >
               {study.image ? (
-                <img 
-                  src={study.image} 
-                  alt={study.title}
-                  className="w-full aspect-video object-contain bg-surface/50"
-                />
+                <div className="relative w-full aspect-video">
+                  <Image 
+                    src={study.image} 
+                    alt={study.title}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 80vw"
+                    className="object-contain bg-surface/50"
+                  />
+                </div>
               ) : (
                 <div className="w-full aspect-video bg-surface flex items-center justify-center">
                   <p className="text-text-muted italic">Visual asset pending optimization</p>
@@ -151,9 +156,8 @@ export default function CaseStudyDetailClient({ study }: CaseStudyDetailClientPr
         </div>
       </section>
 
-      {/* CONTENT SECTIONS */}
       <section className="py-24 space-y-32">
-        {/* OVERVIEW & CHALLENGE */}
+
         <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-24">
           <motion.div 
             variants={itemVariants}
@@ -192,7 +196,6 @@ export default function CaseStudyDetailClient({ study }: CaseStudyDetailClientPr
           </motion.div>
         </div>
 
-        {/* SOLUTION */}
         <div className="bg-brand/5 py-32 overflow-hidden relative">
           <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 opacity-10">
              <Lightbulb size={600} />
@@ -213,7 +216,6 @@ export default function CaseStudyDetailClient({ study }: CaseStudyDetailClientPr
           </div>
         </div>
 
-        {/* EXECUTION & RESULTS */}
         <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-24">
           <motion.div 
             variants={containerVariants}
@@ -263,7 +265,6 @@ export default function CaseStudyDetailClient({ study }: CaseStudyDetailClientPr
         </div>
       </section>
 
-      {/* FOOTER CTA */}
       <section className="py-32 border-t border-stroke text-center">
         <div className="container-max space-y-12">
           <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-text-primary">

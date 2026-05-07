@@ -46,7 +46,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
 
       {activeTab === 'meta' && (
         <div className="space-y-12 animation-fade-in">
-          {/* GOOGLE PREVIEW */}
+
           <div className="bg-white p-10 rounded-[2.5rem] border border-stroke shadow-sm space-y-6">
             <div className="flex items-center gap-3 text-text-muted mb-4">
                <Globe size={14} />
@@ -66,7 +66,6 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
             </div>
           </div>
 
-          {/* META FIELDS */}
           <div className="grid grid-cols-1 gap-10">
             <div className="space-y-4">
               <div className="flex justify-between items-center ml-4">
@@ -132,7 +131,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
 
       {activeTab === 'og' && (
         <div className="space-y-12 animation-fade-in">
-           {/* OG PREVIEW */}
+
            <div className="bg-white rounded-[2.5rem] border border-stroke shadow-sm overflow-hidden max-w-lg mx-auto">
               <div className="aspect-[1200/630] bg-surface relative">
                  {data.ogImage ? (
@@ -155,7 +154,6 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
               </div>
            </div>
 
-           {/* OG FIELDS */}
            <div className="grid grid-cols-1 gap-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                  <div className="space-y-4">
@@ -193,7 +191,6 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
         </div>
       )}
 
-      {/* ADVANCED SETTINGS */}
       <div className="pt-10 border-t border-stroke space-y-10">
          <div className="flex items-center justify-between p-8 bg-surface/30 rounded-3xl border border-stroke">
             <div className="flex items-center gap-4">

@@ -41,7 +41,6 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
   });
   const [loading, setLoading] = useState(false);
 
-  // Auto-slug generator
   useEffect(() => {
     if (!initialData && data.title) {
       const slug = data.title
@@ -83,7 +82,7 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
 
   return (
     <div className="min-h-screen bg-surface/30 -m-8 md:-m-12 p-8 md:p-12">
-      {/* Premium Header */}
+
       <div className="max-w-[1600px] mx-auto mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
         <div className="space-y-2">
           <Link 
@@ -118,11 +117,11 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
       </div>
 
       <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Main Writing Canvas */}
+
         <div className="lg:col-span-8 space-y-8">
            <div className="bg-white rounded-[3rem] border border-stroke shadow-premium overflow-hidden min-h-[900px] flex flex-col">
               <div className="p-12 md:p-20 flex-grow space-y-16">
-                 {/* Title Input - Distraction Free */}
+
                  <div className="space-y-4">
                     <p className="text-[10px] font-bold uppercase text-brand tracking-[0.3em] ml-2">Publication Heading</p>
                     <textarea 
@@ -134,7 +133,6 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
                     />
                  </div>
 
-                 {/* Editor */}
                  <div className="space-y-6">
                     <p className="text-[10px] font-bold uppercase text-brand tracking-[0.3em] ml-2">Core Manuscript</p>
                     <div className="min-h-[600px] prose-slate max-w-none">
@@ -148,9 +146,8 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
            </div>
         </div>
 
-        {/* Intelligence & Settings Sidebar */}
         <div className="lg:col-span-4 space-y-8">
-           {/* Primary Configuration */}
+
            <div className="bg-white rounded-[2.5rem] border border-stroke shadow-premium p-10 space-y-10">
               <div className="flex items-center gap-4 pb-6 border-b border-stroke">
                  <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
@@ -201,7 +198,6 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
               </div>
            </div>
 
-           {/* Visual Assets */}
            <div className="bg-white rounded-[2.5rem] border border-stroke shadow-premium p-10 space-y-8">
               <div className="flex items-center gap-4 pb-6 border-b border-stroke">
                  <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
@@ -216,7 +212,6 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
               />
            </div>
 
-           {/* SEO Optimization */}
            <div className="bg-white rounded-[2.5rem] border border-stroke shadow-premium p-10 space-y-10">
               <div className="flex items-center gap-4 pb-6 border-b border-stroke">
                  <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center">

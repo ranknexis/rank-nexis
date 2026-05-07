@@ -19,7 +19,7 @@ export default async function TermsPage() {
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* HERO */}
+
         <section className="pt-32 pb-24 border-b border-stroke bg-surface/30">
           <div className="container-max">
             <h1 className="text-6xl md:text-8xl font-bold tracking-tighter uppercase mb-6">Terms of <br /> <span className="text-brand">Service.</span></h1>
@@ -27,7 +27,6 @@ export default async function TermsPage() {
           </div>
         </section>
 
-        {/* CONTENT */}
         <section className="py-24">
           <div className="container-max max-w-4xl">
             <div className="space-y-16">

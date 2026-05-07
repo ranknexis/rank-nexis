@@ -9,8 +9,7 @@ export default async function EditTeamMemberPage({ params }: { params: { id: str
     initialData = await prisma.teamMember.findUnique({
       where: { id: params.id }
     });
-    
-    // Ensure socials is an array for the client component
+
     if (initialData && !Array.isArray(initialData.socials)) {
       initialData.socials = [];
     }

@@ -27,7 +27,6 @@ export async function POST(request: Request) {
             );
         }
 
-        // Allow all defined roles
         const allowedRoles = ["ADMIN", "TEAM_MEMBER"];
         if (!allowedRoles.includes(user.role)) {
             return NextResponse.json(
@@ -44,13 +43,12 @@ export async function POST(request: Request) {
             permissions: user.permissions
         });
 
-
         return NextResponse.json({ 
             success: true,
             passwordSet: user.passwordSet
         });
     } catch (error) {
-        console.error("Login Error:", error);
+        
         return NextResponse.json(
             { error: "Authentication failed" },
             { status: 500 }

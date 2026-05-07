@@ -29,8 +29,6 @@ export async function login(userData: { id: string; email: string; role: string;
     const accessToken = await encrypt(userData, ACCESS_SECRET, "15m");
     const refreshToken = await encrypt({ id: userData.id }, REFRESH_SECRET, "7d");
 
-
-    // Store refresh token in DB
     await prisma.refreshToken.create({
         data: {
             token: refreshToken,
@@ -41,21 +39,19 @@ export async function login(userData: { id: string; email: string; role: string;
 
     const cookieStore = await cookies();
     
-    // Access Token Cookie
     cookieStore.set("session", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 15 * 60, // 15 mins
+        maxAge: 15 * 60,
         path: "/"
     });
 
-    // Refresh Token Cookie
     cookieStore.set("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 7 * 24 * 60 * 60, // 7 days
+        maxAge: 7 * 24 * 60 * 60,
         path: "/"
     });
 }
@@ -86,9 +82,6 @@ export async function getSession() {
     }
 }
 
-/**
- * Server-side Refresh Logic
- */
 export async function refreshAccessToken() {
     const cookieStore = await cookies();
     const refreshToken = cookieStore.get("refreshToken")?.value;
@@ -97,7 +90,6 @@ export async function refreshAccessToken() {
     try {
         const payload = await decrypt(refreshToken, REFRESH_SECRET);
         
-        // Verify in DB
         const dbToken = await prisma.refreshToken.findUnique({
             where: { token: refreshToken },
             include: { user: true }
@@ -115,7 +107,6 @@ export async function refreshAccessToken() {
             passwordSet: user.passwordSet,
             permissions: user.permissions
         }, ACCESS_SECRET, "15m");
-
 
         cookieStore.set("session", newAccessToken, {
             httpOnly: true,

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import React from 'react';
+import Image from "next/image";
 import MetricNode from "./MetricNode";
 
 interface CaseStudyItemProps {
@@ -27,10 +28,12 @@ const CaseStudyItem: React.FC<CaseStudyItemProps> = ({ title, category, stats, i
       className="corporate-card p-0 group overflow-hidden hover:-translate-y-2 transition-all duration-700 shadow-premium"
     >
       <div className="aspect-[16/9] relative overflow-hidden">
-        <img 
-          src={image} 
+        <Image 
+          src={image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} 
           alt={title} 
-          className="w-full h-full object-cover opacity-100 md:opacity-70 md:grayscale md:group-hover:grayscale-0 md:group-hover:scale-105 transition-all duration-1000" 
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover opacity-100 md:opacity-70 md:grayscale md:group-hover:grayscale-0 md:group-hover:scale-105 transition-all duration-1000" 
         />
         <div className="absolute top-8 left-8 px-6 py-2 glass-dark border border-white/10 rounded-full text-[11px] font-bold uppercase text-white shadow-xl">
           {category}

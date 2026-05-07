@@ -15,7 +15,6 @@ import {
 import { useState, useEffect } from "react";
 import { getSystemPerformance } from "@/actions/performance";
 
-
 export default function PerformancePage() {
     const [perf, setPerf] = useState<any>(null);
 
@@ -33,10 +32,9 @@ export default function PerformancePage() {
         latency: perf?.db?.latency || 0,
         cpu: perf?.server?.cpu || 0,
         ram: perf?.server?.memory || 0,
-        uptime: Math.round((perf?.server?.uptime || 0) / 3600), // Hours
-        requests: 1420 // Still dummy for now as we don't track total requests globally easily
+        uptime: Math.round((perf?.server?.uptime || 0) / 3600), 
+        requests: 1420 
     };
-
 
     return (
         <div className="space-y-12">

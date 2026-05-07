@@ -22,7 +22,7 @@ export async function createCaseStudy(data: any) {
         revalidatePath("/");
         return { success: true, caseStudy };
     } catch (error) {
-        console.error("Create Case Study Error:", error);
+        
         return { error: "Failed to create case study." };
     }
 }
@@ -53,7 +53,7 @@ export async function updateCaseStudy(id: string, data: any) {
         revalidatePath("/");
         return { success: true, caseStudy };
     } catch (error) {
-        console.error("Update Case Study Error:", error);
+        
         return { error: "Failed to update case study." };
     }
 }
@@ -76,7 +76,7 @@ export async function deleteCaseStudy(id: string) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        console.error("Delete Case Study Error:", error);
+        
         return { error: "Failed to delete case study." };
     }
 }

@@ -5,6 +5,8 @@ import ServiceDetailClient from "../components/ServiceDetailClient";
 import InternalLinksSection from "@/components/InternalLinksSection";
 import { getPageData } from "@/lib/pageContent";
 import { buildSeoMetadata } from "@/lib/pageUtils";
+import { generateServiceSchema } from "@/lib/seo";
+import Script from "next/script";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -25,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildSeoMetadata(pageData, {
     title: `${service.title} | ${suffix}`,
     description: service.description,
-  });
+  }, "services");
 }
 
 export async function generateStaticParams() {
@@ -42,7 +44,6 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   if (!service) notFound();
 
-  // Fetch related case studies
   const relatedCaseStudies = await prisma.caseStudy.findMany({
     where: {
       OR: [
@@ -56,6 +57,11 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   return (
     <>
+      <Script
+        id="service-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateServiceSchema(service as any)) }}
+      />
       <ServiceDetailClient 
         service={JSON.parse(JSON.stringify(service))} 
         pageData={JSON.parse(JSON.stringify(pageData))}

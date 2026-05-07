@@ -14,21 +14,24 @@ RankNexis is engineered for **60FPS fluidity** and sub-second data reactivity:
 
 ## 🛠 Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 15+ (App Router)
 - **Database**: PostgreSQL with Prisma ORM
 - **Styling**: Tailwind CSS with Framer Motion animations
-- **Auth**: Secure JWT-based session management
+- **Auth**: Secure JWT-based session management with Edge-compatible Middleware(Proxy)
 - **CMS**: custom premium editor with SEO-first internal linking logic
-- **Infrastructure**: Lucide Icons, Sonner notifications, Cloudinary asset handling
+- **Infrastructure**: Lucide Icons, Sonner notifications, PWA Manifest
 
 ## ✨ Core Features
 
+- **PWA Integration**: Installable "Digital Console" experience for mobile and desktop.
 - **Dynamic Page Architecture**: Build and reorder page modules in real-time.
-- **SEO Graph Engine**: Manage internal link logic and metadata at a granular level.
+- **SEO Graph Engine**: Manage internal link logic, JSON-LD schema, and metadata.
 - **Feedback Loop Sync**: Centralized testimonial management with global sync protocols.
 - **Case Study Hub**: Data-driven portfolio management with rich text storytelling.
 - **Insights Publication**: Advanced blog system with Table of Contents (TOC) and reading time analysis.
 - **RBAC Governance**: Role-Based Access Control for Admins and Authors.
+- **Talent Acquisition Engine**: End-to-end recruitment pipeline with job board and application tracking.
+- **Inbound Lead Intelligence**: Real-time lead monitoring with CSV export for CRM integration.
 
 ## 📦 Getting Started
 
@@ -56,11 +59,17 @@ RankNexis is engineered for **60FPS fluidity** and sub-second data reactivity:
    npm run dev
    ```
 
-## 📈 SEO & Marketing
+- **Automated Metadata**: dynamic title/description generation with absolute canonical support.
+- **JSON-LD Schema**: Integrated structured data for Organizations, Articles, and Services to enhance SERP visibility.
+- **PWA Ready**: Offline-capable manifest configuration for a native-like experience.
+- **Sitemap & Robots**: Dynamic, deduplicated route registry with precise crawl priorities.
 
-- **Automated Metadata**: dynamic title/description generation.
-- **Semantic HTML**: 100% W3C compliant structure.
-- **Sitemap & Robots**: Production-ready indexing configuration.
+## 🔐 Security & Governance
+
+- **Proxy Protection**: Edge-runtime route guarding for administrative paths.
+- **CSRF & JWT**: Secure session management with httpOnly cookie protocols.
+- **Input Sanitization**: Content-safe parsing across all CMS editor modules.
+- **Audit Logs**: (Roadmap) Tracking administrative actions across the system hub.
 
 ---
 *Designed & Engineered for High-Agency Performance.*

@@ -21,7 +21,7 @@ export async function getSettings() {
 
     return settings;
   } catch (error) {
-    console.error("Failed to fetch settings:", error);
+    
     return null;
   }
 }
@@ -48,7 +48,7 @@ export async function updateSettings(data: any) {
     return { success: true, data: updated };
 
   } catch (error) {
-    console.error("Failed to update settings:", error);
+    
     return { success: false, error: "Failed to update configuration." };
   }
 }

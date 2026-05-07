@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 interface InternalLink {
   label: string;
   url: string;
-  relationship: string; // e.g. "Primary", "Related", "Service"
+  relationship: string; 
 }
 
 const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initialLinks: any[] }) => {

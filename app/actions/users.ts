@@ -29,11 +29,10 @@ export async function createUser(data: { name: string; email: string; role: stri
     if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
 
     try {
-        // Check if user exists
+        
         const existing = await prisma.user.findUnique({ where: { email: data.email } });
         if (existing) return { error: "User already exists" };
 
-        // Use a default team password
         const defaultPassword = "RankNexis@2026";
         const hashedPassword = await bcrypt.hash(defaultPassword, 10);
 
@@ -44,7 +43,7 @@ export async function createUser(data: { name: string; email: string; role: stri
                 role: data.role,
                 password: hashedPassword,
                 passwordSet: true,
-                // Default permissions based on role
+                
                 permissions: data.role === "ADMIN" ? ["all"] : ["manage_blog", "manage_work", "manage_own_content"]
             }
         });
@@ -53,13 +52,12 @@ export async function createUser(data: { name: string; email: string; role: stri
             await prisma.teamMember.create({
                 data: {
                     name: data.name,
-                    role: "Digital Strategist", // Default professional role
+                    role: "Digital Strategist", 
                     userId: user.id
                 }
             });
         }
 
-        // Send Email
         const setupLink = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.ranknexis.com'}/dashboard/login`;
         await sendEmail({
             to: data.email,
@@ -75,7 +73,7 @@ export async function createUser(data: { name: string; email: string; role: stri
         revalidatePath("/");
         return { success: true, user };
     } catch (error) {
-        console.error("Create User Error:", error);
+        
         return { error: "Failed to create user" };
     }
 }

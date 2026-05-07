@@ -24,13 +24,12 @@ export async function updateMyProfile(data: any) {
     if (!session) return { error: "Unauthorized" };
 
     try {
-        // Update User Name
+        
         await prisma.user.update({
             where: { id: session.id },
             data: { name: data.name }
         });
 
-        // Update or Create TeamMember profile
         if (session.role !== "ADMIN") {
             await prisma.teamMember.upsert({
                 where: { userId: session.id },
@@ -58,7 +57,7 @@ export async function updateMyProfile(data: any) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        console.error("Profile Update Error:", error);
+        
         return { error: "Failed to update profile" };
     }
 }

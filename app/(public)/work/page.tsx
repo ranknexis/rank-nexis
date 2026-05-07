@@ -51,7 +51,7 @@ export default async function WorkPage() {
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* HERO SECTION */}
+
         <section className="relative pt-24 pb-16 md:pt-32 md:pb-20 border-b border-stroke overflow-hidden">
            <div className="absolute inset-0 -z-10">
               <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
@@ -75,7 +75,6 @@ export default async function WorkPage() {
 
         <WorkContent initialStudies={studies} />
 
-        {/* STATS STRIP */}
         <section className="py-16 bg-surface/30 border-y border-stroke">
            <div className="container-max grid grid-cols-2 lg:grid-cols-4 gap-12">
               {stats.items?.map((stat: any, i: number) => {
@@ -93,7 +92,6 @@ export default async function WorkPage() {
            </div>
         </section>
 
-        {/* FINAL CTA */}
         <section className="py-32 bg-white text-center space-y-12">
            <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase text-text-primary">Ready To Grow?</h2>
            <Link href="/contact" className="btn-primary h-20 px-16 text-[11px] font-bold uppercase group shadow-premium inline-flex items-center">

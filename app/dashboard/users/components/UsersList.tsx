@@ -77,7 +77,6 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
         }
     };
 
-
     const togglePermission = (userId: string, permId: string) => {
         const user = users.find(u => u.id === userId);
         if (!user) return;
@@ -331,6 +330,5 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
         </div>
     );
 }
-
 
 import React from "react";

@@ -4,7 +4,10 @@ import { notFound } from "next/navigation";
 import BlogDetailClient from "../components/BlogDetailClient";
 import InternalLinksSection from "@/components/InternalLinksSection";
 import { getPageData } from "@/lib/pageContent";
+import { buildSeoMetadata } from "@/lib/pageUtils";
 import { getPostBySlug, getSiteSettings } from "@/lib/queries";
+import { generateBlogSchema } from "@/lib/seo";
+import Script from "next/script";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -21,18 +24,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const suffix = settings?.siteTitleSuffix || "RankNexis Publication";
 
-  return {
-    title: `${post.title} | ${suffix}`,
-    description: post.metaDescription || `Read our latest insights on ${post.category.name}.`,
-    openGraph: {
-      title: post.title,
-      description: post.metaDescription || "",
-      images: post.image ? [{ url: post.image }] : [],
+  return buildSeoMetadata(
+    post,
+    {
+      title: `${post.title} | ${suffix}`,
+      description: post.metaDescription || `Read our latest insights on ${post.category?.name || 'Strategy'}.`,
+      ogImage: post.image || undefined
     },
-    alternates: {
-      canonical: `/blog/${post.slug}`
-    }
-  };
+    "blog"
+  );
 }
 
 export async function generateStaticParams() {
@@ -63,6 +63,11 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
+      <Script
+        id="blog-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateBlogSchema(post)) }}
+      />
       <BlogDetailClient 
         post={JSON.parse(JSON.stringify(post))} 
         relatedPosts={JSON.parse(JSON.stringify(relatedPosts))} 

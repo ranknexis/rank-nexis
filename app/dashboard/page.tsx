@@ -5,7 +5,6 @@ import { getSession } from "@/lib/auth";
 export default async function AdminDashboard() {
   const session = await getSession();
 
-  // Fetch real data from database
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
@@ -22,7 +21,6 @@ export default async function AdminDashboard() {
     })
   ]);
 
-  // Calculate growth: leads in last 30 days / total leads * 100
   const growthRate = leadCount > 0 ? ((recentLeadsCount / leadCount) * 100).toFixed(1) : "0";
 
   const stats = {
@@ -31,7 +29,6 @@ export default async function AdminDashboard() {
     blogs: blogCount,
     growth: `${growthRate}%`
   };
-
 
   return <DashboardContent stats={stats} recentLeads={recentLeads} role={session?.role || "TEAM_MEMBER"} />;
 }

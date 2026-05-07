@@ -5,7 +5,13 @@ import { X, Map } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
-export default function SiteMapLink() {
+interface SiteMapProps {
+  services: { title: string; slug: string }[];
+  blogs: { title: string; slug: string }[];
+  work: { title: string; slug: string }[];
+}
+
+export default function SiteMapLink({ services, blogs, work }: SiteMapProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const SITEMAP = [
@@ -22,22 +28,32 @@ export default function SiteMapLink() {
     },
     {
       title: "Core Services",
-      links: [
-        { label: "SEO Services", href: "/services/seo-service" },
-        { label: "Social Media Marketing", href: "/services/social-media-marketing" },
-        { label: "Facebook Ads", href: "/services/facebook-ads" },
-        { label: "Google Ads", href: "/services/google-ads" },
-        { label: "Web Development", href: "/services/web-development" },
-      ]
+      links: services.map(s => ({
+        label: s.title,
+        href: `/services/${s.slug}`
+      }))
+    },
+    {
+      title: "Success Stories",
+      links: work.map(w => ({
+        label: w.title,
+        href: `/work/${w.slug}`
+      }))
+    },
+    {
+      title: "Latest Insights",
+      links: blogs.map(b => ({
+        label: b.title,
+        href: `/blog/${b.slug}`
+      }))
     },
     {
       title: "Legal & Support",
       links: [
-        { label: "Contact Support", href: "/contact" },
-        { label: "Careers", href: "/careers" },
         { label: "Privacy Policy", href: "/privacy" },
         { label: "Terms of Use", href: "/terms" },
-        { label: "Member Login", href: "/dashboard/login" },
+        { label: "Contact Us", href: "/contact" },
+        { label: "Careers", href: "/careers" },
       ]
     }
   ];

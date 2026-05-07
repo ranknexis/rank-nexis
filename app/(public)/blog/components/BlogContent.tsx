@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Search, ArrowRight, Calendar, User } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +29,7 @@ export default function BlogContent({ initialPosts, categories }: BlogContentPro
     <section className="py-24">
       <div className="container-max">
         <div className="flex flex-col lg:flex-row justify-between items-center mb-24 gap-12">
-          {/* Categories */}
+
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 p-2 glass border border-stroke rounded-[2rem] shadow-premium overflow-x-auto max-w-full bg-white">
             {categoryNames.map((cat) => (
               <button
@@ -46,7 +47,6 @@ export default function BlogContent({ initialPosts, categories }: BlogContentPro
             ))}
           </div>
 
-          {/* Search */}
           <div className="relative w-full lg:w-96 group">
             <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-brand transition-colors" />
             <input 
@@ -59,7 +59,6 @@ export default function BlogContent({ initialPosts, categories }: BlogContentPro
           </div>
         </div>
 
-        {/* BLOG GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post, i) => (
@@ -73,10 +72,12 @@ export default function BlogContent({ initialPosts, categories }: BlogContentPro
                 <Link href={`/blog/${post.slug}`} className="group block h-full">
                   <div className="glass border border-stroke rounded-[2.5rem] overflow-hidden hover:border-brand/40 transition-all duration-700 shadow-sm hover:shadow-premium h-full flex flex-col bg-white">
                     <div className="aspect-[16/10] overflow-hidden relative">
-                      <img 
+                      <Image 
                         src={post.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426"} 
                         alt={post.title} 
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
                       />
                       <div className="absolute top-6 left-6">
                         <div className="px-4 py-1.5 glass-dark rounded-full text-[9px] font-bold uppercase tracking-widest text-brand border border-white/10 backdrop-blur-md">

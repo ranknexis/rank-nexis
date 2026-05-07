@@ -46,7 +46,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Dynamic Background Accents */}
+
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[140px] translate-x-1/4 -translate-y-1/4 -z-10" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] -translate-x-1/4 translate-y-1/4 -z-10" />
 

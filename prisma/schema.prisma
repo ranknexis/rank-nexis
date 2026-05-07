@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
@@ -18,8 +12,8 @@ model User {
   email       String   @unique
   password    String
   name        String?
-  role        String   @default("TEAM_MEMBER") // ADMIN, TEAM_MEMBER
-  permissions Json     @default("[]")    // e.g., ["manage_pages", "manage_leads"]
+  role        String   @default("TEAM_MEMBER")
+  permissions Json     @default("[]")
   passwordSet Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -164,7 +158,7 @@ model Service {
   slug        String   @unique
   description String
   icon        String?
-  category    String   // SOFTWARE, MARKETING, AI
+  category    String
   features    String[]
   active      Boolean  @default(true)
   order       Int      @default(0)
@@ -172,10 +166,8 @@ model Service {
 
 model PageContent {
   id              String        @id @default(cuid())
-  slug            String        @unique    // "home", "about", "blog", etc.
-  title           String                    // "Home Page"
-  
-  // SEO Fields
+  slug            String        @unique
+  title           String
   metaTitle       String?
   metaDescription String?
   metaKeywords    String[]
@@ -184,14 +176,8 @@ model PageContent {
   ogImage         String?
   canonicalUrl    String?
   noIndex         Boolean       @default(false)
-  
-  // Internal Links (JSON array)
   internalLinks   Json          @default("[]")
-  
-  // Sections
   sections        PageSection[]
-  
-  // Meta
   status          String        @default("published")
   updatedAt       DateTime      @updatedAt
   updatedBy       String?
@@ -201,15 +187,12 @@ model PageSection {
   id            String      @id @default(cuid())
   pageId        String
   page          PageContent @relation(fields: [pageId], references: [id], onDelete: Cascade)
-  
-  sectionKey    String      // Unique per page, e.g., "hero"
-  sectionType   String      // "hero", "text_block", etc.
-  label         String      // Display label
-  
+  sectionKey    String
+  sectionType   String
+  label         String
   content       Json        @default("{}")
   isVisible     Boolean     @default(true)
   order         Int         @default(0)
-  
   updatedAt     DateTime    @updatedAt
 
   @@unique([pageId, sectionKey])
@@ -222,20 +205,14 @@ model SiteSettings {
   siteTitleSuffix String   @default("RankNexis Strategy & Vision")
   siteDescription String?
   ogImage         String?
-  
-  // Business Info
   contactEmail    String?
   contactPhone    String?
   address         String?
-  
-  // Social Links
   facebookUrl     String?
   twitterUrl      String?
   linkedinUrl     String?
   instagramUrl    String?
   youtubeUrl      String?
-
-  // Analytics & Tracking
   gtmId             String?
   gaId              String?
   pixelId           String?
@@ -255,8 +232,8 @@ model SiteSettings {
 
 model AuditLog {
   id        String   @id @default(cuid())
-  action    String   // e.g., "USER_DELETED", "PAGE_UPDATED"
-  target    String   // e.g., "user@example.com", "page-slug"
+  action    String
+  target    String
   userId    String?
   userName  String?
   userRole  String?

@@ -19,7 +19,6 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
   useEffect(() => {
     if (!contentRef.current) return;
 
-    // Extract headings from the ACTUAL rendered DOM
     const renderedH2s = contentRef.current.querySelectorAll('h2');
     const h2s = Array.from(renderedH2s).map((h2, index) => {
       const id = `section-${index}`;
@@ -34,8 +33,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
     month: 'short', 
     year: 'numeric' 
   }), [post.createdAt]);
- 
-  // Calculate reading time - Memoized
+
   const readingTime = useMemo(() => {
     const wordsPerMinute = 200;
     const noOfWords = post.content.split(/\s/g).length;
@@ -62,7 +60,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
     <div className="min-h-screen bg-white text-text-primary">
       <main className="pt-24 pb-24 md:pt-32 md:pb-40 grain">
         <div className="container-max">
-          {/* IMPACT HERO SECTION */}
+
           <header className="max-w-4xl mx-auto mb-20 text-center">
              <motion.div 
                initial={{ opacity: 0, y: 20 }}
@@ -142,10 +140,10 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
           </header>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 xl:gap-24 items-start">
-            {/* SIDEBAR / TOC */}
+
             <aside className="lg:col-span-3 lg:sticky lg:top-32 order-2 lg:order-1">
                <div className="space-y-12">
-                  {/* NAVIGATION BACK */}
+
                   <div className="space-y-6">
                     <h4 className="text-[11px] font-bold uppercase text-brand tracking-widest pb-4 border-b border-brand/20">Navigation</h4>
                     <Link href="/blog" className="flex items-center gap-3 text-[10px] font-bold uppercase text-gray-400 hover:text-brand transition-colors group">
@@ -156,7 +154,6 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                     </Link>
                   </div>
 
-                  {/* TABLE OF CONTENTS */}
                   {headings.length > 0 && (
                     <div className="space-y-6">
                       <h4 className="text-[11px] font-bold uppercase text-brand tracking-widest pb-4 border-b border-brand/20">Contents</h4>
@@ -175,7 +172,6 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                     </div>
                   )}
 
-                  {/* CTA CARD */}
                   <div className="relative overflow-hidden bg-brand p-8 text-white space-y-6 rounded-[2rem] shadow-xl group">
                      <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all duration-700" />
                      <TrendingUp size={32} strokeWidth={1.5} className="text-white/40" />
@@ -191,7 +187,6 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                </div>
             </aside>
 
-            {/* MAIN ARTICLE BODY */}
             <article className="lg:col-span-9 order-1 lg:order-2">
                <div className="max-w-3xl prose prose-xl prose-gray 
                  prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
@@ -218,7 +213,6 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
             </article>
           </div>
 
-          {/* RELATED PUBLICATIONS */}
           {relatedPosts.length > 0 && (
             <section className="mt-40 pt-20 border-t border-gray-200">
               <div className="flex flex-col md:flex-row justify-between items-end gap-10 mb-20">
@@ -252,5 +246,4 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
     </div>
   );
 }
-
 

@@ -66,7 +66,6 @@ export default function TeamEditor({ initialData }: Props) {
     }
   };
 
-
   const addSocial = () => {
     setData({
       ...data,
@@ -88,7 +87,7 @@ export default function TeamEditor({ initialData }: Props) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-      {/* Sidebar Controls */}
+
       <div className="lg:col-span-3 space-y-6">
         <div className="bg-white rounded-[2.5rem] border border-stroke p-6 shadow-sm space-y-4">
             <button 
@@ -124,7 +123,6 @@ export default function TeamEditor({ initialData }: Props) {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="lg:col-span-9 space-y-10">
          <div className="bg-white rounded-[3.5rem] border border-stroke shadow-sm p-12 md:p-16 space-y-12 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-brand/[0.01] rounded-full blur-[100px] -z-10" />
@@ -180,7 +178,6 @@ export default function TeamEditor({ initialData }: Props) {
             </div>
          </div>
 
-         {/* Image Upload Section */}
          <div className="bg-white rounded-[3.5rem] border border-stroke shadow-sm p-12 md:p-16 space-y-10">
             <div className="flex items-center gap-4">
                <UserIcon size={20} className="text-brand" />
@@ -193,7 +190,6 @@ export default function TeamEditor({ initialData }: Props) {
             />
          </div>
 
-         {/* Social Links Section */}
          <div className="bg-white rounded-[3.5rem] border border-stroke shadow-sm p-12 md:p-16 space-y-10">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
@@ -229,7 +225,7 @@ export default function TeamEditor({ initialData }: Props) {
                       type="text"
                       value={social.url}
                       onChange={e => updateSocial(idx, "url", e.target.value)}
-                      placeholder={`HTTPS://${social.platform.toUpperCase()}.COM/...`}
+                      placeholder={`HTTPS://${social.platform}.COM/USERNAME`}
                       className="w-full h-14 px-6 bg-white border border-stroke rounded-xl text-sm font-bold outline-none focus:border-brand"
                     />
                     <button 

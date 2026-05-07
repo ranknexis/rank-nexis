@@ -67,12 +67,10 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
 
-
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
     const diff = latest - previous;
-    
-    // Threshold to prevent micro-stutter
+
     if (Math.abs(diff) < 5) {
       if (latest > 50 && !isScrolled) setIsScrolled(true);
       if (latest <= 50 && isScrolled) setIsScrolled(false);
@@ -92,7 +90,6 @@ export default function Navbar() {
     }
   });
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsMegaMenuOpen(false);
@@ -113,8 +110,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2 group relative z-[60] hover:scale-105 transition-transform duration-300">
           <Logo />
         </Link>
-        
-        {/* DESKTOP NAV */}
+
         <div className="hidden lg:flex items-center gap-10">
           <div 
             className="relative h-20 flex items-center"
@@ -129,7 +125,6 @@ export default function Navbar() {
               Services <ChevronDown size={12} className={cn("transition-transform duration-500", isMegaMenuOpen && "rotate-180")} />
             </button>
 
-            {/* MEGA MENU */}
             <AnimatePresence>
               {isMegaMenuOpen && (
                 <motion.div 
@@ -213,7 +208,6 @@ export default function Navbar() {
               Company <ChevronDown size={14} className="group-hover/company:rotate-180 transition-transform duration-500" />
             </button>
 
-            {/* COMPANY DROPDOWN - Upgraded Aesthetic */}
             <div className="absolute top-20 right-0 pt-0 opacity-0 invisible group-hover/company:opacity-100 group-hover/company:visible transition-all duration-500 translate-y-4 group-hover/company:translate-y-0 z-50">
               <div className="w-64 bg-white/95 backdrop-blur-xl border border-black/5 rounded-[2.5rem] shadow-premium p-6 space-y-2 grain relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 text-brand/5 rotate-12 pointer-events-none">
@@ -248,7 +242,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* MOBILE TRIGGER */}
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="lg:hidden relative z-[90] p-3 text-text-primary active:scale-90 transition-transform glass rounded-2xl"
@@ -258,11 +251,10 @@ export default function Navbar() {
       </div>
     </nav>
 
-    {/* MOBILE MENU OVERLAY - Moved outside nav to break transform context */}
     <AnimatePresence>
       {isMobileMenuOpen && (
         <>
-          {/* Backdrop */}
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -270,8 +262,7 @@ export default function Navbar() {
             onClick={() => setIsMobileMenuOpen(false)}
             className="fixed inset-0 z-[90] bg-black/30 backdrop-blur-md lg:hidden"
           />
-          
-              {/* Drawer */}
+
               <motion.div
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
@@ -280,7 +271,7 @@ export default function Navbar() {
                 className="fixed top-0 right-0 bottom-0 w-[85%] sm:w-[60%] z-[100] bg-white shadow-[-20px_0_80px_rgba(0,0,0,0.1)] p-6 pt-20 overflow-y-auto lg:hidden flex flex-col"
 
               >
-                {/* Dedicated Close Button */}
+
                 <button 
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="absolute top-6 right-6 p-2 text-text-primary active:scale-90 transition-transform"

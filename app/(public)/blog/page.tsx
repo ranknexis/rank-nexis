@@ -47,7 +47,7 @@ export default async function BlogPage() {
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* HERO SECTION */}
+
         <section className="relative py-24 overflow-hidden text-center border-b border-stroke">
           <div className="absolute inset-0 -z-10 overflow-hidden">
              <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
@@ -73,7 +73,6 @@ export default async function BlogPage() {
 
         <BlogContent initialPosts={posts} categories={categories} />
 
-        {/* STRATEGIC AUDIT CTA */}
         <section className="py-32 bg-white border-t border-stroke relative overflow-hidden grain text-center">
           <div className="absolute top-0 left-0 w-full h-full bg-brand/[0.02] -z-10" />
           <div className="container-max max-w-5xl mx-auto">

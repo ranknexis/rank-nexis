@@ -30,7 +30,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-      {/* Sidebar Nav */}
+
       <div className="lg:col-span-3 space-y-2">
         {tabs.map(tab => (
           <button
@@ -59,7 +59,6 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
         </div>
       </div>
 
-      {/* Content Area */}
       <div className="lg:col-span-9">
 
         <div className="bg-white rounded-[2rem] border border-stroke p-10 shadow-sm space-y-12">

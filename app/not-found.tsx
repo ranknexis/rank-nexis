@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 relative overflow-hidden grain">
-      {/* Background Element - Huge 404 */}
+
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
         <motion.span 
           initial={{ opacity: 0, scale: 0.8 }}
@@ -20,17 +20,16 @@ export default function NotFound() {
       </div>
 
       <div className="container-max relative z-10 text-center space-y-12">
-        {/* Terminal Error Badge */}
+
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="inline-flex items-center gap-3 px-5 py-2.5 bg-brand/5 border border-brand/10 rounded-full"
         >
           <div className="w-2 h-2 bg-brand rounded-full animate-pulse" />
-          <span className="text-[10px] font-bold uppercase text-brand">Node Connection Error // 404</span>
+          <span className="text-[10px] font-bold uppercase text-brand">Node Connection Error</span>
         </motion.div>
 
-        {/* Main Heading */}
         <div className="space-y-6">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
@@ -50,7 +49,6 @@ export default function NotFound() {
           </motion.p>
         </div>
 
-        {/* Search Bar Mockup / Recovery */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -65,7 +63,6 @@ export default function NotFound() {
           />
         </motion.div>
 
-        {/* Primary Navigation Options */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -80,7 +77,6 @@ export default function NotFound() {
           </Link>
         </motion.div>
 
-        {/* Quick Links Footer */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
@@ -94,7 +90,6 @@ export default function NotFound() {
         </motion.div>
       </div>
 
-      {/* Decorative Particle Lines */}
       <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-brand/5 to-transparent opacity-50" />
       <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-brand/5 to-transparent opacity-50" />
     </div>

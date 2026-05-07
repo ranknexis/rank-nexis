@@ -66,7 +66,7 @@ export default async function AdminPagesPage() {
             </thead>
             <tbody className="divide-y divide-stroke">
               {pages?.map((page: any) => {
-                // Determine SEO completeness
+                
                 const seoComplete = page.metaTitle && page.metaDescription && page.ogImage;
                 const seoScore = [page.metaTitle, page.metaDescription, page.ogImage].filter(Boolean).length;
 

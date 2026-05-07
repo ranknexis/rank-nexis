@@ -74,7 +74,6 @@ const MODULE_TYPES = [
   { id: 'connect', label: 'Terminal Connect', desc: 'Direct contact and CTA hub', icon: Phone }
 ];
 
-
 export default function PageEditor({ initialPage }: PageEditorProps) {
   const [page, setPage] = useState(initialPage);
   const [activeTab, setActiveTab] = useState<'seo' | 'sections' | 'links'>('sections');
@@ -161,7 +160,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
 
   return (
     <div className="space-y-10">
-      {/* HEADER */}
+
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="space-y-3">
           <Link 
@@ -206,7 +205,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-        {/* SIDEBAR TABS */}
+
         <div className="lg:col-span-1 space-y-4">
            <div className="bg-white rounded-[3rem] p-4 border border-stroke shadow-sm sticky top-10">
               <button 
@@ -243,7 +242,6 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
            </div>
         </div>
 
-        {/* MAIN EDITOR AREA */}
         <div className="lg:col-span-3 min-h-[600px]">
            {activeTab === 'seo' && (
               <SeoEditor 
@@ -317,7 +315,6 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
         </div>
       </div>
 
-      {/* Forge Module Modal */}
       <AnimatePresence>
         {showAddModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
@@ -380,11 +377,10 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                                 className="w-full h-full flex flex-col"
                               >
                                  <div className="flex-grow flex items-center justify-center">
-                                    {/* MOCKUP PREVIEW */}
+
                                     <div className="w-full aspect-[4/3] bg-white border border-stroke rounded-3xl shadow-2xl overflow-hidden relative group/preview">
                                        <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent" />
-                                       
-                                       {/* Dynamic Mockup content based on type */}
+
                                        <div className="p-6 space-y-4">
                                           <div className="h-4 w-1/3 bg-brand/10 rounded-full" />
                                           <div className="h-8 w-full bg-text-primary/5 rounded-xl" />
@@ -422,7 +418,6 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                           </AnimatePresence>
                        </div>
                     </div>
-
 
                     <div className="flex items-center justify-center gap-6 pt-6 border-t border-stroke">
                        <p className="text-[10px] font-black uppercase text-text-muted tracking-widest">Custom components available via technical sync.</p>

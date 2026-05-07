@@ -23,6 +23,7 @@ import {
   Video
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ServiceDetailClient({ service, pageData, relatedCaseStudies }: { service: any, pageData: any, relatedCaseStudies: any[] }) {
   const sections = pageData?.sections || [];
@@ -30,7 +31,7 @@ export default function ServiceDetailClient({ service, pageData, relatedCaseStud
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* Iterate through sections and render them */}
+
         {sections.map((section: any, idx: number) => {
           const content = section.content;
           const type = section.sectionType;
@@ -41,10 +42,12 @@ export default function ServiceDetailClient({ service, pageData, relatedCaseStud
                 <div className="absolute inset-0 -z-10">
                   <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[100px] translate-x-1/3 -translate-y-1/3 hidden md:block" />
                   {content.image && (
-                    <img 
+                    <Image 
                       src={content.image} 
                       alt={content.title || service.title} 
-                      className="absolute inset-0 w-full h-full object-cover opacity-10 md:opacity-[0.05] grayscale" 
+                      fill
+                      priority
+                      className="object-cover opacity-10 md:opacity-[0.05] grayscale" 
                     />
                   )}
                 </div>
@@ -91,10 +94,12 @@ export default function ServiceDetailClient({ service, pageData, relatedCaseStud
                       <div className={idx % 2 === 0 ? "lg:order-2" : "lg:order-1"}>
                         {content.image && (
                           <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden border border-stroke shadow-premium group">
-                             <img 
+                             <Image 
                                src={content.image} 
                                alt={content.title} 
-                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                               fill
+                               sizes="(max-width: 1024px) 100vw, 50vw"
+                               className="object-cover group-hover:scale-105 transition-transform duration-1000"
                              />
                           </div>
                         )}
@@ -119,7 +124,6 @@ export default function ServiceDetailClient({ service, pageData, relatedCaseStud
           return null;
         })}
 
-        {/* RELATED CASE STUDIES (BENCHMARKS) */}
         {relatedCaseStudies.length > 0 && (
           <section className="py-24 bg-surface/30">
             <div className="container-max">
@@ -154,7 +158,6 @@ export default function ServiceDetailClient({ service, pageData, relatedCaseStud
           </section>
         )}
 
-        {/* FINAL CTA */}
         <section className="py-32 bg-white relative overflow-hidden px-6 grain">
           <div className="container-max text-center relative z-10 space-y-12">
             <div className="space-y-6">

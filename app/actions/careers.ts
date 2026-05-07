@@ -26,7 +26,7 @@ export async function createJob(data: {
         revalidatePath("/");
         return { success: true, job };
     } catch (error) {
-        console.error("Create Job Error:", error);
+        
         return { error: "Failed to create job opening." };
     }
 }
@@ -44,7 +44,7 @@ export async function toggleJobStatus(id: string, active: boolean) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        console.error("Toggle Job Status Error:", error);
+        
         return { error: "Failed to update job status." };
     }
 }
@@ -61,8 +61,35 @@ export async function deleteJob(id: string) {
         revalidatePath("/careers", "page");
         return { success: true };
     } catch (error) {
-        console.error("Delete Job Error:", error);
+        
         return { error: "Failed to delete job opening." };
+    }
+}
+
+export async function submitJobApplication(data: {
+    jobId: string;
+    name: string;
+    email: string;
+    resume: string;
+    portfolio?: string;
+    coverLetter?: string;
+}) {
+    try {
+        await prisma.application.create({
+            data: {
+                jobId: data.jobId,
+                name: data.name,
+                email: data.email,
+                resume: data.resume,
+                portfolio: data.portfolio,
+                coverLetter: data.coverLetter,
+            }
+        });
+        revalidatePath("/dashboard/careers");
+        return { success: true };
+    } catch (error) {
+        
+        return { error: "Failed to submit application. Please try again." };
     }
 }
 

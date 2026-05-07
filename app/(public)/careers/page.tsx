@@ -44,7 +44,7 @@ export default async function CareersPage() {
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* HERO SECTION */}
+
         <section className="relative pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden border-b border-stroke">
            <div className="absolute inset-0 -z-10">
               <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
@@ -68,8 +68,6 @@ export default async function CareersPage() {
 
         <CareersContent initialJobs={jobs} />
 
-        {/* CULTURE SECTION */}
-        {/* CULTURE SECTION */}
         <section className="py-24 bg-white text-text-primary relative overflow-hidden border-t border-stroke grain">
            <div className="absolute top-0 left-0 w-full h-full bg-brand/[0.01] -z-10" />
            <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">

@@ -22,7 +22,7 @@ interface TrackingProps {
 export default function TrackingScripts({ settings }: TrackingProps) {
     return (
         <>
-            {/* Google Analytics (GA4) */}
+
             {settings.gaId && (
                 <>
                     <Script
@@ -40,7 +40,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </>
             )}
 
-            {/* Google Tag Manager (GTM) */}
             {settings.gtmId && (
                 <Script id="google-tag-manager" strategy="afterInteractive">
                     {`
@@ -53,7 +52,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* Meta Pixel */}
             {settings.pixelId && (
                 <Script id="fb-pixel" strategy="afterInteractive">
                     {`
@@ -71,7 +69,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* LinkedIn Insight */}
             {settings.linkedinInsightId && (
                 <Script id="linkedin-insight" strategy="afterInteractive">
                     {`
@@ -90,7 +87,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* TikTok Pixel */}
             {settings.tiktokId && (
                 <Script id="tiktok-pixel" strategy="afterInteractive">
                     {`
@@ -103,7 +99,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* Twitter Pixel */}
             {settings.twitterId && (
                 <Script id="twitter-pixel" strategy="afterInteractive">
                     {`
@@ -115,7 +110,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* Pinterest Tag */}
             {settings.pinterestId && (
                 <Script id="pinterest-tag" strategy="afterInteractive">
                     {`
@@ -126,7 +120,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* Snapchat Pixel */}
             {settings.snapchatId && (
                 <Script id="snapchat-pixel" strategy="afterInteractive">
                     {`
@@ -141,7 +134,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* Reddit Pixel */}
             {settings.redditId && (
                 <Script id="reddit-pixel" strategy="afterInteractive">
                     {`
@@ -152,7 +144,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* Quora Pixel */}
             {settings.quoraId && (
                 <Script id="quora-pixel" strategy="afterInteractive">
                     {`
@@ -163,7 +154,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* Microsoft Clarity */}
             {settings.clarityId && (
                 <Script id="ms-clarity" strategy="afterInteractive">
                     {`
@@ -176,7 +166,6 @@ export default function TrackingScripts({ settings }: TrackingProps) {
                 </Script>
             )}
 
-            {/* Hotjar */}
             {settings.hotjarId && (
                 <Script id="hotjar" strategy="afterInteractive">
                     {`

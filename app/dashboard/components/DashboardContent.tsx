@@ -59,7 +59,6 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
     }
   }, [isAdmin]);
 
-
   const STATS_CONFIG = [
     { label: "Active Clients", val: stats.clients.toString(), delta: "+2", icon: Zap, color: "text-orange-500", bg: "bg-orange-50" },
     { label: "Total Leads", val: stats.leads.toString(), delta: "+12", icon: Users, color: "text-blue-500", bg: "bg-blue-50" },
@@ -76,7 +75,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
 
   return (
     <div className="space-y-12">
-      {/* Dynamic Header */}
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-stroke pb-8">
          <div className="space-y-2">
             <div className="flex items-center gap-3">
@@ -192,7 +191,6 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
         </motion.div>
       )}
 
-      {/* Analytics Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
          {STATS_CONFIG.map((stat: any, i: number) => (
            <motion.div 
@@ -222,7 +220,6 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
          ))}
       </div>
 
-      {/* System Intelligence & Reports (Admin Only) */}
       {isAdmin && (
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
             <div className="bg-white rounded-[2rem] border border-stroke p-8 md:p-10 space-y-10 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
@@ -308,7 +305,6 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                 </div>
             </div>
 
-
             <div className="bg-white rounded-[2rem] border border-stroke p-8 space-y-8 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                 <div className="space-y-1">
                     <h3 className="text-xl font-black uppercase tracking-tight text-text-primary">Critical <span className="text-brand">Logs.</span></h3>
@@ -331,7 +327,6 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                     )}
                 </div>
 
-                
                 <Link href="/dashboard/report" className="w-full py-3 border border-stroke rounded-xl text-[9px] font-bold uppercase tracking-widest text-text-muted hover:border-brand hover:text-brand transition-all flex items-center justify-center">
                     View Complete Log History
                 </Link>
@@ -340,9 +335,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
         </div>
       )}
 
-      {/* Activity Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-         {/* Pipelines / Recent Leads */}
+
          {isAdmin && (
            <div className="lg:col-span-8 bg-white rounded-[2rem] border border-stroke p-8 md:p-10 space-y-8 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
               <div className="flex justify-between items-center">
@@ -400,7 +394,6 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
            </div>
          )}
 
-         {/* System Oversight & Actions */}
          <div className={`space-y-8 ${isAdmin ? 'lg:col-span-4' : 'lg:col-span-12'}`}>
             <div className="bg-white rounded-[2rem] border border-stroke p-8 space-y-6 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                <div>

@@ -1,0 +1,27 @@
+{
+  "name": "RankNexis Digital Hub",
+  "short_name": "RankNexis",
+  "description": "High-Performance Digital Marketing & Growth Engineering Console",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FF7A00",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+        "src": "https://res.cloudinary.com/dzt6p8hxr/image/upload/v1715091234/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    },
+    {
+        "src": "https://res.cloudinary.com/dzt6p8hxr/image/upload/v1715091234/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }
+  ]
+}

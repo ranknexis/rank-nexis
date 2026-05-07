@@ -36,7 +36,7 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
 
   return (
     <>
-      {/* Google Tag Manager (GTM) - Hybrid */}
+
       {(consent.analytics || consent.marketing) && settings.gtmId && (
         <Script id="gtm" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -47,7 +47,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* Google Analytics (GA4) - Analytics */}
       {consent.analytics && settings.gaId && (
         <>
           <Script src={`https://www.googletagmanager.com/gtag/js?id=${settings.gaId}`} strategy="afterInteractive" />
@@ -60,7 +59,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </>
       )}
 
-      {/* Google Ads - Marketing */}
       {consent.marketing && settings.googleAdsId && (
         <>
           <Script src={`https://www.googletagmanager.com/gtag/js?id=${settings.googleAdsId}`} strategy="afterInteractive" />
@@ -73,7 +71,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </>
       )}
 
-      {/* Meta (Facebook) Pixel - Marketing */}
       {consent.marketing && settings.pixelId && (
         <Script id="fb-pixel" strategy="afterInteractive">
           {`!function(f,b,e,v,n,t,s)
@@ -89,7 +86,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* Hotjar - Analytics */}
       {consent.analytics && settings.hotjarId && (
         <Script id="hotjar" strategy="afterInteractive">
           {`(function(h,o,t,j,a,r){
@@ -103,7 +99,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* Microsoft Clarity - Analytics */}
       {consent.analytics && settings.clarityId && (
         <Script id="clarity" strategy="afterInteractive">
           {`(function(c,l,a,r,i,t,y){
@@ -114,7 +109,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* LinkedIn Insight - Marketing */}
       {consent.marketing && settings.linkedinInsightId && (
         <Script id="linkedin-insight" strategy="afterInteractive">
           {`_linkedin_partner_id = "${settings.linkedinInsightId}";
@@ -131,7 +125,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* TikTok Pixel - Marketing */}
       {consent.marketing && settings.tiktokId && (
         <Script id="tiktok-pixel" strategy="afterInteractive">
           {`!function (w, d, t) {
@@ -142,7 +135,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* Pinterest Tag - Marketing */}
       {consent.marketing && settings.pinterestId && (
         <Script id="pinterest-tag" strategy="afterInteractive">
           {`!function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
@@ -151,7 +143,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* Twitter (X) Pixel - Marketing */}
       {consent.marketing && settings.twitterId && (
         <Script id="twitter-pixel" strategy="afterInteractive">
           {`!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
@@ -161,7 +152,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* Snapchat Pixel - Marketing */}
       {consent.marketing && settings.snapchatId && (
         <Script id="snapchat-pixel" strategy="afterInteractive">
           {`(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function()
@@ -175,7 +165,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* Reddit Pixel - Marketing */}
       {consent.marketing && settings.redditId && (
         <Script id="reddit-pixel" strategy="afterInteractive">
           {`!function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.queue.push(arguments)};p.queue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
@@ -184,7 +173,6 @@ export default function AnalyticsScripts({ settings }: { settings: any }) {
         </Script>
       )}
 
-      {/* Quora Pixel - Marketing */}
       {consent.marketing && settings.quoraId && (
         <Script id="quora-pixel" strategy="afterInteractive">
           {`!function(q,e,v,n,t,s){if(q.qp)return; n=q.qp=function(){n.qp?n.qp.apply(n,arguments):n.queue.push(arguments);}; n.queue=[];t=document.createElement(e);t.async=!0;t.src=v; s=document.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);}(window, 'script', 'https://a.quora.com/qpx.js');

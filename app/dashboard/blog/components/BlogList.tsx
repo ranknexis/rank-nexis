@@ -14,9 +14,7 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
     const filteredPosts = posts.filter(post => {
         const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                              post.slug.toLowerCase().includes(searchTerm.toLowerCase());
-        
-        // Note: Currently we don't have a 'status' field in schema but we can add it later
-        // For now let's just filter by title/slug
+
         return matchesSearch;
     });
 

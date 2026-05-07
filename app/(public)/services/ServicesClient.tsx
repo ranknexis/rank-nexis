@@ -83,7 +83,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* HERO SECTION */}
+
         <section className="relative pt-32 pb-24 border-b border-stroke overflow-hidden">
           <div className="absolute inset-0 -z-10 overflow-hidden">
              <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
@@ -111,11 +111,9 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
           </div>
         </section>
 
-        {/* PILLAR NAVIGATION */}
         <section className="section-padding">
           <div className="container-max space-y-32">
-            
-            {/* PILLAR 01: MARKETING */}
+
             <div id="marketing" className="scroll-mt-32 space-y-16">
                <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">{pillar1.badge}</p>
@@ -129,7 +127,6 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                </div>
             </div>
 
-            {/* PILLAR 02: BRANDING & CREATIVE */}
             <div id="design" className="scroll-mt-32 space-y-16">
                <div className="space-y-6 text-left md:text-right">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">{pillar2.badge}</p>
@@ -143,7 +140,6 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                </div>
             </div>
 
-            {/* PILLAR 03: SOFTWARE */}
             <div id="development" className="scroll-mt-32 space-y-16">
                <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">{pillar3.badge}</p>
@@ -160,7 +156,6 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
           </div>
         </section>
 
-        {/* TECH STACK VISUAL */}
         <section className="section-padding bg-surface/30 border-y border-stroke relative overflow-hidden">
            <div className="container-max relative z-10">
               <div className="text-center mb-24 space-y-6">
@@ -179,7 +174,6 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
            </div>
         </section>
 
-        {/* INTEGRATED STACK */}
         <section className="section-padding bg-white relative overflow-hidden">
            <div className="container-max">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -194,8 +188,6 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
            </div>
         </section>
 
-
-        {/* FINAL CTA */}
         <section className="py-48 bg-white relative overflow-hidden grain border-t border-stroke text-center">
           <div className="container-max space-y-16">
             <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight antialiased">Ready to <span className="text-brand">Launch?</span></h2>

@@ -5,10 +5,6 @@ import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth";
 import { createAuditLog } from "./audit";
 
-/**
- * ── PAGE LEVEL OPERATIONS ──
- */
-
 export async function getAllPages() {
   const session = await getSession();
   if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
@@ -24,7 +20,7 @@ export async function getAllPages() {
     });
     return { success: true, pages };
   } catch (error) {
-    console.error("Get All Pages Error:", error);
+    
     return { error: "Failed to fetch pages." };
   }
 }
@@ -41,7 +37,7 @@ export async function getPageBySlug(slug: string) {
     });
     return { success: true, page };
   } catch (error) {
-    console.error("Get Page Error:", error);
+    
     return { error: "Failed to fetch page content." };
   }
 }
@@ -70,7 +66,7 @@ export async function updatePageSeo(slug: string, data: any) {
     revalidatePath(`/${slug === 'home' ? '' : slug}`);
     return { success: true, page };
   } catch (error) {
-    console.error("Update SEO Error:", error);
+    
     return { error: "Failed to update SEO." };
   }
 }
@@ -113,23 +109,18 @@ export async function updateInternalLinks(slug: string, links: any[]) {
   }
 }
 
-/**
- * ── SECTION LEVEL OPERATIONS ──
- */
-
 export async function addSection(pageId: string, data: { label: string, sectionType: string, content: any }) {
   const session = await getSession();
   if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
 
   try {
-    // Get highest order
+    
     const lastSection = await prisma.pageSection.findFirst({
       where: { pageId },
       orderBy: { order: 'desc' }
     });
     const order = (lastSection?.order || 0) + 1;
 
-    // Create unique key
     const sectionKey = `${data.sectionType}_${Date.now()}`;
 
     const section = await prisma.pageSection.create({
@@ -149,7 +140,7 @@ export async function addSection(pageId: string, data: { label: string, sectionT
     revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     return { success: true, section };
   } catch (error) {
-    console.error("Add Section Error:", error);
+    
     return { error: "Failed to create section" };
   }
 }
@@ -190,11 +181,10 @@ export async function updateSection(sectionId: string, content: any, isVisible?:
     revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     return { success: true, section };
   } catch (error) {
-    console.error("Update Section Error:", error);
+    
     return { error: "Failed to update section content." };
   }
 }
-
 
 export async function toggleSectionVisibility(sectionId: string, isVisible: boolean) {
   const session = await getSession();
@@ -209,7 +199,7 @@ export async function toggleSectionVisibility(sectionId: string, isVisible: bool
     revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     return { success: true };
   } catch (error) {
-    console.error("Toggle Visibility Error:", error);
+    
     return { error: "Failed to toggle section visibility." };
   }
 }
@@ -233,7 +223,7 @@ export async function reorderSections(pageId: string, sectionIds: string[]) {
     }
     return { success: true };
   } catch (error) {
-    console.error("Reorder Error:", error);
+    
     return { error: "Failed to reorder sections." };
   }
 }

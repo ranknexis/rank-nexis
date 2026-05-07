@@ -58,7 +58,7 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
     <div className="min-h-screen bg-white text-text-primary selection:bg-brand/10 selection:text-brand">
       <main className="grain">
         <div className="container-max">
-          {/* HERO */}
+
           <section className="relative py-32 md:py-48 overflow-hidden text-center">
              <div className="absolute inset-0 -z-10 overflow-hidden">
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
@@ -86,7 +86,7 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
           </section>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 pb-48">
-            {/* LEFT: DIRECT PATHS & FAQ */}
+
             <div className="lg:col-span-5 space-y-24">
               <div className="space-y-10">
                 <ContactInfo 
@@ -109,8 +109,6 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                 />
               </div>
 
-
-              {/* FAQ MINI */}
               <div className="space-y-12 pt-16 border-t border-stroke">
                 <div className="space-y-3">
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">Knowledge Base</p>
@@ -125,7 +123,6 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
               </div>
             </div>
 
-            {/* RIGHT: ADVANCED FORM */}
             <div className="lg:col-span-7">
                <div className="p-8 md:p-14 bg-white border border-stroke rounded-[3.5rem] shadow-premium relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-96 h-96 bg-brand/[0.03] rounded-full blur-[100px] -z-10" />

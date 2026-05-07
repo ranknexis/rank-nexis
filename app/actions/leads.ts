@@ -12,7 +12,7 @@ export async function updateLeadStatus(id: string, status: string) {
     revalidatePath("/dashboard/leads");
     return { success: true };
   } catch (error) {
-    console.error("Failed to update lead status:", error);
+    
     return { success: false };
   }
 }
@@ -25,7 +25,7 @@ export async function deleteLead(id: string) {
     revalidatePath("/dashboard/leads");
     return { success: true };
   } catch (error) {
-    console.error("Failed to delete lead:", error);
+    
     return { success: false };
   }
 }

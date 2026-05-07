@@ -37,7 +37,6 @@ export default function JobEditor({ initialData }: { initialData: any }) {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Auto-slug generator
   useEffect(() => {
     if (!initialData && data.title) {
       const slug = data.title
@@ -85,7 +84,7 @@ export default function JobEditor({ initialData }: { initialData: any }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-      {/* Sidebar Controls */}
+
       <div className="lg:col-span-3 space-y-6">
         <div className="bg-white rounded-[2rem] border border-stroke p-8 shadow-sm space-y-2">
            {tabs.map(tab => (
@@ -127,7 +126,6 @@ export default function JobEditor({ initialData }: { initialData: any }) {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="lg:col-span-9">
          <div className="bg-white rounded-[2.5rem] border border-stroke shadow-sm overflow-hidden">
             

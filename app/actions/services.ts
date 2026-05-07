@@ -25,7 +25,7 @@ export async function createService(data: {
         revalidatePath("/");
         return { success: true, service };
     } catch (error) {
-        console.error("Create Service Error:", error);
+        
         return { error: "Failed to create service." };
     }
 }
@@ -42,7 +42,7 @@ export async function updateService(id: string, data: any) {
         revalidatePath("/");
         return { success: true, service };
     } catch (error) {
-        console.error("Update Service Error:", error);
+        
         return { error: "Failed to update service." };
     }
 }
@@ -59,7 +59,7 @@ export async function toggleServiceStatus(id: string, active: boolean) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        console.error("Toggle Service Status Error:", error);
+        
         return { error: "Failed to update service status." };
     }
 }
@@ -76,7 +76,7 @@ export async function deleteService(id: string) {
         revalidatePath("/services", "page");
         return { success: true };
     } catch (error) {
-        console.error("Delete Service Error:", error);
+        
         return { error: "Failed to delete service." };
     }
 }

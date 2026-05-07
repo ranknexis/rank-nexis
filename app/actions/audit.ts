@@ -18,7 +18,7 @@ export async function createAuditLog(action: string, target: string, details?: s
             }
         });
     } catch (error) {
-        console.error("Failed to create audit log:", error);
+        
     }
 }
 
@@ -29,7 +29,7 @@ export async function getAuditLogs(limit = 10) {
             orderBy: { createdAt: 'desc' }
         });
     } catch (error) {
-        console.error("Failed to fetch audit logs:", error);
+        
         return [];
     }
 }

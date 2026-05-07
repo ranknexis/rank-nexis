@@ -97,13 +97,12 @@ export default function CookieConsent() {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* Necessary */}
+
                     <div className="flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-xl">
                       <span className="text-[10px] font-bold uppercase text-text-primary">Strictly Necessary</span>
                       <Check size={14} className="text-emerald-500" />
                     </div>
 
-                    {/* Analytics */}
                     <div 
                       onClick={() => togglePreference('analytics')}
                       className={`flex items-center justify-between p-4 border cursor-pointer transition-all rounded-xl ${preferences.analytics ? 'border-brand bg-brand/5' : 'bg-white border-gray-100 hover:border-gray-200'}`}
@@ -114,7 +113,6 @@ export default function CookieConsent() {
                       </div>
                     </div>
 
-                    {/* Marketing */}
                     <div 
                       onClick={() => togglePreference('marketing')}
                       className={`flex items-center justify-between p-4 border cursor-pointer transition-all rounded-xl ${preferences.marketing ? 'border-brand bg-brand/5' : 'bg-white border-gray-100 hover:border-gray-200'}`}
@@ -168,7 +166,4 @@ export default function CookieConsent() {
     </AnimatePresence>
   );
 }
-
-
-
 

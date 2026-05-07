@@ -15,7 +15,7 @@ interface TeamMemberCardProps {
   role: string;
   image: string;
   socials?: SocialLink[];
-  // Legacy props
+  
   linkedin?: string;
   twitter?: string;
 }
@@ -30,7 +30,7 @@ const getSocialIcon = (platform: string) => {
     case 'youtube': return <Youtube size={16} />;
     case 'dribbble': 
     case 'pinterest': 
-      return <Link2 size={16} />; // Fallback since standard lucide might lack specific ones
+      return <Link2 size={16} />; 
     default: return <Link2 size={16} />;
   }
 };
@@ -38,14 +38,12 @@ const getSocialIcon = (platform: string) => {
 const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, socials = [], linkedin, twitter }) => {
   const [expanded, setExpanded] = useState(false);
 
-  // Normalize socials array to support legacy strings if socials is empty
   let activeSocials = Array.isArray(socials) ? [...socials] : [];
   if (activeSocials.length === 0) {
     if (linkedin) activeSocials.push({ platform: 'linkedin', url: linkedin });
     if (twitter) activeSocials.push({ platform: 'twitter', url: twitter });
   }
 
-  // Ensure default fallback if still empty (optional, but requested "default keep only linkedin and twitter(X)")
   if (activeSocials.length === 0) {
      activeSocials = [
        { platform: 'linkedin', url: '#' },
@@ -53,9 +51,9 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
      ];
   }
 
-  const visibleSocials = activeSocials.slice(0, 2); // Show first 2 + More button if > 3
+  const visibleSocials = activeSocials.slice(0, 2); 
   const hasMore = activeSocials.length > 3;
-  const extraSocials = activeSocials.slice(2); // Everything from 3rd onwards
+  const extraSocials = activeSocials.slice(2); 
 
   return (
     <motion.div 
@@ -70,8 +68,7 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
         fill
         className="object-cover transition-transform duration-700 group-hover:scale-105" 
       />
-      
-      {/* Overlay - Glassmorphic details inside the image */}
+
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
         <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 space-y-4">
           <div className="space-y-1">

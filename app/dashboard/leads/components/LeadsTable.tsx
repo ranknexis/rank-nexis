@@ -119,7 +119,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
 
   return (
     <div className="space-y-6">
-      {/* Controls Bar */}
+
       <div className="bg-white rounded-[2rem] border border-stroke p-4 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div className="relative flex-grow md:w-80">
@@ -157,7 +157,6 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
         </div>
       </div>
 
-      {/* Bulk Actions Bar */}
       <AnimatePresence>
         {selectedIds.length > 0 && (
           <motion.div 
@@ -314,7 +313,6 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
         </div>
       </div>
 
-      {/* LEAD DETAIL MODAL */}
       <AnimatePresence>
         {selectedLead && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">

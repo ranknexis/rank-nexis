@@ -48,7 +48,6 @@ const SERVICES = [
 export default function HomeClient({ sectionsMap, studies, posts, testimonials: dbTestimonials }: { sectionsMap: any, studies: any[], posts: any[], testimonials?: any[] }) {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
-  // Dynamic Content from CMS - Memoized for performance
   const hero = useMemo(() => getSectionData(sectionsMap, "hero", {
     badge: "Full-Service Digital Agency",
     heading: "Strategic Growth,",
@@ -169,14 +168,13 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* 1. HERO SECTION */}
+
         <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-          {/* Advanced Visual System Visualization */}
+
           <div className="absolute inset-0 -z-10 overflow-hidden">
              <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 hidden md:block" />
              <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4 hidden md:block" />
-             
-              {/* Subtle Animated Nodes - Optimized to 3 for performance */}
+
               <div className="absolute inset-0 opacity-[0.05] hidden md:block">
                 {useMemo(() => [...Array(3)].map((_, i) => (
                    <motion.div
@@ -202,8 +200,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                    />
                 )), [])}
               </div>
-             
-             {/* Connection Lines (Static for performance) */}
+
              <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
                 <path 
                   d="M0 100 Q 250 50 500 100 T 1000 100" 
@@ -283,11 +280,10 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 transition={{ duration: 0.8, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
                 className="lg:col-span-5 relative hidden lg:block"
               >
-                {/* Visual System Diagram Mockup */}
+
                 <div className="aspect-square bg-surface border border-stroke rounded-[3rem] p-10 overflow-hidden relative group shadow-premium">
                   <div className="absolute inset-0 bg-gradient-to-br from-brand/10 via-transparent to-transparent opacity-50" />
-                  
-                  {/* Abstract System visualization */}
+
                   <div className="relative h-full flex flex-col justify-center items-center gap-10">
                     <motion.div 
                       animate={{ y: [0, -10, 0] }}
@@ -323,13 +319,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                        <div className="h-full w-px bg-brand absolute left-1/2" />
                     </div>
                   </div>
- 
-                  {/* Aesthetic Polishing Elements */}
+
                   <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand/5 rounded-full blur-3xl" />
                   <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand/5 rounded-full blur-3xl" />
                 </div>
- 
-                {/* Floating Metric Badge */}
+
                 <motion.div 
                   initial={{ x: -50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -355,8 +349,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             </div>
           </div>
         </section>
- 
-        {/* 2. OUR GROWTH PROCESS */}
+
         <section className="py-32 border-y border-stroke bg-surface/30 relative overflow-hidden">
           <div className="container-max">
             <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
@@ -380,7 +373,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-              {/* Left Side: Step 01 */}
+
               {[
                 { 
                   id: "01", 
@@ -421,7 +414,6 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 </motion.div>
               ))}
 
-              {/* Right Side: Step 02 & 03 Stacked */}
               <div className="flex flex-col gap-8">
                 {[
                   { 
@@ -471,8 +463,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
           <div className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none" />
           <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none" />
         </section>
- 
-        {/* 3. SERVICES OVERVIEW */}
+
         <section className="section-padding bg-white relative overflow-hidden">
           <div className="container-max relative z-10">
             <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
@@ -504,8 +495,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
  
           <div className="absolute top-1/2 left-0 w-full h-full bg-brand/5 blur-[120px] -z-10 translate-y-1/2" />
         </section>
- 
-        {/* 4. INDUSTRIES SERVED */}
+
         <section className="py-32 border-y border-stroke bg-surface/30 px-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] translate-x-1/2 -translate-y-1/2" />
           <div className="container-max relative z-10">
@@ -552,8 +542,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             </div>
           </div>
         </section>
- 
-        {/* 5. FEATURED CASE STUDIES */}
+
         <section id="work" className="section-padding relative">
           <div className="container-max relative z-10">
             <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-10">
@@ -607,14 +596,12 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               <ProcessItem step="03" title="Expert Engineering" desc="Building elite digital infrastructure with precision." />
               <ProcessItem step="04" title="Performance" desc="Continuous improvement based on real-world data." />
               <ProcessItem step="05" title="Rapid Growth" desc="Scaling your business through sustained expert help." />
-              
-              {/* Connecting Desktop Line */}
+
               <div className="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-px bg-brand/20 -z-10" />
             </div>
           </div>
         </section>
- 
-        {/* 6.5. INSIDE THE ENGINE (Storytelling section) */}
+
         <section className="section-padding relative overflow-hidden bg-white">
           <div className="container-max relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -651,8 +638,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               <div className="lg:order-2 order-1 relative">
                 <div className="aspect-square glass rounded-[3rem] p-10 relative overflow-hidden group shadow-premium grain">
                    <div className="absolute inset-0 bg-brand/[0.02] -z-10" />
-                   
-                   {/* Animated Architecture Diagram */}
+
                    <div className="relative h-full flex flex-col justify-center gap-6">
                       <div className="flex justify-center">
                         <motion.div 
@@ -709,8 +695,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             </div>
           </div>
         </section>
- 
-        {/* 7. WHY RANKNEXIS */}
+
         <section className="section-padding relative bg-surface/30">
           <div className="container-max">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -718,8 +703,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 <div className="aspect-[4/5] glass rounded-[3rem] overflow-hidden relative shadow-premium grain">
                   <Image src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2070" alt="Team Session" fill className="w-full h-full object-cover grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent " />
-                  
-                  {/* Floating Metric */}
+
                   <div className="absolute bottom-10 left-10 right-10 p-8 glass-dark rounded-3xl backdrop-blur-2xl space-y-4">
                      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand brightness-125">The Standard</p>
                      <h4 className="text-3xl font-bold tracking-tighter text-white">Growth Focused.</h4>
@@ -749,8 +733,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             </div>
           </div>
         </section>
- 
-        {/* 8. TESTIMONIALS */}
+
         <section className="section-padding relative overflow-hidden bg-white">
           <div className="container-max relative z-10">
             <div className="text-center mb-24 space-y-6">
@@ -774,8 +757,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
           </div>
           <div className="absolute bottom-0 left-0 w-full h-1/2 bg-brand/5 blur-[120px] -z-10" />
         </section>
- 
-        {/* 9. INSIGHTS PREVIEW */}
+
         <section className="section-padding relative bg-surface/30">
           <div className="container-max relative z-10">
             <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-10">
@@ -804,8 +786,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             </div>
           </div>
         </section>
- 
-        {/* 10. FINAL CTA */}
+
         <section id="contact" className="py-48 relative overflow-hidden px-6 grain">
           <div className="absolute inset-0 bg-brand/[0.03] -z-10" />
           <div className="container-max relative z-10">
@@ -875,9 +856,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
     </div>
   );
 }
- 
-/* HELPER COMPONENTS - Memoized for performance */
- 
+
 const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug }: any) => {
   return (
     <motion.div 
@@ -916,7 +895,6 @@ const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug
   );
 });
 
- 
 const CaseStudyCard = React.memo(({ title, stats, kpi, tag, image, slug }: any) => {
   return (
     <motion.div 

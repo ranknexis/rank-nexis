@@ -15,7 +15,6 @@ import {
 import { useState, useEffect } from "react";
 import { getSystemReportData } from "@/actions/audit";
 
-
 export default function ReportPage() {
     const [data, setData] = useState<any>(null);
 
@@ -28,7 +27,6 @@ export default function ReportPage() {
     }, []);
 
     const reports = data?.recentLogs || [];
-
 
     return (
         <div className="space-y-12">
@@ -50,7 +48,6 @@ export default function ReportPage() {
                 <SummaryCard icon={TrendingUp} label="Total Leads" value={data?.counts?.leads || 0} color="text-brand" />
                 <SummaryCard icon={Briefcase} label="Case Studies" value={data?.counts?.studies || 0} color="text-blue-500" />
             </div>
-
 
             <div className="bg-white rounded-[2rem] border border-stroke overflow-hidden shadow-sm shadow-premium/5 grain">
                 <div className="p-8 border-b border-stroke flex justify-between items-center">

@@ -1,16 +1,14 @@
 import { Metadata } from "next";
 
-/**
- * Safely get a section's content with a fallback.
- */
 export function getSectionData(sectionsMap: Record<string, any> | undefined, key: string, fallback: any = {}) {
   return sectionsMap?.[key] ?? fallback;
 }
 
-/**
- * Build Next.js metadata from page SEO fields.
- */
-export function buildSeoMetadata(page: any, fallback: { title: string; description: string; ogImage?: string }): Metadata {
+export function buildSeoMetadata(
+  page: any,
+  fallback: { title: string; description: string; ogImage?: string },
+  prefix: string = ""
+): Metadata {
   if (!page) return {
     title: fallback.title,
     description: fallback.description
@@ -20,12 +18,17 @@ export function buildSeoMetadata(page: any, fallback: { title: string; descripti
   const description = page.metaDescription || fallback.description;
   const ogImage = page.ogImage || fallback.ogImage;
 
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.ranknexis.com';
+  const cleanPrefix = prefix.startsWith('/') ? prefix : `/${prefix}`;
+  const canonicalPath = page.canonicalUrl || (page.slug === 'home' ? '/' : `${cleanPrefix}${prefix ? '/' : ''}${page.slug}`);
+  const canonical = `${baseUrl}${canonicalPath.replace(/\/+$/, '')}`;
+
   return {
     title: title,
     description: description,
     keywords: page.metaKeywords?.length ? page.metaKeywords : undefined,
-    alternates: { 
-      canonical: page.canonicalUrl || (page.slug === 'home' ? '/' : `/${page.slug}`)
+    alternates: {
+      canonical: canonical
     },
     robots: page.noIndex ? { index: false, follow: false } : { index: true, follow: true },
     openGraph: {

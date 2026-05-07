@@ -6,7 +6,6 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { name, email, company, message } = body;
 
-        // Validation
         if (!name || !email || !message) {
             return NextResponse.json(
                 { error: "Missing required fields" },
@@ -14,7 +13,6 @@ export async function POST(req: Request) {
             );
         }
 
-        // Save to NeonDB via Prisma
         const lead = await prisma.lead.create({
             data: {
                 name,
@@ -30,7 +28,7 @@ export async function POST(req: Request) {
             message: "Success"
         });
     } catch (error) {
-        console.error("Contact API Error:", error);
+        
         return NextResponse.json(
             { error: "Internal Server Error" },
             { status: 500 }

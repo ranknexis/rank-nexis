@@ -29,7 +29,7 @@ export async function submitContactForm(formData: FormData) {
         revalidatePath("/dashboard/leads");
         return { success: true };
     } catch (error) {
-        console.error("Submission Error:", error);
+        
         return { error: "Transmission error. Please verify your connection and retry." };
     }
 }

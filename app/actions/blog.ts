@@ -17,7 +17,6 @@ export async function createBlogPost(data: {
     const session = await getSession();
     if (!session) return { error: "Unauthorized" };
 
-    // If not admin, force authorId to current user
     const finalAuthorId = session.role === "ADMIN" ? data.authorId : session.id;
 
     try {
@@ -38,7 +37,7 @@ export async function createBlogPost(data: {
         revalidatePath("/");
         return { success: true, post };
     } catch (error) {
-        console.error("Create Blog Error:", error);
+        
         return { error: "Failed to create blog post." };
     }
 }
@@ -48,7 +47,7 @@ export async function updateBlogPost(id: string, data: any) {
     if (!session) return { error: "Unauthorized" };
 
     try {
-        // Ownership check
+        
         const existing = await prisma.blog.findUnique({ where: { id } });
         if (!existing) return { error: "Post not found" };
         
@@ -60,7 +59,7 @@ export async function updateBlogPost(id: string, data: any) {
             where: { id },
             data: {
                 ...data,
-                // Ensure non-admins can't change author
+                
                 authorId: session.role === "ADMIN" ? data.authorId : existing.authorId
             }
         });
@@ -72,7 +71,7 @@ export async function updateBlogPost(id: string, data: any) {
         revalidatePath("/blog", "page");
         return { success: true, post };
     } catch (error) {
-        console.error("Update Blog Error:", error);
+        
         return { error: "Failed to update blog post." };
     }
 }
@@ -95,7 +94,7 @@ export async function deleteBlogPost(id: string) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        console.error("Delete Blog Error:", error);
+        
         return { error: "Failed to delete blog post." };
     }
 }

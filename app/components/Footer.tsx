@@ -20,6 +20,12 @@ export default async function Footer() {
 
   const activeSocials = socialLinks.filter(s => settings?.[s.key as keyof typeof settings]);
 
+  const [footerServices, footerBlogs, footerWork] = await Promise.all([
+    prisma.service.findMany({ where: { active: true }, select: { title: true, slug: true }, take: 6 }),
+    prisma.blog.findMany({ select: { title: true, slug: true }, orderBy: { createdAt: 'desc' }, take: 6 }),
+    prisma.caseStudy.findMany({ select: { title: true, slug: true }, orderBy: { createdAt: 'desc' }, take: 6 })
+  ]);
+
   return (
     <footer className="bg-white border-t border-stroke pt-24 pb-12 px-6 grain relative overflow-hidden">
       <div className="absolute top-0 right-0 w-96 h-96 bg-brand/[0.02] rounded-full blur-[100px] -z-10" />
@@ -82,10 +88,9 @@ export default async function Footer() {
             <ul className="space-y-3">
               <li><Link href="/privacy" className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="text-sm font-medium text-text-secondary hover:text-brand transition-colors">Terms of Use</Link></li>
-              
-              {/* Separate Interactive Links */}
+
               <CookiePreferencesLink />
-              <SiteMapLink />
+              <SiteMapLink services={footerServices} blogs={footerBlogs} work={footerWork} />
 
               <li className="pt-2">
                 <p className="text-[10px] font-bold text-text-primary uppercase mb-1">Operations Hub</p>

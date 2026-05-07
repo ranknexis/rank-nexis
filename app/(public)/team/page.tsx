@@ -52,7 +52,7 @@ export default async function TeamPage() {
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* HERO SECTION */}
+
         <section className="relative pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden border-b border-stroke">
            <div className="absolute inset-0 -z-10">
               <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
@@ -75,7 +75,6 @@ export default async function TeamPage() {
            </div>
         </section>
 
-        {/* TEAM GRID */}
         <section className="py-32">
            <div className="container-max">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
@@ -92,7 +91,6 @@ export default async function TeamPage() {
            </div>
         </section>
 
-        {/* CORE STRENGTHS */}
         <section className="section-padding bg-surface/30 border-y border-stroke relative overflow-hidden">
            <div className="container-max relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -115,7 +113,6 @@ export default async function TeamPage() {
            </div>
         </section>
 
-        {/* FINAL CTA */}
         <section className="py-48 bg-white text-center relative px-6 overflow-hidden grain">
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-brand/5 rounded-full blur-[200px] -z-10" />
            <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase mb-12 antialiased leading-tight">Ready to grow <br /> <span className="text-brand">Together?</span></h2>

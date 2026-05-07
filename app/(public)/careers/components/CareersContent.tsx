@@ -19,7 +19,7 @@ export default function CareersContent({ initialJobs }: CareersContentProps) {
 
   return (
     <div className="bg-white py-16">
-      {/* SEARCH & FILTERS */}
+
       <section className="mb-16">
          <div className="container-max">
             <div className="relative max-w-2xl mx-auto group">
@@ -36,7 +36,6 @@ export default function CareersContent({ initialJobs }: CareersContentProps) {
          </div>
       </section>
 
-      {/* JOBS LIST / EMPTY STATE */}
       <section className="pb-32">
          <div className="container-max">
             <div className="space-y-8">

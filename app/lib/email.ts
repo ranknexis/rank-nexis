@@ -20,7 +20,7 @@ export async function sendEmail({ to, subject, html }: { to: string; subject: st
         });
         return { success: true, messageId: info.messageId };
     } catch (error) {
-        console.error("Email Error:", error);
+        
         return { success: false, error };
     }
 }

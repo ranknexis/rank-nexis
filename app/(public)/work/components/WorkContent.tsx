@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Filter, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface WorkContentProps {
@@ -10,7 +11,7 @@ interface WorkContentProps {
 }
 
 export default function WorkContent({ initialStudies }: WorkContentProps) {
-  // Derive categories from initialStudies
+  
   const CATEGORIES = ["All", ...Array.from(new Set(initialStudies.map(s => s.tag)))];
   
   const [activeCategory, setActiveCategory] = useState("All");
@@ -38,7 +39,7 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
 
   return (
     <>
-      {/* FILTER BAR */}
+
       <section 
         className={`sticky z-40 bg-white/80 backdrop-blur-md border-b border-stroke py-6 transition-all duration-500 ${
           isNavVisible ? "top-20" : "top-0"
@@ -66,7 +67,6 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
          </div>
       </section>
 
-      {/* CASE STUDIES GRID */}
       <section className="py-24">
          <div className="container-max">
             <div className="grid grid-cols-1 gap-32">
@@ -79,10 +79,12 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
                      className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center group"
                   >
                      <div className="lg:col-span-7 relative overflow-hidden rounded-[3rem] shadow-premium grain border border-stroke">
-                        <img 
+                        <Image 
                            src={study.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426"} 
                            alt={study.title} 
-                           className="w-full aspect-[16/9] object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
+                           fill
+                           sizes="(max-width: 1024px) 100vw, 60vw"
+                           className="object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
                         <div className="absolute bottom-10 left-10 p-6 glass-dark rounded-2xl text-white border border-white/10">

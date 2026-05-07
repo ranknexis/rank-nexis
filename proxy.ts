@@ -1,70 +1,38 @@
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifyToken, refreshAccessToken } from './app/lib/auth';
-
-// Add paths that don't require authentication
-const publicPaths = [
-  '/dashboard/login',
-  '/dashboard/forgot-password',
-  '/dashboard/reset-password',
-  '/api/auth/login',
-  '/api/auth/refresh',
-];
+import { NextResponse } from 'next/server';
+import { getSessionFromToken } from './app/lib/session';
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const pathname = request.nextUrl.pathname;
 
-  // 1. Static and Public Route Bypass
-  if (
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/api/public') ||
-    pathname.includes('.') || // Static files
-    publicPaths.some(path => pathname.startsWith(path))
-  ) {
-    return NextResponse.next();
+  const publicDashboardPaths = [
+    '/dashboard/login',
+    '/dashboard/forgot-password',
+    '/dashboard/reset-password'
+  ];
+
+  if (pathname.startsWith('/dashboard') && !publicDashboardPaths.includes(pathname)) {
+    const sessionToken = request.cookies.get('session')?.value;
+    const session = sessionToken ? await getSessionFromToken(sessionToken) : null;
+
+    if (!session) {
+      const loginUrl = new URL('/dashboard/login', request.url);
+      loginUrl.searchParams.set('callbackUrl', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
-  // 2. Dashboard Route Protection
-  if (pathname.startsWith('/dashboard')) {
-    const accessToken = request.cookies.get('session')?.value;
-
-    if (!accessToken) {
-      return redirectToLogin(request);
-    }
-
-    try {
-      // Verify current access token
-      await verifyToken(accessToken);
-      return NextResponse.next();
-    } catch (error) {
-      // Access token expired, attempt refresh
-      // Since refreshAccessToken in auth.ts reads cookies directly, we can just call it
-      // But middleware/proxy might have limited access to headers/cookies in some Next.js versions
-      // However, we'll try the direct call first as per auth.ts logic
-      
-      const result = await refreshAccessToken();
-
-      if (!result) {
-        return redirectToLogin(request);
-      }
-
-      // Success - Proceed (refreshAccessToken already set the cookie)
-      return NextResponse.next();
+  if (publicDashboardPaths.includes(pathname)) {
+    const sessionToken = request.cookies.get('session')?.value;
+    const session = sessionToken ? await getSessionFromToken(sessionToken) : null;
+    if (session) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   }
 
   return NextResponse.next();
 }
 
-function redirectToLogin(request: NextRequest) {
-  const url = request.nextUrl.clone();
-  url.pathname = '/dashboard/login';
-  url.searchParams.set('callbackUrl', request.nextUrl.pathname);
-  return NextResponse.redirect(url);
-}
-
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ['/dashboard/:path*'],
 };

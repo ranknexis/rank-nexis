@@ -3,7 +3,6 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-// --- BLOG ACTIONS ---
 export async function updateBlogPost(id: string, data: any) {
   try {
     const updated = await prisma.blog.update({
@@ -16,7 +15,7 @@ export async function updateBlogPost(id: string, data: any) {
     revalidatePath(`/blog/${updated.slug}`);
     return { success: true, data: updated };
   } catch (error) {
-    console.error("Failed to update blog post:", error);
+    
     return { success: false, error: "Failed to save publication." };
   }
 }
@@ -31,7 +30,7 @@ export async function createBlogPost(data: any) {
     revalidatePath("/");
     return { success: true, data: created };
   } catch (error) {
-    console.error("Failed to create blog post:", error);
+    
     return { success: false, error: "Failed to create publication." };
   }
 }
@@ -48,7 +47,6 @@ export async function deleteBlogPost(id: string) {
   }
 }
 
-// --- CASE STUDY ACTIONS ---
 export async function updateCaseStudy(id: string, data: any) {
   try {
     const updated = await prisma.caseStudy.update({
@@ -89,7 +87,6 @@ export async function deleteCaseStudy(id: string) {
   }
 }
 
-// --- JOB ACTIONS ---
 export async function updateJob(id: string, data: any) {
   try {
     const updated = await prisma.job.update({
@@ -98,7 +95,7 @@ export async function updateJob(id: string, data: any) {
     });
     revalidatePath("/dashboard/careers");
     revalidatePath("/careers");
-    revalidatePath(`/careers`); // List page
+    revalidatePath(`/careers`); 
     return { success: true, data: updated };
   } catch (error) {
     return { success: false, error: "Failed to save job listing." };

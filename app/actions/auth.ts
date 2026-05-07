@@ -16,16 +16,15 @@ export async function forgotPassword(email: string) {
     try {
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user) {
-            // Don't reveal if user exists for security, just say if successful email is sent
+            
             return { success: true };
         }
 
-        // Generate token
         const token = crypto.randomBytes(32).toString('hex');
-        const expiresAt = new Date(Date.now() + 3600000); // 1 hour
+        const expiresAt = new Date(Date.now() + 3600000); 
 
         await prisma.passwordResetToken.upsert({
-            where: { token }, // This is unlikely to collide but token is unique
+            where: { token }, 
             create: {
                 email,
                 token,
@@ -47,7 +46,7 @@ export async function forgotPassword(email: string) {
 
         return { success: true };
     } catch (error) {
-        console.error("Forgot Pass Error:", error);
+        
         return { error: "Failed to process request" };
     }
 }
@@ -72,7 +71,6 @@ export async function resetPassword(token: string, password: string) {
             }
         });
 
-        // Delete used token
         await prisma.passwordResetToken.delete({ where: { id: resetToken.id } });
 
         return { success: true };

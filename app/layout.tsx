@@ -50,6 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
       index: true,
       follow: true,
     },
+    manifest: "/manifest.json",
   };
 }
 

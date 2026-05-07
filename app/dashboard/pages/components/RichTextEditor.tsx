@@ -108,7 +108,7 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
       {label && <label className="text-[11px] font-bold uppercase text-brand ml-4 tracking-[0.2em]">{label}</label>}
       
       <div className="border border-stroke rounded-[2.5rem] bg-white overflow-hidden focus-within:border-brand/30 transition-all shadow-premium group">
-        {/* Main Toolbar */}
+
         <div className="px-8 py-6 border-b border-stroke bg-surface/10 flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5 p-1 bg-white border border-stroke rounded-xl shadow-sm">
             <MenuButton title="Bold" onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive('bold')}>
@@ -180,9 +180,8 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
           </div>
         </div>
 
-        {/* Writing Canvas */}
         <div className="relative">
-          {/* Bubble Menu for instant formatting */}
+
           {editor && (
             <BubbleMenu editor={editor}>
               <div className="flex items-center gap-1 p-1 bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden scale-90 md:scale-100 origin-bottom">
@@ -227,7 +226,6 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
           </div>
         </div>
 
-        {/* Footer Stats */}
         <div className="px-8 py-3 border-t border-stroke bg-surface/5 flex justify-between items-center">
             <div className="flex gap-4">
                <p className="text-[9px] font-bold uppercase text-text-muted">Intelligence: <span className="text-brand">Active</span></p>

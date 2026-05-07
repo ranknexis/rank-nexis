@@ -18,7 +18,7 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to terminate this case study?")) return;
-        // Note: Assuming deleteCaseStudy action exists or will be added
+        
         const res = await deleteCaseStudy(id);
         if (res.success) {
             setStudies(studies.filter(s => s.id !== id));

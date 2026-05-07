@@ -1,6 +1,5 @@
 "use client";
 
-
 import ValueCard from "@/components/ValueCard";
 import { motion } from "framer-motion";
 import {
@@ -33,7 +32,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
-        {/* 1. HERO */}
+
         <section className="relative py-24 overflow-hidden">
           <div className="absolute inset-0 -z-10 overflow-hidden">
              <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
@@ -62,7 +61,6 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
           </div>
         </section>
 
-        {/* 2. NARRATIVE */}
         <section className="section-padding border-y border-stroke bg-surface/30 relative overflow-hidden">
            <div className="container-max relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -87,7 +85,6 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                     </div>
                  </div>
 
-
                   <div className="relative group p-4">
                      <div className="aspect-square glass rounded-[4rem] overflow-hidden relative shadow-premium grain border border-stroke">
                         <Image 
@@ -110,7 +107,6 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
            </div>
         </section>
 
-        {/* 3. EXPERTISE STACK */}
         <section className="py-24 bg-white">
            <div className="container-max space-y-16">
               <div className="flex flex-col md:flex-row justify-between items-end gap-8 border-b border-stroke pb-12">
@@ -139,15 +135,14 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                           fill
                           className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
                        />
-                       
-                       {/* Content Inside Image Placeholder */}
+
                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
                        
                        <div className="absolute bottom-0 left-0 w-full p-8 space-y-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                           <p className="text-brand text-[10px] font-bold uppercase tracking-[0.3em]">{member.role}</p>
                           <h4 className="text-white text-2xl font-bold tracking-tight uppercase leading-none antialiased">{member.name}</h4>
                           <div className="pt-4 flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
-                             {/* Optional Socials or Bio snippet */}
+
                              <div className="h-px w-8 bg-brand self-center" />
                              <span className="text-white/60 text-[9px] font-bold uppercase tracking-widest italic">Core Expert</span>
                           </div>
@@ -163,7 +158,6 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
            </div>
         </section>
 
-        {/* 4. CORE VALUES */}
         <section className="section-padding border-y border-stroke bg-surface/30">
            <div className="container-max">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -185,7 +179,6 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
               </div>
            </div>
         </section>
-
 
         <section className="py-48 bg-white relative px-6 overflow-hidden grain text-center">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-brand/5 rounded-full blur-[200px] -z-10" />

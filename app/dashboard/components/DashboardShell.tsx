@@ -62,11 +62,9 @@ export default function DashboardShell({
   ].filter(item => {
     if (role === "ADMIN") return true;
     if (item.roles.includes("TEAM_MEMBER")) {
-        // Mandatory items for TEAM_MEMBER
+        
         if (["Overview", "My Profile", "Content (Blog)", "Case Archives"].includes(item.label)) return true;
 
-        
-        // Conditional items based on permissions
         if (!item.permission) return true;
         const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse(session?.permissions || "[]");
         return userPermissions.includes(item.permission);

@@ -41,7 +41,7 @@ export default function TeamList({ initialTeam }: TeamListProps) {
 
   return (
     <div className="space-y-8">
-      {/* Search & Actions */}
+
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="relative w-full md:w-96 group">
           <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-brand transition-colors" size={18} />
@@ -61,7 +61,6 @@ export default function TeamList({ initialTeam }: TeamListProps) {
         </Link>
       </div>
 
-      {/* Grid View */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredTeam.map((member) => (
           <div key={member.id} className="group bg-white border border-stroke rounded-[2.5rem] p-8 shadow-sm hover:shadow-premium hover:border-brand/30 transition-all flex flex-col items-center text-center relative overflow-hidden">

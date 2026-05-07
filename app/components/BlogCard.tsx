@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Calendar, User } from "lucide-react";
 import Link from "next/link";
 import React from 'react';
+import Image from "next/image";
 
 interface BlogCardProps {
   title: string;
@@ -25,14 +26,14 @@ const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, category, author, d
       className="corporate-card p-0 group overflow-hidden flex flex-col h-full hover:-translate-y-2 transition-all duration-700 shadow-premium grain"
     >
       <div className="aspect-[16/10] relative overflow-hidden">
-        <img 
-          src={image} 
+        <Image 
+          src={image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} 
           alt={title} 
-          loading="lazy"
-          className="w-full h-full object-cover opacity-100 md:opacity-80 md:grayscale md:group-hover:grayscale-0 md:group-hover:opacity-100 md:group-hover:scale-105 transition-all duration-1000" 
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover opacity-100 md:opacity-80 md:grayscale md:group-hover:grayscale-0 md:group-hover:opacity-100 md:group-hover:scale-105 transition-all duration-1000" 
         />
 
-        
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40" />
       </div>
       

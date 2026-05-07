@@ -14,9 +14,7 @@ const adapter = new PrismaPg(pool)
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
-  console.log('--- RankNexis Production Seeding Started ---');
 
-  // 1. CLEANUP
   await prisma.pageSection.deleteMany();
   await prisma.pageContent.deleteMany();
   await prisma.blog.deleteMany();
@@ -27,7 +25,6 @@ async function main() {
   await prisma.user.deleteMany();
   await prisma.siteSettings.deleteMany();
 
-  // 2. USERS & TEAM MEMBERS
   const hashedAdminPassword = await bcrypt.hash('RankNexis@2026', 10);
   const teamPassword = await bcrypt.hash('RankNexis@2026', 10);
 
@@ -85,7 +82,6 @@ async function main() {
     teamMembers.push({ ...member, user });
   }
 
-  // 3. BLOG CATEGORIES
   const categoryData = [
     { name: 'Strategy', slug: 'strategy' },
     { name: 'Tutorials', slug: 'tutorials' },
@@ -93,7 +89,6 @@ async function main() {
   ];
   const categories = await Promise.all(categoryData.map(c => prisma.blogCategory.create({ data: c })));
 
-  // 4. BLOGS 
   const blogs = [
     {
       title: 'What is a Digital Marketing Agency',
@@ -169,7 +164,6 @@ async function main() {
 
   for (const b of blogs) await prisma.blog.create({ data: b });
 
-  // 5. SERVICES
   const services = [
     { title: 'SEO Service', slug: 'seo-service', category: 'MARKETING', icon: 'Search', order: 1, description: 'Affordable and results-driven SEO services for growth.' },
     { title: 'Social Media Marketing', slug: 'social-media-marketing', category: 'MARKETING', icon: 'Share2', order: 2, description: 'Strategic SMM to build authority and engagement.' },
@@ -183,7 +177,6 @@ async function main() {
   ];
   for (const s of services) await prisma.service.create({ data: { ...s, features: [] } });
 
-  // 6. SITE SETTINGS
   await prisma.siteSettings.create({
     data: {
       id: "global",
@@ -195,9 +188,8 @@ async function main() {
     }
   });
 
-  // 7. PAGE CONTENT & SECTIONS
   for (const p of PAGES_DATA) {
-    console.log(`Creating page: ${p.slug}`);
+    
     const page = await prisma.pageContent.create({
       data: {
         slug: p.slug,
@@ -209,7 +201,7 @@ async function main() {
       }
     });
     for (const [idx, s] of p.sections.entries()) {
-      console.log(`  - Section: ${s.key}`);
+      
       await prisma.pageSection.create({
         data: {
           pageId: page.id,
@@ -223,19 +215,15 @@ async function main() {
     }
   }
 
-  console.log('✓ Ultimate Seed: Success! All blogs assigned to TEAM_MEMBER nodes.');
-
-  console.log('Seeding case studies...');
   for (const cs of CASE_STUDIES_DATA) {
     await prisma.caseStudy.create({ data: cs });
   }
 
-  console.log('Seeding finished.');
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    
     process.exit(1);
   })
   .finally(async () => {

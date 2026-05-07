@@ -45,9 +45,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
         <div className="max-w-[1400px] mx-auto">
             <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 
-            {/* Left: Avatar & Basic Info */}
             <div className="lg:col-span-4 space-y-8">
-
 
                 <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-8">
                     <div className="space-y-4 text-center">
@@ -91,9 +89,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                 </div>
             </div>
 
-            {/* Right: Bio & Socials */}
             <div className="lg:col-span-8 space-y-8">
-
 
                 <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-10">
                     <div className="space-y-4">
