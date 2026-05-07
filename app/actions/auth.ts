@@ -1,11 +1,11 @@
 "use server";
 
-import { logout as libLogout, getSession } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
+import { getSession, logout as libLogout } from "@/lib/auth";
+import { getResetTemplate, sendEmail } from "@/lib/email";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import { sendEmail, getResetTemplate } from "@/lib/email";
+import { revalidatePath } from "next/cache";
 
 export async function logout() {
     await libLogout();
@@ -17,7 +17,7 @@ export async function forgotPassword(email: string) {
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user) {
             // Don't reveal if user exists for security, just say if successful email is sent
-            return { success: true }; 
+            return { success: true };
         }
 
         // Generate token
@@ -37,8 +37,8 @@ export async function forgotPassword(email: string) {
             }
         });
 
-        const resetLink = `${process.env.NEXT_PUBLIC_APP_URL || 'https://ranknexis.com'}/dashboard/reset-password/${token}`;
-        
+        const resetLink = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.ranknexis.com'}/dashboard/reset-password/${token}`;
+
         await sendEmail({
             to: email,
             subject: "RankNexis Password Reset",
@@ -66,7 +66,7 @@ export async function resetPassword(token: string, password: string) {
 
         await prisma.user.update({
             where: { email: resetToken.email },
-            data: { 
+            data: {
                 password: hashedPassword,
                 passwordSet: true
             }

@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://ranknexis.com';
+    const baseUrl = 'https://www.ranknexis.com';
 
     // Fetch dynamic slugs
     const posts = await prisma.blog.findMany({ select: { slug: true, updatedAt: true } });
@@ -25,8 +25,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // Fetch dynamic content pages (static routes equivalents)
-    const cmsPages = await prisma.pageContent.findMany({ 
-        select: { slug: true, updatedAt: true } 
+    const cmsPages = await prisma.pageContent.findMany({
+        select: { slug: true, updatedAt: true }
     });
 
     const cmsUrls = cmsPages.map((page: any) => ({

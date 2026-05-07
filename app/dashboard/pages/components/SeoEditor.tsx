@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { 
-  Globe, 
-  Search, 
-  AlertCircle, 
-  CheckCircle2, 
-  ChevronDown,
-  Info
+import {
+   AlertCircle,
+   ChevronDown,
+   Globe,
+   Info
 } from 'lucide-react';
+import { useState } from 'react';
 
 interface SeoEditorProps {
   data: any;
@@ -60,7 +58,7 @@ export default function SeoEditor({ data, onChange, slug }: SeoEditorProps) {
                   {data.metaTitle || "Page Title | RankNexis"}
                </p>
                <p className="text-[#006621] text-sm flex items-center gap-1">
-                  https://ranknexis.com{slug === 'home' ? '' : `/${slug}`} <ChevronDown size={12} />
+                  https://www.ranknexis.com{slug === 'home' ? '' : `/${slug}`} <ChevronDown size={12} />
                </p>
                <p className="text-[#4d5156] text-sm leading-relaxed line-clamp-2">
                   {data.metaDescription || "Please provide a meta description for this node to improve search visibility..."}
@@ -221,7 +219,7 @@ export default function SeoEditor({ data, onChange, slug }: SeoEditorProps) {
               type="text" 
               value={data.canonicalUrl || ''} 
               onChange={(e) => updateField('canonicalUrl', e.target.value)}
-              placeholder="https://ranknexis.com/..."
+              placeholder="https://www.ranknexis.com/..."
               className="input-field"
             />
          </div>

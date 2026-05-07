@@ -59,7 +59,7 @@ export async function createUser(data: { name: string; email: string; role: stri
         }
 
         // Send Email
-        const setupLink = `${process.env.NEXT_PUBLIC_APP_URL || 'https://ranknexis.com'}/dashboard/login`;
+        const setupLink = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.ranknexis.com'}/dashboard/login`;
         await sendEmail({
             to: data.email,
             subject: "RankNexis Node Invitation",

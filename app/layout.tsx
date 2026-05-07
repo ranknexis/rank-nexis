@@ -1,10 +1,10 @@
+import prisma from "@/lib/prisma";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
-import CookieConsent from "./components/CookieConsent";
 import AnalyticsScripts from "./components/AnalyticsScripts";
+import CookieConsent from "./components/CookieConsent";
 import "./globals.css";
-import prisma from "@/lib/prisma";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const suffix = settings?.siteTitleSuffix || "High-Performance Digital Growth";
 
   return {
-    metadataBase: new URL("https://ranknexis.com"),
+    metadataBase: new URL("https://www.ranknexis.com"),
     alternates: {
       canonical: "/",
     },
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       locale: "en_US",
-      url: "https://ranknexis.com",
+      url: "https://www.ranknexis.com",
       siteName: siteName,
       title: `${siteName} | Growth Engineering`,
       description: settings?.siteDescription || "Scale your brand with high-performance digital marketing.",

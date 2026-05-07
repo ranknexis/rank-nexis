@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/dashboard/',
         },
-        sitemap: 'https://ranknexis.com/sitemap.xml',
+        sitemap: 'https://www.ranknexis.com/sitemap.xml',
     };
 }
 
