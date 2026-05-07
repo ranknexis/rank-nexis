@@ -59,7 +59,6 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
   return (
     <div className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden border border-stroke bg-surface">
       <Image 
-        viewport={{ once: true, amount: 0.1 }}
         src={image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2070"} 
         alt={name} 
         fill
