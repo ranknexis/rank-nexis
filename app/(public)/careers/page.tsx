@@ -83,17 +83,21 @@ export default async function CareersPage() {
                  </div>
 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="p-6 bg-white border border-stroke rounded-2xl shadow-sm hover:shadow-premium hover:border-brand/20 transition-all">
-                       <Zap className="text-brand mb-4" size={28} />
-                       <h4 className="text-sm font-bold uppercase tracking-wider text-text-primary mb-2">High Velocity</h4>
-                       <p className="text-sm text-text-muted font-medium">We deliver maximum impact quickly by skipping unnecessary processes and red tape.</p>
-                    </div>
-                    <div className="p-6 bg-white border border-stroke rounded-2xl shadow-sm hover:shadow-premium hover:border-brand/20 transition-all">
-                       <Layers className="text-brand mb-4" size={28} />
-                       <h4 className="text-sm font-bold uppercase tracking-wider text-text-primary mb-2">Modern Stack</h4>
-                       <p className="text-sm text-text-muted font-medium">Work with high-end, modern technologies like React, Next.js, and Prisma.</p>
-                    </div>
+                    {(culture.stats || [
+                       { label: "High Velocity", value: "We deliver maximum impact quickly by skipping unnecessary processes.", icon: "Zap" },
+                       { label: "Modern Stack", value: "Work with high-end, modern technologies like React and Next.js.", icon: "Layers" }
+                    ]).map((stat: any, i: number) => {
+                       const Icon = stat.icon === 'Layers' ? Layers : Zap;
+                       return (
+                          <div key={i} className="p-6 bg-white border border-stroke rounded-2xl shadow-sm hover:shadow-premium hover:border-brand/20 transition-all">
+                             <Icon className="text-brand mb-4" size={28} />
+                             <h4 className="text-sm font-bold uppercase tracking-wider text-text-primary mb-2">{stat.label}</h4>
+                             <p className="text-sm text-text-muted font-medium">{stat.value}</p>
+                          </div>
+                       );
+                    })}
                  </div>
+
               </div>
               
               <div className="relative group p-2">

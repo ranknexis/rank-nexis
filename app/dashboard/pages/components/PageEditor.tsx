@@ -23,8 +23,19 @@ import {
    HelpCircle,
    Mail as MailIcon,
    Table as TableIcon,
-   Terminal
+   Terminal,
+   ShieldCheck,
+   Sparkles,
+   RefreshCw,
+   Target,
+   Award,
+   Star,
+   Phone,
+   Palette,
+   Code2,
+   Cpu
 } from 'lucide-react';
+
 import Link from 'next/link';
 import { useState, useTransition } from 'react';
 import { toast } from 'sonner';
@@ -32,6 +43,7 @@ import InternalLinksEditor from './InternalLinksEditor';
 import SectionEditor from './SectionEditor';
 import SeoEditor from './SeoEditor';
 import { motion, AnimatePresence } from 'framer-motion';
+import ConfirmationModal from '../../components/ConfirmationModal';
 
 interface PageEditorProps {
   initialPage: any;
@@ -39,22 +51,39 @@ interface PageEditorProps {
 
 const MODULE_TYPES = [
   { id: 'hero', label: 'Hero Node', desc: 'Main entry point with primary CTA', icon: Zap },
+  { id: 'trust', label: 'Trust Grid', desc: 'Logos and credibility markers', icon: ShieldCheck },
+  { id: 'expertise', label: 'Expertise Hub', desc: 'Core service areas and skills', icon: Sparkles },
+  { id: 'partnership', label: 'Process / Sync', desc: 'Step-by-step engagement model', icon: RefreshCw },
+  { id: 'strategy', label: 'Strategic Ops', desc: 'Detailed tactical approach', icon: Target },
+  { id: 'excellence', label: 'Premium Benchmarks', desc: 'High-level value propositions', icon: Award },
   { id: 'text_block', label: 'Brief / Text', desc: 'Strategic copy and typography', icon: Type },
   { id: 'text_image', label: 'Visual Sync', desc: 'Copy paired with high-impact imagery', icon: ImageIcon },
   { id: 'features_grid', label: 'Utility Grid', desc: 'Grid of core value propositions', icon: Grid },
   { id: 'icon_cards', label: 'Expert Cards', desc: 'Icon-based service descriptions', icon: Layout },
   { id: 'stats_strip', label: 'Metric Strip', desc: 'Hard data and performance numbers', icon: Terminal },
+  { id: 'testimonials', label: 'Feedback Loop', desc: 'Dynamic client feedback from DB', icon: Star },
   { id: 'faq', label: 'Knowledge Base', desc: 'Dynamic FAQ architecture', icon: HelpCircle },
   { id: 'newsletter', label: 'Intel Opt-in', desc: 'Lead capture and newsletter sync', icon: MailIcon },
   { id: 'table', label: 'Data Matrix', desc: 'Pricing or comparison tables', icon: TableIcon },
-  { id: 'services_grid', label: 'Service Hub', desc: 'Comprehensive service overview', icon: Layers }
+  { id: 'services_grid', label: 'Service Hub', desc: 'Comprehensive service overview', icon: Layers },
+  { id: 'pillar_01', label: 'Marketing Pillar', desc: 'Marketing & Growth section', icon: Zap },
+  { id: 'pillar_02', label: 'Creative Pillar', desc: 'Creative & Brand section', icon: Palette },
+  { id: 'pillar_03', label: 'Engineering Pillar', desc: 'Software & Web section', icon: Code2 },
+  { id: 'tech_stack', label: 'System Architecture', desc: 'Technology stack grid', icon: Cpu },
+  { id: 'growth_stats', label: 'Strategic Ops Stack', desc: 'Value items for service page', icon: Target },
+  { id: 'connect', label: 'Terminal Connect', desc: 'Direct contact and CTA hub', icon: Phone }
 ];
+
 
 export default function PageEditor({ initialPage }: PageEditorProps) {
   const [page, setPage] = useState(initialPage);
   const [activeTab, setActiveTab] = useState<'seo' | 'sections' | 'links'>('sections');
   const [isPending, startTransition] = useTransition();
   const [showAddModal, setShowAddModal] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; id: string | null }>({
+    isOpen: false,
+    id: null
+  });
 
   const handleSaveSeo = async () => {
     startTransition(async () => {
@@ -107,11 +136,11 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
     });
   };
 
-  const handleDeleteSection = async (id: string) => {
-     if (!confirm("Decommission this module?")) return;
-     const result = await deleteSection(id);
+  const handleDeleteSection = async () => {
+     if (!deleteConfirm.id) return;
+     const result = await deleteSection(deleteConfirm.id);
      if (result.success) {
-        setPage({ ...page, sections: page.sections.filter((s: any) => s.id !== id) });
+        setPage({ ...page, sections: page.sections.filter((s: any) => s.id !== deleteConfirm.id) });
         toast.success("Module terminated");
      }
   };
@@ -255,7 +284,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                                   toast.success(`${section.label} optimized`);
                                 }
                             }}
-                            onDelete={() => handleDeleteSection(section.id)}
+                            onDelete={() => setDeleteConfirm({ isOpen: true, id: section.id })}
                           />
                        </div>
                     ))}
@@ -343,6 +372,15 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
           </div>
         )}
       </AnimatePresence>
+
+      <ConfirmationModal 
+          isOpen={deleteConfirm.isOpen}
+          onClose={() => setDeleteConfirm({ ...deleteConfirm, isOpen: false })}
+          onConfirm={handleDeleteSection}
+          title="Decommission Module"
+          message="Are you sure you want to terminate this operational block? This action is irreversible within the current session."
+          confirmText="Decommission"
+      />
     </div>
   );
 }

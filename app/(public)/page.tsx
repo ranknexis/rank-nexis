@@ -15,10 +15,11 @@ export async function generateMetadata(): Promise<Metadata> {
 import InternalLinksSection from "@/components/InternalLinksSection";
 
 export default async function HomePage() {
-  const [pageData, studies, posts] = await Promise.all([
+  const [pageData, studies, posts, testimonials] = await Promise.all([
     getPageData("home"),
     prisma.caseStudy.findMany({ take: 2, orderBy: { createdAt: 'desc' } }),
-    prisma.blog.findMany({ take: 3, orderBy: { createdAt: 'desc' }, include: { category: true } })
+    prisma.blog.findMany({ take: 3, orderBy: { createdAt: 'desc' }, include: { category: true } }),
+    prisma.testimonial.findMany({ where: { status: 'published' }, orderBy: { createdAt: 'desc' } })
   ]);
   
   return (
@@ -27,6 +28,7 @@ export default async function HomePage() {
         sectionsMap={pageData?.sectionsMap || {}} 
         studies={JSON.parse(JSON.stringify(studies))}
         posts={JSON.parse(JSON.stringify(posts))}
+        testimonials={JSON.parse(JSON.stringify(testimonials))}
       />
       <InternalLinksSection links={(pageData?.internalLinks as any[]) || []} />
     </>

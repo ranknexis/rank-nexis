@@ -16,7 +16,14 @@ import {
   Table as TableIcon,
   Grid,
   CheckCircle2,
-  Layers
+  Layers,
+  ShieldCheck,
+  Sparkles,
+  RefreshCw,
+  Target,
+  Award,
+  Star,
+  Phone
 } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
 import RepeaterField from './RepeaterField';
@@ -346,6 +353,267 @@ export default function SectionEditor({ section, onUpdate, onDelete }: SectionEd
           </div>
         );
 
+      case 'trust':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge</label>
+                   <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+             </div>
+             <RepeaterField 
+               label="Trust Logos"
+               items={content.items || []}
+               onChange={(items) => updateField('items', items)}
+               newItemDefault={{ name: "Partner", logo: "" }}
+               renderItem={(item, index, update) => (
+                  <div className="grid grid-cols-2 gap-6">
+                     <input type="text" value={item.name} onChange={(e) => update({ name: e.target.value })} className="input-field" placeholder="Name" />
+                     <CloudinaryUpload value={item.logo} onChange={(url) => update({ logo: url })} label="Logo" />
+                  </div>
+               )}
+             />
+          </div>
+        );
+
+      case 'expertise':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Label</label>
+                   <input type="text" value={content.label || ''} onChange={(e) => updateField('label', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+             </div>
+             <RepeaterField 
+               label="Expertise Cards"
+               items={content.items || []}
+               onChange={(items) => updateField('items', items)}
+               newItemDefault={{ title: "Expertise Title", description: "Details...", icon: "Sparkles", value: "99%" }}
+               renderItem={(item, index, update) => (
+                  <div className="space-y-4">
+                     <div className="grid grid-cols-3 gap-6">
+                        <input type="text" value={item.title} onChange={(e) => update({ title: e.target.value })} className="input-field" placeholder="Title" />
+                        <input type="text" value={item.icon} onChange={(e) => update({ icon: e.target.value })} className="input-field" placeholder="Icon" />
+                        <input type="text" value={item.value} onChange={(e) => update({ value: e.target.value })} className="input-field" placeholder="Value (e.g. 99%)" />
+                     </div>
+                     <textarea rows={2} value={item.description} onChange={(e) => update({ description: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Description" />
+                  </div>
+               )}
+             />
+          </div>
+        );
+
+      case 'partnership':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge</label>
+                   <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+             </div>
+             <RepeaterField 
+               label="Process Steps"
+               items={content.items || []}
+               onChange={(items) => updateField('items', items)}
+               newItemDefault={{ step: "01", title: "Strategy", description: "Analysis phase..." }}
+               renderItem={(item, index, update) => (
+                  <div className="space-y-4">
+                     <div className="grid grid-cols-2 gap-6">
+                        <input type="text" value={item.step} onChange={(e) => update({ step: e.target.value })} className="input-field" placeholder="Step #" />
+                        <input type="text" value={item.title} onChange={(e) => update({ title: e.target.value })} className="input-field" placeholder="Title" />
+                     </div>
+                     <textarea rows={2} value={item.description} onChange={(e) => update({ description: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Description" />
+                  </div>
+               )}
+             />
+          </div>
+        );
+
+      case 'strategy':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Label</label>
+                   <input type="text" value={content.label || ''} onChange={(e) => updateField('label', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+             </div>
+             <RepeaterField 
+               label="Strategic Points"
+               items={content.items || []}
+               onChange={(items) => updateField('items', items)}
+               newItemDefault={{ title: "Data Analytics", description: "Market research...", icon: "Target" }}
+               renderItem={(item, index, update) => (
+                  <div className="space-y-4">
+                     <div className="grid grid-cols-2 gap-6">
+                        <input type="text" value={item.title} onChange={(e) => update({ title: e.target.value })} className="input-field" placeholder="Title" />
+                        <input type="text" value={item.icon} onChange={(e) => update({ icon: e.target.value })} className="input-field" placeholder="Icon" />
+                     </div>
+                     <textarea rows={2} value={item.description} onChange={(e) => update({ description: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Description" />
+                  </div>
+               )}
+             />
+          </div>
+        );
+
+      case 'excellence':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Label</label>
+                   <input type="text" value={content.label || ''} onChange={(e) => updateField('label', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+             </div>
+             <RepeaterField 
+               label="Benchmarks / Points"
+               items={content.items || []}
+               onChange={(items) => updateField('items', items)}
+               newItemDefault={{ title: "Quality Control", description: "Rigorous testing...", icon: "Award" }}
+               renderItem={(item, index, update) => (
+                  <div className="space-y-4">
+                     <div className="grid grid-cols-2 gap-6">
+                        <input type="text" value={item.title} onChange={(e) => update({ title: e.target.value })} className="input-field" placeholder="Title" />
+                        <input type="text" value={item.icon} onChange={(e) => update({ icon: e.target.value })} className="input-field" placeholder="Icon" />
+                     </div>
+                     <textarea rows={2} value={item.description} onChange={(e) => update({ description: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Description" />
+                  </div>
+               )}
+             />
+          </div>
+        );
+
+      case 'testimonials':
+        return (
+          <div className="p-10 bg-brand/[0.03] rounded-3xl border-2 border-dashed border-brand/20 text-center space-y-6">
+             <div className="w-16 h-16 bg-white rounded-2xl border border-brand/10 flex items-center justify-center text-brand mx-auto shadow-sm">
+                <Star size={32} />
+             </div>
+             <h3 className="text-xl font-black uppercase tracking-tight">Feedback Loop Sync</h3>
+             <p className="text-[11px] font-bold uppercase text-text-muted leading-relaxed max-w-sm mx-auto">
+                This module automatically synchronizes with the dynamic **Feedback Hub**. Manage all testimonials centrally in the global feedback manager.
+             </p>
+             <div className="grid grid-cols-2 gap-10 text-left mt-8">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Section Badge</label>
+                   <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" placeholder="e.g. Expert Feedback" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Section Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" placeholder="e.g. Global Synergy" />
+                </div>
+             </div>
+          </div>
+        );
+
+      case 'pillar_01':
+      case 'pillar_02':
+      case 'pillar_03':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge</label>
+                   <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+             </div>
+          </div>
+        );
+
+      case 'tech_stack':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge</label>
+                   <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+             </div>
+          </div>
+        );
+
+      case 'growth_stats':
+        return (
+          <RepeaterField 
+            label="Strategic Ops Items"
+            items={content.items || []}
+            onChange={(items) => updateField('items', items)}
+            newItemDefault={{ title: "New Item", description: "Details..." }}
+            renderItem={(item, index, update) => (
+               <div className="space-y-4">
+                  <input type="text" value={item.title} onChange={(e) => update({ title: e.target.value })} className="input-field" placeholder="Title" />
+                  <textarea rows={2} value={item.description} onChange={(e) => update({ description: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Description" />
+               </div>
+            )}
+          />
+        );
+
+      case 'connect':
+
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge</label>
+                <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4 md:col-span-2">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
+                <textarea rows={2} value={content.subtext || ''} onChange={(e) => updateField('subtext', e.target.value)} className="input-field h-auto py-6 resize-none" />
+             </div>
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Email</label>
+                <input type="text" value={content.email || ''} onChange={(e) => updateField('email', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Phone</label>
+                <input type="text" value={content.phone || ''} onChange={(e) => updateField('phone', e.target.value)} className="input-field" />
+             </div>
+          </div>
+        );
+
       default:
         return (
           <div className="p-10 bg-surface/30 rounded-3xl border-2 border-dashed border-stroke text-center">
@@ -374,6 +642,13 @@ export default function SectionEditor({ section, onUpdate, onDelete }: SectionEd
     newsletter: CheckCircle2,
     table: TableIcon,
     services_grid: Grid,
+    trust: ShieldCheck,
+    expertise: Sparkles,
+    partnership: RefreshCw,
+    strategy: Target,
+    excellence: Award,
+    testimonials: Star,
+    connect: Phone,
   };
   const Icon = IconMap[section.sectionType] || Layers;
 

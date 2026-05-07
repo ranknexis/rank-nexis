@@ -4,8 +4,8 @@ import bcrypt from 'bcryptjs';
 import * as dotenv from 'dotenv';
 import { Pool } from 'pg';
 import { BLOG_CONTENT } from './blogContent';
-import { PAGES_DATA } from './pageData';
 import { CASE_STUDIES_DATA } from './caseStudyData';
+import { PAGES_DATA } from './pageData';
 
 dotenv.config();
 
@@ -36,14 +36,27 @@ async function main() {
   });
 
   const teamData = [
-    { name: "S.M. Tanveer", role: "SEO Specialist", image: "/team/S_M_Tanveer.png", bio: "Focused on helping businesses rank higher on search engines through expert SEO strategies and analysis.", order: 1 },
-    { name: "Mobtaseem Moshfiq Fahim", role: "SEO Content Specialist", image: "/team/Mobtaseem_Moshfiq_Fahim.png", bio: "Specializing in creating high-quality, SEO-optimized content that engages audiences and drives organic growth.", order: 2 },
+    { name: "S.M. Tanveer", role: "SEO Specialist", image: "/team/S_M_Tanveer-1.png", bio: "Focused on helping businesses rank higher on search engines through expert SEO strategies and analysis.", order: 1 },
+    { name: "MD Sourav Hasan", role: "Google Ads Specialist", image: "/team/MD_Sourav_Hasan-1.png", bio: "Specialist in Google Ads, dedicated to helping brands reach the right customers through targeted advertising.", order: 2 },
     { name: "MD Maruf Hossen", role: "Meta Ads Specialist", image: "/team/MD_Maruf_Hossen.png", bio: "Expert in designing and managing effective ad campaigns across Facebook and Instagram to drive ROI.", order: 3 },
-    { name: "MD Sourav Hasan", role: "Google Ads Specialist", image: "/team/MD_Sourav_Hasan.png", bio: "Specialist in Google Ads, dedicated to helping brands reach the right customers through targeted advertising.", order: 4 },
-    { name: "Omer Faruqe Anas", role: "Social Media Specialist", image: "/team/Omer_Faruqe_Anas.png", bio: "Passionate about building strong social media presences and engaging communities across digital platforms.", order: 5 },
-    { name: "Moniruzzaman Mahdi", role: "Full Stack Developer", image: "/team/Moniruzzaman_Mahdi.png", bio: "Expert in building scalable and modern web applications with cutting-edge technologies.", order: 6 },
-    { name: "MD Jonayed Hosen Munna", role: "Graphic & UI/UX Specialist", image: "/team/MD_Jonayed_Hosen_Munna.png", bio: "Specializing in crafting premium brand identities and user-centric digital interfaces that harmonize aesthetics with functionality.", order: 7 },
-    { name: "Fahad Bin Mamun", role: "Video & Motion Specialist", image: "/team/Fahad_Bin_Mamun.png", bio: "Expert in cinematic video editing and motion graphics, focused on delivering high-impact visual narratives for global brands.", order: 8 },
+    {
+      name: "Moniruzzaman Mahdi", role: "Full Stack Developer", image: "/team/Moniruzzaman_Mahdi.png", bio: "Expert in building scalable and modern web applications with cutting-edge technologies.", order: 4, socials: [
+        {
+          "url": "https://www.linkedin.com/in/moniruzzaman-mahdi",
+          "platform": "LinkedIn"
+        },
+        {
+          "url": "https://github.com/mahdimonir",
+          "platform": "GitHub"
+        },
+        {
+          "url": "https://moniruzzaman-mahdi.vercel.app",
+          "platform": "Portfolio"
+        }
+      ]
+    },
+    { name: "MD Jonayed Hosen Munna", role: "Graphic & UI/UX Specialist", image: "/team/MD_Jonayed_Hosen_Munna.png", bio: "Specializing in crafting premium brand identities and user-centric digital interfaces that harmonize aesthetics with functionality.", order: 5 },
+    { name: "Fahad Bin Mamun", role: "Video & Motion Specialist", image: "/team/Fahad_Bin_Mamun.png", bio: "Expert in cinematic video editing and motion graphics, focused on delivering high-impact visual narratives for global brands.", order: 6 },
   ];
 
   const teamMembers = [];

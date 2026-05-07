@@ -42,9 +42,13 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="max-w-[1400px] mx-auto">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+
             {/* Left: Avatar & Basic Info */}
-            <div className="lg:col-span-1 space-y-8">
+            <div className="lg:col-span-4 space-y-8">
+
+
                 <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-8">
                     <div className="space-y-4 text-center">
                         <label className="text-[10px] font-bold uppercase text-text-muted tracking-widest block">Expert Identity Image</label>
@@ -88,7 +92,9 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
             </div>
 
             {/* Right: Bio & Socials */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-8 space-y-8">
+
+
                 <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-10">
                     <div className="space-y-4">
                         <div className="flex items-center gap-3 mb-2">
@@ -168,5 +174,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                 </div>
             </div>
         </form>
-    );
+    </div>
+  );
 }
+

@@ -3,6 +3,7 @@ import { buildSeoMetadata } from "@/lib/pageUtils";
 import ContactClient from "./ContactClient";
 import { Metadata } from "next";
 import InternalLinksSection from "@/components/InternalLinksSection";
+import prisma from "@/lib/prisma";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageData("contact");
@@ -13,12 +14,20 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
-  const pageData = await getPageData("contact");
+  const [pageData, settings] = await Promise.all([
+    getPageData("contact"),
+    prisma.siteSettings.findFirst()
+  ]);
+  
   return (
     <>
-      <ContactClient sectionsMap={pageData?.sectionsMap || {}} />
+      <ContactClient 
+        sectionsMap={pageData?.sectionsMap || {}} 
+        settings={JSON.parse(JSON.stringify(settings))}
+      />
       <InternalLinksSection links={(pageData?.internalLinks as any[]) || []} />
     </>
   );
 }
+
 

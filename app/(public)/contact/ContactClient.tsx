@@ -15,7 +15,7 @@ import {
 import React, { useState } from "react";
 import { toast } from "sonner";
 
-export default function ContactClient({ sectionsMap }: { sectionsMap: any }) {
+export default function ContactClient({ sectionsMap, settings }: { sectionsMap: any, settings: any }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const hero = getSectionData(sectionsMap, "hero", {
@@ -92,22 +92,23 @@ export default function ContactClient({ sectionsMap }: { sectionsMap: any }) {
                 <ContactInfo 
                   icon={Mail} 
                   title="Direct Email" 
-                  value="ranknexis@gmail.com" 
+                  value={settings?.contactEmail || "ranknexis@gmail.com"} 
                   desc="General inquiries and project requests." 
                 />
                 <ContactInfo 
                   icon={MessageSquare} 
                   title="Priority Sync" 
-                  value="+880 1949-883830" 
+                  value={settings?.contactPhone || "+880 1949-883830"} 
                   desc="WhatsApp enabled for rapid strategy response." 
                 />
                 <ContactInfo 
                   icon={MapPin} 
                   title="Operations Hub" 
-                  value="Chattogram, Bangladesh" 
+                  value={settings?.address || "Chattogram, Bangladesh"} 
                   desc="Our main office for strategy and development." 
                 />
               </div>
+
 
               {/* FAQ MINI */}
               <div className="space-y-12 pt-16 border-t border-stroke">

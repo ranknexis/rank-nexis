@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth";
+import { createAuditLog } from "./audit";
 
 /**
  * ── PAGE LEVEL OPERATIONS ──
@@ -63,6 +64,9 @@ export async function updatePageSeo(slug: string, data: any) {
         noIndex: data.noIndex,
       }
     });
+    
+    await createAuditLog("PAGE_SEO_UPDATED", slug, `Meta Title: ${data.metaTitle}`);
+    
     revalidatePath(`/${slug === 'home' ? '' : slug}`);
     return { success: true, page };
   } catch (error) {
@@ -80,6 +84,9 @@ export async function updatePageStatus(slug: string, status: string) {
       where: { slug },
       data: { status }
     });
+    
+    await createAuditLog("PAGE_STATUS_UPDATED", slug, `Status: ${status}`);
+    
     revalidatePath(`/${slug === 'home' ? '' : slug}`);
     return { success: true };
   } catch (error) {
@@ -96,6 +103,9 @@ export async function updateInternalLinks(slug: string, links: any[]) {
       where: { slug },
       data: { internalLinks: links }
     });
+    
+    await createAuditLog("PAGE_LINKS_UPDATED", slug, `${links.length} links`);
+    
     return { success: true };
   } catch (error) {
     return { error: "Failed to update internal links" };
@@ -129,8 +139,11 @@ export async function addSection(pageId: string, data: { label: string, sectionT
         label: data.label,
         content: data.content,
         order
-      }
+      },
+      include: { page: true }
     });
+
+    await createAuditLog("SECTION_ADDED", `${section.page.slug}:${data.sectionType}`, `Label: ${data.label}`);
 
     return { success: true, section };
   } catch (error) {
@@ -144,7 +157,11 @@ export async function deleteSection(id: string) {
   if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
 
   try {
-    await prisma.pageSection.delete({ where: { id } });
+    const section = await prisma.pageSection.findUnique({ where: { id }, include: { page: true } });
+    if (section) {
+        await prisma.pageSection.delete({ where: { id } });
+        await createAuditLog("SECTION_DELETED", `${section.page.slug}:${section.sectionType}`);
+    }
     return { success: true };
   } catch (error) {
     return { error: "Failed to delete section" };
@@ -165,6 +182,8 @@ export async function updateSection(sectionId: string, content: any, isVisible?:
       include: { page: true }
     });
     
+    await createAuditLog("SECTION_UPDATED", `${section.page.slug}:${section.sectionType}`);
+    
     revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     return { success: true, section };
   } catch (error) {
@@ -172,6 +191,7 @@ export async function updateSection(sectionId: string, content: any, isVisible?:
     return { error: "Failed to update section content." };
   }
 }
+
 
 export async function toggleSectionVisibility(sectionId: string, isVisible: boolean) {
   const session = await getSession();

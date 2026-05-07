@@ -133,12 +133,16 @@ model TeamMember {
 }
 
 model Testimonial {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
-  company     String
-  photo       String?
-  quote       String
-  designation String?
+  role        String?
+  company     String?
+  image       String?
+  content     String
+  rating      Int      @default(5)
+  status      String   @default("published")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Lead {
@@ -247,4 +251,15 @@ model SiteSettings {
   googleAdsId       String?
 
   updatedAt       DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String   // e.g., "USER_DELETED", "PAGE_UPDATED"
+  target    String   // e.g., "user@example.com", "page-slug"
+  userId    String?
+  userName  String?
+  userRole  String?
+  details   String?
+  createdAt DateTime @default(now())
 }

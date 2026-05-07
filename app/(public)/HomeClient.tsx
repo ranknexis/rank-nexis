@@ -44,7 +44,7 @@ const SERVICES = [
   }
 ];
 
-export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMap: any, studies: any[], posts: any[] }) {
+export default function HomeClient({ sectionsMap, studies, posts, testimonials: dbTestimonials }: { sectionsMap: any, studies: any[], posts: any[], testimonials?: any[] }) {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   // Dynamic Content from CMS
@@ -759,12 +759,13 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {testimonials.items?.map((item: any, i: number) => (
+              {(dbTestimonials?.length ? dbTestimonials : testimonials.items)?.slice(0, 3).map((item: any, i: number) => (
                 <TestimonyCard 
                   key={i}
                   name={item.name} 
-                  role={item.role} 
-                  quote={item.quote}
+                  role={item.role || item.company} 
+                  quote={item.content || item.quote}
+                  image={item.image || item.photo}
                 />
               ))}
             </div>
@@ -969,15 +970,19 @@ function ValueProp({ title, desc }: any) {
   );
 }
  
-function TestimonyCard({ name, role, quote }: any) {
+function TestimonyCard({ name, role, quote, image }: any) {
   return (
-    <div className="corporate-card relative group hover:scale-[1.02] bg-surface border border-stroke p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all">
+    <div className="corporate-card relative group hover:scale-[1.02] bg-surface border border-stroke p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all h-full flex flex-col justify-between">
       <MessageSquare className="text-brand/5 absolute top-8 right-8 group-hover:text-brand/10 transition-colors" size={60} />
       <p className="text-text-secondary italic text-xl mb-10 leading-relaxed font-medium relative z-10 antialiased">"{quote}"</p>
-      <div className="flex items-center gap-5 pt-8 border-t border-stroke">
-        <div className="w-12 h-12 bg-surface border border-stroke rounded-xl flex items-center justify-center font-bold text-brand text-lg group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm">
-          {name[0]}
-        </div>
+      <div className="flex items-center gap-5 pt-8 border-t border-stroke mt-auto">
+        {image ? (
+            <img src={image} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all duration-700 shadow-sm" alt={name} />
+        ) : (
+            <div className="w-12 h-12 bg-surface border border-stroke rounded-xl flex items-center justify-center font-bold text-brand text-lg group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm">
+              {name[0]}
+            </div>
+        )}
         <div>
           <p className="text-sm font-bold uppercase tracking-wider text-text-primary">{name}</p>
           <p className="text-[9px] font-bold text-text-muted uppercase tracking-wider">{role}</p>

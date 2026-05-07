@@ -20,8 +20,14 @@ export async function getPageData(slug: string) {
     // Convert sections to a map for easy lookup: sectionsMap["hero"]
     const sectionsMap: Record<string, any> = {};
     page.sections.forEach(section => {
+      // Key by specific key
       sectionsMap[section.sectionKey] = section.content;
+      // Also key by type for general lookup (first one of type wins)
+      if (!sectionsMap[section.sectionType]) {
+        sectionsMap[section.sectionType] = section.content;
+      }
     });
+
 
     return {
       ...page,

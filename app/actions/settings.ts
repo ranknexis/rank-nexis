@@ -42,7 +42,11 @@ export async function updateSettings(data: any) {
     revalidatePath("/", "layout");
     revalidatePath("/dashboard/settings");
     
+    const { createAuditLog } = await import("./audit");
+    await createAuditLog("SETTINGS_UPDATED", "global", "Site-wide configuration push");
+
     return { success: true, data: updated };
+
   } catch (error) {
     console.error("Failed to update settings:", error);
     return { success: false, error: "Failed to update configuration." };

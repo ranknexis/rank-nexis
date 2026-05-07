@@ -74,17 +74,19 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                     
                     <div className="space-y-8 prose prose-xl max-w-none text-text-secondary font-medium leading-relaxed antialiased" dangerouslySetInnerHTML={{ __html: narrative.body }} />
 
-                    <div className="flex gap-16 pt-12 border-t border-stroke">
-                       <div className="space-y-2">
-                          <p className="text-5xl font-bold text-brand tracking-tighter">08+</p>
-                          <p className="text-[11px] font-bold text-text-muted uppercase tracking-[0.3em]">Years Active</p>
-                       </div>
-                       <div className="space-y-2">
-                          <p className="text-5xl font-bold text-brand tracking-tighter">180+</p>
-                          <p className="text-[11px] font-bold text-text-muted uppercase tracking-[0.3em]">Systems Implemented</p>
-                       </div>
+                    <div className="flex flex-wrap gap-16 pt-12 border-t border-stroke">
+                       {getSectionData(sectionsMap, "growth_stats", { items: [
+                          { title: "08+", description: "Years Active" },
+                          { title: "180+", description: "Systems Implemented" }
+                       ]}).items.map((stat: any, i: number) => (
+                        <div key={i} className="space-y-2">
+                           <p className="text-5xl font-bold text-brand tracking-tighter">{stat.title}</p>
+                           <p className="text-[11px] font-bold text-text-muted uppercase tracking-[0.3em]">{stat.description}</p>
+                        </div>
+                       ))}
                     </div>
                  </div>
+
 
                   <div className="relative group p-4">
                      <div className="aspect-square glass rounded-[4rem] overflow-hidden relative shadow-premium grain border border-stroke">

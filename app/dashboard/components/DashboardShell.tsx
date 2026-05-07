@@ -1,8 +1,11 @@
 "use client";
 
 import { logout } from "@/actions/auth";
+import { useEffect } from "react";
 import {
+   Activity,
    BarChart3,
+   Briefcase,
    ChevronRight,
    FileCode,
    FileText,
@@ -14,7 +17,8 @@ import {
    UserCircle,
    Users,
    X,
-   Zap
+   Zap,
+   Star
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -31,19 +35,44 @@ export default function DashboardShell({
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    if (!session && pathname !== "/dashboard/login") {
+      router.push("/dashboard/login");
+    }
+  }, [session, pathname, router]);
+
   const role = session?.role || "TEAM_MEMBER";
 
   const NAV_ITEMS = [
     { icon: LayoutDashboard, label: "Overview", href: "/dashboard", roles: ["ADMIN", "TEAM_MEMBER"] },
-    { icon: FileCode, label: "Nodes", href: "/dashboard/pages", roles: ["ADMIN"] },
-    { icon: Users, label: "Experts", href: "/dashboard/team", roles: ["ADMIN"] },
-    { icon: FileText, label: "Blog", href: "/dashboard/blog", roles: ["ADMIN", "TEAM_MEMBER"] },
-    { icon: BarChart3, label: "Work Archive", href: "/dashboard/work", roles: ["ADMIN", "TEAM_MEMBER"] },
-    { icon: MessageSquare, label: "Inquiries", href: "/dashboard/leads", roles: ["ADMIN"] },
-    { icon: Users, label: "Control Center", href: "/dashboard/users", roles: ["ADMIN"] },
-    { icon: UserCircle, label: "My Profile", href: "/dashboard/profile", roles: ["TEAM_MEMBER"] },
-    { icon: Settings, label: "Settings", href: "/dashboard/settings", roles: ["ADMIN"] },
-  ].filter(item => item.roles.includes(role));
+    { icon: FileCode, label: "Site Architecture", href: "/dashboard/pages", roles: ["ADMIN"], permission: "manage_pages" },
+    { icon: Zap, label: "Services Hub", href: "/dashboard/services", roles: ["ADMIN"], permission: "manage_services" },
+    { icon: Briefcase, label: "Careers Portal", href: "/dashboard/careers", roles: ["ADMIN"], permission: "manage_careers" },
+    { icon: Users, label: "Experts Node", href: "/dashboard/team", roles: ["ADMIN"], permission: "manage_team" },
+    { icon: FileText, label: "Content (Blog)", href: "/dashboard/blog", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_blog" },
+    { icon: BarChart3, label: "Case Archives", href: "/dashboard/work", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_work" },
+    { icon: MessageSquare, label: "Lead Pipeline", href: "/dashboard/leads", roles: ["ADMIN"], permission: "manage_leads" },
+    { icon: Star, label: "Feedback Loop", href: "/dashboard/feedback", roles: ["ADMIN"], permission: "manage_feedback" },
+    { icon: Users, label: "Access Control", href: "/dashboard/users", roles: ["ADMIN"], permission: "manage_users" },
+    { icon: Activity, label: "System Performance", href: "/dashboard/performance", roles: ["ADMIN"] },
+    { icon: FileText, label: "System Report", href: "/dashboard/report", roles: ["ADMIN"] },
+    { icon: UserCircle, label: "My Profile", href: "/dashboard/profile", roles: ["ADMIN", "TEAM_MEMBER"] },
+    { icon: Settings, label: "Global Settings", href: "/dashboard/settings", roles: ["ADMIN"], permission: "manage_settings" },
+
+  ].filter(item => {
+    if (role === "ADMIN") return true;
+    if (item.roles.includes("TEAM_MEMBER")) {
+        // Mandatory items for TEAM_MEMBER
+        if (["Overview", "My Profile", "Content (Blog)", "Case Archives"].includes(item.label)) return true;
+
+        
+        // Conditional items based on permissions
+        if (!item.permission) return true;
+        const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse(session?.permissions || "[]");
+        return userPermissions.includes(item.permission);
+    }
+    return false;
+  });
 
   const handleLogout = async () => {
     await logout();
@@ -53,6 +82,8 @@ export default function DashboardShell({
   if (pathname === "/dashboard/login") {
     return <>{children}</>;
   }
+
+  if (!session) return null;
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full bg-white">

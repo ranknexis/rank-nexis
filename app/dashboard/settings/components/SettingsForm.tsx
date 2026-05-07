@@ -61,6 +61,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
 
       {/* Content Area */}
       <div className="lg:col-span-9">
+
         <div className="bg-white rounded-[2rem] border border-stroke p-10 shadow-sm space-y-12">
           
           {activeTab === "general" && (

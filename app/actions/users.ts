@@ -5,6 +5,7 @@ import { getInviteTemplate, sendEmail } from "@/lib/email";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
+import { createAuditLog } from "./audit";
 
 export async function getAllUsers() {
     const session = await getSession();
@@ -44,7 +45,7 @@ export async function createUser(data: { name: string; email: string; role: stri
                 password: hashedPassword,
                 passwordSet: true,
                 // Default permissions based on role
-                permissions: data.role === "ADMIN" ? ["all"] : ["manage_own_content"]
+                permissions: data.role === "ADMIN" ? ["all"] : ["manage_blog", "manage_work", "manage_own_content"]
             }
         });
 
@@ -66,6 +67,8 @@ export async function createUser(data: { name: string; email: string; role: stri
             html: getInviteTemplate(data.name, setupLink)
         });
 
+        await createAuditLog("USER_CREATED", data.email, `Role: ${data.role}`);
+
         revalidatePath("/dashboard/users");
         return { success: true, user };
     } catch (error) {
@@ -79,14 +82,32 @@ export async function updateUserRole(userId: string, role: string) {
     if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
 
     try {
-        await prisma.user.update({
+        const user = await prisma.user.update({
             where: { id: userId },
             data: { role }
         });
+        await createAuditLog("USER_ROLE_UPDATED", user.email, `New Role: ${role}`);
         revalidatePath("/dashboard/users");
         return { success: true };
     } catch (error) {
         return { error: "Failed to update user" };
+    }
+}
+
+export async function updateUserPermissions(userId: string, permissions: string[]) {
+    const session = await getSession();
+    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
+    try {
+        const user = await prisma.user.update({
+            where: { id: userId },
+            data: { permissions }
+        });
+        await createAuditLog("USER_PERMISSIONS_UPDATED", user.email, `Permissions: ${permissions.join(", ")}`);
+        revalidatePath("/dashboard/users");
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to update permissions" };
     }
 }
 
@@ -95,10 +116,15 @@ export async function deleteUser(userId: string) {
     if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
 
     try {
-        await prisma.user.delete({ where: { id: userId } });
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (user) {
+            await prisma.user.delete({ where: { id: userId } });
+            await createAuditLog("USER_DELETED", user.email);
+        }
         revalidatePath("/dashboard/users");
         return { success: true };
     } catch (error) {
         return { error: "Failed to delete user" };
     }
 }
+

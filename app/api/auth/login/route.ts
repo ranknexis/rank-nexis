@@ -40,8 +40,10 @@ export async function POST(request: Request) {
             id: user.id,
             email: user.email,
             role: user.role,
-            passwordSet: user.passwordSet
+            passwordSet: user.passwordSet,
+            permissions: user.permissions
         });
+
 
         return NextResponse.json({ 
             success: true,

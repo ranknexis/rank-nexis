@@ -37,7 +37,9 @@ export default function SecurityForm() {
     };
 
     return (
-        <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-10">
+        <div className="max-w-[1400px] mx-auto">
+            <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-10">
+
             <div className="flex items-center gap-3">
                 <ShieldCheck size={22} className="text-brand" />
                 <div>
@@ -89,5 +91,7 @@ export default function SecurityForm() {
                 </div>
             </form>
         </div>
-    );
+    </div>
+  );
 }
+

@@ -43,6 +43,38 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
      subtext: "We provide elite digital protocols designed to scale brands through precision engineering and data dominance."
   });
 
+  const pillar1 = getSectionData(sectionsMap, "pillar_01", {
+     badge: "Pillar 01",
+     heading: "Marketing &",
+     headingAccent: "Growth Systems."
+  });
+
+  const pillar2 = getSectionData(sectionsMap, "pillar_02", {
+     badge: "Pillar 02",
+     heading: "Creative &",
+     headingAccent: "Brand Design."
+  });
+
+  const pillar3 = getSectionData(sectionsMap, "pillar_03", {
+     badge: "Pillar 03",
+     heading: "Engineering &",
+     headingAccent: "Web Protocols."
+  });
+
+  const techStack = getSectionData(sectionsMap, "tech_stack", {
+     badge: "The Engine",
+     heading: "System",
+     headingAccent: "Architecture."
+  });
+
+  const stats = getSectionData(sectionsMap, "growth_stats", {
+     items: [
+        { title: "System Diagnostic", description: "Comprehensive review of your current digital infrastructure and market positioning." },
+        { title: "Growth Architecture", description: "Engineering scalable systems built to handle rapid user acquisition and data loads." },
+        { title: "Performance Ops", description: "Continuous monitoring and optimization to ensure your systems lead the market." }
+     ]
+  });
+
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
@@ -81,8 +113,8 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             {/* PILLAR 01: MARKETING */}
             <div id="marketing" className="scroll-mt-32 space-y-16">
                <div className="space-y-6">
-                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 01</p>
-                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Marketing & <br /> <span className="text-brand">Growth Systems.</span></h2>
+                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">{pillar1.badge}</p>
+                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">{pillar1.heading} <br /> <span className="text-brand">{pillar1.headingAccent}</span></h2>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -95,8 +127,8 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             {/* PILLAR 02: BRANDING & CREATIVE */}
             <div id="design" className="scroll-mt-32 space-y-16">
                <div className="space-y-6 text-left md:text-right">
-                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 02</p>
-                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Creative & <br /> <span className="text-brand">Brand Design.</span></h2>
+                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">{pillar2.badge}</p>
+                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">{pillar2.heading} <br /> <span className="text-brand">{pillar2.headingAccent}</span></h2>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -109,8 +141,8 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             {/* PILLAR 03: SOFTWARE */}
             <div id="development" className="scroll-mt-32 space-y-16">
                <div className="space-y-6">
-                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 03</p>
-                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Engineering & <br /> <span className="text-brand">Web Protocols.</span></h2>
+                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">{pillar3.badge}</p>
+                  <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">{pillar3.heading} <br /> <span className="text-brand">{pillar3.headingAccent}</span></h2>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -127,8 +159,8 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
         <section className="section-padding bg-surface/30 border-y border-stroke relative overflow-hidden">
            <div className="container-max relative z-10">
               <div className="text-center mb-24 space-y-6">
-                 <p className="text-[11px] font-bold uppercase text-brand tracking-[0.5em]">The Engine</p>
-                 <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight antialiased">System <span className="text-brand">Architecture.</span></h2>
+                 <p className="text-[11px] font-bold uppercase text-brand tracking-[0.5em]">{techStack.badge}</p>
+                 <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight antialiased">{techStack.heading} <span className="text-brand">{techStack.headingAccent}</span></h2>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -146,21 +178,17 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
         <section className="section-padding bg-white relative overflow-hidden">
            <div className="container-max">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                <StackItem 
-                  title="System Diagnostic" 
-                  desc="Comprehensive review of your current digital infrastructure and market positioning." 
-                />
-                <StackItem 
-                  title="Growth Architecture" 
-                  desc="Engineering scalable systems built to handle rapid user acquisition and data loads." 
-                />
-                <StackItem 
-                  title="Performance Ops" 
-                  desc="Continuous monitoring and optimization to ensure your systems lead the market." 
-                />
+                {(stats.items || []).map((item: any, i: number) => (
+                  <StackItem 
+                    key={i}
+                    title={item.title} 
+                    desc={item.description} 
+                  />
+                ))}
               </div>
            </div>
         </section>
+
 
         {/* FINAL CTA */}
         <section className="py-48 bg-white relative overflow-hidden grain border-t border-stroke text-center">

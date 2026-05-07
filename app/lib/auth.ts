@@ -25,9 +25,10 @@ export async function verifyToken(token: string) {
     return await decrypt(token, ACCESS_SECRET);
 }
 
-export async function login(userData: { id: string; email: string; role: string; passwordSet: boolean }) {
+export async function login(userData: { id: string; email: string; role: string; passwordSet: boolean; permissions?: any }) {
     const accessToken = await encrypt(userData, ACCESS_SECRET, "15m");
     const refreshToken = await encrypt({ id: userData.id }, REFRESH_SECRET, "7d");
+
 
     // Store refresh token in DB
     await prisma.refreshToken.create({
@@ -111,8 +112,10 @@ export async function refreshAccessToken() {
             id: user.id,
             email: user.email,
             role: user.role,
-            passwordSet: user.passwordSet
+            passwordSet: user.passwordSet,
+            permissions: user.permissions
         }, ACCESS_SECRET, "15m");
+
 
         cookieStore.set("session", newAccessToken, {
             httpOnly: true,
