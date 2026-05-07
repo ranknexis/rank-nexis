@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Facebook, Github, Instagram, Link2, Linkedin, Plus, Twitter, Youtube } from 'lucide-react';
 import Image from 'next/image';
-import { Linkedin, Twitter, Facebook, Github, Instagram, Youtube, Link2, Plus, Mail } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface SocialLink {
   platform: string;
@@ -57,7 +58,12 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
   const extraSocials = activeSocials.slice(2); // Everything from 3rd onwards
 
   return (
-    <div className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden border border-stroke bg-surface">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden border border-stroke bg-surface"
+    >
       <Image 
         src={image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2070"} 
         alt={name} 
@@ -105,7 +111,7 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

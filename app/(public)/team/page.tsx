@@ -3,7 +3,6 @@ import TeamMemberCard from "@/components/TeamMemberCard";
 import { getPageData } from "@/lib/pageContent";
 import { buildSeoMetadata, getSectionData } from "@/lib/pageUtils";
 import prisma from "@/lib/prisma";
-import { motion } from "framer-motion";
 import {
    ArrowRight,
    Award,
@@ -80,21 +79,14 @@ export default async function TeamPage() {
         <section className="py-32">
            <div className="container-max">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-                 {team.map((member: any, i: number) => (
-                    <motion.div
-                      key={member.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.1 }}
-                      transition={{ delay: i * 0.1 }}
-                    >
-                      <TeamMemberCard 
-                         name={member.name}
-                         role={member.role}
-                         image={member.image}
-                         socials={member.socials}
-                      />
-                    </motion.div>
+                 {team.map((member: any) => (
+                    <TeamMemberCard 
+                       key={member.id}
+                       name={member.name}
+                       role={member.role}
+                       image={member.image}
+                       socials={member.socials}
+                    />
                  ))}
               </div>
            </div>
@@ -107,12 +99,8 @@ export default async function TeamPage() {
                   {strengths.items?.map((item: any, i: number) => {
                     const Icon = ICON_MAP[item.icon] || ShieldCheck;
                     return (
-                       <motion.div 
+                       <div 
                           key={i} 
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true, amount: 0.1 }}
-                          transition={{ delay: i * 0.1 }}
                           className="group bg-white border border-stroke p-12 rounded-[3rem] hover:border-brand/40 transition-all shadow-sm hover:shadow-premium flex flex-col items-center text-center"
                        >
                           <div className="w-20 h-20 bg-surface border border-stroke rounded-2xl flex items-center justify-center text-brand mb-10 group-hover:bg-brand group-hover:text-white transition-all shadow-sm">
@@ -120,7 +108,7 @@ export default async function TeamPage() {
                           </div>
                           <h3 className="text-3xl font-bold uppercase tracking-tight text-text-primary mb-6 leading-none antialiased">{item.title}</h3>
                           <p className="text-text-muted text-lg font-medium leading-relaxed antialiased">{item.description}</p>
-                       </motion.div>
+                       </div>
                     )
                   })}
               </div>
