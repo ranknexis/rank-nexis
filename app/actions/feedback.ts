@@ -29,6 +29,7 @@ export async function addTestimonial(data: any) {
     });
     revalidatePath('/dashboard/feedback');
     revalidatePath('/');
+    revalidatePath('/', 'layout');
     return { success: true, testimonial };
   } catch (error: any) {
     return { success: false, error: error.message };
@@ -43,6 +44,7 @@ export async function updateTestimonial(id: string, data: any) {
     });
     revalidatePath('/dashboard/feedback');
     revalidatePath('/');
+    revalidatePath('/', 'layout');
     return { success: true, testimonial };
   } catch (error: any) {
     return { success: false, error: error.message };
@@ -56,6 +58,7 @@ export async function deleteTestimonial(id: string) {
     });
     revalidatePath('/dashboard/feedback');
     revalidatePath('/');
+    revalidatePath('/', 'layout');
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };

@@ -20,6 +20,7 @@ export async function createService(data: {
             }
         });
         revalidatePath("/services");
+        revalidatePath("/services/[slug]", "layout");
         revalidatePath("/dashboard/services");
         revalidatePath("/");
         return { success: true, service };
@@ -69,8 +70,10 @@ export async function deleteService(id: string) {
         await prisma.service.delete({ where: { id } });
         revalidatePath("/services");
         if (service) revalidatePath(`/services/${service.slug}`);
+        revalidatePath("/services/[slug]", "layout");
         revalidatePath("/dashboard/services");
         revalidatePath("/");
+        revalidatePath("/services", "page");
         return { success: true };
     } catch (error) {
         console.error("Delete Service Error:", error);

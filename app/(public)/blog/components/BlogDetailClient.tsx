@@ -128,7 +128,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="aspect-[4/3] md:aspect-[21/9] rounded-[1.5rem] md:rounded-[3.rem] overflow-hidden border border-gray-100 shadow-premium group relative"
+              className="aspect-[4/3] md:aspect-[21/9] max-w-3xl mx-auto rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-gray-100 shadow-premium group relative"
             >
                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
                <Image src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} fill className="w-full h-full object-cover transition-transform duration-1000" />
@@ -195,8 +195,8 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
             <article className="lg:col-span-9 order-1 lg:order-2">
                <div className="max-w-3xl prose prose-xl prose-gray 
                  prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
-                 prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-32 prose-h2:mb-8 prose-h2:pt-12 prose-h2:border-t prose-h2:border-gray-100
-                 prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-20 prose-h3:mb-6
+                 prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-24 prose-h2:mb-8 prose-h2:pt-16 prose-h2:border-t prose-h2:border-gray-100
+                 prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-16 prose-h3:mb-6
                  prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:font-medium prose-p:mb-8
                  prose-strong:text-text-primary prose-strong:font-bold
                  prose-ul:list-disc prose-li:marker:text-brand prose-li:text-gray-600 prose-li:mb-2

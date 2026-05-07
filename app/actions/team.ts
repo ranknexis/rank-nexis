@@ -19,6 +19,8 @@ export async function createTeamMember(data: any) {
     revalidatePath("/team");
     revalidatePath("/about");
     revalidatePath("/");
+    revalidatePath("/team", "page");
+    revalidatePath("/about", "page");
     return { success: true, data: member };
   } catch (error: any) {
     return { success: false, error: error.message };
@@ -42,6 +44,8 @@ export async function updateTeamMember(id: string, data: any) {
     revalidatePath("/team");
     revalidatePath("/about");
     revalidatePath("/");
+    revalidatePath("/team", "page");
+    revalidatePath("/about", "page");
     return { success: true, data: member };
   } catch (error: any) {
     return { success: false, error: error.message };
@@ -57,6 +61,8 @@ export async function deleteTeamMember(id: string) {
     revalidatePath("/team");
     revalidatePath("/about");
     revalidatePath("/");
+    revalidatePath("/team", "page");
+    revalidatePath("/about", "page");
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };

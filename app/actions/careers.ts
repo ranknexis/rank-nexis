@@ -21,6 +21,7 @@ export async function createJob(data: {
             }
         });
         revalidatePath("/careers");
+        revalidatePath("/careers/[slug]", "layout");
         revalidatePath("/dashboard/careers");
         revalidatePath("/");
         return { success: true, job };
@@ -38,6 +39,7 @@ export async function toggleJobStatus(id: string, active: boolean) {
         });
         revalidatePath("/careers");
         revalidatePath(`/careers/${job.slug}`);
+        revalidatePath("/careers/[slug]", "layout");
         revalidatePath("/dashboard/careers");
         revalidatePath("/");
         return { success: true };
@@ -53,8 +55,10 @@ export async function deleteJob(id: string) {
         await prisma.job.delete({ where: { id } });
         revalidatePath("/careers");
         if (job) revalidatePath(`/careers/${job.slug}`);
+        revalidatePath("/careers/[slug]", "layout");
         revalidatePath("/dashboard/careers");
         revalidatePath("/");
+        revalidatePath("/careers", "page");
         return { success: true };
     } catch (error) {
         console.error("Delete Job Error:", error);

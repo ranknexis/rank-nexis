@@ -48,6 +48,7 @@ export async function updateCaseStudy(id: string, data: any) {
         });
         revalidatePath("/work");
         revalidatePath(`/work/${caseStudy.slug}`);
+        revalidatePath("/work/[slug]", "layout");
         revalidatePath("/dashboard/work");
         revalidatePath("/");
         return { success: true, caseStudy };
