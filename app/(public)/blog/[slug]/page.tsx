@@ -14,7 +14,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const [post, settings] = await Promise.all([
     prisma.blog.findUnique({
       where: { slug },
-      include: { category: true, author: true }
+      include: { 
+        category: true, 
+        author: {
+          include: { teamProfile: true }
+        } 
+      }
     }),
     prisma.siteSettings.findUnique({ where: { id: "global" } })
   ]);
@@ -47,7 +52,12 @@ export default async function BlogPostPage({ params }: Props) {
   const [post, pageData] = await Promise.all([
     prisma.blog.findUnique({
       where: { slug },
-      include: { category: true, author: true }
+      include: { 
+        category: true, 
+        author: {
+          include: { teamProfile: true }
+        } 
+      }
     }),
     getPageData("blog")
   ]);
@@ -56,7 +66,12 @@ export default async function BlogPostPage({ params }: Props) {
 
   const relatedPosts = await prisma.blog.findMany({
     where: { categoryId: post.categoryId, NOT: { id: post.id } },
-    include: { category: true, author: true },
+    include: { 
+      category: true, 
+      author: {
+        include: { teamProfile: true }
+      } 
+    },
     take: 3,
     orderBy: { createdAt: 'desc' }
   });

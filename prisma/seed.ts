@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { Pool } from 'pg';
 import { BLOG_CONTENT } from './blogContent';
 import { PAGES_DATA } from './pageData';
+import { CASE_STUDIES_DATA } from './caseStudyData';
 
 dotenv.config();
 
@@ -27,11 +28,11 @@ async function main() {
   await prisma.siteSettings.deleteMany();
 
   // 2. USERS & TEAM MEMBERS
-  const hashedAdminPassword = await bcrypt.hash('admin123', 10);
-  const teamPassword = await bcrypt.hash('team123', 10);
+  const hashedAdminPassword = await bcrypt.hash('RankNexis@2026', 10);
+  const teamPassword = await bcrypt.hash('RankNexis@2026', 10);
 
   const adminUser = await prisma.user.create({
-    data: { email: 'ranknexis@gmail.com', password: hashedAdminPassword, name: 'Rank Nexis', role: 'ADMIN' }
+    data: { email: 'ranknexis@gmail.com', password: hashedAdminPassword, name: 'Rank Nexis', role: 'ADMIN', passwordSet: true }
   });
 
   const teamData = [
@@ -57,7 +58,7 @@ async function main() {
         password: teamPassword,
         name: m.name,
         role: 'TEAM_MEMBER',
-        passwordSet: false
+        passwordSet: true
       }
     });
 
@@ -189,7 +190,9 @@ async function main() {
         slug: p.slug,
         title: p.slug.toUpperCase(),
         metaTitle: p.metaTitle,
-        metaDescription: p.metaDescription
+        metaDescription: p.metaDescription,
+        metaKeywords: p.metaKeywords || [],
+        canonicalUrl: p.canonicalUrl || null,
       }
     });
     for (const [idx, s] of p.sections.entries()) {
@@ -208,6 +211,13 @@ async function main() {
   }
 
   console.log('✓ Ultimate Seed: Success! All blogs assigned to TEAM_MEMBER nodes.');
+
+  console.log('Seeding case studies...');
+  for (const cs of CASE_STUDIES_DATA) {
+    await prisma.caseStudy.create({ data: cs });
+  }
+
+  console.log('Seeding finished.');
 }
 
 main()

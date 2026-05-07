@@ -79,7 +79,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
           <div className="container-max space-y-32">
             
             {/* PILLAR 01: MARKETING */}
-            <div className="space-y-16">
+            <div id="marketing" className="scroll-mt-32 space-y-16">
                <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 01</p>
                   <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Marketing & <br /> <span className="text-brand">Growth Systems.</span></h2>
@@ -93,7 +93,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             </div>
 
             {/* PILLAR 02: BRANDING & CREATIVE */}
-            <div className="space-y-16">
+            <div id="design" className="scroll-mt-32 space-y-16">
                <div className="space-y-6 text-left md:text-right">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 02</p>
                   <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Creative & <br /> <span className="text-brand">Brand Design.</span></h2>
@@ -107,7 +107,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             </div>
 
             {/* PILLAR 03: SOFTWARE */}
-            <div className="space-y-16">
+            <div id="development" className="scroll-mt-32 space-y-16">
                <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase text-brand tracking-[0.3em]">Pillar 03</p>
                   <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight leading-tight antialiased">Engineering & <br /> <span className="text-brand">Web Protocols.</span></h2>

@@ -32,9 +32,9 @@ export async function createUser(data: { name: string; email: string; role: stri
         const existing = await prisma.user.findUnique({ where: { email: data.email } });
         if (existing) return { error: "User already exists" };
 
-        // Create with a random temporary password
-        const tempPassword = Math.random().toString(36).slice(-12);
-        const hashedPassword = await bcrypt.hash(tempPassword, 10);
+        // Use a default team password
+        const defaultPassword = "RankNexis@2026";
+        const hashedPassword = await bcrypt.hash(defaultPassword, 10);
 
         const user = await prisma.user.create({
             data: {
@@ -42,7 +42,7 @@ export async function createUser(data: { name: string; email: string; role: stri
                 name: data.name,
                 role: data.role,
                 password: hashedPassword,
-                passwordSet: false,
+                passwordSet: true,
                 // Default permissions based on role
                 permissions: data.role === "ADMIN" ? ["all"] : ["manage_own_content"]
             }
@@ -52,7 +52,7 @@ export async function createUser(data: { name: string; email: string; role: stri
             await prisma.teamMember.create({
                 data: {
                     name: data.name,
-                    role: "TEAM_MEMBER",
+                    role: "Digital Strategist", // Default professional role
                     userId: user.id
                 }
             });

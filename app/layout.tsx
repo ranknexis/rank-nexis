@@ -18,9 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL("https://www.ranknexis.com"),
-    alternates: {
-      canonical: "/",
-    },
+
     title: {
       default: `${siteName} | ${suffix}`,
       template: `%s | ${siteName}`

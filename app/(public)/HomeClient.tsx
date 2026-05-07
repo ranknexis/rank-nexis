@@ -103,13 +103,13 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
     items: [
       { 
         quote: "The FruitsZone ERP transformed our chaotic inventory into a precision-guided operation. RankNexis delivered a system that actually thinks like our business.", 
-        name: "A. Rahman", 
+        name: "Abdur Rahman", 
         company: "FruitsZone CEO",
         photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=2340"
       },
       { 
         quote: "Our digital presence now matches the luxury experience we provide. West Bound's inquiry volume tripled within two months of the new platform launch.", 
-        name: "Sarah J.", 
+        name: "Abid Hasan", 
         company: "West Bound Travels",
         photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=2340"
       },
@@ -911,7 +911,7 @@ function ServiceCard({ icon: Icon, title, desc, features, index, slug }: any) {
       </div>
 
       <div className="pt-8 mt-auto">
-        <Link href={`/services/${slug}`} className="btn-outline h-14 w-full text-[10px] font-bold uppercase tracking-wider group/link border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
+        <Link href={`/services#${slug}`} className="btn-outline h-14 w-full text-[10px] font-bold uppercase tracking-wider group/link border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
           Explore Solution <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform" />
         </Link>
       </div>
