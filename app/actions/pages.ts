@@ -106,6 +106,7 @@ export async function updateInternalLinks(slug: string, links: any[]) {
     
     await createAuditLog("PAGE_LINKS_UPDATED", slug, `${links.length} links`);
     
+    revalidatePath(`/${slug === 'home' ? '' : slug}`);
     return { success: true };
   } catch (error) {
     return { error: "Failed to update internal links" };
@@ -145,6 +146,7 @@ export async function addSection(pageId: string, data: { label: string, sectionT
 
     await createAuditLog("SECTION_ADDED", `${section.page.slug}:${data.sectionType}`, `Label: ${data.label}`);
 
+    revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     return { success: true, section };
   } catch (error) {
     console.error("Add Section Error:", error);
@@ -161,6 +163,7 @@ export async function deleteSection(id: string) {
     if (section) {
         await prisma.pageSection.delete({ where: { id } });
         await createAuditLog("SECTION_DELETED", `${section.page.slug}:${section.sectionType}`);
+        revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     }
     return { success: true };
   } catch (error) {
@@ -224,6 +227,10 @@ export async function reorderSections(pageId: string, sectionIds: string[]) {
         })
       )
     );
+    const page = await prisma.pageContent.findUnique({ where: { id: pageId } });
+    if (page) {
+      revalidatePath(`/${page.slug === 'home' ? '' : page.slug}`);
+    }
     return { success: true };
   } catch (error) {
     console.error("Reorder Error:", error);

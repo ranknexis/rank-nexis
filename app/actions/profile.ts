@@ -53,7 +53,9 @@ export async function updateMyProfile(data: any) {
         }
 
         revalidatePath("/dashboard/profile");
+        revalidatePath("/team");
         revalidatePath("/about");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         console.error("Profile Update Error:", error);

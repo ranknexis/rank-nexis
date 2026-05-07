@@ -22,6 +22,7 @@ export async function createJob(data: {
         });
         revalidatePath("/careers");
         revalidatePath("/dashboard/careers");
+        revalidatePath("/");
         return { success: true, job };
     } catch (error) {
         console.error("Create Job Error:", error);
@@ -31,12 +32,14 @@ export async function createJob(data: {
 
 export async function toggleJobStatus(id: string, active: boolean) {
     try {
-        await prisma.job.update({
+        const job = await prisma.job.update({
             where: { id },
             data: { active }
         });
         revalidatePath("/careers");
+        revalidatePath(`/careers/${job.slug}`);
         revalidatePath("/dashboard/careers");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         console.error("Toggle Job Status Error:", error);
@@ -46,9 +49,12 @@ export async function toggleJobStatus(id: string, active: boolean) {
 
 export async function deleteJob(id: string) {
     try {
+        const job = await prisma.job.findUnique({ where: { id } });
         await prisma.job.delete({ where: { id } });
         revalidatePath("/careers");
+        if (job) revalidatePath(`/careers/${job.slug}`);
         revalidatePath("/dashboard/careers");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         console.error("Delete Job Error:", error);

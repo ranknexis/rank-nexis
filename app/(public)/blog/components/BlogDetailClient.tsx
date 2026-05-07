@@ -4,7 +4,7 @@ import BlogCard from "@/components/BlogCard";
 import { motion } from "framer-motion";
 import { Calendar, Share2, TrendingUp, User, ArrowLeft, Clock, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   post: any;
@@ -13,24 +13,19 @@ interface Props {
 
 export default function BlogDetailClient({ post, relatedPosts }: Props) {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Dynamically extract headings for Table of Contents
-    const doc = new DOMParser().parseFromString(post.content, 'text/html');
-    const h2s = Array.from(doc.querySelectorAll('h2')).map((h2, index) => {
+    if (!contentRef.current) return;
+
+    // Extract headings from the ACTUAL rendered DOM
+    const renderedH2s = contentRef.current.querySelectorAll('h2');
+    const h2s = Array.from(renderedH2s).map((h2, index) => {
       const id = `section-${index}`;
+      h2.id = id;
       return { id, text: h2.textContent || '' };
     });
     setHeadings(h2s);
-
-    // Add IDs to the actual rendered content headings
-    const contentElement = document.getElementById('blog-article-content');
-    if (contentElement) {
-      const renderedH2s = contentElement.querySelectorAll('h2');
-      renderedH2s.forEach((h2, index) => {
-        h2.id = `section-${index}`;
-      });
-    }
   }, [post.content]);
 
   const formattedDate = new Date(post.createdAt).toLocaleDateString(undefined, { 
@@ -117,7 +112,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
               className="aspect-[4/3] md:aspect-[21/9] rounded-[1.5rem] md:rounded-[3.rem] overflow-hidden border border-gray-100 shadow-premium group relative"
             >
                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
-               <img src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} className="w-full h-full object-contain bg-surface/50 transition-transform duration-1000" />
+               <img src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} className="w-full h-full object-cover transition-transform duration-1000" />
                
                <div className="absolute bottom-8 right-8 z-20">
                   <button className="w-14 h-14 bg-white/90 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-brand shadow-xl hover:rotate-12 transition-all">
@@ -150,7 +145,21 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                         {headings.map((heading) => (
                           <button 
                             key={heading.id}
-                            onClick={() => document.getElementById(heading.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                            onClick={() => {
+                                const el = document.getElementById(heading.id);
+                                if (el) {
+                                    const offset = 100;
+                                    const bodyRect = document.body.getBoundingClientRect().top;
+                                    const elementRect = el.getBoundingClientRect().top;
+                                    const elementPosition = elementRect - bodyRect;
+                                    const offsetPosition = elementPosition - offset;
+
+                                    window.scrollTo({
+                                        top: offsetPosition,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }}
                             className="flex items-start gap-3 text-[10px] font-bold uppercase text-gray-500 hover:text-brand text-left transition-colors group"
                           >
                             <ChevronRight size={14} className="mt-0.5 text-brand/30 group-hover:text-brand" />
@@ -179,15 +188,16 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
 
             {/* MAIN ARTICLE BODY */}
             <article className="lg:col-span-9 order-1 lg:order-2">
-               <div id="blog-article-content" className="max-w-3xl prose prose-xl prose-gray 
+               <div className="max-w-3xl prose prose-xl prose-gray 
                  prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
-                 prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-24 prose-h2:mb-8 prose-h2:pt-12 prose-h2:border-t prose-h2:border-gray-100
-                 prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-16 prose-h3:mb-6
+                 prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-32 prose-h2:mb-8 prose-h2:pt-12 prose-h2:border-t prose-h2:border-gray-100
+                 prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-20 prose-h3:mb-6
                  prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:font-medium prose-p:mb-8
                  prose-strong:text-text-primary prose-strong:font-bold
                  prose-ul:list-disc prose-li:marker:text-brand prose-li:text-gray-600 prose-li:mb-2
                  prose-img:rounded-3xl prose-img:shadow-premium prose-img:my-16">
                   <div 
+                    ref={contentRef}
                     className="drop-cap-article"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />

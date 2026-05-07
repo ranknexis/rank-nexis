@@ -35,6 +35,7 @@ export async function createBlogPost(data: {
         });
         revalidatePath("/blog");
         revalidatePath("/dashboard/blog");
+        revalidatePath("/");
         return { success: true, post };
     } catch (error) {
         console.error("Create Blog Error:", error);
@@ -66,6 +67,7 @@ export async function updateBlogPost(id: string, data: any) {
         revalidatePath("/blog");
         revalidatePath(`/blog/${post.slug}`);
         revalidatePath("/dashboard/blog");
+        revalidatePath("/");
         return { success: true, post };
     } catch (error) {
         console.error("Update Blog Error:", error);
@@ -88,6 +90,7 @@ export async function deleteBlogPost(id: string) {
         await prisma.blog.delete({ where: { id } });
         revalidatePath("/blog");
         revalidatePath("/dashboard/blog");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         console.error("Delete Blog Error:", error);

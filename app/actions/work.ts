@@ -19,6 +19,7 @@ export async function createCaseStudy(data: any) {
         });
         revalidatePath("/work");
         revalidatePath("/dashboard/work");
+        revalidatePath("/");
         return { success: true, caseStudy };
     } catch (error) {
         console.error("Create Case Study Error:", error);
@@ -48,6 +49,7 @@ export async function updateCaseStudy(id: string, data: any) {
         revalidatePath("/work");
         revalidatePath(`/work/${caseStudy.slug}`);
         revalidatePath("/dashboard/work");
+        revalidatePath("/");
         return { success: true, caseStudy };
     } catch (error) {
         console.error("Update Case Study Error:", error);
@@ -70,6 +72,7 @@ export async function deleteCaseStudy(id: string) {
         await prisma.caseStudy.delete({ where: { id } });
         revalidatePath("/work");
         revalidatePath("/dashboard/work");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         console.error("Delete Case Study Error:", error);

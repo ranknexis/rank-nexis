@@ -70,6 +70,9 @@ export async function createUser(data: { name: string; email: string; role: stri
         await createAuditLog("USER_CREATED", data.email, `Role: ${data.role}`);
 
         revalidatePath("/dashboard/users");
+        revalidatePath("/team");
+        revalidatePath("/about");
+        revalidatePath("/");
         return { success: true, user };
     } catch (error) {
         console.error("Create User Error:", error);
@@ -88,6 +91,9 @@ export async function updateUserRole(userId: string, role: string) {
         });
         await createAuditLog("USER_ROLE_UPDATED", user.email, `New Role: ${role}`);
         revalidatePath("/dashboard/users");
+        revalidatePath("/team");
+        revalidatePath("/about");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         return { error: "Failed to update user" };
@@ -105,6 +111,9 @@ export async function updateUserPermissions(userId: string, permissions: string[
         });
         await createAuditLog("USER_PERMISSIONS_UPDATED", user.email, `Permissions: ${permissions.join(", ")}`);
         revalidatePath("/dashboard/users");
+        revalidatePath("/team");
+        revalidatePath("/about");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         return { error: "Failed to update permissions" };
@@ -122,6 +131,9 @@ export async function deleteUser(userId: string) {
             await createAuditLog("USER_DELETED", user.email);
         }
         revalidatePath("/dashboard/users");
+        revalidatePath("/team");
+        revalidatePath("/about");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         return { error: "Failed to delete user" };

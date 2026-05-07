@@ -21,6 +21,7 @@ export async function createService(data: {
         });
         revalidatePath("/services");
         revalidatePath("/dashboard/services");
+        revalidatePath("/");
         return { success: true, service };
     } catch (error) {
         console.error("Create Service Error:", error);
@@ -30,13 +31,15 @@ export async function createService(data: {
 
 export async function updateService(id: string, data: any) {
     try {
-        await prisma.service.update({
+        const service = await prisma.service.update({
             where: { id },
             data
         });
         revalidatePath("/services");
+        revalidatePath(`/services/${service.slug}`);
         revalidatePath("/dashboard/services");
-        return { success: true };
+        revalidatePath("/");
+        return { success: true, service };
     } catch (error) {
         console.error("Update Service Error:", error);
         return { error: "Failed to update service." };
@@ -45,12 +48,14 @@ export async function updateService(id: string, data: any) {
 
 export async function toggleServiceStatus(id: string, active: boolean) {
     try {
-        await prisma.service.update({
+        const service = await prisma.service.update({
             where: { id },
             data: { active }
         });
         revalidatePath("/services");
+        revalidatePath(`/services/${service.slug}`);
         revalidatePath("/dashboard/services");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         console.error("Toggle Service Status Error:", error);
@@ -60,9 +65,12 @@ export async function toggleServiceStatus(id: string, active: boolean) {
 
 export async function deleteService(id: string) {
     try {
+        const service = await prisma.service.findUnique({ where: { id } });
         await prisma.service.delete({ where: { id } });
         revalidatePath("/services");
+        if (service) revalidatePath(`/services/${service.slug}`);
         revalidatePath("/dashboard/services");
+        revalidatePath("/");
         return { success: true };
     } catch (error) {
         console.error("Delete Service Error:", error);

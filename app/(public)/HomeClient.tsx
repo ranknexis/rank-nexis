@@ -795,6 +795,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   title={post.title} 
                   date={new Date(post.createdAt).toLocaleDateString()}
                   category={post.category.name}
+                  slug={post.slug}
                   image={post.image || "https://images.unsplash.com/photo-1551288049-bbbda5366991?auto=format&fit=crop&q=80&w=2070"}
                 />
               ))}
@@ -992,7 +993,7 @@ function TestimonyCard({ name, role, quote, image }: any) {
   );
 }
  
-function BlogSnippet({ title, date, category, image }: any) {
+function BlogSnippet({ title, date, category, image, slug }: any) {
   return (
     <div className="corporate-card p-0 group hover:scale-[1.02] bg-surface border border-stroke overflow-hidden rounded-[2.5rem] shadow-premium">
       <div className="aspect-[16/10] overflow-hidden relative">
@@ -1005,10 +1006,11 @@ function BlogSnippet({ title, date, category, image }: any) {
            <p className="text-[10px] font-bold text-text-muted uppercase tracking-wider">{date}</p>
            <h4 className="text-xl font-bold tracking-tight uppercase group-hover:text-brand transition-colors line-clamp-2 leading-tight">{title}</h4>
         </div>
-        <Link href="/blog" className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-3 text-text-muted hover:text-brand transition-colors group/link">
+        <Link href={`/blog/${slug}`} className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-3 text-text-muted hover:text-brand transition-colors group/link">
           Read Story <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform" />
         </Link>
       </div>
     </div>
   );
 }
+
