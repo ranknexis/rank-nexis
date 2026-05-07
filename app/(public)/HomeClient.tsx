@@ -171,56 +171,49 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
         <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
           {/* Advanced Visual System Visualization */}
           <div className="absolute inset-0 -z-10 overflow-hidden">
-             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 animate-pulse hidden md:block" />
+             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 hidden md:block" />
              <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4 hidden md:block" />
              
-             {/* Subtle Animated Nodes */}
-             <div className="absolute inset-0 opacity-[0.1] hidden md:block">
-                {[...Array(6)].map((_, i) => (
+              {/* Subtle Animated Nodes - Optimized to 3 for performance */}
+              <div className="absolute inset-0 opacity-[0.05] hidden md:block">
+                {[...Array(3)].map((_, i) => (
                    <motion.div
                       key={i}
                       initial={{ opacity: 0 }}
                       animate={{ 
-                        opacity: [0.05, 0.1, 0.05],
-                        scale: [1, 1.1, 1],
-                        rotate: [0, 90, 0],
+                        opacity: [0.03, 0.08, 0.03],
+                        scale: [1, 1.05, 1],
                       }}
                       transition={{ 
-                        duration: 15 + i * 5, 
+                        duration: 20 + i * 10, 
                         repeat: Infinity, 
                         ease: "linear"
                       }}
-                      className="absolute rounded-full border border-brand/20 blur-2xl"
+                      className="absolute rounded-full border border-brand/10 blur-3xl"
                       style={{
-                        width: `${300 + i * 80}px`,
-                        height: `${300 + i * 80}px`,
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`,
+                        width: `${400 + i * 100}px`,
+                        height: `${400 + i * 100}px`,
+                        left: `${20 + (i * 30)}%`,
+                        top: `${10 + (i * 20)}%`,
                         background: `radial-gradient(circle, var(--color-brand) 0%, transparent 70%)`,
                       }}
                    />
                 ))}
-             </div>
+              </div>
              
-             {/* Connection Lines (Grounded Tech feel) */}
-             <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
-                <motion.path 
+             {/* Connection Lines (Static for performance) */}
+             <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+                <path 
                   d="M0 100 Q 250 50 500 100 T 1000 100" 
                   fill="none" 
                   stroke="var(--color-brand)" 
                   strokeWidth="0.5"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
                 />
-                <motion.path 
+                <path 
                   d="M-100 300 Q 150 250 400 300 T 900 300" 
                   fill="none" 
                   stroke="var(--color-brand)" 
                   strokeWidth="0.5"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "linear", delay: 1 }}
                 />
              </svg>
           </div>
@@ -283,9 +276,9 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
               </div>
  
               <motion.div 
-                initial={{ opacity: 0, x: 50, filter: "blur(20px)" }}
-                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                transition={{ duration: 1, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
                 className="lg:col-span-5 relative hidden lg:block"
               >
                 {/* Visual System Diagram Mockup */}
@@ -369,7 +362,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                   <motion.div 
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.1 }}
                     className="inline-flex items-center gap-3 px-4 py-1.5 bg-white border border-stroke rounded-full shadow-sm"
                   >
                     <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
@@ -398,7 +391,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                   key={vertical.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.1 }}
                   className="group flex flex-col justify-between p-12 bg-white border border-stroke rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain"
                 >
                   <div className="absolute top-0 right-0 w-64 h-64 bg-brand/[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand/5 transition-colors" />
@@ -446,7 +439,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                     key={vertical.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.1 }}
                     transition={{ delay: i * 0.1 }}
                     className="group flex-1 flex flex-col md:flex-row items-center gap-10 p-10 bg-white border border-stroke rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden"
                   >
@@ -485,7 +478,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                 <motion.div 
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.1 }}
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full"
                 >
                   <div className="w-2 h-2 bg-brand rounded-full" />
@@ -543,7 +536,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                     key={industry.name}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.1 }}
                     transition={{ delay: i * 0.05 }}
                     className="glass p-10 border border-white/40 rounded-[2.5rem] flex flex-col items-center justify-center gap-8 group hover:border-brand/40 transition-all duration-500 shadow-premium cursor-default grain"
                   >
@@ -566,7 +559,7 @@ export default function HomeClient({ sectionsMap, studies, posts }: { sectionsMa
                 <motion.div 
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.1 }}
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full"
                 >
                   <div className="w-2 h-2 bg-brand rounded-full" />
@@ -886,7 +879,7 @@ function ServiceCard({ icon: Icon, title, desc, features, index, slug }: any) {
     <motion.div 
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ delay: index * 0.1, duration: 0.8 }}
       className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-8 md:p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-[500px] flex flex-col justify-between"
     >

@@ -18,7 +18,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, category, author, d
     <motion.div 
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
       className="corporate-card p-0 group overflow-hidden flex flex-col h-full hover:-translate-y-2 transition-all duration-700 shadow-premium grain"
     >
@@ -74,4 +74,3 @@ const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, category, author, d
 };
 
 export default BlogCard;
-

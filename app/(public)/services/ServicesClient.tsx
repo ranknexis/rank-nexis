@@ -181,7 +181,12 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
 function ServiceSummaryCard({ service }: { service: any }) {
   const Icon = ICON_MAP[service.icon || "Zap"] || Zap;
   return (
-    <div className="glass group p-10 flex flex-col justify-between hover:border-brand/40 transition-all duration-500 rounded-[3rem] shadow-sm hover:shadow-premium h-full border border-stroke bg-white relative overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      className="glass group p-10 flex flex-col justify-between hover:border-brand/40 transition-all duration-500 rounded-[3rem] shadow-sm hover:shadow-premium h-full border border-stroke bg-white relative overflow-hidden"
+    >
        <div className="space-y-8 relative z-10">
           <div className="bg-surface border border-stroke w-16 h-16 rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-500 shadow-sm">
              <Icon size={32} strokeWidth={1.5} />
@@ -200,22 +205,32 @@ function ServiceSummaryCard({ service }: { service: any }) {
              Learn More <ArrowRight size={14} className="ml-3 group-hover/btn:translate-x-1 transition-transform" />
           </Link>
        </div>
-    </div>
+    </motion.div>
   );
 }
 
 function TechNode({ icon: Icon, label }: any) {
   return (
-    <div className="glass border border-stroke rounded-[2rem] flex flex-col items-center justify-center gap-6 hover:border-brand transition-all duration-700 shadow-premium group cursor-default p-8 bg-white/50 backdrop-blur-sm">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.1 }}
+      className="glass border border-stroke rounded-[2rem] flex flex-col items-center justify-center gap-6 hover:border-brand transition-all duration-700 shadow-premium group cursor-default p-8 bg-white/50 backdrop-blur-sm"
+    >
       <Icon size={48} strokeWidth={1} className="text-brand/30 group-hover:text-brand transition-all duration-500 group-hover:scale-110" />
       <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted text-center leading-tight">{label}</span>
-    </div>
+    </motion.div>
   );
 }
 
 function StackItem({ title, desc }: any) {
   return (
-    <div className="flex gap-8 group bg-surface border border-stroke p-10 rounded-[2.5rem] hover:border-brand transition-all">
+    <motion.div 
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      className="flex gap-8 group bg-surface border border-stroke p-10 rounded-[2.5rem] hover:border-brand transition-all"
+    >
       <div className="w-16 h-16 shrink-0 bg-white border border-stroke rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all">
         <ShieldCheck size={32} />
       </div>
@@ -223,6 +238,6 @@ function StackItem({ title, desc }: any) {
         <h4 className="text-2xl font-bold mb-3 uppercase tracking-tight leading-none antialiased group-hover:text-brand transition-colors">{title}</h4>
         <p className="text-text-muted text-lg font-medium leading-relaxed antialiased">{desc}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }

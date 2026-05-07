@@ -36,6 +36,7 @@
   :root {
     --background: #FFFFFF;
     --foreground: #0F0F0F;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -76,12 +77,12 @@
   /* Premium Glassmorphism - Optimized for mobile performance */
   .glass {
     @apply bg-white/70 border border-white/40 shadow-xl;
-    @apply backdrop-blur-sm md:backdrop-blur-2xl;
+    @apply backdrop-blur-md md:backdrop-blur-lg;
   }
 
   .glass-dark {
     @apply bg-black/80 border border-white/10 shadow-3xl;
-    @apply backdrop-blur-sm md:backdrop-blur-2xl;
+    @apply backdrop-blur-md md:backdrop-blur-lg;
   }
 
 

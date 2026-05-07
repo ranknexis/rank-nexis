@@ -1,22 +1,20 @@
-import prisma from "@/lib/prisma";
-import { getPageData } from "@/lib/pageContent";
-import { buildSeoMetadata, getSectionData } from "@/lib/pageUtils";
-import {
-    ArrowRight,
-    Award,
-    Briefcase,
-    Facebook,
-    Linkedin,
-    Mail,
-    Users,
-    ShieldCheck,
-    Zap,
-    TrendingUp
-} from "lucide-react";
-import Link from "next/link";
-import { Metadata } from "next";
 import InternalLinksSection from "@/components/InternalLinksSection";
 import TeamMemberCard from "@/components/TeamMemberCard";
+import { getPageData } from "@/lib/pageContent";
+import { buildSeoMetadata, getSectionData } from "@/lib/pageUtils";
+import prisma from "@/lib/prisma";
+import { motion } from "framer-motion";
+import {
+   ArrowRight,
+   Award,
+   Briefcase,
+   ShieldCheck,
+   TrendingUp,
+   Users,
+   Zap
+} from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageData("team");
@@ -82,14 +80,21 @@ export default async function TeamPage() {
         <section className="py-32">
            <div className="container-max">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-                 {team.map((member: any) => (
-                    <TeamMemberCard 
-                       key={member.id}
-                       name={member.name}
-                       role={member.role}
-                       image={member.image}
-                       socials={member.socials}
-                    />
+                 {team.map((member: any, i: number) => (
+                    <motion.div
+                      key={member.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.1 }}
+                      transition={{ delay: i * 0.1 }}
+                    >
+                      <TeamMemberCard 
+                         name={member.name}
+                         role={member.role}
+                         image={member.image}
+                         socials={member.socials}
+                      />
+                    </motion.div>
                  ))}
               </div>
            </div>
@@ -99,18 +104,25 @@ export default async function TeamPage() {
         <section className="section-padding bg-surface/30 border-y border-stroke relative overflow-hidden">
            <div className="container-max relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                 {strengths.items?.map((item: any, i: number) => {
+                  {strengths.items?.map((item: any, i: number) => {
                     const Icon = ICON_MAP[item.icon] || ShieldCheck;
                     return (
-                       <div key={i} className="group bg-white border border-stroke p-12 rounded-[3rem] hover:border-brand/40 transition-all shadow-sm hover:shadow-premium flex flex-col items-center text-center">
+                       <motion.div 
+                          key={i} 
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, amount: 0.1 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="group bg-white border border-stroke p-12 rounded-[3rem] hover:border-brand/40 transition-all shadow-sm hover:shadow-premium flex flex-col items-center text-center"
+                       >
                           <div className="w-20 h-20 bg-surface border border-stroke rounded-2xl flex items-center justify-center text-brand mb-10 group-hover:bg-brand group-hover:text-white transition-all shadow-sm">
                              <Icon size={36} strokeWidth={1} />
                           </div>
                           <h3 className="text-3xl font-bold uppercase tracking-tight text-text-primary mb-6 leading-none antialiased">{item.title}</h3>
                           <p className="text-text-muted text-lg font-medium leading-relaxed antialiased">{item.description}</p>
-                       </div>
+                       </motion.div>
                     )
-                 })}
+                  })}
               </div>
            </div>
         </section>
