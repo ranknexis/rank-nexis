@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { 
   ChevronDown, 
   ChevronUp, 
@@ -35,7 +35,7 @@ interface SectionEditorProps {
   onDelete?: () => void;
 }
 
-export default function SectionEditor({ section, onUpdate, onDelete }: SectionEditorProps) {
+const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState(section.content || {});
   const [isSaving, setIsSaving] = useState(false);
@@ -711,5 +711,7 @@ export default function SectionEditor({ section, onUpdate, onDelete }: SectionEd
        )}
     </div>
   );
-}
+});
+
+export default SectionEditor;
 

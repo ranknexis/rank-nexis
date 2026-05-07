@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import BlogDetailClient from "../components/BlogDetailClient";
 import InternalLinksSection from "@/components/InternalLinksSection";
 import { getPageData } from "@/lib/pageContent";
+import { getPostBySlug, getSiteSettings } from "@/lib/queries";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -12,16 +13,8 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const [post, settings] = await Promise.all([
-    prisma.blog.findUnique({
-      where: { slug },
-      include: { 
-        category: true, 
-        author: {
-          include: { teamProfile: true }
-        } 
-      }
-    }),
-    prisma.siteSettings.findUnique({ where: { id: "global" } })
+    getPostBySlug(slug),
+    getSiteSettings()
   ]);
 
   if (!post) return { title: "Article Not Found" };
@@ -50,15 +43,7 @@ export async function generateStaticParams() {
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const [post, pageData] = await Promise.all([
-    prisma.blog.findUnique({
-      where: { slug },
-      include: { 
-        category: true, 
-        author: {
-          include: { teamProfile: true }
-        } 
-      }
-    }),
+    getPostBySlug(slug),
     getPageData("blog")
   ]);
 

@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { getSectionData } from "@/lib/pageUtils";
+import React, { useMemo } from "react";
 
 const ICON_MAP: Record<string, any> = {
   TrendingUp,
@@ -75,6 +76,10 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
      ]
   });
 
+  const marketingServices = useMemo(() => services.filter(s => s.category === 'MARKETING'), [services]);
+  const creativeServices = useMemo(() => services.filter(s => ['BRANDING', 'CREATIVE'].includes(s.category)), [services]);
+  const softwareServices = useMemo(() => services.filter(s => s.category === 'SOFTWARE'), [services]);
+
   return (
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
@@ -118,7 +123,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.filter(s => s.category === 'MARKETING').map((s) => (
+                {marketingServices.map((s) => (
                   <ServiceSummaryCard key={s.id} service={s} />
                 ))}
                </div>
@@ -132,7 +137,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.filter(s => ['BRANDING', 'CREATIVE'].includes(s.category)).map((s) => (
+                {creativeServices.map((s) => (
                   <ServiceSummaryCard key={s.id} service={s} />
                 ))}
                </div>
@@ -146,7 +151,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.filter(s => s.category === 'SOFTWARE').map((s) => (
+                {softwareServices.map((s) => (
                   <ServiceSummaryCard key={s.id} service={s} />
                 ))}
                </div>
@@ -206,7 +211,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
   );
 }
 
-function ServiceSummaryCard({ service }: { service: any }) {
+const ServiceSummaryCard = React.memo(({ service }: { service: any }) => {
   const Icon = ICON_MAP[service.icon || "Zap"] || Zap;
   return (
     <motion.div 
@@ -235,9 +240,9 @@ function ServiceSummaryCard({ service }: { service: any }) {
        </div>
     </motion.div>
   );
-}
+});
 
-function TechNode({ icon: Icon, label }: any) {
+const TechNode = React.memo(({ icon: Icon, label }: any) => {
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
@@ -249,9 +254,9 @@ function TechNode({ icon: Icon, label }: any) {
       <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted text-center leading-tight">{label}</span>
     </motion.div>
   );
-}
+});
 
-function StackItem({ title, desc }: any) {
+const StackItem = React.memo(({ title, desc }: any) => {
   return (
     <motion.div 
       initial={{ opacity: 0, x: -20 }}
@@ -268,4 +273,4 @@ function StackItem({ title, desc }: any) {
       </div>
     </motion.div>
   );
-}
+});

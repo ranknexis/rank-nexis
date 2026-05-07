@@ -16,8 +16,9 @@ import {
   TrendingUp,
   Zap
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const SERVICES = [
@@ -47,56 +48,56 @@ const SERVICES = [
 export default function HomeClient({ sectionsMap, studies, posts, testimonials: dbTestimonials }: { sectionsMap: any, studies: any[], posts: any[], testimonials?: any[] }) {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
-  // Dynamic Content from CMS
-  const hero = getSectionData(sectionsMap, "hero", {
+  // Dynamic Content from CMS - Memoized for performance
+  const hero = useMemo(() => getSectionData(sectionsMap, "hero", {
     badge: "Full-Service Digital Agency",
     heading: "Strategic Growth,",
     headingAccent: "Driven by Design.",
     subtext: "We help brands scale through high-performance marketing, creative design, and expert web development for measurable growth."
-  });
+  }), [sectionsMap]);
 
-  const trust = getSectionData(sectionsMap, "trust", {
+  const trust = useMemo(() => getSectionData(sectionsMap, "trust", {
     badge: "How We Work",
     heading: "Bridging Design",
     headingAccent: "& Tech.",
     subtext: "We don't just build websites; we create high-performance systems where great design meets expert tech."
-  });
+  }), [sectionsMap]);
 
-  const servicesSection = getSectionData(sectionsMap, "services", {
+  const servicesSection = useMemo(() => getSectionData(sectionsMap, "services", {
     badge: "What We Do",
     heading: "Tailored Solutions",
     headingAccent: "Designed For Growth.",
     subtext: "We create effective digital strategies that drive results for businesses and brands."
-  });
+  }), [sectionsMap]);
 
-  const expertise = getSectionData(sectionsMap, "expertise", {
+  const expertise = useMemo(() => getSectionData(sectionsMap, "expertise", {
     badge: "Industry Expertise",
     heading: "Sectors",
     headingAccent: "We Support.",
     subtext: "We bring deep domain expertise to high-growth sectors, delivering customized solutions."
-  });
+  }), [sectionsMap]);
 
-  const partnership = getSectionData(sectionsMap, "partnership", {
+  const partnership = useMemo(() => getSectionData(sectionsMap, "partnership", {
     badge: "Working with Us",
     heading: "Our Partnership Process.",
     headingAccent: ""
-  });
+  }), [sectionsMap]);
 
-  const strategy = getSectionData(sectionsMap, "strategy", {
+  const strategy = useMemo(() => getSectionData(sectionsMap, "strategy", {
     badge: "Strategic Approach",
     heading: "Beyond",
     headingAccent: "Agency.",
     subtext: "Our approach integrates precision engineering with strategic thinking to deliver sustainable impact."
-  });
+  }), [sectionsMap]);
 
-  const excellence = getSectionData(sectionsMap, "excellence", {
+  const excellence = useMemo(() => getSectionData(sectionsMap, "excellence", {
     badge: "Partnership Values",
     heading: "Engineering",
     headingAccent: "Excellence.",
     subtext: "We focus on long-term value, designing systems that grow alongside your business goals."
-  });
+  }), [sectionsMap]);
 
-  const testimonials = getSectionData(sectionsMap, "testimonials", {
+  const testimonials = useMemo(() => getSectionData(sectionsMap, "testimonials", {
     badge: "Expert Feedback",
     heading: "Global Synergy",
     headingAccent: "",
@@ -120,26 +121,27 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
         photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=2340"
       }
     ]
-  });
+  }), [sectionsMap]);
 
-  const insights = getSectionData(sectionsMap, "insights", {
+  const insights = useMemo(() => getSectionData(sectionsMap, "insights", {
     badge: "Knowledge Hub",
     heading: "Strategic",
     headingAccent: "Insights."
-  });
+  }), [sectionsMap]);
 
-  const connect = getSectionData(sectionsMap, "connect", {
+  const connect = useMemo(() => getSectionData(sectionsMap, "connect", {
     badge: "Let's Connect",
     heading: "Start Your",
     headingAccent: "Strategy.",
     subtext: "Ready to build your next-generation platform? Connect with our team to discuss your strategic objectives."
-  });
+  }), [sectionsMap]);
 
-  const handleContactSubmit = async (e: React.FormEvent) => {
+  const handleContactSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFormSubmitting(true);
     
-    const formData = new FormData(e.target as HTMLFormElement);
+    const target = e.target as HTMLFormElement;
+    const formData = new FormData(target);
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
@@ -156,13 +158,13 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
       if (!response.ok) throw new Error("Submission failed");
       
       toast.success("Consultation Scheduled. Our team will contact you shortly.");
-      (e.target as HTMLFormElement).reset();
+      target.reset();
     } catch (err) {
       toast.error("Process error. Please retry submission.");
     } finally {
       setIsFormSubmitting(false);
     }
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-text-primary">
@@ -176,7 +178,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
              
               {/* Subtle Animated Nodes - Optimized to 3 for performance */}
               <div className="absolute inset-0 opacity-[0.05] hidden md:block">
-                {[...Array(3)].map((_, i) => (
+                {useMemo(() => [...Array(3)].map((_, i) => (
                    <motion.div
                       key={i}
                       initial={{ opacity: 0 }}
@@ -198,7 +200,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                         background: `radial-gradient(circle, var(--color-brand) 0%, transparent 70%)`,
                       }}
                    />
-                ))}
+                )), [])}
               </div>
              
              {/* Connection Lines (Static for performance) */}
@@ -714,7 +716,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div className="relative group p-4">
                 <div className="aspect-[4/5] glass rounded-[3rem] overflow-hidden relative shadow-premium grain">
-                  <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2070" alt="Team Session" className="w-full h-full object-cover grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" />
+                  <Image src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2070" alt="Team Session" fill className="w-full h-full object-cover grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent " />
                   
                   {/* Floating Metric */}
@@ -874,9 +876,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
   );
 }
  
-/* HELPER COMPONENTS */
+/* HELPER COMPONENTS - Memoized for performance */
  
-function ServiceCard({ icon: Icon, title, desc, features, index, slug }: any) {
+const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug }: any) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 40 }}
@@ -912,16 +914,17 @@ function ServiceCard({ icon: Icon, title, desc, features, index, slug }: any) {
       </div>
     </motion.div>
   );
-}
+});
+
  
-function CaseStudyCard({ title, stats, kpi, tag, image, slug }: any) {
+const CaseStudyCard = React.memo(({ title, stats, kpi, tag, image, slug }: any) => {
   return (
     <motion.div 
       whileHover={{ y: -10 }}
       className="corporate-card p-0 group overflow-hidden bg-surface border border-stroke rounded-[3rem] shadow-premium"
     >
       <div className="aspect-[16/10] relative overflow-hidden">
-        <img src={image} alt={title} className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
+        <Image src={image} alt={title} fill className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         <div className="absolute top-8 right-8 px-4 py-1.5 bg-black/50 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider rounded-full border border-white/10">{tag}</div>
         
@@ -943,9 +946,9 @@ function CaseStudyCard({ title, stats, kpi, tag, image, slug }: any) {
       </div>
     </motion.div>
   );
-}
+});
  
-function ProcessItem({ step, title, desc }: any) {
+const ProcessItem = React.memo(({ step, title, desc }: any) => {
   return (
     <div className="text-center md:text-left relative z-10 group">
       <div className="w-20 h-20 bg-surface border border-stroke rounded-2xl flex items-center justify-center mb-10 mx-auto md:mx-0 group-hover:border-brand transition-all duration-700 shadow-sm">
@@ -955,9 +958,9 @@ function ProcessItem({ step, title, desc }: any) {
       <p className="text-text-muted text-sm font-medium leading-relaxed pr-4">{desc}</p>
     </div>
   );
-}
+});
  
-function ValueProp({ title, desc }: any) {
+const ValueProp = React.memo(({ title, desc }: any) => {
   return (
     <div className="flex gap-6 group">
       <div className="w-14 h-14 shrink-0 bg-surface border border-stroke rounded-xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white group-hover:border-brand transition-all duration-500 shadow-sm">
@@ -969,16 +972,16 @@ function ValueProp({ title, desc }: any) {
       </div>
     </div>
   );
-}
+});
  
-function TestimonyCard({ name, role, quote, image }: any) {
+const TestimonyCard = React.memo(({ name, role, quote, image }: any) => {
   return (
     <div className="corporate-card relative group hover:scale-[1.02] bg-surface border border-stroke p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all h-full flex flex-col justify-between">
       <MessageSquare className="text-brand/5 absolute top-8 right-8 group-hover:text-brand/10 transition-colors" size={60} />
       <p className="text-text-secondary italic text-xl mb-10 leading-relaxed font-medium relative z-10 antialiased">"{quote}"</p>
       <div className="flex items-center gap-5 pt-8 border-t border-stroke mt-auto">
         {image ? (
-            <img src={image} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all duration-700 shadow-sm" alt={name} />
+            <Image src={image} width={48} height={48} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all duration-700 shadow-sm" alt={name} />
         ) : (
             <div className="w-12 h-12 bg-surface border border-stroke rounded-xl flex items-center justify-center font-bold text-brand text-lg group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm">
               {name[0]}
@@ -991,13 +994,13 @@ function TestimonyCard({ name, role, quote, image }: any) {
       </div>
     </div>
   );
-}
+});
  
-function BlogSnippet({ title, date, category, image, slug }: any) {
+const BlogSnippet = React.memo(({ title, date, category, image, slug }: any) => {
   return (
     <div className="corporate-card p-0 group hover:scale-[1.02] bg-surface border border-stroke overflow-hidden rounded-[2.5rem] shadow-premium">
       <div className="aspect-[16/10] overflow-hidden relative">
-         <img src={image} alt={title} className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
+         <Image src={image} alt={title} fill className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent" />
          <div className="absolute top-6 left-6 px-4 py-1.5 bg-brand text-white rounded-full text-[8px] font-bold uppercase tracking-wider">{category}</div>
       </div>
@@ -1012,5 +1015,5 @@ function BlogSnippet({ title, date, category, image, slug }: any) {
       </div>
     </div>
   );
-}
+});
 

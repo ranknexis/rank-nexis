@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Plus, Trash2, Link as LinkIcon, MoveUp, MoveDown, Save } from 'lucide-react';
 import { updateInternalLinks } from '@/actions/pages';
 import { toast } from 'sonner';
@@ -11,7 +11,7 @@ interface InternalLink {
   relationship: string; // e.g. "Primary", "Related", "Service"
 }
 
-export default function InternalLinksEditor({ slug, initialLinks }: { slug: string, initialLinks: any[] }) {
+const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initialLinks: any[] }) => {
   const [links, setLinks] = useState<InternalLink[]>(initialLinks || []);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -138,5 +138,7 @@ export default function InternalLinksEditor({ slug, initialLinks }: { slug: stri
       )}
     </div>
   );
-}
+});
+
+export default InternalLinksEditor;
 

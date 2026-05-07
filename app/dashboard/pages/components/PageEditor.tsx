@@ -37,7 +37,7 @@ import {
 } from 'lucide-react';
 
 import Link from 'next/link';
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useCallback, useMemo } from 'react';
 import { toast } from 'sonner';
 import InternalLinksEditor from './InternalLinksEditor';
 import SectionEditor from './SectionEditor';
@@ -87,7 +87,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
     id: null
   });
 
-  const handleSaveSeo = async () => {
+  const handleSaveSeo = useCallback(async () => {
     startTransition(async () => {
       const result = await updatePageSeo(page.slug, page);
       if (result.success) {
@@ -96,20 +96,20 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
         toast.error(result.error);
       }
     });
-  };
+  }, [page]);
 
-  const handleToggleStatus = async () => {
+  const handleToggleStatus = useCallback(async () => {
     const newStatus = page.status === 'published' ? 'draft' : 'published';
     startTransition(async () => {
       const result = await updatePageStatus(page.slug, newStatus);
       if (result.success) {
-        setPage({ ...page, status: newStatus });
+        setPage((prev: any) => ({ ...prev, status: newStatus }));
         toast.success(`Node status set to ${newStatus.toUpperCase()}`);
       }
     });
-  };
+  }, [page.slug, page.status]);
 
-  const handleAddSection = async (type: string) => {
+  const handleAddSection = useCallback(async (type: string) => {
     startTransition(async () => {
       const result = await addSection(page.id, {
         label: `New ${type.replace('_', ' ')} Module`,
@@ -117,14 +117,14 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
         content: {}
       });
       if (result.success) {
-        setPage({ ...page, sections: [...page.sections, result.section] });
+        setPage((prev: any) => ({ ...prev, sections: [...prev.sections, result.section] }));
         setShowAddModal(false);
         toast.success("New module forged");
       }
     });
-  };
+  }, [page.id]);
 
-  const handleCloneSection = async (section: any) => {
+  const handleCloneSection = useCallback(async (section: any) => {
     startTransition(async () => {
       const result = await addSection(page.id, {
         label: `${section.label} (Copy)`,
@@ -132,32 +132,32 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
         content: section.content
       });
       if (result.success) {
-        setPage({ ...page, sections: [...page.sections, result.section] });
+        setPage((prev: any) => ({ ...prev, sections: [...prev.sections, result.section] }));
         toast.success("Module duplicated successfully");
       }
     });
-  };
+  }, [page.id]);
 
-  const handleDeleteSection = async () => {
+  const handleDeleteSection = useCallback(async () => {
      if (!deleteConfirm.id) return;
      const result = await deleteSection(deleteConfirm.id);
      if (result.success) {
-        setPage({ ...page, sections: page.sections.filter((s: any) => s.id !== deleteConfirm.id) });
+        setPage((prev: any) => ({ ...prev, sections: prev.sections.filter((s: any) => s.id !== deleteConfirm.id) }));
         toast.success("Module terminated");
      }
-  };
+  }, [deleteConfirm.id]);
 
-  const handleMoveSection = async (index: number, direction: 'up' | 'down') => {
+  const handleMoveSection = useCallback(async (index: number, direction: 'up' | 'down') => {
      const newSections = [...page.sections];
      const targetIndex = direction === 'up' ? index - 1 : index + 1;
      if (targetIndex < 0 || targetIndex >= newSections.length) return;
 
      [newSections[index], newSections[targetIndex]] = [newSections[targetIndex], newSections[index]];
      
-     setPage({ ...page, sections: newSections });
+     setPage((prev: any) => ({ ...prev, sections: newSections }));
      await reorderSections(page.id, newSections.map(s => s.id));
      toast.success("Page flow synchronized");
-  };
+  }, [page.id, page.sections]);
 
   return (
     <div className="space-y-10">
@@ -248,7 +248,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
            {activeTab === 'seo' && (
               <SeoEditor 
                 data={page} 
-                onChange={(newData) => setPage({ ...page, ...newData })} 
+                onChange={useCallback((newData: any) => setPage((prev: any) => ({ ...prev, ...newData })), [])} 
                 slug={page.slug}
               />
            )}
@@ -280,13 +280,13 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                           </div>
                           <SectionEditor 
                             section={section} 
-                            onUpdate={async (newContent) => {
+                            onUpdate={useCallback(async (newContent: any) => {
                                const result = await updateSection(section.id, newContent);
                                if (result.success) {
                                   toast.success(`${section.label} optimized`);
                                 }
-                            }}
-                            onDelete={() => setDeleteConfirm({ isOpen: true, id: section.id })}
+                            }, [section.id, section.label])}
+                            onDelete={useCallback(() => setDeleteConfirm({ isOpen: true, id: section.id }), [section.id])}
                           />
                        </div>
                     ))}

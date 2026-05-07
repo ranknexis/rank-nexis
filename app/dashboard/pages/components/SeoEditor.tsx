@@ -6,7 +6,7 @@ import {
    Globe,
    Info
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 interface SeoEditorProps {
   data: any;
@@ -14,7 +14,7 @@ interface SeoEditorProps {
   slug: string;
 }
 
-export default function SeoEditor({ data, onChange, slug }: SeoEditorProps) {
+const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
   const [activeTab, setActiveTab] = useState<'meta' | 'og'>('meta');
 
   const updateField = (field: string, value: any) => {
@@ -226,5 +226,7 @@ export default function SeoEditor({ data, onChange, slug }: SeoEditorProps) {
       </div>
     </div>
   );
-}
+});
+
+export default SeoEditor;
 

@@ -4,7 +4,8 @@ import BlogCard from "@/components/BlogCard";
 import { motion } from "framer-motion";
 import { Calendar, Share2, TrendingUp, User, ArrowLeft, Clock, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import Image from "next/image";
 
 interface Props {
   post: any;
@@ -28,16 +29,34 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
     setHeadings(h2s);
   }, [post.content]);
 
-  const formattedDate = new Date(post.createdAt).toLocaleDateString(undefined, { 
+  const formattedDate = useMemo(() => new Date(post.createdAt).toLocaleDateString(undefined, { 
     day: 'numeric', 
     month: 'short', 
     year: 'numeric' 
-  });
+  }), [post.createdAt]);
+ 
+  // Calculate reading time - Memoized
+  const readingTime = useMemo(() => {
+    const wordsPerMinute = 200;
+    const noOfWords = post.content.split(/\s/g).length;
+    return Math.ceil(noOfWords / wordsPerMinute);
+  }, [post.content]);
 
-  // Calculate reading time
-  const wordsPerMinute = 200;
-  const noOfWords = post.content.split(/\s/g).length;
-  const readingTime = Math.ceil(noOfWords / wordsPerMinute);
+  const scrollToHeading = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+        const offset = 100;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = el.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-text-primary">
@@ -112,7 +131,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
               className="aspect-[4/3] md:aspect-[21/9] rounded-[1.5rem] md:rounded-[3.rem] overflow-hidden border border-gray-100 shadow-premium group relative"
             >
                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
-               <img src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} className="w-full h-full object-cover transition-transform duration-1000" />
+               <Image src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} fill className="w-full h-full object-cover transition-transform duration-1000" />
                
                <div className="absolute bottom-8 right-8 z-20">
                   <button className="w-14 h-14 bg-white/90 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-brand shadow-xl hover:rotate-12 transition-all">
@@ -145,21 +164,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                         {headings.map((heading) => (
                           <button 
                             key={heading.id}
-                            onClick={() => {
-                                const el = document.getElementById(heading.id);
-                                if (el) {
-                                    const offset = 100;
-                                    const bodyRect = document.body.getBoundingClientRect().top;
-                                    const elementRect = el.getBoundingClientRect().top;
-                                    const elementPosition = elementRect - bodyRect;
-                                    const offsetPosition = elementPosition - offset;
-
-                                    window.scrollTo({
-                                        top: offsetPosition,
-                                        behavior: 'smooth'
-                                    });
-                                }
-                            }}
+                            onClick={() => scrollToHeading(heading.id)}
                             className="flex items-start gap-3 text-[10px] font-bold uppercase text-gray-500 hover:text-brand text-left transition-colors group"
                           >
                             <ChevronRight size={14} className="mt-0.5 text-brand/30 group-hover:text-brand" />

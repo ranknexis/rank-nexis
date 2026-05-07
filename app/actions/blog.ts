@@ -66,8 +66,10 @@ export async function updateBlogPost(id: string, data: any) {
         });
         revalidatePath("/blog");
         revalidatePath(`/blog/${post.slug}`);
+        revalidatePath("/blog/[slug]", "layout");
         revalidatePath("/dashboard/blog");
         revalidatePath("/");
+        revalidatePath("/blog", "page");
         return { success: true, post };
     } catch (error) {
         console.error("Update Blog Error:", error);
