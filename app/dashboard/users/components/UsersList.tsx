@@ -107,17 +107,17 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
 
     return (
         <div className="space-y-8">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="space-y-1">
-                    <h2 className="text-xl font-bold tracking-tight text-text-primary">Users</h2>
-                    <p className="text-sm text-text-muted">Manage system users and their access levels.</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
+                <div className="space-y-4">
+                    <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Global <span className="text-brand">Operators.</span></h1>
+                    <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Manage system access and protocol permissions.</p>
                 </div>
                 <button 
                     onClick={() => setIsAdding(!isAdding)}
-                    className="flex items-center gap-2 px-6 py-3 bg-black text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand transition-all shadow-lg self-start md:self-auto"
+                    className="flex items-center gap-3 px-8 h-16 bg-brand text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-brand/20 self-start md:self-auto"
                 >
-                    <UserPlus size={16} />
-                    {isAdding ? "Cancel" : "Add New User"}
+                    <UserPlus size={18} />
+                    {isAdding ? "Cancel Protocol" : "Forge New User"}
                 </button>
             </div>
 
@@ -180,8 +180,12 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                     </thead>
                     <tbody className="divide-y divide-stroke">
                         {users.map((user) => {
-                            const isExpanded = expandedUser === user.id;
-                            const userPerms = Array.isArray(user.permissions) ? user.permissions : JSON.parse(user.permissions || "[]");
+                             const isExpanded = expandedUser === user.id;
+                             const userPerms = Array.isArray(user.permissions) 
+                                ? user.permissions 
+                                : typeof user.permissions === 'string' 
+                                    ? JSON.parse(user.permissions || "[]") 
+                                    : (user.permissions as any) || [];
                             
                             return (
                                 <React.Fragment key={user.id}>
@@ -267,7 +271,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
 
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                         {AVAILABLE_PERMISSIONS.map((perm) => {
-                                                            const isChecked = userPerms.includes(perm.id);
+                                                            const isChecked = user.role === "ADMIN" || userPerms.includes(perm.id);
                                                             const isDisabled = user.role === "ADMIN";
                                                             return (
                                                                 <label 

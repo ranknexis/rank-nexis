@@ -73,8 +73,9 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
     }
   };
 
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+
   const handleDelete = async () => {
-    if (!confirm("CRITICAL: Decommission this node permanently?")) return;
     const res = await deleteBlogPost(initialData.id);
     if (res.success) {
       toast.success("Node Terminated");
@@ -96,32 +97,32 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
   return (
     <div className="min-h-screen bg-surface/30 -m-8 md:-m-12 p-8 md:p-12">
 
-      <div className="max-w-[1600px] mx-auto mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-        <div className="space-y-2">
+      <div className="max-w-[1600px] mx-auto mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+        <div className="space-y-4">
           <Link 
             href="/dashboard/blog" 
             className="flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted hover:text-brand transition-all group"
           >
             <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Knowledge Base
           </Link>
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">
+          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter text-text-primary">
             {initialData?.id ? "Refine" : "Forge"} <span className="text-brand">Publication.</span>
           </h1>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 w-full lg:w-auto">
            <button 
              onClick={handleSave}
              disabled={loading}
-             className="px-10 h-16 rounded-[1.5rem] bg-brand text-white shadow-2xl shadow-brand/20 text-[11px] font-bold uppercase flex items-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+             className="flex-grow lg:flex-grow-0 px-10 h-16 rounded-[1.5rem] bg-brand text-white shadow-2xl shadow-brand/20 text-[11px] font-bold uppercase flex items-center justify-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
            >
               <Save size={18} /> {loading ? 'Synchronizing...' : 'Deploy Changes'}
            </button>
            
            {initialData?.id && (
               <button 
-                onClick={handleDelete}
-                className="w-16 h-16 rounded-[1.5rem] border border-red-100 bg-white text-red-400 flex items-center justify-center hover:bg-red-50 transition-all shadow-sm"
+                onClick={() => setDeleteConfirmOpen(true)}
+                className="w-16 h-16 shrink-0 rounded-[1.5rem] border border-red-100 bg-white text-red-400 flex items-center justify-center hover:bg-red-50 transition-all shadow-sm"
               >
                 <Trash2 size={20} />
               </button>
@@ -164,10 +165,9 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
                           <h4 className="text-sm font-bold uppercase">Content Forge</h4>
                           <div className="flex gap-3">
                             <span className="px-3 py-1 bg-brand/10 text-brand text-[9px] font-bold uppercase rounded-full tracking-wider">Direct HTML</span>
-                            <span className="px-3 py-1 bg-gray-100 text-gray-500 text-[9px] font-bold uppercase rounded-full tracking-wider">Markdown</span>
                           </div>
                           <p className="text-[10px] text-text-muted leading-relaxed uppercase max-w-lg">
-                            Paste your <span className="text-brand font-bold">Direct HTML</span> or Raw Markdown here. The system will automatically detect the format and integrate it into the editor.
+                            Paste your <span className="text-brand font-bold underline decoration-brand/30 underline-offset-4">Direct HTML</span> output here. This is the recommended and simplest format to preserve styles when migrating content from ChatGPT or Claude.
                           </p>
                         </div>
                         <textarea 
@@ -297,6 +297,16 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
            </div>
         </div>
       </div>
+      <ConfirmationModal 
+        isOpen={deleteConfirmOpen}
+        onClose={() => setDeleteConfirmOpen(false)}
+        onConfirm={handleDelete}
+        title="Permanently Decommission Node?"
+        message="This action will irrecoverably terminate this publication node from the global registry. Are you absolutely certain?"
+        confirmText="Confirm Termination"
+      />
     </div>
   );
 }
+
+import ConfirmationModal from "../../components/ConfirmationModal";

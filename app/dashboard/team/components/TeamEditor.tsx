@@ -57,8 +57,9 @@ export default function TeamEditor({ initialData }: Props) {
     }
   };
 
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+
   const handleDelete = async () => {
-    if (!confirm("Decommission this expert profile?")) return;
     const res = await deleteTeamMember(initialData.id);
     if (res.success) {
       toast.success("Profile eliminated");
@@ -104,7 +105,7 @@ export default function TeamEditor({ initialData }: Props) {
 
             {initialData?.id && (
                 <button 
-                onClick={handleDelete}
+                onClick={() => setDeleteConfirmOpen(true)}
                 className="w-full h-16 bg-white border border-red-100 text-red-400 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-red-50 transition-all flex items-center justify-center gap-3 mt-4"
                 >
                 <Trash2 size={18} /> Decommission
@@ -244,6 +245,16 @@ export default function TeamEditor({ initialData }: Props) {
             </div>
          </div>
       </div>
+      <ConfirmationModal 
+        isOpen={deleteConfirmOpen}
+        onClose={() => setDeleteConfirmOpen(false)}
+        onConfirm={handleDelete}
+        title="Decommission Expert Node?"
+        message="This action will irrecoverably terminate this expert profile from the global directory. Are you absolutely certain?"
+        confirmText="Confirm Termination"
+      />
     </div>
   );
 }
+
+import ConfirmationModal from "../../components/ConfirmationModal";

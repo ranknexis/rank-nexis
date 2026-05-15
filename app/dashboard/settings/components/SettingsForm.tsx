@@ -29,39 +29,40 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-      <div className="lg:col-span-3 space-y-2">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all text-[11px] font-bold uppercase tracking-tight ${
-              activeTab === tab.id 
-                ? "bg-brand text-white shadow-lg shadow-brand/20" 
-                : "bg-surface text-text-muted hover:bg-brand/5 hover:text-brand"
-            }`}
-          >
-            <tab.icon size={18} />
-            {tab.label}
-          </button>
-        ))}
+      <div className="lg:col-span-3 space-y-4">
+        <div className="bg-white border border-stroke rounded-[2.5rem] p-4 shadow-premium grain">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`w-full flex items-center gap-4 px-8 h-16 rounded-2xl transition-all text-[10px] font-black uppercase tracking-widest ${
+                activeTab === tab.id 
+                  ? "bg-brand text-white shadow-xl shadow-brand/20 scale-[1.02]" 
+                  : "bg-transparent text-text-muted hover:bg-brand/5 hover:text-brand"
+              }`}
+            >
+              <tab.icon size={18} />
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-        <div className="pt-10">
+        <div className="pt-6">
            <button 
             onClick={handleSave}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 h-16 bg-black text-white rounded-2xl text-[11px] font-bold uppercase hover:bg-zinc-800 transition-all shadow-xl disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-4 h-18 bg-black text-white rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-brand hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20 disabled:opacity-50"
           >
-            {loading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
-            Save Changes
+            {loading ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
+            Commit Changes
           </button>
         </div>
       </div>
 
       <div className="lg:col-span-9">
-
-        <div className="bg-white rounded-[2rem] border border-stroke p-10 shadow-sm space-y-12">
+        <div className="bg-white rounded-[3rem] border border-stroke p-12 shadow-premium relative overflow-hidden grain">
           
           {activeTab === "general" && (
             <div className="space-y-10">

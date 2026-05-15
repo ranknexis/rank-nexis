@@ -16,31 +16,39 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
         j.type.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to remove this position?")) return;
-        const res = await deleteJob(id);
+    const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; id: string | null }>({
+        isOpen: false,
+        id: null
+    });
+
+    const handleDelete = async () => {
+        if (!deleteConfirm.id) return;
+        const res = await deleteJob(deleteConfirm.id);
         if (res.success) {
-            setJobs(jobs.filter(j => j.id !== id));
+            setJobs(jobs.filter(j => j.id !== deleteConfirm.id));
             toast.success("Position removed from pipeline.");
+            setDeleteConfirm({ isOpen: false, id: null });
         } else {
             toast.error(res.error || "Failed to delete");
         }
     };
 
     return (
-        <div className="bg-white rounded-[2rem] border border-stroke overflow-hidden shadow-sm">
-            <div className="p-8 border-b border-stroke flex flex-col md:flex-row justify-between items-center gap-6 bg-surface/30">
-                <div className="relative w-full md:w-96">
-                    <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+        <div className="bg-white rounded-[2.5rem] border border-stroke overflow-hidden shadow-premium grain">
+            <div className="p-10 border-b border-stroke flex flex-col xl:flex-row justify-between items-center gap-8 bg-surface/30">
+                <div className="relative w-full xl:w-96">
+                    <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-brand" />
                     <input 
                         type="text" 
-                        placeholder="Filter positions..." 
+                        placeholder="FILTER POSITIONS..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
+                        className="w-full h-16 bg-white border border-stroke rounded-2xl pl-16 pr-6 text-[11px] font-bold uppercase tracking-widest focus:outline-none focus:border-brand transition-all shadow-sm" 
                     />
                 </div>
-                <p className="text-[9px] font-bold uppercase text-text-muted">Active Roles: <span className="text-brand">{jobs.filter((j: any) => j.active).length}</span></p>
+                <div className="px-6 py-3 bg-brand/5 border border-brand/20 rounded-xl">
+                    <p className="text-[10px] font-black uppercase text-brand tracking-widest">Live Deployments: <span className="text-text-primary ml-2">{jobs.filter((j: any) => j.active).length}</span></p>
+                </div>
             </div>
 
             <div className="overflow-x-auto">
@@ -82,7 +90,7 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
                                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Link href={`/dashboard/careers/${job.id}`} className="p-3 bg-white border border-stroke hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted shadow-sm"><Edit2 size={16} /></Link>
                                         <button 
-                                            onClick={() => handleDelete(job.id)}
+                                            onClick={() => setDeleteConfirm({ isOpen: true, id: job.id })}
                                             className="p-3 bg-white border border-stroke hover:bg-red-500 hover:text-white rounded-lg transition-all text-text-muted shadow-sm"
                                         >
                                             <Trash2 size={16} />
@@ -102,6 +110,16 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
                     </tbody>
                 </table>
             </div>
+            <ConfirmationModal 
+                isOpen={deleteConfirm.isOpen}
+                onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+                onConfirm={handleDelete}
+                title="Delete Position"
+                message="Are you sure you want to remove this position from the Careers pipeline? This action is immutable."
+                confirmText="Delete Position"
+            />
         </div>
     );
 }
+
+import ConfirmationModal from "../../components/ConfirmationModal";

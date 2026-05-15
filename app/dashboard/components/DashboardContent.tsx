@@ -60,10 +60,10 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
   }, [isAdmin]);
 
   const STATS_CONFIG = [
-    { label: "Active Clients", val: stats.clients.toString(), delta: "+2", icon: Zap, color: "text-orange-500", bg: "bg-orange-50" },
-    { label: "Total Leads", val: stats.leads.toString(), delta: "+12", icon: Users, color: "text-blue-500", bg: "bg-blue-50" },
-    { label: "Blog Posts", val: stats.blogs.toString(), delta: "+8%", icon: Activity, color: "text-purple-500", bg: "bg-purple-50" },
-    { label: "Business Growth", val: stats.growth, delta: "0.4", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-50" },
+    { label: "Case Studies", val: stats.clients.toString(), icon: Zap, color: "text-orange-500", bg: "bg-orange-50" },
+    { label: "Total Inquiries", val: stats.leads.toString(), icon: Users, color: "text-blue-500", bg: "bg-blue-50" },
+    { label: "Knowledge Base", val: stats.blogs.toString(), icon: Activity, color: "text-purple-500", bg: "bg-purple-50" },
+    { label: "30D Velocity", val: stats.growth, icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-50" },
   ];
 
   const handleRefresh = () => {
@@ -84,7 +84,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                   System Active
                </p>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-tighter text-text-primary leading-tight">
                Performance <span className="text-brand">Overview.</span>
             </h1>
             <p className="text-text-muted text-sm font-medium">Real-time business metrics and recent activity.</p>
@@ -111,85 +111,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
          </div>
       </div>
 
-      {isAdmin && (
-        <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        >
-            <div className="bg-white p-8 rounded-[2rem] border border-stroke shadow-sm hover:shadow-premium transition-all relative overflow-hidden grain group">
-                <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                        <Database size={22} />
-                    </div>
-                    <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Data</p>
-                        <p className="text-sm font-bold text-text-primary">Connection Status</p>
-                    </div>
-                    <div className="ml-auto">
-                        <div className="flex items-center gap-1.5 text-emerald-500">
-                            <CheckCircle2 size={14} />
-                            <span className="text-[9px] font-black uppercase">Active</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="space-y-1">
-                    <div className="h-1.5 w-full bg-surface rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500 w-[94%]" />
-                    </div>
-                    <p className="text-[8px] font-bold uppercase text-text-muted text-right">94% Active</p>
-                </div>
-            </div>
 
-            <div className="bg-white p-8 rounded-[2rem] border border-stroke shadow-sm hover:shadow-premium transition-all relative overflow-hidden grain group">
-                <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-brand/5 text-brand flex items-center justify-center">
-                        <HardDrive size={22} />
-                    </div>
-                    <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Usage</p>
-                        <p className="text-sm font-bold text-text-primary">Media Library</p>
-                    </div>
-                    <div className="ml-auto">
-                        <div className="flex items-center gap-1.5 text-emerald-500">
-                            <CheckCircle2 size={14} />
-                            <span className="text-[9px] font-black uppercase">Healthy</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="space-y-1">
-                    <div className="h-1.5 w-full bg-surface rounded-full overflow-hidden">
-                        <div className="h-full bg-brand w-[82%]" />
-                    </div>
-                    <p className="text-[8px] font-bold uppercase text-text-muted text-right">82% Used</p>
-                </div>
-            </div>
-
-            <div className="bg-white p-8 rounded-[2rem] border border-stroke shadow-sm hover:shadow-premium transition-all relative overflow-hidden grain group">
-                <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                        <Server size={22} />
-                    </div>
-                    <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">System</p>
-                        <p className="text-sm font-bold text-text-primary">Website Platform</p>
-                    </div>
-                    <div className="ml-auto">
-                        <div className="flex items-center gap-1.5 text-blue-500">
-                            <RefreshCw size={14} className="animate-spin-slow" />
-                            <span className="text-[9px] font-black uppercase">Live</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="space-y-1">
-                    <div className="h-1.5 w-full bg-surface rounded-full overflow-hidden">
-                        <div className="h-full bg-blue-500 w-[99%]" />
-                    </div>
-                    <p className="text-[8px] font-bold uppercase text-text-muted text-right">Uptime: 99.9%</p>
-                </div>
-            </div>
-        </motion.div>
-      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
          {STATS_CONFIG.map((stat: any, i: number) => (
@@ -204,9 +126,6 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                  <div className={`w-14 h-14 rounded-2xl ${stat.bg} border border-stroke flex items-center justify-center ${stat.color} group-hover:bg-brand group-hover:text-white transition-all duration-500 shadow-sm`}>
                     <stat.icon size={26} />
                  </div>
-                 <span className="text-[10px] font-bold uppercase text-emerald-600 bg-emerald-50 border border-emerald-100/60 px-3.5 py-1.5 rounded-full">
-                    {stat.delta}
-                 </span>
               </div>
               <div>
                  <h3 className="text-4xl font-black tracking-tight mb-2 text-text-primary group-hover:text-brand transition-colors duration-300">
@@ -225,24 +144,20 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
             <div className="bg-white rounded-[2rem] border border-stroke p-8 md:p-10 space-y-10 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-1">
-                        <h3 className="text-2xl font-bold tracking-tight text-text-primary">System Performance</h3>
-                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Real-time status updates</p>
-                    </div>
-                    <div className="flex gap-2">
-                        <span className="px-4 py-2 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase rounded-lg border border-emerald-100">Normal Load</span>
-                        <span className="px-4 py-2 bg-blue-50 text-blue-600 text-[10px] font-black uppercase rounded-lg border border-blue-100">Stable</span>
+                        <h3 className="text-2xl font-bold tracking-tight text-text-primary">System Resources</h3>
+                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Real-time infrastructure status</p>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div className="space-y-6">
+                <div className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="p-6 bg-surface/50 rounded-2xl border border-stroke/60 space-y-4">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 rounded-lg bg-white border border-stroke flex items-center justify-center text-brand">
                                         <Activity size={16} />
                                     </div>
-                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">Response Time</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">DB Response</p>
                                 </div>
                                 <span className="text-[10px] font-black text-brand">{perf?.db?.latency || 0}ms</span>
                             </div>
@@ -253,8 +168,6 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                     className="h-full bg-brand" 
                                 />
                             </div>
-                            <p className="text-[8px] font-bold uppercase text-text-muted">Database: {perf?.db?.status || "Connected"}</p>
-
                         </div>
 
                         <div className="p-6 bg-surface/50 rounded-2xl border border-stroke/60 space-y-4">
@@ -263,9 +176,9 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                     <div className="w-8 h-8 rounded-lg bg-white border border-stroke flex items-center justify-center text-purple-500">
                                         <Server size={16} />
                                     </div>
-                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">Platform Resources</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">Server Memory</p>
                                 </div>
-                                <span className="text-[10px] font-black text-brand">{perf?.server?.memory || 0}% RAM</span>
+                                <span className="text-[10px] font-black text-brand">{perf?.server?.memory || 0}%</span>
                             </div>
                             <div className="h-1.5 w-full bg-white rounded-full overflow-hidden border border-stroke/30">
                                 <motion.div 
@@ -274,33 +187,27 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                     className="h-full bg-brand" 
                                 />
                             </div>
-                            <p className="text-[8px] font-bold uppercase text-text-muted">Usage: {perf?.server?.cpu || 0}%</p>
                         </div>
-
                     </div>
 
                     <div className="bg-text-primary p-8 rounded-3xl text-white relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <Sparkles size={80} />
                         </div>
-                        <h4 className="text-xl font-bold tracking-tight mb-4 leading-tight">System Status</h4>
-                        <div className="space-y-4">
+                        <h4 className="text-xl font-bold tracking-tight mb-4 leading-tight">Operational Integrity</h4>
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-4">
                             {[
-                                { l: "Login Services", s: "Operational" },
                                 { l: "Database", s: "Connected" },
-                                { l: "Media Assets", s: "Ready" },
-                                { l: "Security", s: "Active" }
+                                { l: "Storage", s: "Cloud" },
+                                { l: "Auth", s: "Secure" },
+                                { l: "API", s: "Ready" }
                             ].map((row, i) => (
                                 <div key={i} className="flex items-center justify-between border-b border-white/10 pb-2">
-                                    <span className="text-[9px] font-bold uppercase text-white/50 tracking-widest">{row.l}</span>
-                                    <span className="text-[9px] font-black uppercase text-brand brightness-150">{row.s}</span>
+                                    <span className="text-[8px] font-bold uppercase text-white/50 tracking-widest">{row.l}</span>
+                                    <span className="text-[8px] font-black uppercase text-brand brightness-150">{row.s}</span>
                                 </div>
                             ))}
                         </div>
-                        <Link href="/dashboard/report" className="w-full mt-6 py-3 bg-white text-text-primary rounded-xl text-[9px] font-bold uppercase tracking-widest hover:bg-brand hover:text-white transition-all duration-500 flex items-center justify-center">
-                            View System Logs
-                        </Link>
-
                     </div>
                 </div>
             </div>
@@ -395,33 +302,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
          )}
 
          <div className={`space-y-8 ${isAdmin ? 'lg:col-span-4' : 'lg:col-span-12'}`}>
-            <div className="bg-white rounded-[2rem] border border-stroke p-8 space-y-6 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
-               <div>
-                  <h3 className="text-2xl font-bold tracking-tight text-text-primary">System Health</h3>
-                  <p className="text-xs text-text-muted mt-1">Status indicators</p>
-               </div>
-               <div className="space-y-6">
-                  {[
-                    { label: "Site Speed", val: "Optimal", fill: "w-[98%]" },
-                    { label: "Mobile View", val: "Excellent", fill: "w-[95%]" },
-                    { label: "SEO Status", val: "Optimized", fill: "w-[100%]" }
-                  ].map((node: any, i: number) => (
-                    <div key={i} className="space-y-2">
-                       <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-                          <span className="text-text-muted">{node.label}</span>
-                          <span className="text-brand">{node.val}</span>
-                       </div>
-                       <div className="h-2 w-full bg-surface rounded-full overflow-hidden border border-stroke/40">
-                          <motion.div 
-                            initial={{ width: 0 }}
-                            animate={{ width: "100%" }}
-                            className={`h-full bg-brand ${node.fill} duration-1000 transition-all rounded-full`}
-                          />
-                       </div>
-                    </div>
-                  ))}
-               </div>
-            </div>
+
 
             <div className="bg-brand rounded-[2rem] p-8 text-white space-y-6 relative overflow-hidden shadow-premium grain">
                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 -z-10" />

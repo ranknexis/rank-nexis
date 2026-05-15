@@ -28,12 +28,18 @@ export default function TeamList({ initialTeam }: TeamListProps) {
     m.role.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this team member?")) return;
-    const res = await deleteTeamMember(id);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; id: string | null }>({
+    isOpen: false,
+    id: null
+  });
+
+  const handleDelete = async () => {
+    if (!deleteConfirm.id) return;
+    const res = await deleteTeamMember(deleteConfirm.id);
     if (res.success) {
-      setTeam(team.filter(m => m.id !== id));
+      setTeam(team.filter(m => m.id !== deleteConfirm.id));
       toast.success("Team member deleted");
+      setDeleteConfirm({ isOpen: false, id: null });
     } else {
       toast.error(res.error);
     }
@@ -89,7 +95,7 @@ export default function TeamList({ initialTeam }: TeamListProps) {
                    <Edit3 size={14} /> Edit Profile
                 </Link>
                 <button 
-                  onClick={() => handleDelete(member.id)}
+                  onClick={() => setDeleteConfirm({ isOpen: true, id: member.id })}
                   className="w-12 h-12 bg-surface border border-stroke rounded-xl text-text-muted hover:text-red-400 hover:bg-red-50 hover:border-red-200 transition-all flex items-center justify-center"
                 >
                    <Trash2 size={16} />
@@ -107,6 +113,16 @@ export default function TeamList({ initialTeam }: TeamListProps) {
            <p className="text-[11px] font-black uppercase text-text-muted tracking-[0.2em]">No team members found.</p>
         </div>
       )}
+      <ConfirmationModal 
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+        onConfirm={handleDelete}
+        title="Decommission Team Member?"
+        message="This action will permanently remove this profile from the global directory. Are you certain?"
+        confirmText="Confirm Deletion"
+      />
     </div>
   );
 }
+
+import ConfirmationModal from "../../components/ConfirmationModal";

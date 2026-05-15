@@ -20,11 +20,14 @@ import {
    Zap,
    Star,
    PanelLeftClose,
-   PanelLeftOpen
+   PanelLeftOpen,
+   ChevronUp,
+   ChevronDown
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import ConfirmationModal from "./ConfirmationModal";
 
 export default function DashboardShell({ 
     children, 
@@ -37,6 +40,8 @@ export default function DashboardShell({
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   useEffect(() => {
     if (!session && pathname !== "/dashboard/login") {
@@ -74,8 +79,10 @@ export default function DashboardShell({
   });
 
   const handleLogout = async () => {
+    setShowLogoutConfirm(false);
     await logout();
     router.push("/dashboard/login");
+    router.refresh();
   };
 
   if (pathname === "/dashboard/login") {
@@ -153,32 +160,57 @@ export default function DashboardShell({
          })}
       </nav>
  
-      {/* Footer */}
-      <div className={`p-4 mt-auto border-t border-stroke space-y-2 ${isCollapsed && !isMobile ? "items-center px-2" : ""}`}>
-         <div className={`flex items-center p-2 rounded-xl bg-surface/50 border border-stroke/50 ${isCollapsed && !isMobile ? "justify-center p-1 border-none bg-transparent" : "gap-3"}`}>
-            <div className="w-8 h-8 rounded-lg bg-brand/10 flex items-center justify-center text-brand font-bold text-xs shrink-0">
+      {/* Footer / User Dropdown */}
+      <div className={`p-4 mt-auto border-t border-stroke relative ${isCollapsed && !isMobile ? "px-2" : ""}`}>
+         <AnimatePresence>
+            {showUserDropdown && (
+               <motion.div 
+                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                 animate={{ opacity: 1, y: 0, scale: 1 }}
+                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                 className={`absolute bottom-full left-4 right-4 mb-2 bg-white border border-stroke rounded-2xl shadow-xl z-50 overflow-hidden ${isCollapsed && !isMobile ? "left-1 right-1 w-48 left-full ml-2 bottom-0" : ""}`}
+               >
+                  <div className="p-2 space-y-1">
+                     <Link 
+                       href="/dashboard/profile"
+                       onClick={() => setShowUserDropdown(false)}
+                       className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-text-muted hover:bg-surface hover:text-text-primary transition-all"
+                     >
+                        <UserCircle size={18} />
+                        <span>Profile Settings</span>
+                     </Link>
+                     <button 
+                        onClick={() => {
+                           setShowUserDropdown(false);
+                           setShowLogoutConfirm(true);
+                        }}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 transition-all"
+                     >
+                        <LogOut size={18} />
+                        <span>Logout</span>
+                     </button>
+                  </div>
+               </motion.div>
+            )}
+         </AnimatePresence>
+
+         <button 
+            onClick={() => setShowUserDropdown(!showUserDropdown)}
+            className={`w-full flex items-center p-2 rounded-xl bg-surface/50 border border-stroke/50 hover:border-brand/30 transition-all group ${isCollapsed && !isMobile ? "justify-center p-1" : "gap-3"}`}
+         >
+            <div className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center text-brand font-bold text-sm shrink-0 group-hover:bg-brand group-hover:text-white transition-all">
                {session?.name?.substring(0, 1) || "R"}
             </div>
             {(!isCollapsed || isMobile) && (
-              <div className="min-w-0">
-                 <p className="text-xs font-bold text-text-primary truncate">{session?.name || "Admin"}</p>
-                 <p className="text-[10px] text-text-muted truncate capitalize">{role.toLowerCase().replace('_', ' ')}</p>
-              </div>
+               <div className="min-w-0 text-left flex-grow">
+                  <p className="text-xs font-bold text-text-primary truncate">{session?.name || "Admin"}</p>
+                  <p className="text-[10px] text-text-muted truncate capitalize">{role.toLowerCase().replace('_', ' ')}</p>
+               </div>
             )}
-         </div>
-         
-         <button 
-            onClick={handleLogout}
-            className={`w-full flex items-center p-3 rounded-xl text-sm font-medium text-text-muted hover:text-red-500 hover:bg-red-50 transition-all ${isCollapsed && !isMobile ? "justify-center px-0 w-10 mx-auto" : "gap-3"}`}
-         >
-            <LogOut size={18} />
-            {(!isCollapsed || isMobile) && <span>Logout</span>}
-            
-            {/* Tooltip for collapsed state */}
-            {isCollapsed && !isMobile && (
-              <div className="absolute left-full ml-4 px-2 py-1 bg-red-500 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 whitespace-nowrap">
-                Logout
-              </div>
+            {(!isCollapsed || isMobile) && (
+               <div className={`text-text-muted transition-transform duration-300 ${showUserDropdown ? 'rotate-180' : ''}`}>
+                  <ChevronUp size={16} />
+               </div>
             )}
          </button>
       </div>
@@ -250,6 +282,16 @@ export default function DashboardShell({
             {children}
          </div>
       </main>
+
+      <ConfirmationModal 
+         isOpen={showLogoutConfirm}
+         onClose={() => setShowLogoutConfirm(false)}
+         onConfirm={handleLogout}
+         title="Confirm Logout"
+         message="Are you sure you want to end your session? You will need to login again to access the dashboard."
+         confirmText="Logout"
+         type="danger"
+      />
     </div>
   );
 }

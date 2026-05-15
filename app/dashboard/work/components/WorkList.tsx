@@ -16,13 +16,19 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
         (s.client && s.client.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this case study?")) return;
+    const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; id: string | null }>({
+        isOpen: false,
+        id: null
+    });
+
+    const handleDelete = async () => {
+        if (!deleteConfirm.id) return;
         
-        const res = await deleteCaseStudy(id);
+        const res = await deleteCaseStudy(deleteConfirm.id);
         if (res.success) {
-            setStudies(studies.filter(s => s.id !== id));
+            setStudies(studies.filter(s => s.id !== deleteConfirm.id));
             toast.success("Case study deleted.");
+            setDeleteConfirm({ isOpen: false, id: null });
         } else {
             toast.error(res.error || "Failed to delete");
         }
@@ -82,7 +88,7 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
                                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Link href={`/dashboard/work/${study.id}`} className="p-3 bg-white border border-stroke hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted shadow-sm"><Edit2 size={16} /></Link>
                                         <button 
-                                            onClick={() => handleDelete(study.id)}
+                                            onClick={() => setDeleteConfirm({ isOpen: true, id: study.id })}
                                             className="p-3 bg-white border border-stroke hover:bg-red-500 hover:text-white rounded-lg transition-all text-text-muted shadow-sm"
                                         >
                                             <Trash2 size={16} />
@@ -102,6 +108,16 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
                     </tbody>
                 </table>
             </div>
+            <ConfirmationModal 
+                isOpen={deleteConfirm.isOpen}
+                onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+                onConfirm={handleDelete}
+                title="Delete Case Study"
+                message="Are you sure you want to remove this project from the Registry? This action is immutable."
+                confirmText="Delete"
+            />
         </div>
     );
 }
+
+import ConfirmationModal from "../../components/ConfirmationModal";

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createCaseStudy, updateCaseStudy, deleteCaseStudy } from "@/actions/cms";
+import { createCaseStudy, updateCaseStudy, deleteCaseStudy } from "@/actions/work";
 import { toast } from "sonner";
 import { 
   Save, 
@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import RepeaterField from "../../pages/components/RepeaterField";
+import CloudinaryUpload from "../../components/CloudinaryUpload";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function WorkEditor({ initialData }: { initialData: any }) {
   const router = useRouter();
@@ -67,14 +69,15 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
     setLoading(false);
     if (res.success) {
       toast.success(initialData?.id ? "Narrative updated" : "Narrative created");
-      if (!initialData?.id && res.data) router.push(`/dashboard/work/${res.data.id}`);
+      if (!initialData?.id && res.caseStudy) router.push(`/dashboard/work/${res.caseStudy.id}`);
     } else {
       toast.error(res.error);
     }
   };
 
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+
   const handleDelete = async () => {
-    if (!confirm("Are you sure? This will decommission this narrative permanently.")) return;
     const res = await deleteCaseStudy(initialData.id);
     if (res.success) {
       toast.success("Narrative removed");
@@ -108,28 +111,38 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
             </button>
            ))}
         </div>
+      </div>
 
-        <div className="space-y-4">
-          <button 
-            onClick={handleSave}
-            disabled={loading}
-            className="w-full h-16 bg-black text-white rounded-2xl text-[11px] font-bold uppercase hover:bg-zinc-800 transition-all shadow-xl flex items-center justify-center gap-3 disabled:opacity-50"
+      <div className="lg:col-span-12 mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <div className="space-y-2">
+          <Link 
+            href="/dashboard/work" 
+            className="flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted hover:text-brand transition-all group"
           >
-            <Save size={18} /> {loading ? "Processing..." : "Deploy Narrative"}
-          </button>
-          
-          <Link href="/dashboard/work" className="w-full h-16 bg-white border border-stroke text-text-muted rounded-2xl text-[11px] font-bold uppercase hover:bg-surface transition-all flex items-center justify-center gap-3">
-            <ArrowLeft size={18} /> Exit Registry
+            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Project Registry
           </Link>
+          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">
+            {initialData?.id ? "Refine" : "Forge"} <span className="text-brand">Narrative.</span>
+          </h1>
+        </div>
 
-          {initialData?.id && (
-             <button 
-              onClick={handleDelete}
-              className="w-full h-16 bg-white border border-red-100 text-red-400 rounded-2xl text-[11px] font-bold uppercase hover:bg-red-50 transition-all flex items-center justify-center gap-3"
-            >
-              <Trash2 size={18} /> Decommission
-            </button>
-          )}
+        <div className="flex items-center gap-4">
+           <button 
+             onClick={handleSave}
+             disabled={loading}
+             className="px-10 h-16 rounded-[1.5rem] bg-brand text-white shadow-2xl shadow-brand/20 text-[11px] font-bold uppercase flex items-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+           >
+              <Save size={18} /> {loading ? 'Synchronizing...' : 'Deploy Narrative'}
+           </button>
+           
+           {initialData?.id && (
+              <button 
+                onClick={() => setDeleteConfirmOpen(true)}
+                className="w-16 h-16 rounded-[1.5rem] border border-red-100 bg-white text-red-400 flex items-center justify-center hover:bg-red-50 transition-all shadow-sm"
+              >
+                <Trash2 size={20} />
+              </button>
+           )}
         </div>
       </div>
 
@@ -292,18 +305,14 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                         </div>
                     </div>
 
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Visual Asset (Image URL)</label>
-                        <div className="relative">
-                          <ImageIcon size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
-                          <input 
-                            type="text" 
-                            value={data.image} 
-                            onChange={e => setData({...data, image: e.target.value})}
-                            className="w-full h-14 bg-surface border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                          />
-                        </div>
-                    </div>
+                     <div className="space-y-4">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Visual Identity Node</label>
+                        <CloudinaryUpload 
+                          value={data.image} 
+                          onChange={(url) => setData({...data, image: url})} 
+                          label="PROJECT HERO ASSET"
+                        />
+                     </div>
                  </div>
 
                  <div className="space-y-8">
@@ -332,7 +341,14 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
 
          </div>
       </div>
+      <ConfirmationModal 
+        isOpen={deleteConfirmOpen}
+        onClose={() => setDeleteConfirmOpen(false)}
+        onConfirm={handleDelete}
+        title="Permanently Decommission Narrative?"
+        message="This action will irrecoverably terminate this project narrative from the global registry. Are you absolutely certain?"
+        confirmText="Confirm Termination"
+      />
     </div>
   );
 }
-

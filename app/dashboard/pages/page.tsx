@@ -27,14 +27,10 @@ export default async function AdminPagesPage() {
 
   return (
     <div className="space-y-10">
-      <div className="flex justify-between items-end">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight text-text-primary">
-            Pages
-          </h1>
-          <p className="text-sm text-text-muted">
-            Manage your website pages and SEO settings.
-          </p>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Content <span className="text-brand">Nodes.</span></h1>
+          <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Manage high-level architectural pages and global SEO parameters.</p>
         </div>
       </div>
 

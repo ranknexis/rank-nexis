@@ -43,13 +43,12 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
 
     return (
         <div className="max-w-[1400px] mx-auto">
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
             <div className="lg:col-span-4 space-y-8">
-
-                <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-8">
-                    <div className="space-y-4 text-center">
-                        <label className="text-xs font-bold text-text-muted uppercase tracking-wider block">Profile Image</label>
+                <div className="bg-white border border-stroke rounded-[3rem] p-12 shadow-premium space-y-10 relative overflow-hidden grain">
+                    <div className="space-y-6 text-center">
+                        <p className="text-[10px] font-black uppercase text-brand tracking-[0.3em] block">Visual Node</p>
                         <div className="flex justify-center">
                             <CloudinaryUpload 
                                 value={image} 
@@ -58,31 +57,32 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                         </div>
                     </div>
 
-                    <div className="space-y-6">
-                        <div className="space-y-2">
-                             <label className="text-xs font-bold text-text-muted ml-2">Full Name</label>
+                    <div className="space-y-8 pt-4">
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-bold uppercase text-text-muted px-2">Identifier</label>
                             <div className="relative">
                                 <input 
                                     required
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full h-14 pl-12 pr-6 bg-surface border border-stroke rounded-2xl text-sm font-medium focus:border-brand outline-none"
+                                    placeholder="OPERATOR NAME"
+                                    className="w-full h-16 pl-14 pr-6 bg-surface border border-stroke rounded-2xl text-[11px] font-bold uppercase focus:border-brand outline-none transition-all"
                                 />
-                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted/40" size={18} />
+                                <User className="absolute left-6 top-1/2 -translate-y-1/2 text-brand" size={18} />
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                             <label className="text-xs font-bold text-text-muted ml-2">Job Title</label>
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-bold uppercase text-text-muted px-2">Designation</label>
                             <div className="relative">
                                 <input 
                                     required
                                     value={role}
                                     onChange={(e) => setRole(e.target.value)}
-                                     placeholder="e.g. Senior SEO Manager"
-                                    className="w-full h-14 pl-12 pr-6 bg-surface border border-stroke rounded-2xl text-sm font-medium focus:border-brand outline-none"
+                                    placeholder="e.g. SENIOR STRATEGIST"
+                                    className="w-full h-16 pl-14 pr-6 bg-surface border border-stroke rounded-2xl text-[11px] font-bold uppercase focus:border-brand outline-none transition-all"
                                 />
-                                <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted/40" size={18} />
+                                <Briefcase className="absolute left-6 top-1/2 -translate-y-1/2 text-brand" size={18} />
                             </div>
                         </div>
                     </div>
@@ -90,45 +90,44 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
             </div>
 
             <div className="lg:col-span-8 space-y-8">
-
-                <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-10">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-3 mb-2">
-                            <FileText size={18} className="text-brand" />
-                             <h2 className="text-sm font-bold uppercase tracking-tight">Biography</h2>
+                <div className="bg-white border border-stroke rounded-[3rem] p-12 shadow-premium space-y-12 relative overflow-hidden grain">
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <FileText size={20} className="text-brand" />
+                            <h2 className="text-sm font-bold uppercase tracking-tight text-text-primary">Narrative Profile</h2>
                         </div>
                         <textarea 
                             value={bio}
                             onChange={(e) => setBio(e.target.value)}
                             rows={6}
-                             placeholder="Tell us about yourself..."
-                            className="w-full p-6 bg-surface border border-stroke rounded-3xl text-sm font-medium focus:border-brand outline-none resize-none"
+                            placeholder="OPERATIONAL BACKGROUND..."
+                            className="w-full p-8 bg-surface border border-stroke rounded-[2rem] text-[11px] font-bold uppercase leading-relaxed focus:border-brand outline-none resize-none transition-all"
                         />
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <Share2 size={18} className="text-brand" />
-                                 <h2 className="text-sm font-bold uppercase tracking-tight">Social Links</h2>
+                                <Share2 size={20} className="text-brand" />
+                                <h2 className="text-sm font-bold uppercase tracking-tight text-text-primary">Digital Footprint</h2>
                             </div>
                             <button 
                                 type="button"
                                 onClick={handleAddSocial}
-                                className="w-10 h-10 bg-brand/5 border border-brand/10 rounded-xl flex items-center justify-center text-brand hover:bg-brand hover:text-white transition-all"
+                                className="w-12 h-12 bg-brand text-white rounded-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-lg shadow-brand/20"
                             >
-                                <Plus size={20} />
+                                <Plus size={22} />
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {socials.map((social: any, index: number) => (
-                                <div key={index} className="flex gap-3 bg-surface p-4 rounded-2xl border border-stroke group">
+                                <div key={index} className="flex gap-4 bg-surface p-6 rounded-2xl border border-stroke group hover:border-brand/30 transition-all">
                                     <div className="flex-grow space-y-3">
                                         <select 
                                             value={social.platform}
                                             onChange={(e) => handleSocialChange(index, "platform", e.target.value)}
-                                            className="w-full bg-transparent text-[10px] font-bold uppercase tracking-widest text-text-muted outline-none"
+                                            className="w-full bg-transparent text-[10px] font-bold uppercase tracking-widest text-brand outline-none"
                                         >
                                             <option>LinkedIn</option>
                                             <option>Twitter</option>
@@ -138,31 +137,31 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                                         <input 
                                             value={social.url}
                                             onChange={(e) => handleSocialChange(index, "url", e.target.value)}
-                                            placeholder="URL"
-                                            className="w-full bg-transparent text-xs font-medium text-text-primary outline-none"
+                                            placeholder="ACCESS URL"
+                                            className="w-full bg-transparent text-[11px] font-bold text-text-primary outline-none"
                                         />
                                     </div>
                                     <button 
                                         type="button"
                                         onClick={() => handleRemoveSocial(index)}
-                                        className="text-text-muted hover:text-red-500 transition-colors"
+                                        className="text-text-muted hover:text-red-500 transition-colors self-start"
                                     >
-                                        <Trash2 size={16} />
+                                        <Trash2 size={18} />
                                     </button>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div className="pt-6 border-t border-stroke flex justify-end">
+                    <div className="pt-8 border-t border-stroke flex justify-end">
                         <button 
                             disabled={isLoading}
-                            className="btn-primary flex items-center gap-3 px-10 h-14 bg-black text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand transition-all disabled:opacity-50"
+                            className="px-12 h-16 bg-brand text-white rounded-2xl text-[11px] font-bold uppercase tracking-widest hover:scale-105 active:scale-95 shadow-xl shadow-brand/20 transition-all disabled:opacity-50 flex items-center gap-3"
                         >
-                            {isLoading ? "Saving..." : (
+                            {isLoading ? "Synchronizing..." : (
                                 <>
-                                     <Save size={18} />
-                                     Save Profile
+                                     <Save size={20} />
+                                     Commit Changes
                                 </>
                             )}
                         </button>

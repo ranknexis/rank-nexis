@@ -30,97 +30,76 @@ export default function ReportPage() {
 
     return (
         <div className="space-y-12">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-stroke pb-8">
-                <div className="space-y-2">
-                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
-                        System <span className="text-brand">Logs.</span>
-                    </h1>
-                    <p className="text-text-muted text-sm">Review activity logs and system reports.</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
+                <div className="space-y-4">
+                    <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Audit <span className="text-brand">Infrastructure.</span></h1>
+                    <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Review complete system activity logs and operational history.</p>
                 </div>
-                <button className="px-6 h-14 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-brand transition-all shadow-xl flex items-center gap-3">
+                <button className="px-10 h-16 bg-brand text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-brand/20 flex items-center gap-3">
                     <Download size={18} />
-                    Generate New Report
+                    Extract Protocol Logs
                 </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <SummaryCard icon={Users} label="Team Members" value={data?.counts?.users || 0} color="text-emerald-500" />
-                <SummaryCard icon={TrendingUp} label="Total Leads" value={data?.counts?.leads || 0} color="text-brand" />
-                <SummaryCard icon={Briefcase} label="Case Studies" value={data?.counts?.studies || 0} color="text-blue-500" />
+                <SummaryCard icon={Users} label="Total Operators" value={data?.counts?.users || 0} color="text-emerald-500" />
+                <SummaryCard icon={TrendingUp} label="Lead Database" value={data?.counts?.leads || 0} color="text-brand" />
+                <SummaryCard icon={Briefcase} label="Project Registry" value={data?.counts?.studies || 0} color="text-blue-500" />
             </div>
 
-            <div className="bg-white rounded-[2rem] border border-stroke overflow-hidden shadow-sm shadow-premium/5 grain">
-                <div className="p-8 border-b border-stroke flex justify-between items-center">
-                    <h3 className="text-lg font-bold tracking-tight">Activity <span className="text-brand">History.</span></h3>
-                    <div className="flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted">
-                        <Calendar size={14} /> Last 30 Days
+            <div className="bg-white rounded-[3rem] border border-stroke overflow-hidden shadow-premium grain">
+                <div className="p-10 border-b border-stroke flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                    <div className="space-y-1">
+                        <h3 className="text-2xl font-bold tracking-tight text-text-primary">Chronological <span className="text-brand">History.</span></h3>
+                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Immutable Activity Record</p>
+                    </div>
+                    <div className="flex items-center gap-2 px-4 py-2 bg-surface border border-stroke rounded-xl text-[10px] font-bold uppercase text-text-muted">
+                        <Calendar size={14} className="text-brand" /> Full Registry Access
                     </div>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left min-w-[800px]">
                         <thead>
                             <tr className="border-b border-stroke bg-surface/50">
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Action</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Target</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">User</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Date & Time</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted text-right">Details</th>
+                                <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-text-muted">Protocol Action</th>
+                                <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-text-muted">Target Node</th>
+                                <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-text-muted">Operator</th>
+                                <th className="px-10 py-6 text-[10px] font-bold uppercase tracking-widest text-text-muted">Timestamp</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-stroke">
-                            {reports.map((report: any) => (
+                            {reports.length === 0 ? (
+                                <tr>
+                                    <td colSpan={4} className="px-10 py-24 text-center">
+                                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">No activity recorded in the current cycle.</p>
+                                    </td>
+                                </tr>
+                            ) : reports.map((report: any) => (
                                 <tr key={report.id} className="hover:bg-surface/30 transition-colors group">
-                                    <td className="px-8 py-6">
+                                    <td className="px-10 py-8">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all">
-                                                <ShieldCheck size={18} />
+                                            <div className="w-12 h-12 rounded-xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all shadow-sm">
+                                                <ShieldCheck size={20} />
                                             </div>
-                                            <span className="text-sm font-bold uppercase tracking-tight text-text-primary">{report.action.replace(/_/g, ' ')}</span>
+                                            <span className="text-sm font-bold uppercase tracking-tight text-text-primary group-hover:text-brand transition-colors">{report.action.replace(/_/g, ' ')}</span>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-6 text-[10px] font-bold text-text-muted uppercase tracking-tight">{report.target}</td>
-                                    <td className="px-8 py-6">
-                                        <span className="px-3 py-1 bg-surface border border-stroke rounded-full text-[8px] font-black uppercase text-brand tracking-widest">
+                                    <td className="px-10 py-8 text-[11px] font-bold text-text-muted uppercase tracking-tight">{report.target}</td>
+                                    <td className="px-10 py-8">
+                                        <span className="px-4 py-2 bg-white border border-stroke rounded-xl text-[9px] font-black uppercase text-text-primary tracking-widest group-hover:border-brand transition-all">
                                             {report.userName || "System"}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-6 text-[10px] font-bold text-text-muted uppercase">{new Date(report.createdAt).toLocaleString()}</td>
-                                    <td className="px-8 py-6 text-right">
-                                        <button className="text-[10px] font-black uppercase text-brand hover:underline">
-                                            View Details
-                                        </button>
+                                    <td className="px-10 py-8 text-[10px] font-bold text-text-muted uppercase">
+                                        <div className="flex flex-col gap-1">
+                                            <span>{new Date(report.createdAt).toLocaleDateString()}</span>
+                                            <span className="text-[9px] text-brand">{new Date(report.createdAt).toLocaleTimeString()}</span>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
-
                     </table>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div className="bg-white p-10 rounded-[2.5rem] border border-stroke space-y-8 grain">
-                    <div className="flex items-center gap-3">
-                        <Users size={24} className="text-brand" />
-                        <h3 className="text-lg font-bold tracking-tight">User Activity</h3>
-                    </div>
-                    <div className="space-y-4">
-                        <SummaryRow label="Admin Access" count={1} />
-                        <SummaryRow label="Team Members" count={5} />
-                        <SummaryRow label="Inquiries" count={12} />
-                    </div>
-                </div>
-
-                <div className="bg-white p-10 rounded-[2.5rem] border border-stroke space-y-8 grain">
-                    <div className="flex items-center gap-3">
-                        <Briefcase size={24} className="text-brand" />
-                        <h3 className="text-lg font-bold tracking-tight">System Usage</h3>
-                    </div>
-                    <div className="space-y-4">
-                        <SummaryRow label="Database Storage" count="124 MB / 512 MB" />
-                        <SummaryRow label="Media Assets" count="1.2 GB / 5 GB" />
-                        <SummaryRow label="API Bandwidth" count="2.4k / 10k req" />
-                    </div>
                 </div>
             </div>
         </div>

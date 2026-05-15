@@ -68,9 +68,12 @@ export default async function ApplicationsPage() {
                     </td>
                     <td className="px-10 py-8 text-right">
                       <div className="flex justify-end gap-3">
-                         <button className="px-4 py-2 bg-surface border border-stroke rounded-lg text-[8px] font-black uppercase text-brand hover:bg-brand hover:text-white transition-all">
-                            View Case
-                         </button>
+                         <Link 
+                            href={`/dashboard/careers/applications/${app.id}`}
+                            className="px-6 py-3 bg-surface border border-stroke rounded-xl text-[9px] font-black uppercase text-brand hover:bg-brand hover:text-white transition-all shadow-sm"
+                         >
+                            Inspect Candidate
+                         </Link>
                       </div>
                     </td>
                   </tr>

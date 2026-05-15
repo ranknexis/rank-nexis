@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
   const [leads, setLeads] = useState(initialLeads);
@@ -68,27 +69,34 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this lead?")) return;
-    const res = await deleteLead(id);
-    if (res.success) {
-      setLeads(leads.filter(l => l.id !== id));
-      setSelectedLead(null);
-      setSelectedIds(selectedIds.filter(i => i !== id));
-      toast.success("Lead deleted successfully.");
-    }
-  };
+  const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; id: string | null; bulk: boolean }>({
+    isOpen: false,
+    id: null,
+    bulk: false
+  });
 
-  const handleBulkDelete = async () => {
-    if (!confirm(`Are you sure you want to delete ${selectedIds.length} leads?`)) return;
-    let successCount = 0;
-    for (const id of selectedIds) {
-      const res = await deleteLead(id);
-      if (res.success) successCount++;
+  const handleDelete = async () => {
+    if (!deleteConfirm.id && !deleteConfirm.bulk) return;
+    
+    if (deleteConfirm.bulk) {
+        let successCount = 0;
+        for (const id of selectedIds) {
+          const res = await deleteLead(id);
+          if (res.success) successCount++;
+        }
+        setLeads(leads.filter(l => !selectedIds.includes(l.id)));
+        setSelectedIds([]);
+        toast.success(`${successCount} leads deleted.`);
+    } else {
+        const res = await deleteLead(deleteConfirm.id!);
+        if (res.success) {
+          setLeads(leads.filter(l => l.id !== deleteConfirm.id));
+          setSelectedLead(null);
+          setSelectedIds(selectedIds.filter(i => i !== deleteConfirm.id));
+          toast.success("Lead deleted successfully.");
+        }
     }
-    setLeads(leads.filter(l => !selectedIds.includes(l.id)));
-    setSelectedIds([]);
-    toast.success(`${successCount} leads deleted.`);
+    setDeleteConfirm({ isOpen: false, id: null, bulk: false });
   };
 
   const exportToCSV = () => {
@@ -118,37 +126,37 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
 
-      <div className="bg-white rounded-[2rem] border border-stroke p-4 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="flex items-center gap-4 w-full md:w-auto">
-          <div className="relative flex-grow md:w-80">
-            <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+      <div className="bg-white rounded-[2.5rem] border border-stroke p-8 shadow-premium flex flex-col xl:flex-row justify-between items-center gap-8 relative overflow-hidden grain">
+        <div className="flex flex-col md:flex-row items-center gap-6 w-full xl:w-auto">
+          <div className="relative w-full md:w-96">
+            <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-brand" />
             <input 
               type="text" 
-              placeholder="Search leads..." 
+              placeholder="FILTER INTEL..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-12 bg-surface/50 border border-stroke rounded-xl pl-16 pr-6 text-sm focus:outline-none focus:border-brand transition-all" 
+              className="w-full h-16 bg-surface border border-stroke rounded-2xl pl-16 pr-6 text-[11px] font-bold uppercase tracking-widest focus:outline-none focus:border-brand transition-all shadow-sm" 
             />
           </div>
-            <button 
-                onClick={exportToCSV}
-                className="h-12 px-6 bg-white border border-stroke rounded-xl flex items-center gap-2 text-xs font-bold hover:border-brand hover:text-brand transition-all shadow-sm"
-            >
-                <Download size={16} /> Export
-            </button>
+          <button 
+              onClick={exportToCSV}
+              className="h-16 px-10 bg-black text-white rounded-2xl flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-brand transition-all shadow-xl shadow-black/10 active:scale-95"
+          >
+              <Download size={18} /> Export
+          </button>
         </div>
 
-        <div className="flex items-center gap-3 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+        <div className="flex items-center gap-3 overflow-x-auto w-full xl:w-auto pb-4 xl:pb-0 no-scrollbar">
             {["ALL", "NEW", "CONTACTED", "QUALIFIED", "ARCHIVED"].map(status => (
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
-                className={`px-4 h-12 rounded-xl text-[10px] font-bold uppercase transition-all whitespace-nowrap border ${
+                className={`px-8 h-16 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border-2 ${
                   statusFilter === status 
-                    ? "bg-brand text-white border-brand shadow-md" 
-                    : "bg-white text-text-muted border-stroke hover:border-brand/30"
+                    ? "bg-brand text-white border-brand shadow-lg shadow-brand/20 scale-105" 
+                    : "bg-surface text-text-muted border-stroke hover:border-brand/30 hover:text-brand"
                 }`}
               >
                 {status}
@@ -173,7 +181,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
             </div>
             <div className="flex items-center gap-4">
               <button 
-                onClick={handleBulkDelete}
+                onClick={() => setDeleteConfirm({ isOpen: true, id: null, bulk: true })}
                 className="flex items-center gap-2 text-[10px] font-bold uppercase text-red-400 hover:text-red-300 transition-colors"
               >
                 <Trash2 size={16} /> Delete
@@ -286,7 +294,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                           <Zap size={16} /> View
                         </button>
                       <button 
-                        onClick={() => handleDelete(lead.id)}
+                        onClick={() => setDeleteConfirm({ isOpen: true, id: lead.id, bulk: false })}
                         className="p-4 bg-white border border-red-100 hover:bg-red-500 hover:text-white rounded-xl transition-all text-red-400 shadow-sm"
                       >
                         <Trash2 size={16} />
@@ -414,7 +422,16 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
           </div>
         )}
       </AnimatePresence>
+
+      <ConfirmationModal 
+        isOpen={deleteConfirm.isOpen}
+        onClose={() => setDeleteConfirm({ isOpen: false, id: null, bulk: false })}
+        onConfirm={handleDelete}
+        title={deleteConfirm.bulk ? "Bulk Deletion" : "Delete Lead"}
+        message={deleteConfirm.bulk ? `Are you sure you want to delete ${selectedIds.length} selected leads?` : "Are you sure you want to delete this lead? This action is immutable."}
+        confirmText="Delete"
+        type="danger"
+      />
     </div>
   );
 }
-

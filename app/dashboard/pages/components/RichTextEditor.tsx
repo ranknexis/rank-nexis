@@ -82,7 +82,7 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
     content: value,
     editorProps: {
       attributes: {
-        class: 'focus:outline-none prose prose-slate max-w-none min-h-[400px] text-text-primary antialiased',
+        class: 'focus:outline-none prose prose-slate max-w-none min-h-[400px] text-text-primary antialiased blog-content-area',
       },
     },
     onUpdate: ({ editor }) => {

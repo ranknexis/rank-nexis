@@ -18,12 +18,18 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
         return matchesSearch;
     });
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this post?")) return;
-        const res = await deleteBlogPost(id);
+    const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; id: string | null }>({
+        isOpen: false,
+        id: null
+    });
+
+    const handleDelete = async () => {
+        if (!deleteConfirm.id) return;
+        const res = await deleteBlogPost(deleteConfirm.id);
         if (res.success) {
-            setPosts(posts.filter(p => p.id !== id));
+            setPosts(posts.filter(p => p.id !== deleteConfirm.id));
             toast.success("Post deleted.");
+            setDeleteConfirm({ isOpen: false, id: null });
         } else {
             toast.error(res.error || "Failed to delete");
         }
@@ -96,7 +102,7 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                                         <Link href={`/blog/${post.slug}`} target="_blank" className="p-3 bg-surface hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted"><Eye size={16} /></Link>
                                         <Link href={`/dashboard/blog/${post.id}`} className="p-3 bg-surface hover:bg-emerald-500 hover:text-white rounded-lg transition-all text-text-muted"><Edit2 size={16} /></Link>
                                         <button 
-                                            onClick={() => handleDelete(post.id)}
+                                            onClick={() => setDeleteConfirm({ isOpen: true, id: post.id })}
                                             className="p-3 bg-surface hover:bg-red-500 hover:text-white rounded-lg transition-all text-text-muted"
                                         >
                                             <Trash2 size={16} />
@@ -124,6 +130,16 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                     <button disabled className="btn-outline h-10 px-4 text-[9px] font-bold uppercase opacity-40">Next</button>
                 </div>
             </div>
+            <ConfirmationModal 
+                isOpen={deleteConfirm.isOpen}
+                onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
+                onConfirm={handleDelete}
+                title="Delete Post"
+                message="Are you sure you want to remove this article from the Knowledge Base? This action is immutable."
+                confirmText="Delete"
+            />
         </div>
     );
 }
+
+import ConfirmationModal from "../../components/ConfirmationModal";

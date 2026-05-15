@@ -26,7 +26,7 @@ export async function verifyToken(token: string) {
 }
 
 export async function login(userData: { id: string; email: string; role: string; passwordSet: boolean; permissions?: any }) {
-    const accessToken = await encrypt(userData, ACCESS_SECRET, "15m");
+    const accessToken = await encrypt(userData, ACCESS_SECRET, "24h");
     const refreshToken = await encrypt({ id: userData.id }, REFRESH_SECRET, "7d");
 
     await prisma.refreshToken.create({
@@ -43,7 +43,7 @@ export async function login(userData: { id: string; email: string; role: string;
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 15 * 60,
+        maxAge: 24 * 60 * 60,
         path: "/"
     });
 
@@ -106,13 +106,13 @@ export async function refreshAccessToken() {
             role: user.role,
             passwordSet: user.passwordSet,
             permissions: user.permissions
-        }, ACCESS_SECRET, "15m");
+        }, ACCESS_SECRET, "24h");
 
         cookieStore.set("session", newAccessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
-            maxAge: 15 * 60,
+            maxAge: 24 * 60 * 60,
             path: "/"
         });
 

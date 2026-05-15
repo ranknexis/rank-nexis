@@ -16,14 +16,12 @@ export default async function FeedbackPage() {
 
   return (
       <div className="space-y-10">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight text-text-primary">
-               Feedback
-            </h1>
-            <p className="text-sm text-text-muted">Manage client testimonials and reviews</p>
-          </div>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Client <span className="text-brand">Sentiment.</span></h1>
+          <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Global synchronization of client testimonials and expertise feedback.</p>
         </div>
+      </div>
 
         <FeedbackList initialTestimonials={testimonials} />
       </div>

@@ -79,15 +79,19 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
     };
 
     try {
-      if (navigator.share) {
+      if (navigator.share && window.isSecureContext) {
         await navigator.share(shareData);
-        toast.success("Content Node Shared");
       } else {
         await navigator.clipboard.writeText(window.location.href);
         toast.success("Resource URL Copied to Clipboard");
       }
     } catch (err) {
-      if ((err as Error).name !== 'AbortError') {
+      if ((err as Error).name === 'AbortError') return;
+      
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success("Resource URL Copied to Clipboard");
+      } catch (fallbackErr) {
         toast.error("Sharing sequence interrupted");
       }
     }
@@ -230,19 +234,19 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
             </aside>
 
             <article className="lg:col-span-9 order-1 lg:order-2">
-               <div className="max-w-3xl prose prose-xl prose-gray blog-content-area
-                 prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
-                 prose-h2:text-4xl md:prose-h2:text-5xl
-                 prose-h2:scroll-mt-[120px] prose-h2:mt-40 prose-h2:mb-12
-                 prose-h3:text-2xl md:prose-h3:text-3xl
-                 prose-h3:scroll-mt-[120px] prose-h3:mt-24 prose-h3:mb-8
-                 prose-p:text-gray-600 prose-p:leading-[1.9] prose-p:font-medium prose-p:mb-12
-                 prose-strong:text-text-primary prose-strong:font-bold
-                 prose-ul:list-disc prose-ul:ps-8 prose-ul:my-12 prose-ul:space-y-4
-                 prose-ol:list-decimal prose-ol:ps-8 prose-ol:my-12 prose-ol:space-y-4
-                 prose-li:marker:text-brand prose-li:text-gray-600 prose-li:ps-2
-                 prose-hr:my-24 prose-hr:opacity-20
-                 prose-img:rounded-[2.5rem] prose-img:shadow-premium prose-img:my-20">
+                <div className="max-w-3xl prose prose-xl prose-gray blog-content-area
+                  prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
+                  prose-h2:text-4xl md:prose-h2:text-5xl
+                  prose-h2:scroll-mt-[120px] prose-h2:mt-40 prose-h2:mb-12
+                  prose-h3:text-2xl md:prose-h3:text-3xl
+                  prose-h3:scroll-mt-[120px] prose-h3:mt-24 prose-h3:mb-8
+                  prose-p:text-gray-600 prose-p:leading-[1.9] prose-p:font-medium prose-p:mb-12
+                  prose-strong:text-text-primary prose-strong:font-bold
+                  prose-ul:list-disc prose-ul:ps-10 prose-ul:my-12 prose-ul:space-y-4
+                  prose-ol:list-decimal prose-ol:ps-10 prose-ol:my-12 prose-ol:space-y-4
+                  prose-li:marker:text-brand prose-li:marker:font-black prose-li:text-gray-600 prose-li:ps-2
+                  prose-hr:my-24 prose-hr:opacity-20
+                  prose-img:rounded-[2.5rem] prose-img:shadow-premium prose-img:my-20">
                   <div 
                     ref={contentRef}
                     className="drop-cap-article"

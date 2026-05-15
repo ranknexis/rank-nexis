@@ -38,53 +38,59 @@ export default function SecurityForm() {
 
     return (
         <div className="max-w-[1400px] mx-auto">
-            <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-10">
+            <div className="bg-white border border-stroke rounded-[3rem] p-12 shadow-premium space-y-12 relative overflow-hidden grain">
 
-            <div className="flex items-center gap-3">
-                <ShieldCheck size={22} className="text-brand" />
+            <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-brand/10 text-brand flex items-center justify-center">
+                    <ShieldCheck size={28} />
+                </div>
                 <div>
-                    <h2 className="text-lg font-bold tracking-tight text-text-primary">Account Security</h2>
-                    <p className="text-sm text-text-muted mt-1">Manage your login information</p>
+                    <h2 className="text-xl font-bold tracking-tight text-text-primary uppercase">Security <span className="text-brand">Protocol.</span></h2>
+                    <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest mt-1">Manage credential nodes and access keys</p>
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6 max-w-xl">
-                <PasswordInput 
-                    required
-                    label="Current Password"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                    placeholder="••••••••"
-                />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-10 max-w-2xl">
+                <div className="space-y-4">
+                    <label className="text-[10px] font-bold uppercase text-text-muted px-2">Current Key</label>
                     <PasswordInput 
                         required
-                        label="New Password"
-                        icon={<KeyRound size={18} />}
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="••••••••"
-                    />
-                    <PasswordInput 
-                        required
-                        label="Confirm New Password"
-                        icon={<ShieldCheck size={18} />}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        value={oldPassword}
+                        onChange={(e) => setOldPassword(e.target.value)}
                         placeholder="••••••••"
                     />
                 </div>
 
-                <div className="pt-4 flex justify-end">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">New Key</label>
+                        <PasswordInput 
+                            required
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            placeholder="••••••••"
+                        />
+                    </div>
+                    <div className="space-y-4">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Verify New Key</label>
+                        <PasswordInput 
+                            required
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            placeholder="••••••••"
+                        />
+                    </div>
+                </div>
+
+                <div className="pt-6 flex justify-end">
                     <button 
                         disabled={isLoading}
-                        className="btn-primary flex items-center gap-3 px-8 h-12 bg-black text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand transition-all disabled:opacity-50"
+                        className="px-12 h-16 bg-brand text-white rounded-2xl text-[11px] font-bold uppercase tracking-widest hover:scale-105 active:scale-95 shadow-xl shadow-brand/20 transition-all disabled:opacity-50 flex items-center gap-3"
                     >
-                        {isLoading ? "Saving..." : (
+                        {isLoading ? "Synchronizing..." : (
                             <>
-                                <Save size={16} />
-                                Change Password
+                                <Save size={20} />
+                                Update Credentials
                             </>
                         )}
                     </button>
