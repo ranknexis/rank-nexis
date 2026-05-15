@@ -6,6 +6,7 @@ import { Calendar, Share2, TrendingUp, User, ArrowLeft, Clock, ChevronRight } fr
 import Link from "next/link";
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface Props {
   post: any;
@@ -69,6 +70,28 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
       el.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
+
+  const handleShare = async () => {
+    const shareData = {
+      title: post.title,
+      text: post.metaDescription || post.excerpt,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        toast.success("Content Node Shared");
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success("Resource URL Copied to Clipboard");
+      }
+    } catch (err) {
+      if ((err as Error).name !== 'AbortError') {
+        toast.error("Sharing sequence interrupted");
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white text-text-primary">
@@ -146,7 +169,10 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                <Image src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} fill className="w-full h-full object-cover transition-transform duration-1000" />
                
                <div className="absolute bottom-8 right-8 z-20">
-                  <button className="w-14 h-14 bg-white/90 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-brand shadow-xl hover:rotate-12 transition-all">
+                  <button 
+                    onClick={handleShare}
+                    className="w-14 h-14 bg-white/90 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-brand shadow-xl hover:rotate-12 transition-all active:scale-95"
+                  >
                      <Share2 size={24} />
                   </button>
                </div>
