@@ -38,7 +38,8 @@ export function convertMarkdownToHtml(md: string) {
     if (hMatch) {
         const level = hMatch[1].length;
         let rawText = hMatch[2].trim().replace(/^\**|\**$/g, '').trim();
-        if (rawText.length > 0 && rawText.length < 250) {
+        // If the text is too long, it's likely a misformatted paragraph, not a heading
+        if (rawText.length > 0 && rawText.length <= 120) {
             if (inList) { html += '    </ul>\n'; inList = false; }
             if (inOrderedList) { html += '    </ol>\n'; inOrderedList = false; }
             const id = slugify(rawText);

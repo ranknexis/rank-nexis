@@ -212,7 +212,9 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                  prose-h3:scroll-mt-[120px] prose-h3:mt-24 prose-h3:mb-8
                  prose-p:text-gray-600 prose-p:leading-[1.9] prose-p:font-medium prose-p:mb-12
                  prose-strong:text-text-primary prose-strong:font-bold
-                 prose-ul:list-disc prose-li:marker:text-brand prose-li:text-gray-600 prose-li:mb-4
+                 prose-ul:list-disc prose-ul:ps-8 prose-ul:my-12 prose-ul:space-y-4
+                 prose-ol:list-decimal prose-ol:ps-8 prose-ol:my-12 prose-ol:space-y-4
+                 prose-li:marker:text-brand prose-li:text-gray-600 prose-li:ps-2
                  prose-hr:my-24 prose-hr:opacity-20
                  prose-img:rounded-[2.5rem] prose-img:shadow-premium prose-img:my-20">
                   <div 
