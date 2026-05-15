@@ -119,6 +119,23 @@
   .glass-premium {
     @apply bg-white/80 border border-white/40 shadow-premium backdrop-blur-3xl relative overflow-hidden;
   }
+
+  .blog-content-area ul {
+    list-style-type: disc !important;
+    padding-left: 2rem !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  .blog-content-area ol {
+    list-style-type: decimal !important;
+    padding-left: 2rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .blog-content-area li {
+    margin-bottom: 0.75rem !important;
+    display: list-item !important;
+  }
 }
 
 /* Typography Scale & Polish */
