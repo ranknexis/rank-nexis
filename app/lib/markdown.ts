@@ -43,7 +43,6 @@ export function convertMarkdownToHtml(md: string) {
             if (inOrderedList) { html += '    </ol>\n'; inOrderedList = false; }
             const id = slugify(rawText);
             const tag = `h${level === 1 ? 2 : level}`;
-            html += `    <hr />\n`;
             html += `    <${tag} id="${id}">${rawText}</${tag}>\n`;
             return;
         }

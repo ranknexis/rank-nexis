@@ -159,7 +159,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                <div className="space-y-12">
 
                   <div className="space-y-6">
-                    <h4 className="text-[11px] font-bold uppercase text-brand tracking-widest pb-4 border-b border-brand/20">Navigation</h4>
+                    <h4 className="text-[11px] font-bold uppercase text-brand tracking-widest pb-4">Navigation</h4>
                     <Link href="/blog" className="flex items-center gap-3 text-[10px] font-bold uppercase text-gray-400 hover:text-brand transition-colors group">
                       <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-brand/10 group-hover:text-brand transition-all">
                         <ArrowLeft size={14} />
@@ -170,7 +170,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
 
                   {headings.length > 0 && (
                     <div className="space-y-6">
-                      <h4 className="text-[11px] font-bold uppercase text-brand tracking-widest pb-4 border-b border-brand/20">Contents</h4>
+                      <h4 className="text-[11px] font-bold uppercase text-brand tracking-widest pb-4">Contents</h4>
                       <nav className="flex flex-col gap-4">
                         {headings.map((heading) => (
                           <button 
@@ -206,15 +206,15 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
             <article className="lg:col-span-9 order-1 lg:order-2">
                <div className="max-w-3xl prose prose-xl prose-gray blog-content-area
                  prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
-                 prose-h2:text-3xl md:prose-h2:text-4xl
-                 prose-h2:scroll-mt-[150px] prose-h2:mt-24 prose-h2:mb-8 prose-h2:pt-16 prose-h2:border-t prose-h2:border-gray-100
-                 prose-h3:text-xl md:prose-h3:text-2xl
-                 prose-h3:scroll-mt-[150px] prose-h3:mt-16 prose-h3:mb-6
-                 prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:font-medium prose-p:mb-8
+                 prose-h2:text-4xl md:prose-h2:text-5xl
+                 prose-h2:scroll-mt-[120px] prose-h2:mt-40 prose-h2:mb-12
+                 prose-h3:text-2xl md:prose-h3:text-3xl
+                 prose-h3:scroll-mt-[120px] prose-h3:mt-24 prose-h3:mb-8
+                 prose-p:text-gray-600 prose-p:leading-[1.9] prose-p:font-medium prose-p:mb-12
                  prose-strong:text-text-primary prose-strong:font-bold
-                 prose-ul:list-disc prose-li:marker:text-brand prose-li:text-gray-600 prose-li:mb-2
-                 prose-hr:my-16 prose-hr:opacity-50
-                 prose-img:rounded-3xl prose-img:shadow-premium prose-img:my-16">
+                 prose-ul:list-disc prose-li:marker:text-brand prose-li:text-gray-600 prose-li:mb-4
+                 prose-hr:my-24 prose-hr:opacity-20
+                 prose-img:rounded-[2.5rem] prose-img:shadow-premium prose-img:my-20">
                   <div 
                     ref={contentRef}
                     className="drop-cap-article"
