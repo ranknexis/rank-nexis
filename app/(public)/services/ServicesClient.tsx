@@ -38,16 +38,16 @@ const ICON_MAP: Record<string, any> = {
 
 export default function ServicesClient({ services, sectionsMap }: { services: any[], sectionsMap: any }) {
   const hero = getSectionData(sectionsMap, "hero", {
-     badge: "Service Operating Systems",
+     badge: "Our Core Offerings",
      heading: "Strategic",
      headingAccent: "Expertise.",
-     subtext: "We provide elite digital protocols designed to scale brands through precision engineering and data dominance."
+     subtext: "We provide premium digital solutions designed to scale brands through expert design and data-driven strategy."
   });
 
   const pillar1 = getSectionData(sectionsMap, "pillar_01", {
-     badge: "Pillar 01",
+     badge: "Marketing",
      heading: "Marketing &",
-     headingAccent: "Growth Systems."
+     headingAccent: "Growth Strategy."
   });
 
   const pillar2 = getSectionData(sectionsMap, "pillar_02", {
@@ -57,9 +57,9 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
   });
 
   const pillar3 = getSectionData(sectionsMap, "pillar_03", {
-     badge: "Pillar 03",
+     badge: "Engineering",
      heading: "Engineering &",
-     headingAccent: "Web Protocols."
+     headingAccent: "Web Solutions."
   });
 
   const techStack = getSectionData(sectionsMap, "tech_stack", {
@@ -70,9 +70,9 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
 
   const stats = getSectionData(sectionsMap, "growth_stats", {
      items: [
-        { title: "System Diagnostic", description: "Comprehensive review of your current digital infrastructure and market positioning." },
-        { title: "Growth Architecture", description: "Engineering scalable systems built to handle rapid user acquisition and data loads." },
-        { title: "Performance Ops", description: "Continuous monitoring and optimization to ensure your systems lead the market." }
+        { title: "Market Analysis", description: "Comprehensive review of your current digital presence and market positioning." },
+        { title: "Scale Strategy", description: "Designing flexible systems built to handle rapid growth and high user traffic." },
+        { title: "Performance Ops", description: "Continuous monitoring and optimization to ensure your business leads the market." }
      ]
   });
 
@@ -164,12 +164,12 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                 <TechNode icon={Cpu} label="Edge Computing" />
-                 <TechNode icon={Database} label="Data Silos" />
-                 <TechNode icon={ShieldCheck} label="TLS Encryption" />
-                 <TechNode icon={Zap} label="Low Latency" />
-                 <TechNode icon={Globe} label="CDN Nodes" />
-                 <TechNode icon={Smartphone} label="Mobile First" />
+                 <TechCard icon={Cpu} label="Edge Computing" />
+                 <TechCard icon={Database} label="Data Integration" />
+                 <TechCard icon={ShieldCheck} label="Secure Systems" />
+                 <TechCard icon={Zap} label="High Speed" />
+                 <TechCard icon={Globe} label="Content Delivery" />
+                 <TechCard icon={Smartphone} label="Mobile First" />
               </div>
            </div>
         </section>
@@ -193,7 +193,7 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
             <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight antialiased">Ready to <span className="text-brand">Launch?</span></h2>
             <div className="flex justify-center">
               <Link href="/contact" className="btn-primary h-20 px-20 text-[10px] font-bold uppercase tracking-[0.3em] group shadow-premium flex items-center gap-3">
-                Initiate Strategy Call <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+                Book a Call <ArrowRight className="group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>
           </div>
@@ -234,7 +234,7 @@ const ServiceSummaryCard = React.memo(({ service }: { service: any }) => {
   );
 });
 
-const TechNode = React.memo(({ icon: Icon, label }: any) => {
+const TechCard = React.memo(({ icon: Icon, label }: any) => {
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}

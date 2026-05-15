@@ -512,9 +512,9 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
              <div className="w-16 h-16 bg-white rounded-2xl border border-brand/10 flex items-center justify-center text-brand mx-auto shadow-sm">
                 <Star size={32} />
              </div>
-             <h3 className="text-xl font-black uppercase tracking-tight">Feedback Loop Sync</h3>
-             <p className="text-[11px] font-bold uppercase text-text-muted leading-relaxed max-w-sm mx-auto">
-                This module automatically synchronizes with the dynamic **Feedback Hub**. Manage all testimonials centrally in the global feedback manager.
+             <h3 className="text-xl font-bold tracking-tight">Feedback Synchronization</h3>
+             <p className="text-sm text-text-muted leading-relaxed max-w-sm mx-auto">
+                This section automatically syncs with the **Feedback** manager. Manage all testimonials centrally in the feedback section.
              </p>
              <div className="grid grid-cols-2 gap-10 text-left mt-8">
                 <div className="space-y-4">
@@ -574,7 +574,7 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
       case 'growth_stats':
         return (
           <RepeaterField 
-            label="Strategic Ops Items"
+            label="Growth Items"
             items={content.items || []}
             onChange={(items) => updateField('items', items)}
             newItemDefault={{ title: "New Item", description: "Details..." }}
@@ -663,7 +663,7 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                 <Icon size={24} />
              </div>
              <div>
-                <p className="text-[9px] font-bold uppercase text-brand mb-1">Module: {section.sectionType}</p>
+                <p className="text-[9px] font-bold uppercase text-brand mb-1">Section: {section.sectionType}</p>
                 <h3 className="text-sm font-bold uppercase tracking-tight text-text-primary">{section.label}</h3>
              </div>
           </div>
@@ -689,7 +689,7 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                   disabled={isSaving}
                   className={`bg-brand text-white px-8 h-12 rounded-xl text-[10px] font-bold uppercase flex items-center gap-3 shadow-xl shadow-brand/20 hover:scale-105 active:scale-95 transition-all ${isSaving ? 'opacity-50' : ''}`}
                 >
-                   <Save size={16} /> {isSaving ? 'Optimizing...' : 'Save Module'}
+                   <Save size={16} /> {isSaving ? 'Saving...' : 'Save Section'}
                 </button>
              </div>
              
@@ -698,12 +698,12 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
              <div className="pt-10 border-t border-stroke flex justify-between items-center">
                 <p className="text-[9px] font-bold uppercase text-text-muted">Last updated {new Date(section.updatedAt).toLocaleTimeString()}</p>
                 <div className="flex gap-4">
-                   <button className="text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-colors">Duplicate Module</button>
+                   <button className="text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-colors">Duplicate Section</button>
                    <button 
                      onClick={onDelete}
                      className="text-[9px] font-bold uppercase text-red-500 hover:opacity-80 transition-opacity"
                    >
-                     Remove Module
+                     Remove Section
                    </button>
                 </div>
              </div>

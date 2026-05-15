@@ -148,7 +148,27 @@ async function main() {
       metaTitle: 'Website Design for Aesthetic Clinics: Attract More Clients in 2026',
       metaDescription: 'Discover the secrets of effective website design for aesthetic clinics. Build trust and convert visitors into patients.',
       categoryId: categories[0].id,
-      authorId: teamMembers[6].user.id
+      authorId: teamMembers[5].user.id
+    },
+    {
+      title: 'Google Ads Optimization for Doctors: Top 10 SERP Analysis',
+      slug: 'google-ads-optimization-doctors',
+      content: BLOG_CONTENT['google-ads-optimization-doctors'],
+      image: '/blog-images/google-ads-optimization-for-doctors.webp',
+      metaTitle: 'Google Ads Optimization for Doctors: Dominate Search Results',
+      metaDescription: 'Learn how to optimize Google Ads for medical professionals. Analysis of top-performing ads and strategies for patient acquisition.',
+      categoryId: categories[0].id,
+      authorId: teamMembers[1].user.id
+    },
+    {
+      title: 'Google Ads for Doctors: Complete SEO Outline',
+      slug: 'google-ads-for-doctors',
+      content: BLOG_CONTENT['google-ads-for-doctors'],
+      image: '/blog-images/google-ads-for-doctors-outline.webp',
+      metaTitle: 'Google Ads for Doctors: A Strategic Search Engine Guide',
+      metaDescription: 'A comprehensive outline for medical professionals to master Google Ads and local search visibility.',
+      categoryId: categories[0].id,
+      authorId: teamMembers[1].user.id
     },
     {
       title: 'How to Get Rid of Facebook Ads (2026 Guide)',

@@ -25,9 +25,9 @@ export default async function AdminSettingsPage() {
   return (
     <div className="space-y-10">
       <div className="flex justify-between items-end">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Global <span className="text-brand">Settings.</span></h1>
-          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">Configure site-wide branding, SEO and business identity.</p>
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight text-text-primary">Settings</h1>
+          <p className="text-sm text-text-muted">Configure site-wide branding and contact information.</p>
         </div>
       </div>
 

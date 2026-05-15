@@ -31,8 +31,8 @@ export default function Loading() {
         />
         
         <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-48 text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand animate-pulse">
-            Initializing Node...
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand">
+            Loading...
           </p>
         </div>
       </div>

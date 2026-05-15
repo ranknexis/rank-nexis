@@ -32,10 +32,10 @@ export default function ReportPage() {
         <div className="space-y-12">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-stroke pb-8">
                 <div className="space-y-2">
-                    <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-text-primary">
-                        System <span className="text-brand">Report.</span>
+                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
+                        System <span className="text-brand">Logs.</span>
                     </h1>
-                    <p className="text-text-muted text-xs font-medium uppercase tracking-wider">Historical audit logs and generated intelligence reports</p>
+                    <p className="text-text-muted text-sm">Review activity logs and system reports.</p>
                 </div>
                 <button className="px-6 h-14 bg-black text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-brand transition-all shadow-xl flex items-center gap-3">
                     <Download size={18} />
@@ -44,14 +44,14 @@ export default function ReportPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <SummaryCard icon={Users} label="Total Experts" value={data?.counts?.users || 0} color="text-emerald-500" />
+                <SummaryCard icon={Users} label="Team Members" value={data?.counts?.users || 0} color="text-emerald-500" />
                 <SummaryCard icon={TrendingUp} label="Total Leads" value={data?.counts?.leads || 0} color="text-brand" />
                 <SummaryCard icon={Briefcase} label="Case Studies" value={data?.counts?.studies || 0} color="text-blue-500" />
             </div>
 
             <div className="bg-white rounded-[2rem] border border-stroke overflow-hidden shadow-sm shadow-premium/5 grain">
                 <div className="p-8 border-b border-stroke flex justify-between items-center">
-                    <h3 className="text-lg font-black uppercase tracking-tight">Available <span className="text-brand">Audits.</span></h3>
+                    <h3 className="text-lg font-bold tracking-tight">Activity <span className="text-brand">History.</span></h3>
                     <div className="flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted">
                         <Calendar size={14} /> Last 30 Days
                     </div>
@@ -60,10 +60,10 @@ export default function ReportPage() {
                     <table className="w-full text-left min-w-[800px]">
                         <thead>
                             <tr className="border-b border-stroke bg-surface/50">
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Event Node</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Target Entity</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Initiated By</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Timestamp</th>
+                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Action</th>
+                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Target</th>
+                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">User</th>
+                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Date & Time</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted text-right">Details</th>
                             </tr>
                         </thead>
@@ -87,7 +87,7 @@ export default function ReportPage() {
                                     <td className="px-8 py-6 text-[10px] font-bold text-text-muted uppercase">{new Date(report.createdAt).toLocaleString()}</td>
                                     <td className="px-8 py-6 text-right">
                                         <button className="text-[10px] font-black uppercase text-brand hover:underline">
-                                            Audit Link
+                                            View Details
                                         </button>
                                     </td>
                                 </tr>
@@ -102,24 +102,24 @@ export default function ReportPage() {
                 <div className="bg-white p-10 rounded-[2.5rem] border border-stroke space-y-8 grain">
                     <div className="flex items-center gap-3">
                         <Users size={24} className="text-brand" />
-                        <h3 className="text-lg font-black uppercase tracking-tight">Active Nodes</h3>
+                        <h3 className="text-lg font-bold tracking-tight">User Activity</h3>
                     </div>
                     <div className="space-y-4">
-                        <NodeRow label="Admin Access" count={1} />
-                        <NodeRow label="Team Members" count={5} />
-                        <NodeRow label="Inquiry Agents" count={12} />
+                        <SummaryRow label="Admin Access" count={1} />
+                        <SummaryRow label="Team Members" count={5} />
+                        <SummaryRow label="Inquiries" count={12} />
                     </div>
                 </div>
 
                 <div className="bg-white p-10 rounded-[2.5rem] border border-stroke space-y-8 grain">
                     <div className="flex items-center gap-3">
                         <Briefcase size={24} className="text-brand" />
-                        <h3 className="text-lg font-black uppercase tracking-tight">Resource Utilization</h3>
+                        <h3 className="text-lg font-bold tracking-tight">System Usage</h3>
                     </div>
                     <div className="space-y-4">
-                        <NodeRow label="Database Storage" count="124 MB / 512 MB" />
-                        <NodeRow label="Media Assets" count="1.2 GB / 5 GB" />
-                        <NodeRow label="API Bandwidth" count="2.4k / 10k req" />
+                        <SummaryRow label="Database Storage" count="124 MB / 512 MB" />
+                        <SummaryRow label="Media Assets" count="1.2 GB / 5 GB" />
+                        <SummaryRow label="API Bandwidth" count="2.4k / 10k req" />
                     </div>
                 </div>
             </div>
@@ -141,7 +141,7 @@ function SummaryCard({ icon: Icon, label, value, color }: any) {
     );
 }
 
-function NodeRow({ label, count }: any) {
+function SummaryRow({ label, count }: any) {
     return (
         <div className="flex justify-between items-center py-3 border-b border-stroke/50">
             <span className="text-[10px] font-bold uppercase text-text-muted tracking-widest">{label}</span>

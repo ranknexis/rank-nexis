@@ -22,16 +22,16 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 
 const AVAILABLE_PERMISSIONS = [
 
-    { id: "manage_pages", label: "Site Architecture", desc: "Full control over site structure and page sections" },
-    { id: "manage_services", label: "Services Hub", desc: "Manage core business service offerings" },
-    { id: "manage_careers", label: "Careers Portal", desc: "Handle job postings and applications" },
-    { id: "manage_team", label: "Experts Node", desc: "Handle public expert profiles and directory" },
-    { id: "manage_blog", label: "Content (Blog)", desc: "Write and manage insight articles" },
-    { id: "manage_work", label: "Case Archives", desc: "Manage portfolio and case studies" },
-    { id: "manage_leads", label: "Lead Pipeline", desc: "Access to client lead generation data" },
-    { id: "manage_feedback", label: "Feedback Loop", desc: "Control global testimonials and reviews" },
-    { id: "manage_users", label: "Access Control", desc: "System-wide user and permission management" },
-    { id: "manage_settings", label: "Global Settings", desc: "Branding, SEO, and tracking configuration" },
+    { id: "manage_pages", label: "Pages", desc: "Manage site pages and sections" },
+    { id: "manage_services", label: "Services", desc: "Manage core business services" },
+    { id: "manage_careers", label: "Careers", desc: "Handle job postings and applications" },
+    { id: "manage_team", label: "Team", desc: "Manage team member profiles" },
+    { id: "manage_blog", label: "Blog", desc: "Manage blog posts and articles" },
+    { id: "manage_work", label: "Work", desc: "Manage portfolio and case studies" },
+    { id: "manage_leads", label: "Leads", desc: "Access client lead data" },
+    { id: "manage_feedback", label: "Feedback", desc: "Manage client testimonials" },
+    { id: "manage_users", label: "Users", desc: "Manage system users and permissions" },
+    { id: "manage_settings", label: "Settings", desc: "Manage global site settings" },
 
 ];
 
@@ -109,15 +109,15 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="space-y-1">
-                    <h2 className="text-xl font-black uppercase tracking-tight text-text-primary">Experts <span className="text-brand">Directory.</span></h2>
-                    <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Active nodes in the RankNexis system</p>
+                    <h2 className="text-xl font-bold tracking-tight text-text-primary">Users</h2>
+                    <p className="text-sm text-text-muted">Manage system users and their access levels.</p>
                 </div>
                 <button 
                     onClick={() => setIsAdding(!isAdding)}
                     className="flex items-center gap-2 px-6 py-3 bg-black text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand transition-all shadow-lg self-start md:self-auto"
                 >
                     <UserPlus size={16} />
-                    {isAdding ? "Cancel" : "Add Expert Node"}
+                    {isAdding ? "Cancel" : "Add New User"}
                 </button>
             </div>
 
@@ -161,7 +161,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                 disabled={isLoading}
                                 className="px-8 py-3 bg-brand text-white rounded-xl text-[10px] font-bold uppercase tracking-widest disabled:opacity-50"
                             >
-                                {isLoading ? "Initializing..." : "Create Account & Send Invite"}
+                                {isLoading ? "Saving..." : "Create Account & Send Invite"}
                             </button>
                         </div>
                     </form>
@@ -172,7 +172,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                 <table className="w-full text-left min-w-[800px]">
                     <thead>
                         <tr className="border-b border-stroke bg-surface/50">
-                            <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">User Node</th>
+                            <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">User</th>
                             <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Access Level</th>
                             <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Status</th>
                             <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted text-right">Actions</th>
@@ -251,8 +251,8 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                                 <Settings2 size={18} />
                                                             </div>
                                                             <div>
-                                                                <h4 className="text-sm font-black uppercase tracking-tight text-text-primary">Accessibility & Permissions</h4>
-                                                                <p className="text-[9px] font-bold uppercase text-text-muted tracking-widest">Define granular access for this expert node</p>
+                                                                <h4 className="text-sm font-bold tracking-tight text-text-primary">User Permissions</h4>
+                                                                <p className="text-xs text-text-muted">Define access levels for this user.</p>
                                                             </div>
                                                         </div>
                                                         <button 
@@ -261,7 +261,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                             className="flex items-center gap-2 px-6 py-2.5 bg-brand text-white rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-brand/20 disabled:opacity-50"
                                                         >
                                                             <Save size={14} />
-                                                            {isUpdating ? "Saving..." : "Deploy Permissions"}
+                                                            {isUpdating ? "Saving..." : "Save Permissions"}
                                                         </button>
                                                     </div>
 
@@ -305,7 +305,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                     {user.role === "ADMIN" && (
                                                         <div className="p-4 bg-brand/5 rounded-xl border border-brand/10 flex items-center gap-3">
                                                             <ShieldAlert size={14} className="text-brand" />
-                                                            <p className="text-[9px] font-bold uppercase text-brand tracking-widest">Admins have master access to all system modules by default.</p>
+                                                            <p className="text-xs text-brand">Admins have full access to all modules by default.</p>
                                                         </div>
                                                     )}
                                                 </div>
@@ -323,9 +323,9 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                 isOpen={deleteConfirm.isOpen}
                 onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
                 onConfirm={handleDelete}
-                title="Decommission Expert Node"
-                message="Are you sure you want to terminate this expert's access to the RankNexis system? This action is permanent."
-                confirmText="Decommission Node"
+                title="Delete User"
+                message="Are you sure you want to delete this user? This action cannot be undone."
+                confirmText="Delete User"
             />
         </div>
     );

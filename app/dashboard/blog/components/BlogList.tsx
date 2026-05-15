@@ -19,11 +19,11 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
     });
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this publication?")) return;
+        if (!confirm("Are you sure you want to delete this post?")) return;
         const res = await deleteBlogPost(id);
         if (res.success) {
             setPosts(posts.filter(p => p.id !== id));
-            toast.success("Publication removed.");
+            toast.success("Post deleted.");
         } else {
             toast.error(res.error || "Failed to delete");
         }
@@ -36,10 +36,10 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                     <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
                     <input 
                         type="text" 
-                        placeholder="Filter articles..." 
+                        placeholder="Search posts..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
+                        className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-sm focus:outline-none focus:border-brand transition-all" 
                     />
                 </div>
                 <div className="flex gap-3 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
@@ -63,16 +63,16 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                 <table className="w-full text-left">
                     <thead>
                         <tr className="border-b border-stroke bg-surface/10">
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Article Node</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Category</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Date</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
+                            <th className="px-6 md:px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Post Title</th>
+                            <th className="px-6 md:px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Category</th>
+                            <th className="px-6 md:px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Date</th>
+                            <th className="px-6 md:px-10 py-6 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-stroke">
                         {filteredPosts.map((post: any) => (
                             <tr key={post.id} className="hover:bg-surface/30 transition-colors group">
-                                <td className="px-10 py-8">
+                                <td className="px-6 md:px-10 py-8">
                                     <div className="flex items-center gap-6">
                                         <div className="w-20 h-14 rounded-xl overflow-hidden border border-stroke hidden sm:block">
                                             <img src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt="" className="w-full h-full object-cover transition-all duration-700" />
@@ -83,15 +83,15 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-10 py-8">
+                                <td className="px-6 md:px-10 py-8">
                                     <span className="px-4 py-1.5 rounded-full bg-brand/5 text-brand text-[9px] font-bold uppercase border border-brand/10">
                                         {post.category?.name || "Uncategorized"}
                                     </span>
                                 </td>
-                                <td className="px-10 py-8 text-[10px] font-bold uppercase text-text-muted whitespace-nowrap">
+                                <td className="px-6 md:px-10 py-8 text-[10px] font-bold uppercase text-text-muted whitespace-nowrap">
                                     {new Date(post.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                                 </td>
-                                <td className="px-10 py-8 text-right">
+                                <td className="px-6 md:px-10 py-8 text-right">
                                     <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Link href={`/blog/${post.slug}`} target="_blank" className="p-3 bg-surface hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted"><Eye size={16} /></Link>
                                         <Link href={`/dashboard/blog/${post.id}`} className="p-3 bg-surface hover:bg-emerald-500 hover:text-white rounded-lg transition-all text-text-muted"><Edit2 size={16} /></Link>
@@ -108,8 +108,8 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                         ))}
                         {filteredPosts.length === 0 && (
                             <tr>
-                                <td colSpan={4} className="px-10 py-24 text-center">
-                                    <p className="text-text-muted font-bold uppercase text-[10px]">No publications found matching your search.</p>
+                                <td colSpan={4} className="px-6 md:px-10 py-24 text-center">
+                                    <p className="text-text-muted font-bold uppercase text-[10px]">No posts found matching your search.</p>
                                 </td>
                             </tr>
                         )}
@@ -118,7 +118,7 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
             </div>
             
             <div className="p-8 border-t border-stroke flex justify-between items-center bg-surface/10">
-                <p className="text-[9px] font-bold uppercase text-text-muted">Showing {filteredPosts.length} of {posts.length} Publications</p>
+                <p className="text-[9px] font-bold uppercase text-text-muted">Showing {filteredPosts.length} of {posts.length} posts</p>
                 <div className="flex gap-2">
                     <button disabled className="btn-outline h-10 px-4 text-[9px] font-bold uppercase opacity-40">Prev</button>
                     <button disabled className="btn-outline h-10 px-4 text-[9px] font-bold uppercase opacity-40">Next</button>

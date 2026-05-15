@@ -29,11 +29,11 @@ export default function TeamList({ initialTeam }: TeamListProps) {
   );
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Decommission this expert node?")) return;
+    if (!confirm("Delete this team member?")) return;
     const res = await deleteTeamMember(id);
     if (res.success) {
       setTeam(team.filter(m => m.id !== id));
-      toast.success("Expert node terminated");
+      toast.success("Team member deleted");
     } else {
       toast.error(res.error);
     }
@@ -47,17 +47,17 @@ export default function TeamList({ initialTeam }: TeamListProps) {
           <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-brand transition-colors" size={18} />
           <input 
             type="text"
-            placeholder="Search Expert Nodes..."
+            placeholder="Search team members..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-16 pl-14 pr-8 bg-white border border-stroke rounded-2xl text-sm font-medium focus:border-brand outline-none shadow-sm transition-all"
+            className="w-full h-14 pl-14 pr-8 bg-white border border-stroke rounded-2xl text-sm font-medium focus:border-brand outline-none shadow-sm transition-all"
           />
         </div>
         <Link 
           href="/dashboard/team/new" 
-          className="w-full md:w-auto px-10 h-16 bg-black text-white rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-4 shadow-2xl hover:scale-105 active:scale-95 transition-all"
+          className="btn-primary h-12 px-6 text-xs font-bold flex items-center gap-2 shadow-md w-full md:w-auto"
         >
-          <Plus size={20} /> Forge New Expert
+          <Plus size={18} /> Add Team Member
         </Link>
       </div>
 
@@ -84,9 +84,9 @@ export default function TeamList({ initialTeam }: TeamListProps) {
              <div className="flex items-center gap-3 w-full pt-6 border-t border-stroke mt-auto">
                 <Link 
                   href={`/dashboard/team/${member.id}`}
-                  className="flex-grow h-12 bg-surface border border-stroke rounded-xl text-[9px] font-black uppercase flex items-center justify-center gap-2 hover:bg-brand hover:text-white hover:border-brand transition-all"
+                  className="flex-grow h-12 bg-surface border border-stroke rounded-xl text-[10px] font-bold uppercase flex items-center justify-center gap-2 hover:bg-brand hover:text-white hover:border-brand transition-all"
                 >
-                   <Edit3 size={14} /> Refine Profile
+                   <Edit3 size={14} /> Edit Profile
                 </Link>
                 <button 
                   onClick={() => handleDelete(member.id)}
@@ -104,7 +104,7 @@ export default function TeamList({ initialTeam }: TeamListProps) {
            <div className="w-20 h-20 rounded-full bg-white border border-stroke flex items-center justify-center text-text-muted">
               <UserIcon size={32} strokeWidth={1} />
            </div>
-           <p className="text-[11px] font-black uppercase text-text-muted tracking-[0.2em]">No expert nodes discovered.</p>
+           <p className="text-[11px] font-black uppercase text-text-muted tracking-[0.2em]">No team members found.</p>
         </div>
       )}
     </div>

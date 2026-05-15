@@ -15,7 +15,7 @@ import { getSectionData } from "@/lib/pageUtils";
 
 export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap: any, teamMembers: any[] }) {
   const hero = getSectionData(sectionsMap, "hero", {
-     badge: "Studio Philosophy",
+     badge: "Our Vision",
      heading: "Driven By",
      headingAccent: "Results.",
      subtext: "RankNexis is a reliable and professional digital marketing agency dedicated to helping businesses grow online."
@@ -25,7 +25,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
      label: "Our Philosophy",
      heading: "Strategic",
      headingAccent: "Impact.",
-     body: "Our methodology integrates precision engineering with strategic thinking to deliver sustainable impact for your organization. We've spent 8+ years building integrated digital solutions where marketing and development work together seamlessly.",
+     body: "Our approach combines expert design with strategic thinking to deliver sustainable impact for your organization. We've spent 8+ years building integrated digital solutions where marketing and development work together seamlessly.",
      imageUrl: "/images/about_agency.png"
   });
 
@@ -75,7 +75,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                     <div className="flex flex-wrap gap-16 pt-12 border-t border-stroke">
                        {getSectionData(sectionsMap, "growth_stats", { items: [
                           { title: "08+", description: "Years Active" },
-                          { title: "180+", description: "Systems Implemented" }
+                          { title: "180+", description: "Projects Completed" }
                        ]}).items.map((stat: any, i: number) => (
                         <div key={i} className="space-y-2">
                            <p className="text-5xl font-bold text-brand tracking-tighter">{stat.title}</p>
@@ -115,7 +115,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                     <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-none">High-Agency <br /><span className="text-brand">Expertise.</span></h2>
                  </div>
                  <p className="text-text-muted text-sm font-medium max-w-sm leading-relaxed antialiased">
-                    A specialized node of engineers, strategists, and creatives operating at the intersection of performance and design.
+                     A dedicated team of designers, strategists, and experts focused on high-performance digital results.
                  </p>
               </div>
  
@@ -144,14 +144,14 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                           <div className="pt-4 flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
 
                              <div className="h-px w-8 bg-brand self-center" />
-                             <span className="text-white/60 text-[9px] font-bold uppercase tracking-widest italic">Core Expert</span>
+                             <span className="text-white/60 text-[9px] font-bold uppercase tracking-widest italic">Lead Expert</span>
                           </div>
                        </div>
                     </motion.div>
                  ))}
                  {teamMembers.length === 0 && (
                     <div className="col-span-full py-24 text-center glass border border-stroke rounded-[3rem] grain">
-                       <p className="text-text-muted font-bold uppercase text-[10px] tracking-widest italic">Technical team data is being synchronized...</p>
+                       <p className="text-text-muted font-bold uppercase text-[10px] tracking-widest italic">Team members loading...</p>
                     </div>
                  )}
               </div>
@@ -163,18 +163,18 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                  <ValueCard 
                     icon={Target} 
-                    title="ROI Mandate" 
-                    desc="We believe every line of code and every creative asset must be judged by the revenue it creates. Zero vanity metrics." 
+                    title="Result Oriented" 
+                    desc="We believe every line of code and every creative asset must be judged by the results it creates. Zero vanity metrics." 
                  />
                  <ValueCard 
                     icon={ShieldCheck} 
-                    title="Data Sovereignty" 
-                    desc="We build transparent tracking systems that give brands absolute ownership and clarity over their growth data." 
+                    title="Data Transparency" 
+                    desc="We build clear tracking systems that give businesses absolute ownership and clarity over their growth data." 
                  />
                  <ValueCard 
                     icon={Zap} 
-                    title="System Velocity" 
-                    desc="Speed is a growth factor. We engineer platforms for maximum performance, ensuring zero friction in the user journey." 
+                    title="High Performance" 
+                    desc="Speed is a growth factor. We design platforms for maximum performance, ensuring zero friction in the user journey." 
                  />
               </div>
            </div>
@@ -186,7 +186,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
             <div className="space-y-8">
                <p className="text-[11px] font-bold uppercase tracking-wider text-brand">Connect With Us</p>
                   <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-tight">
-                    Our <span className="text-brand text-3xl md:text-5xl block mt-4 tracking-tight">Technical Expertise.</span>
+                    Our <span className="text-brand text-3xl md:text-5xl block mt-4 tracking-tight">Expertise.</span>
                   </h2>
             </div>
             
@@ -196,7 +196,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
             
             <div className="flex justify-center">
               <Link href="/#contact" className="btn-primary h-20 px-16 text-xs font-bold uppercase tracking-[0.3em] group shadow-premium flex items-center gap-3">
-                Request Optimization Call <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                Book a Call <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>
           </div>

@@ -54,7 +54,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
             className="w-full flex items-center justify-center gap-3 h-16 bg-black text-white rounded-2xl text-[11px] font-bold uppercase hover:bg-zinc-800 transition-all shadow-xl disabled:opacity-50"
           >
             {loading ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
-            Push Changes
+            Save Changes
           </button>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
             <div className="space-y-10">
               <div className="space-y-6">
                 <h3 className="text-lg font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                   <Globe size={20} className="text-brand" /> Site Architecture
+                   <Globe size={20} className="text-brand" /> Website Branding
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
@@ -128,7 +128,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
              <div className="space-y-10">
                 <div className="space-y-6">
                   <h3 className="text-lg font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                    <Mail size={20} className="text-brand" /> Communication Nodes
+                    <Mail size={20} className="text-brand" /> Contact Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                      <div className="space-y-3">
@@ -171,7 +171,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
              <div className="space-y-10">
                 <div className="space-y-8">
                   <h3 className="text-lg font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                    <Share2 size={20} className="text-brand" /> Logical Bridges (Social)
+                    <Share2 size={20} className="text-brand" /> Social Media Links
                   </h3>
                   
                   <div className="grid grid-cols-1 gap-6">
@@ -205,7 +205,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
             <div className="space-y-10">
                 <div className="space-y-8">
                   <h3 className="text-lg font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                    <Activity size={20} className="text-brand" /> Marketing Intelligence
+                    <Activity size={20} className="text-brand" /> Tracking & Analytics
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

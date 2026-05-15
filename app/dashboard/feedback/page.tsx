@@ -17,11 +17,11 @@ export default async function FeedbackPage() {
   return (
       <div className="space-y-10">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-black uppercase tracking-tight text-text-primary">
-               Feedback <span className="text-brand">Hub.</span>
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold tracking-tight text-text-primary">
+               Feedback
             </h1>
-            <p className="text-xs text-text-muted font-medium uppercase tracking-wider">Manage global client testimonials and expertise loops</p>
+            <p className="text-sm text-text-muted">Manage client testimonials and reviews</p>
           </div>
         </div>
 

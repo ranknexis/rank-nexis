@@ -11,9 +11,9 @@ export default async function ProfilePage() {
     return (
         <div className="space-y-12 pb-20">
             <div className="flex justify-between items-end">
-                <div className="space-y-4">
-                    <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">My <span className="text-brand">Profile.</span></h1>
-                    <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">Update your expert node and public identity.</p>
+                <div className="space-y-1">
+                    <h1 className="text-2xl font-bold tracking-tight text-text-primary">Profile</h1>
+                    <p className="text-sm text-text-muted">Manage your personal information and security settings.</p>
                 </div>
             </div>
 

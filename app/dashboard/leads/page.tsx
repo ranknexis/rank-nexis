@@ -17,9 +17,9 @@ export default async function AdminLeadsPage() {
   return (
     <div className="space-y-10">
       <div className="flex justify-between items-end">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Inbound <span className="text-brand">Leads.</span></h1>
-          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">Monitor and optimize your business growth pipeline.</p>
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight text-text-primary">Leads</h1>
+          <p className="text-sm text-text-muted">Manage incoming inquiries and potential clients.</p>
         </div>
         <LeadExportButton leads={leads} />
       </div>

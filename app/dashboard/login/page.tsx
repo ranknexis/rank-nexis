@@ -28,7 +28,7 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        toast.success("Authentication successful. Welcome to the Node.");
+        toast.success("Login successful.");
         if (data.passwordSet === false) {
           router.push("/dashboard/setup-password");
         } else {
@@ -64,16 +64,16 @@ export default function LoginPage() {
               <Zap size={32} fill="currentColor" />
             </div>
             <div>
-              <h1 className="text-3xl font-black uppercase tracking-tight text-text-primary">Console Access</h1>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-brand mt-1 flex items-center gap-2 justify-center">
-                <Sparkles size={12} className="animate-pulse" /> Protected Administrative Hub
+              <h1 className="text-3xl font-bold tracking-tight text-text-primary">Login</h1>
+              <p className="text-sm text-text-muted mt-1">
+                Enter your credentials to access the dashboard
               </p>
             </div>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase text-text-muted ml-2">Secure Email</label>
+              <label className="text-xs font-bold text-text-muted ml-2 uppercase tracking-wider">Email Address</label>
               <div className="relative">
                 <input 
                   required
@@ -89,7 +89,7 @@ export default function LoginPage() {
 
             <PasswordInput 
               required
-              label="Security Code"
+              label="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
@@ -100,7 +100,7 @@ export default function LoginPage() {
                 href="/dashboard/forgot-password" 
                 className="text-[10px] font-bold uppercase text-brand hover:underline tracking-widest"
               >
-                Reset Access Node?
+                Forgot Password?
               </Link>
             </div>
 
@@ -113,16 +113,16 @@ export default function LoginPage() {
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
-                  Initialize Access <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+               Sign In <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </>
               )}
             </button>
           </form>
 
           <div className="mt-8 pt-6 border-t border-stroke text-center">
-             <p className="text-[10px] font-bold uppercase text-text-muted tracking-wider antialiased">
-               Authorized Personnel Only • RankNexis Ops Node
-             </p>
+              <p className="text-[10px] font-bold uppercase text-text-muted tracking-wider antialiased">
+                Authorized Personnel Only • RankNexis Admin
+              </p>
           </div>
         </div>
       </motion.div>

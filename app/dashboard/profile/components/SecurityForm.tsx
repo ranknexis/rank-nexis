@@ -26,7 +26,7 @@ export default function SecurityForm() {
         setIsLoading(true);
         const res = await changePassword({ old: oldPassword, new: newPassword });
         if (res.success) {
-            toast.success("Security credentials updated successfully.");
+            toast.success("Password updated successfully.");
             setOldPassword("");
             setNewPassword("");
             setConfirmPassword("");
@@ -43,15 +43,15 @@ export default function SecurityForm() {
             <div className="flex items-center gap-3">
                 <ShieldCheck size={22} className="text-brand" />
                 <div>
-                    <h2 className="text-lg font-black uppercase tracking-tight text-text-primary">System Access</h2>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted mt-1">Manage your secure node credentials</p>
+                    <h2 className="text-lg font-bold tracking-tight text-text-primary">Account Security</h2>
+                    <p className="text-sm text-text-muted mt-1">Manage your login information</p>
                 </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6 max-w-xl">
                 <PasswordInput 
                     required
-                    label="Current Access Code"
+                    label="Current Password"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
                     placeholder="••••••••"
@@ -60,7 +60,7 @@ export default function SecurityForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <PasswordInput 
                         required
-                        label="New Access Code"
+                        label="New Password"
                         icon={<KeyRound size={18} />}
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
@@ -68,7 +68,7 @@ export default function SecurityForm() {
                     />
                     <PasswordInput 
                         required
-                        label="Confirm New Code"
+                        label="Confirm New Password"
                         icon={<ShieldCheck size={18} />}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
@@ -81,10 +81,10 @@ export default function SecurityForm() {
                         disabled={isLoading}
                         className="btn-primary flex items-center gap-3 px-8 h-12 bg-black text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand transition-all disabled:opacity-50"
                     >
-                        {isLoading ? "Updating Node..." : (
+                        {isLoading ? "Saving..." : (
                             <>
                                 <Save size={16} />
-                                Refresh Security
+                                Change Password
                             </>
                         )}
                     </button>

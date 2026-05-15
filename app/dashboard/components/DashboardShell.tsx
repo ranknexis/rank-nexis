@@ -53,7 +53,7 @@ export default function DashboardShell({
     { icon: Briefcase, label: "Careers", href: "/dashboard/careers", roles: ["ADMIN"], permission: "manage_careers" },
     { icon: Users, label: "Team", href: "/dashboard/team", roles: ["ADMIN"], permission: "manage_team" },
     { icon: FileText, label: "Blog", href: "/dashboard/blog", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_blog" },
-    { icon: BarChart3, label: "Portfolio", href: "/dashboard/work", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_work" },
+    { icon: BarChart3, label: "Work", href: "/dashboard/work", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_work" },
     { icon: MessageSquare, label: "Leads", href: "/dashboard/leads", roles: ["ADMIN"], permission: "manage_leads" },
     { icon: Star, label: "Feedback", href: "/dashboard/feedback", roles: ["ADMIN"], permission: "manage_feedback" },
     { icon: Users, label: "Users", href: "/dashboard/users", roles: ["ADMIN"], permission: "manage_users" },
@@ -161,7 +161,7 @@ export default function DashboardShell({
             </div>
             {(!isCollapsed || isMobile) && (
               <div className="min-w-0">
-                 <p className="text-xs font-bold text-text-primary truncate">{session?.name || "Expert"}</p>
+                 <p className="text-xs font-bold text-text-primary truncate">{session?.name || "Admin"}</p>
                  <p className="text-[10px] text-text-muted truncate capitalize">{role.toLowerCase().replace('_', ' ')}</p>
               </div>
             )}

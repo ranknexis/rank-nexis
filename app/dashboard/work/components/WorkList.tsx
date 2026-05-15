@@ -17,12 +17,12 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
     );
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to terminate this case study?")) return;
+        if (!confirm("Are you sure you want to delete this case study?")) return;
         
         const res = await deleteCaseStudy(id);
         if (res.success) {
             setStudies(studies.filter(s => s.id !== id));
-            toast.success("Case study decommissioned.");
+            toast.success("Case study deleted.");
         } else {
             toast.error(res.error || "Failed to delete");
         }

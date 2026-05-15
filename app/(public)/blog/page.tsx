@@ -30,17 +30,17 @@ export default async function BlogPage() {
 
   const sectionsMap = pageData?.sectionsMap || {};
   const hero = getSectionData(sectionsMap, "hero", {
-     badge: "Strategic Intelligence",
+     badge: "Latest Updates",
      heading: "Insights &",
      headingAccent: "Strategy.",
-     subtext: "Technical diagnostics, architectural patterns, and strategic growth logic for the modern enterprise."
+     subtext: "Expert insights, marketing strategies, and business growth tips from our team."
   });
 
   const newsletter = getSectionData(sectionsMap, "newsletter", {
-     badge: "Stay Synchronized",
+     badge: "Stay Updated",
      heading: "Knowledge",
      headingAccent: "Hub.",
-     subtext: "Insights, strategies, and technical benchmarks from our team of digital engineers and growth specialists.",
+     subtext: "The latest strategies and expert tips from our marketing and design team.",
      buttonText: "Subscribe"
   });
 
@@ -90,10 +90,10 @@ export default async function BlogPage() {
                 
                 <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
                   <Link href="/contact" className="btn-primary h-20 px-16 text-[11px] font-bold uppercase tracking-[0.3em] shadow-xl shadow-brand/20 flex items-center justify-center gap-3 group">
-                    Request Audit <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+                    Get in Touch <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
                   </Link>
                   <Link href="/work" className="btn-outline h-20 px-16 text-[11px] font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3">
-                    View Case Results
+                    View Case Studies
                   </Link>
                 </div>
               </div>

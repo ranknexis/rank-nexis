@@ -19,18 +19,18 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const hero = getSectionData(sectionsMap, "hero", {
-     badge: "Initiate Sync",
+     badge: "Get in Touch",
      heading: "Strategic",
      headingAccent: "Consultation.",
-     subtext: "Connect with our technical team to discuss how we can build a scalable digital strategy for your brand."
+     subtext: "Connect with our team to discuss how we can build a scalable digital strategy for your business."
   });
 
   const faq = getSectionData(sectionsMap, "faq", {
      heading: "Frequently Asked Questions",
      items: [
         { question: "When can I expect a response?", answer: "We review every request carefully. You can expect a response within 24 hours." },
-        { question: "Do you have a minimum engagement?", answer: "We focus on high-ticket sector scaling. Typical engagements start at $2k/mo or $5k per project node." },
-        { question: "Can we schedule a call directly?", answer: "Yes, after initial sync via this form, we'll provide a secure link for a technical discovery call." }
+        { question: "Do you have a minimum engagement?", answer: "We focus on high-growth scaling. Typical engagements start at $2k/mo or $5k per project phase." },
+        { question: "Can we schedule a call directly?", answer: "Yes, after initial contact via this form, we'll provide a link for a discovery call." }
      ]
   });
 
@@ -97,9 +97,9 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                 />
                 <ContactInfo 
                   icon={MessageSquare} 
-                  title="Priority Sync" 
+                  title="Phone Number" 
                   value={settings?.contactPhone || "+880 1949-883830"} 
-                  desc="WhatsApp enabled for rapid strategy response." 
+                  desc="WhatsApp enabled for rapid responses." 
                 />
                 <ContactInfo 
                   icon={MapPin} 
@@ -142,10 +142,10 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="space-y-3">
                          <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Professional Email</label>
-                        <input name="email" type="email" required className="contact-input-premium" placeholder="NAME@COMPANY.COM" />
+                         <input name="email" type="email" required className="contact-input-premium" placeholder="NAME@COMPANY.COM" />
                       </div>
                       <div className="space-y-3">
-                         <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Strategic Requirement</label>
+                         <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Service Needed</label>
                          <div className="relative">
                             <select name="service" required className="contact-input-premium appearance-none cursor-pointer uppercase">
                                <option value="Digital Marketing">Digital Marketing</option>
@@ -162,7 +162,7 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                     </div>
  
                     <div className="space-y-3">
-                       <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Mission Objectives</label>
+                       <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Your Message</label>
                        <textarea name="message" required rows={5} className="contact-input-premium py-6 resize-none uppercase" placeholder="BRIEFLY OUTLINE YOUR GOALS..."></textarea>
                     </div>
  
@@ -171,17 +171,17 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       ) : (
                         <>
-                          Initiate Sync Protocol <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                          Send Message <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                         </>
                       )}
                     </button>
                   </form>
                   
                   <div className="pt-10 border-t border-stroke mt-12 flex items-center justify-between">
-                     <div className="flex items-center gap-3">
-                        <ShieldCheck size={16} className="text-brand" />
-                        <p className="text-[5px] text-text-muted font-bold uppercase tracking-widest">End-to-End Encrypted Inquiry</p>
-                     </div>
+                      <div className="flex items-center gap-3">
+                         <ShieldCheck size={16} className="text-brand" />
+                         <p className="text-[5px] text-text-muted font-bold uppercase tracking-widest">Your inquiry is secure</p>
+                      </div>
                      <div className="flex gap-4">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         <p className="text-[5px] text-emerald-600 font-bold uppercase tracking-widest">Growth Experts Online</p>

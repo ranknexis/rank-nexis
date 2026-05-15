@@ -16,11 +16,11 @@ export default function ServicesList({ initialServices }: { initialServices: any
     );
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to take this service vertical offline?")) return;
+        if (!confirm("Are you sure you want to delete this service?")) return;
         const res = await deleteService(id);
         if (res.success) {
             setServices(services.filter(s => s.id !== id));
-            toast.success("Service protocol decommissioned.");
+            toast.success("Service deleted.");
         } else {
             toast.error(res.error || "Failed to delete");
         }
@@ -39,7 +39,7 @@ export default function ServicesList({ initialServices }: { initialServices: any
                         className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
                     />
                 </div>
-                <p className="text-[9px] font-bold uppercase text-text-muted">Total verticals: <span className="text-brand">{filteredServices.length}</span></p>
+                <p className="text-[9px] font-bold uppercase text-text-muted">Total services: <span className="text-brand">{filteredServices.length}</span></p>
             </div>
 
             <div className="overflow-x-auto">
@@ -47,7 +47,7 @@ export default function ServicesList({ initialServices }: { initialServices: any
                     <thead>
                         <tr className="border-b border-stroke bg-surface/10">
                             <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Order</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Service Protocol</th>
+                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Service Name</th>
                             <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Status</th>
                             <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
                         </tr>
@@ -68,11 +68,11 @@ export default function ServicesList({ initialServices }: { initialServices: any
                                     <div className="flex items-center gap-2">
                                         {service.active ? (
                                             <span className="flex items-center gap-2 text-[9px] font-bold uppercase text-emerald-500">
-                                                <CheckCircle2 size={14} /> Global
+                                                <CheckCircle2 size={14} /> Active
                                             </span>
                                         ) : (
                                             <span className="flex items-center gap-2 text-[9px] font-bold uppercase text-red-500">
-                                                <XCircle size={14} /> Offline
+                                                <XCircle size={14} /> Inactive
                                             </span>
                                         )}
                                     </div>
@@ -94,7 +94,7 @@ export default function ServicesList({ initialServices }: { initialServices: any
                         {filteredServices.length === 0 && (
                             <tr>
                                 <td colSpan={4} className="px-10 py-24 text-center">
-                                    <p className="text-text-muted font-bold uppercase text-[10px]">No service protocols found matching your search.</p>
+                                    <p className="text-text-muted font-bold uppercase text-[10px]">No services found matching your search.</p>
                                 </td>
                             </tr>
                         )}

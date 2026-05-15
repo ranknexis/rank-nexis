@@ -28,12 +28,12 @@ export default async function AdminPagesPage() {
   return (
     <div className="space-y-10">
       <div className="flex justify-between items-end">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">
-            Public <span className="text-brand">Nodes.</span>
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight text-text-primary">
+            Pages
           </h1>
-          <p className="text-text-muted text-[10px] font-bold uppercase">
-            Manage your high-performance static pages and SEO metadata.
+          <p className="text-sm text-text-muted">
+            Manage your website pages and SEO settings.
           </p>
         </div>
       </div>
@@ -44,12 +44,12 @@ export default async function AdminPagesPage() {
             <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
             <input 
               type="text" 
-              placeholder="Filter nodes..." 
-              className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
+              placeholder="Filter pages..." 
+              className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-sm focus:outline-none focus:border-brand transition-all" 
             />
           </div>
           <p className="text-[9px] font-bold uppercase text-text-muted">
-            Total nodes: <span className="text-brand">{pages?.length || 0}</span>
+            Total pages: <span className="text-brand">{pages?.length || 0}</span>
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export default async function AdminPagesPage() {
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-stroke bg-surface/10">
-                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Node Name</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Page Name</th>
                 <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Route</th>
                 <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">SEO Status</th>
                 <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Sections</th>
@@ -110,7 +110,7 @@ export default async function AdminPagesPage() {
                     </td>
                     <td className="px-10 py-8">
                        <p className="text-[10px] font-bold uppercase text-text-muted">
-                          {page._count.sections} Modules
+                          {page._count.sections} Sections
                        </p>
                     </td>
                     <td className="px-10 py-8 text-right">
@@ -126,7 +126,7 @@ export default async function AdminPagesPage() {
                         <Link 
                           href={`/dashboard/pages/${page.slug}`}
                           className="p-3 bg-brand text-white border border-brand/20 hover:bg-brand/90 rounded-lg transition-all shadow-sm"
-                          title="Edit Node"
+                          title="Edit Page"
                         >
                           <FileEdit size={16} />
                         </Link>

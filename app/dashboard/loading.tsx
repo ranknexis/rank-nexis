@@ -20,7 +20,7 @@ export default function DashboardLoading() {
       </div>
       
       <div className="space-y-2 text-center">
-        <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-text-primary">System Telemetry</h3>
+        <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] text-text-primary">Loading Dashboard</h3>
         <div className="flex gap-1 justify-center">
           {[0, 1, 2].map(i => (
             <motion.div

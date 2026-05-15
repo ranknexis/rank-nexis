@@ -50,28 +50,28 @@ interface PageEditorProps {
 }
 
 const MODULE_TYPES = [
-  { id: 'hero', label: 'Hero Node', desc: 'Main entry point with primary CTA', icon: Zap },
-  { id: 'trust', label: 'Trust Grid', desc: 'Logos and credibility markers', icon: ShieldCheck },
-  { id: 'expertise', label: 'Expertise Hub', desc: 'Core service areas and skills', icon: Sparkles },
-  { id: 'partnership', label: 'Process / Sync', desc: 'Step-by-step engagement model', icon: RefreshCw },
-  { id: 'strategy', label: 'Strategic Ops', desc: 'Detailed tactical approach', icon: Target },
-  { id: 'excellence', label: 'Premium Benchmarks', desc: 'High-level value propositions', icon: Award },
-  { id: 'text_block', label: 'Brief / Text', desc: 'Strategic copy and typography', icon: Type },
-  { id: 'text_image', label: 'Visual Sync', desc: 'Copy paired with high-impact imagery', icon: ImageIcon },
-  { id: 'features_grid', label: 'Utility Grid', desc: 'Grid of core value propositions', icon: Grid },
-  { id: 'icon_cards', label: 'Expert Cards', desc: 'Icon-based service descriptions', icon: Layout },
-  { id: 'stats_strip', label: 'Metric Strip', desc: 'Hard data and performance numbers', icon: Terminal },
-  { id: 'testimonials', label: 'Feedback Loop', desc: 'Dynamic client feedback from DB', icon: Star },
-  { id: 'faq', label: 'Knowledge Base', desc: 'Dynamic FAQ architecture', icon: HelpCircle },
-  { id: 'newsletter', label: 'Intel Opt-in', desc: 'Lead capture and newsletter sync', icon: MailIcon },
-  { id: 'table', label: 'Data Matrix', desc: 'Pricing or comparison tables', icon: TableIcon },
-  { id: 'services_grid', label: 'Service Hub', desc: 'Comprehensive service overview', icon: Layers },
-  { id: 'pillar_01', label: 'Marketing Pillar', desc: 'Marketing & Growth section', icon: Zap },
-  { id: 'pillar_02', label: 'Creative Pillar', desc: 'Creative & Brand section', icon: Palette },
-  { id: 'pillar_03', label: 'Engineering Pillar', desc: 'Software & Web section', icon: Code2 },
-  { id: 'tech_stack', label: 'System Architecture', desc: 'Technology stack grid', icon: Cpu },
-  { id: 'growth_stats', label: 'Strategic Ops Stack', desc: 'Value items for service page', icon: Target },
-  { id: 'connect', label: 'Terminal Connect', desc: 'Direct contact and CTA hub', icon: Phone }
+  { id: 'hero', label: 'Hero Section', desc: 'Main introductory section', icon: Zap },
+  { id: 'trust', label: 'Trust Logos', desc: 'Client and partner logos', icon: ShieldCheck },
+  { id: 'expertise', label: 'Expertise', desc: 'Core services and skills', icon: Sparkles },
+  { id: 'partnership', label: 'Process', desc: 'How we work', icon: RefreshCw },
+  { id: 'strategy', label: 'Strategy', desc: 'Our approach', icon: Target },
+  { id: 'excellence', label: 'Value Proposition', desc: 'Key benefits', icon: Award },
+  { id: 'text_block', label: 'Text Block', desc: 'Rich text content', icon: Type },
+  { id: 'text_image', label: 'Text & Image', desc: 'Text with a side image', icon: ImageIcon },
+  { id: 'features_grid', label: 'Features Grid', desc: 'Grid of features', icon: Grid },
+  { id: 'icon_cards', label: 'Service Cards', desc: 'Card-based services', icon: Layout },
+  { id: 'stats_strip', label: 'Statistics', desc: 'Key performance data', icon: Terminal },
+  { id: 'testimonials', label: 'Testimonials', desc: 'Client feedback', icon: Star },
+  { id: 'faq', label: 'FAQ', desc: 'Frequently asked questions', icon: HelpCircle },
+  { id: 'newsletter', label: 'Newsletter', desc: 'Email subscription form', icon: MailIcon },
+  { id: 'table', label: 'Data Table', desc: 'Pricing or data tables', icon: TableIcon },
+  { id: 'services_grid', label: 'Services Grid', desc: 'Detailed services list', icon: Layers },
+  { id: 'pillar_01', label: 'Marketing', desc: 'Marketing services', icon: Zap },
+  { id: 'pillar_02', label: 'Creative', desc: 'Creative services', icon: Palette },
+  { id: 'pillar_03', label: 'Engineering', desc: 'Technical services', icon: Code2 },
+  { id: 'tech_stack', label: 'Tech Stack', desc: 'Technologies used', icon: Cpu },
+  { id: 'growth_stats', label: 'Growth Stats', desc: 'Key growth numbers', icon: Target },
+  { id: 'connect', label: 'Contact', desc: 'Contact form or CTA', icon: Phone }
 ];
 
 export default function PageEditor({ initialPage }: PageEditorProps) {
@@ -90,7 +90,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
     startTransition(async () => {
       const result = await updatePageSeo(page.slug, page);
       if (result.success) {
-        toast.success("SEO settings deployed successfully");
+        toast.success("SEO settings saved successfully");
       } else {
         toast.error(result.error);
       }
@@ -103,7 +103,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
       const result = await updatePageStatus(page.slug, newStatus);
       if (result.success) {
         setPage((prev: any) => ({ ...prev, status: newStatus }));
-        toast.success(`Node status set to ${newStatus.toUpperCase()}`);
+        toast.success(`Page status set to ${newStatus.toUpperCase()}`);
       }
     });
   }, [page.slug, page.status]);
@@ -118,7 +118,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
       if (result.success) {
         setPage((prev: any) => ({ ...prev, sections: [...prev.sections, result.section] }));
         setShowAddModal(false);
-        toast.success("New module forged");
+        toast.success("Section added");
       }
     });
   }, [page.id]);
@@ -132,7 +132,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
       });
       if (result.success) {
         setPage((prev: any) => ({ ...prev, sections: [...prev.sections, result.section] }));
-        toast.success("Module duplicated successfully");
+        toast.success("Section duplicated successfully");
       }
     });
   }, [page.id]);
@@ -142,7 +142,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
      const result = await deleteSection(deleteConfirm.id);
      if (result.success) {
         setPage((prev: any) => ({ ...prev, sections: prev.sections.filter((s: any) => s.id !== deleteConfirm.id) }));
-        toast.success("Module terminated");
+        toast.success("Section deleted");
      }
   }, [deleteConfirm.id]);
 
@@ -155,7 +155,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
      
      setPage((prev: any) => ({ ...prev, sections: newSections }));
      await reorderSections(page.id, newSections.map(s => s.id));
-     toast.success("Page flow synchronized");
+     toast.success("Page layout updated");
   }, [page.id, page.sections]);
 
   return (
@@ -167,7 +167,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
             href="/dashboard/pages" 
             className="flex items-center gap-2 text-[10px] font-bold uppercase text-brand hover:gap-3 transition-all"
           >
-            <ChevronLeft size={14} /> Back to Nodes list
+            <ChevronLeft size={14} /> Back to Pages
           </Link>
           <div className="flex items-center gap-4">
              <h1 className="text-4xl font-black uppercase tracking-tighter text-text-primary leading-none">
@@ -185,7 +185,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
              className="px-6 h-14 rounded-xl border border-stroke bg-white text-[10px] font-bold uppercase text-text-muted hover:bg-surface transition-all flex items-center gap-3"
            >
               {page.status === 'published' ? <AlertCircle size={16} /> : <CheckCircle2 size={16} />}
-              {page.status === 'published' ? 'Draft Mode' : 'Publish Node'}
+              {page.status === 'published' ? 'Switch to Draft' : 'Publish Page'}
            </button>
            <Link 
              href={page.slug === 'home' ? '/' : `/${page.slug}`} 
@@ -199,7 +199,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
              disabled={isPending}
              className={`px-10 h-14 rounded-xl bg-brand text-white shadow-xl shadow-brand/20 text-[10px] font-black uppercase tracking-widest flex items-center gap-3 hover:scale-105 active:scale-95 transition-all ${isPending ? 'opacity-50 grayscale' : ''}`}
            >
-              <Save size={18} /> {isPending ? 'Syncing...' : 'Deploy Changes'}
+              <Save size={18} /> {isPending ? 'Saving...' : 'Save Changes'}
            </button>
         </div>
       </div>
@@ -213,21 +213,21 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                 className={`w-full flex items-center gap-5 p-6 rounded-[2rem] transition-all ${activeTab === 'sections' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
                  <Layers size={22} />
-                 <span className="text-[11px] font-black uppercase tracking-wider">Page Architecture</span>
+                 <span className="text-[11px] font-bold uppercase tracking-wider">Page Content</span>
               </button>
               <button 
                 onClick={() => setActiveTab('seo')}
                 className={`w-full flex items-center gap-5 p-6 rounded-[2rem] transition-all mt-3 ${activeTab === 'seo' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
                  <Settings2 size={22} />
-                 <span className="text-[11px] font-black uppercase tracking-wider">SEO Engine</span>
+                 <span className="text-[11px] font-bold uppercase tracking-wider">SEO Settings</span>
               </button>
               <button 
                 onClick={() => setActiveTab('links')}
                 className={`w-full flex items-center gap-5 p-6 rounded-[2rem] transition-all mt-3 ${activeTab === 'links' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
                  <LinkIcon size={22} />
-                 <span className="text-[11px] font-black uppercase tracking-wider">Strategic Links</span>
+                 <span className="text-[11px] font-bold uppercase tracking-wider">Navigation Links</span>
               </button>
            </div>
 
@@ -237,7 +237,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                  <p className="text-[10px] font-black uppercase text-brand tracking-widest">Growth Tip</p>
               </div>
               <p className="text-[12px] font-medium text-text-secondary leading-relaxed opacity-80">
-                 Page modules are synchronized in real-time. SEO and Link configurations require manual deployment to live nodes.
+                 Page sections are updated in real-time. SEO and link changes will take effect once saved.
               </p>
            </div>
         </div>
@@ -256,14 +256,14 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                  <div className="flex justify-between items-center bg-white p-10 rounded-[3rem] border border-stroke shadow-sm relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-brand/[0.02] rounded-full blur-[80px] -z-10" />
                     <div>
-                       <h2 className="text-2xl font-black uppercase tracking-tighter leading-none">Architecture</h2>
-                       <p className="text-[10px] font-bold uppercase text-text-muted mt-2 tracking-widest">Active Modules: {page.sections.length}</p>
+                       <h2 className="text-2xl font-bold tracking-tight leading-none">Content</h2>
+                       <p className="text-sm text-text-muted mt-2">Active Sections: {page.sections.length}</p>
                     </div>
                     <button 
                       onClick={() => setShowAddModal(true)}
                       className="bg-black text-white px-10 h-14 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-4 shadow-2xl hover:scale-105 active:scale-95 transition-all"
                     >
-                       <Plus size={20} /> Forge Module
+                       <Plus size={20} /> Add Section
                     </button>
                  </div>
 
@@ -274,14 +274,14 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                              <button onClick={() => handleMoveSection(index, 'up')} className="w-10 h-10 bg-white border border-stroke rounded-xl shadow-sm flex items-center justify-center text-text-muted hover:text-brand transition-all"><ArrowUp size={16} /></button>
                              <button onClick={() => handleMoveSection(index, 'down')} className="w-10 h-10 bg-white border border-stroke rounded-xl shadow-sm flex items-center justify-center text-text-muted hover:text-brand transition-all"><ArrowDown size={16} /></button>
                              <div className="h-px w-6 bg-stroke mx-auto" />
-                             <button onClick={() => handleCloneSection(section)} className="w-10 h-10 bg-white border border-stroke rounded-xl shadow-sm flex items-center justify-center text-text-muted hover:text-brand transition-all" title="Duplicate Module"><Copy size={16} /></button>
+                             <button onClick={() => handleCloneSection(section)} className="w-10 h-10 bg-white border border-stroke rounded-xl shadow-sm flex items-center justify-center text-text-muted hover:text-brand transition-all" title="Duplicate Section"><Copy size={16} /></button>
                           </div>
                           <SectionEditor 
                             section={section} 
                             onUpdate={useCallback(async (newContent: any) => {
                                const result = await updateSection(section.id, newContent);
                                if (result.success) {
-                                  toast.success(`${section.label} optimized`);
+                                  toast.success(`${section.label} updated`);
                                 }
                             }, [section.id, section.label])}
                             onDelete={useCallback(() => setDeleteConfirm({ isOpen: true, id: section.id }), [section.id])}
@@ -293,12 +293,12 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                          <div className="w-20 h-20 rounded-full bg-white border border-stroke flex items-center justify-center text-text-muted">
                             <Layers size={32} strokeWidth={1} />
                          </div>
-                         <p className="text-[11px] font-black uppercase text-text-muted tracking-[0.2em]">Start building this page node.</p>
+                         <p className="text-sm text-text-muted">Start building this page.</p>
                          <button 
                             onClick={() => setShowAddModal(true)}
                             className="btn-primary"
                           >
-                             Initialize First Module
+                             Add First Section
                           </button>
                       </div>
                     )}
@@ -334,8 +334,8 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                  <div className="p-12 md:p-16 space-y-12">
                     <div className="flex justify-between items-center">
                        <div>
-                          <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">Forge Module</h2>
-                          <p className="text-xs font-bold uppercase text-brand mt-3 tracking-widest">Select architecture type for new deployment</p>
+                          <h2 className="text-4xl font-bold tracking-tight leading-none">Add Section</h2>
+                          <p className="text-sm text-text-muted mt-3">Select a section type to add to your page.</p>
                        </div>
                        <button 
                          onClick={() => setShowAddModal(false)}
@@ -392,12 +392,12 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                                        </div>
 
                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/preview:opacity-100 transition-opacity bg-black/5 backdrop-blur-[2px]">
-                                          <p className="text-[10px] font-black uppercase tracking-widest text-text-primary">Module Signature: {hoveredType}</p>
+                                          <p className="text-[10px] font-bold uppercase tracking-widest text-text-primary">Section Type: {hoveredType}</p>
                                        </div>
                                     </div>
                                  </div>
                                  <div className="mt-8 space-y-2">
-                                    <p className="text-[10px] font-black uppercase text-brand tracking-widest">Architecture Analysis</p>
+                                    <p className="text-[10px] font-bold uppercase text-brand tracking-widest">Section Preview</p>
                                     <p className="text-xs font-bold text-text-primary">{MODULE_TYPES.find(t => t.id === hoveredType)?.label}</p>
                                     <p className="text-[10px] text-text-muted leading-relaxed max-w-[200px] mx-auto">
                                        Optimized for {hoveredType.replace('_', ' ')} engagement and high-conversion throughput.
@@ -410,8 +410,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                                     <Layers size={40} strokeWidth={1} />
                                  </div>
                                  <div>
-                                    <p className="text-[10px] font-black uppercase text-text-muted tracking-widest">Awaiting Selection</p>
-                                    <p className="text-xs font-medium text-text-muted mt-2">Hover over a module to preview architecture.</p>
+                                    <p className="text-xs text-text-muted mt-2">Hover over a section to see a preview.</p>
                                  </div>
                               </div>
                             )}
@@ -428,14 +427,14 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
         )}
       </AnimatePresence>
 
-      <ConfirmationModal 
-          isOpen={deleteConfirm.isOpen}
-          onClose={() => setDeleteConfirm({ ...deleteConfirm, isOpen: false })}
-          onConfirm={handleDeleteSection}
-          title="Decommission Module"
-          message="Are you sure you want to terminate this operational block? This action is irreversible within the current session."
-          confirmText="Decommission"
-      />
+          <ConfirmationModal 
+              isOpen={deleteConfirm.isOpen}
+              onClose={() => setDeleteConfirm({ ...deleteConfirm, isOpen: false })}
+              onConfirm={handleDeleteSection}
+              title="Delete Section"
+              message="Are you sure you want to delete this section? This action cannot be undone."
+              confirmText="Delete"
+          />
     </div>
   );
 }

@@ -49,7 +49,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
 
                 <div className="bg-white border border-stroke rounded-[2.5rem] p-10 shadow-sm space-y-8">
                     <div className="space-y-4 text-center">
-                        <label className="text-[10px] font-bold uppercase text-text-muted tracking-widest block">Expert Identity Image</label>
+                        <label className="text-xs font-bold text-text-muted uppercase tracking-wider block">Profile Image</label>
                         <div className="flex justify-center">
                             <CloudinaryUpload 
                                 value={image} 
@@ -60,7 +60,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
 
                     <div className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Display Name</label>
+                             <label className="text-xs font-bold text-text-muted ml-2">Full Name</label>
                             <div className="relative">
                                 <input 
                                     required
@@ -73,13 +73,13 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Professional Title</label>
+                             <label className="text-xs font-bold text-text-muted ml-2">Job Title</label>
                             <div className="relative">
                                 <input 
                                     required
                                     value={role}
                                     onChange={(e) => setRole(e.target.value)}
-                                    placeholder="e.g. Senior SEO Architect"
+                                     placeholder="e.g. Senior SEO Manager"
                                     className="w-full h-14 pl-12 pr-6 bg-surface border border-stroke rounded-2xl text-sm font-medium focus:border-brand outline-none"
                                 />
                                 <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted/40" size={18} />
@@ -95,13 +95,13 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                     <div className="space-y-4">
                         <div className="flex items-center gap-3 mb-2">
                             <FileText size={18} className="text-brand" />
-                            <h2 className="text-sm font-black uppercase tracking-tight">Professional Biography</h2>
+                             <h2 className="text-sm font-bold uppercase tracking-tight">Biography</h2>
                         </div>
                         <textarea 
                             value={bio}
                             onChange={(e) => setBio(e.target.value)}
                             rows={6}
-                            placeholder="Describe your expertise and impact..."
+                             placeholder="Tell us about yourself..."
                             className="w-full p-6 bg-surface border border-stroke rounded-3xl text-sm font-medium focus:border-brand outline-none resize-none"
                         />
                     </div>
@@ -110,7 +110,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <Share2 size={18} className="text-brand" />
-                                <h2 className="text-sm font-black uppercase tracking-tight">Social Connectors</h2>
+                                 <h2 className="text-sm font-bold uppercase tracking-tight">Social Links</h2>
                             </div>
                             <button 
                                 type="button"
@@ -159,10 +159,10 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                             disabled={isLoading}
                             className="btn-primary flex items-center gap-3 px-10 h-14 bg-black text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-brand transition-all disabled:opacity-50"
                         >
-                            {isLoading ? "Syncing..." : (
+                            {isLoading ? "Saving..." : (
                                 <>
-                                    <Save size={18} />
-                                    Update Identity Node
+                                     <Save size={18} />
+                                     Save Profile
                                 </>
                             )}
                         </button>

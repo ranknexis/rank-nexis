@@ -406,7 +406,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   </div>
 
                   <div className="pt-12 border-t border-stroke/50 flex items-center justify-between mt-auto">
-                     <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted group-hover:text-brand transition-colors">Phase Alpha Protocol</span>
+                     <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted group-hover:text-brand transition-colors">Strategic Roadmap</span>
                      <div className="w-12 h-12 rounded-full border border-stroke group-hover:border-brand/20 flex items-center justify-center transition-all bg-surface">
                         <ArrowRight className="text-text-muted group-hover:text-brand transition-all -rotate-45 group-hover:rotate-0" size={20} />
                      </div>

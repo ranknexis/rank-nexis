@@ -67,11 +67,11 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
 
     startTransition(async () => {
       const result = await addTestimonial(formData);
-      if (result.success) {
-        setTestimonials([result.testimonial, ...testimonials]);
-        toast.success("Feedback loops synced successfully");
-        resetForm();
-      } else {
+        if (result.success) {
+          setTestimonials([result.testimonial, ...testimonials]);
+          toast.success("Feedback added successfully");
+          resetForm();
+        } else {
         toast.error(result.error);
       }
     });
@@ -80,11 +80,11 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
   const handleUpdate = async (id: string) => {
     startTransition(async () => {
       const result = await updateTestimonial(id, formData);
-      if (result.success) {
-        setTestimonials(testimonials.map(t => t.id === id ? result.testimonial : t));
-        toast.success("Testimonial optimized");
-        resetForm();
-      } else {
+        if (result.success) {
+          setTestimonials(testimonials.map(t => t.id === id ? result.testimonial : t));
+          toast.success("Feedback updated");
+          resetForm();
+        } else {
         toast.error(result.error);
       }
     });
@@ -94,11 +94,11 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
     if (!deleteConfirm.id) return;
     startTransition(async () => {
       const result = await deleteTestimonial(deleteConfirm.id!);
-      if (result.success) {
-        setTestimonials(testimonials.filter(t => t.id !== deleteConfirm.id));
-        toast.success("Feedback decommissioned");
-        setDeleteConfirm({ isOpen: false, id: null });
-      } else {
+        if (result.success) {
+          setTestimonials(testimonials.filter(t => t.id !== deleteConfirm.id));
+          toast.success("Feedback deleted");
+          setDeleteConfirm({ isOpen: false, id: null });
+        } else {
         toast.error(result.error);
       }
     });
@@ -125,9 +125,9 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
         {!showAddForm && (
             <button 
                 onClick={() => setShowAddForm(true)}
-                className="btn-primary h-14 px-8 rounded-2xl flex items-center gap-3 text-[10px] font-black uppercase tracking-widest shadow-premium"
+                className="btn-primary h-12 px-6 rounded-xl flex items-center gap-2 text-xs font-bold shadow-md"
             >
-                <Plus size={18} /> Sync New Feedback
+                <Plus size={18} /> Add Feedback
             </button>
         )}
       </div>
@@ -143,10 +143,10 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
             <div className="flex justify-between items-center mb-10">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-brand/5 text-brand flex items-center justify-center">
-                        <Sparkles size={20} />
+                        <Star size={20} />
                     </div>
-                    <h2 className="text-xl font-black uppercase tracking-tight">
-                        {editingId ? "Optimize Loop" : "Initialize Feedback Sync"}
+                    <h2 className="text-xl font-bold tracking-tight">
+                        {editingId ? "Edit Feedback" : "Add New Feedback"}
                     </h2>
                 </div>
                 <button onClick={resetForm} className="text-text-muted hover:text-brand transition-colors">
@@ -156,8 +156,8 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-brand ml-4 flex items-center gap-2">
-                    <User size={12} /> Client Identity
+                <label className="text-xs font-bold text-brand flex items-center gap-2">
+                    <User size={12} /> Client Name
                 </label>
                 <input 
                   type="text" 
@@ -169,8 +169,8 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
               </div>
 
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-brand ml-4 flex items-center gap-2">
-                    <Building2 size={12} /> Role / Corporate
+                <label className="text-xs font-bold text-brand flex items-center gap-2">
+                    <Building2 size={12} /> Role & Company
                 </label>
                 <div className="grid grid-cols-2 gap-4">
                     <input 
@@ -191,8 +191,8 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
               </div>
 
               <div className="md:col-span-2 space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-brand ml-4 flex items-center gap-2">
-                    <Quote size={12} /> Strategic Feedback
+                <label className="text-xs font-bold text-brand flex items-center gap-2">
+                    <Quote size={12} /> Feedback Content
                 </label>
                 <textarea 
                   rows={4} 
@@ -204,7 +204,7 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
               </div>
 
               <div className="space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-brand ml-4">Visual Asset (Avatar)</label>
+                <label className="text-xs font-bold text-brand">Profile Image</label>
                 <CloudinaryUpload 
                   value={formData.image} 
                   onChange={(url) => setFormData({...formData, image: url})} 
@@ -213,7 +213,7 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
               </div>
 
               <div className="space-y-4">
-                 <label className="text-[10px] font-black uppercase tracking-widest text-brand ml-4">Rating & Status</label>
+                 <label className="text-xs font-bold text-brand">Rating & Status</label>
                  <div className="grid grid-cols-2 gap-4">
                     <select 
                         value={formData.rating}
@@ -244,9 +244,9 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
                 <button 
                   onClick={() => editingId ? handleUpdate(editingId) : handleAdd()}
                   disabled={isPending}
-                  className="btn-primary h-14 px-12 rounded-2xl flex items-center gap-3 text-[10px] font-black uppercase tracking-widest shadow-premium"
+                  className="btn-primary h-12 px-8 rounded-xl flex items-center gap-2 text-xs font-bold shadow-md"
                 >
-                  <Save size={18} /> {editingId ? "Deploy Optimization" : "Deploy Feedback"}
+                  <Save size={18} /> {editingId ? "Save Changes" : "Save Feedback"}
                 </button>
             </div>
           </motion.div>
@@ -313,8 +313,8 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
                 <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center text-text-muted mx-auto mb-6 shadow-sm">
                     <Star size={40} className="opacity-20" />
                 </div>
-                <h3 className="text-xl font-black uppercase tracking-tight text-text-muted">No Feedback Sync Records</h3>
-                <p className="text-[10px] font-bold uppercase text-text-muted/60 mt-2">Initialize your first client feedback loop above.</p>
+                <h3 className="text-xl font-bold tracking-tight text-text-muted">No Feedback Found</h3>
+                <p className="text-xs text-text-muted mt-2">Add your first client testimonial above.</p>
             </div>
         )}
       </div>
@@ -323,9 +323,9 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
         isOpen={deleteConfirm.isOpen}
         onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
         onConfirm={handleDelete}
-        title="Decommission Feedback"
-        message="Are you sure you want to terminate this client testimonial from the global hub?"
-        confirmText="Decommission"
+        title="Delete Feedback"
+        message="Are you sure you want to delete this client testimonial?"
+        confirmText="Delete"
       />
     </div>
   );

@@ -81,20 +81,20 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
             <div className="flex items-center gap-3">
                <div className="w-2.5 h-2.5 bg-brand rounded-full animate-pulse shadow-lg shadow-brand/40" />
                <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-2">
-                  <Sparkles size={12} className="animate-pulse" /> RankNexis Active Session
+                  System Active
                </p>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary leading-tight">
-               {isAdmin ? "Admin" : "Team"} <span className="text-brand">Dashboard.</span>
+               Performance <span className="text-brand">Overview.</span>
             </h1>
-            <p className="text-text-muted text-sm font-medium">Status: Secure • All systems operational</p>
+            <p className="text-text-muted text-sm font-medium">Real-time business metrics and recent activity.</p>
          </div>
          <div className="flex gap-4">
             <button 
                 onClick={handleRefresh}
                 disabled={isRefreshing}
                 className={`w-12 h-12 flex items-center justify-center rounded-xl border border-stroke bg-white text-text-muted hover:text-brand hover:border-brand/30 transition-all ${isRefreshing ? 'animate-spin' : ''}`}
-                title="Refresh Metrics"
+                title="Refresh Page"
             >
                 <RefreshCw size={18} />
             </button>
@@ -104,7 +104,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                     Review Leads
                 </Link>
                 <Link href="/dashboard/settings" className="btn-primary h-12 px-6 text-xs font-bold uppercase rounded-xl flex items-center gap-2 shadow-premium duration-300 transition-all">
-                    System Settings
+                    Settings
                 </Link>
                 </>
             )}
@@ -123,8 +123,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                         <Database size={22} />
                     </div>
                     <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Prisma Sync</p>
-                        <p className="text-sm font-bold text-text-primary">Database Sync</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Data</p>
+                        <p className="text-sm font-bold text-text-primary">Connection Status</p>
                     </div>
                     <div className="ml-auto">
                         <div className="flex items-center gap-1.5 text-emerald-500">
@@ -137,7 +137,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                     <div className="h-1.5 w-full bg-surface rounded-full overflow-hidden">
                         <div className="h-full bg-emerald-500 w-[94%]" />
                     </div>
-                    <p className="text-[8px] font-bold uppercase text-text-muted text-right">94% Efficiency</p>
+                    <p className="text-[8px] font-bold uppercase text-text-muted text-right">94% Active</p>
                 </div>
             </div>
 
@@ -147,8 +147,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                         <HardDrive size={22} />
                     </div>
                     <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Cloudinary</p>
-                        <p className="text-sm font-bold text-text-primary">Media Assets</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Usage</p>
+                        <p className="text-sm font-bold text-text-primary">Media Library</p>
                     </div>
                     <div className="ml-auto">
                         <div className="flex items-center gap-1.5 text-emerald-500">
@@ -161,7 +161,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                     <div className="h-1.5 w-full bg-surface rounded-full overflow-hidden">
                         <div className="h-full bg-brand w-[82%]" />
                     </div>
-                    <p className="text-[8px] font-bold uppercase text-text-muted text-right">82% Capacity</p>
+                    <p className="text-[8px] font-bold uppercase text-text-muted text-right">82% Used</p>
                 </div>
             </div>
 
@@ -171,8 +171,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                         <Server size={22} />
                     </div>
                     <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">Vercel Edge</p>
-                        <p className="text-sm font-bold text-text-primary">Server Status</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">System</p>
+                        <p className="text-sm font-bold text-text-primary">Website Platform</p>
                     </div>
                     <div className="ml-auto">
                         <div className="flex items-center gap-1.5 text-blue-500">
@@ -225,12 +225,12 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
             <div className="bg-white rounded-[2rem] border border-stroke p-8 md:p-10 space-y-10 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-1">
-                        <h3 className="text-2xl font-bold tracking-tight text-text-primary">System <span className="text-brand">Overview.</span></h3>
-                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Real-time performance & infrastructure metrics</p>
+                        <h3 className="text-2xl font-bold tracking-tight text-text-primary">System Performance</h3>
+                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Real-time status updates</p>
                     </div>
                     <div className="flex gap-2">
-                        <span className="px-4 py-2 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase rounded-lg border border-emerald-100">Optimal Load</span>
-                        <span className="px-4 py-2 bg-blue-50 text-blue-600 text-[10px] font-black uppercase rounded-lg border border-blue-100">v1.2.4-stable</span>
+                        <span className="px-4 py-2 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase rounded-lg border border-emerald-100">Normal Load</span>
+                        <span className="px-4 py-2 bg-blue-50 text-blue-600 text-[10px] font-black uppercase rounded-lg border border-blue-100">Stable</span>
                     </div>
                 </div>
 
@@ -242,7 +242,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                     <div className="w-8 h-8 rounded-lg bg-white border border-stroke flex items-center justify-center text-brand">
                                         <Activity size={16} />
                                     </div>
-                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">DB Sync Latency</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">Response Time</p>
                                 </div>
                                 <span className="text-[10px] font-black text-brand">{perf?.db?.latency || 0}ms</span>
                             </div>
@@ -253,7 +253,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                     className="h-full bg-brand" 
                                 />
                             </div>
-                            <p className="text-[8px] font-bold uppercase text-text-muted">RankNexis Node Connectivity: {perf?.db?.status || "PENDING"}</p>
+                            <p className="text-[8px] font-bold uppercase text-text-muted">Database: {perf?.db?.status || "Connected"}</p>
 
                         </div>
 
@@ -263,7 +263,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                     <div className="w-8 h-8 rounded-lg bg-white border border-stroke flex items-center justify-center text-purple-500">
                                         <Server size={16} />
                                     </div>
-                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">System Resources</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">Platform Resources</p>
                                 </div>
                                 <span className="text-[10px] font-black text-brand">{perf?.server?.memory || 0}% RAM</span>
                             </div>
@@ -274,7 +274,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                     className="h-full bg-brand" 
                                 />
                             </div>
-                            <p className="text-[8px] font-bold uppercase text-text-muted">CPU Cluster Load: {perf?.server?.cpu || 0}%</p>
+                            <p className="text-[8px] font-bold uppercase text-text-muted">Usage: {perf?.server?.cpu || 0}%</p>
                         </div>
 
                     </div>
@@ -283,13 +283,13 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                             <Sparkles size={80} />
                         </div>
-                        <h4 className="text-xl font-black uppercase tracking-tight mb-4 leading-tight">Master <br />System Overview.</h4>
+                        <h4 className="text-xl font-bold tracking-tight mb-4 leading-tight">System Status</h4>
                         <div className="space-y-4">
                             {[
-                                { l: "Auth Protocols", s: "Operational" },
-                                { l: "Database Logic", s: "Synchronized" },
-                                { l: "Media Assets", s: "CDN-Cached" },
-                                { l: "Security Shield", s: "Active" }
+                                { l: "Login Services", s: "Operational" },
+                                { l: "Database", s: "Connected" },
+                                { l: "Media Assets", s: "Ready" },
+                                { l: "Security", s: "Active" }
                             ].map((row, i) => (
                                 <div key={i} className="flex items-center justify-between border-b border-white/10 pb-2">
                                     <span className="text-[9px] font-bold uppercase text-white/50 tracking-widest">{row.l}</span>
@@ -298,7 +298,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                             ))}
                         </div>
                         <Link href="/dashboard/report" className="w-full mt-6 py-3 bg-white text-text-primary rounded-xl text-[9px] font-bold uppercase tracking-widest hover:bg-brand hover:text-white transition-all duration-500 flex items-center justify-center">
-                            Generate Full Audit Report
+                            View System Logs
                         </Link>
 
                     </div>
@@ -307,8 +307,8 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
 
             <div className="bg-white rounded-[2rem] border border-stroke p-8 space-y-8 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                 <div className="space-y-1">
-                    <h3 className="text-xl font-bold tracking-tight text-text-primary">Audit <span className="text-brand">Logs.</span></h3>
-                    <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Recent administrative actions</p>
+                    <h3 className="text-xl font-bold tracking-tight text-text-primary">Recent Activity</h3>
+                    <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Latest updates</p>
                 </div>
                 
                 <div className="space-y-6">
@@ -318,17 +318,17 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                 <p className="text-[10px] font-black uppercase text-text-primary">{log.action.replace(/_/g, ' ')}</p>
                                 <span className="text-[8px] font-bold text-text-muted">{new Date(log.createdAt).toLocaleTimeString()}</span>
                             </div>
-                            <p className="text-[9px] font-bold uppercase text-text-muted tracking-tight mt-1">Initiated by {log.userName || "System"} • {log.target}</p>
+                            <p className="text-[9px] font-bold uppercase text-text-muted tracking-tight mt-1">By {log.userName || "System"} • {log.target}</p>
                         </div>
                     )) : (
                         <div className="py-4 text-center">
-                            <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">No recent audit activity</p>
+                            <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">No recent activity</p>
                         </div>
                     )}
                 </div>
 
                 <Link href="/dashboard/report" className="w-full py-3 border border-stroke rounded-xl text-[9px] font-bold uppercase tracking-widest text-text-muted hover:border-brand hover:text-brand transition-all flex items-center justify-center">
-                    View Complete Log History
+                    View All Activity
                 </Link>
 
             </div>
@@ -341,13 +341,13 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
            <div className="lg:col-span-8 bg-white rounded-[2rem] border border-stroke p-8 md:p-10 space-y-8 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
               <div className="flex justify-between items-center">
                  <div>
-                    <h3 className="text-2xl font-black uppercase tracking-tight text-text-primary">
-                       Active <span className="text-brand">Leads.</span>
+                    <h3 className="text-2xl font-bold tracking-tight text-text-primary">
+                       Recent Leads
                     </h3>
-                    <p className="text-xs text-text-muted mt-1">Most recent inbound inquiries needing review</p>
+                    <p className="text-xs text-text-muted mt-1">Latest inquiries needing attention</p>
                  </div>
                  <Link href="/dashboard/leads" className="text-xs font-bold uppercase text-brand hover:underline flex items-center gap-1.5 tracking-wider">
-                    Leads Manager <ArrowUpRight size={14} />
+                    View All Leads <ArrowUpRight size={14} />
                  </Link>
               </div>
               
@@ -369,7 +369,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                                {lead.name}
                             </p>
                             <p className="text-xs text-text-muted font-medium mt-0.5">
-                               {lead.company || "Direct Individual Entry"}
+                               {lead.company || "Direct Inquiry"}
                             </p>
                          </div>
                       </div>
@@ -397,14 +397,14 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
          <div className={`space-y-8 ${isAdmin ? 'lg:col-span-4' : 'lg:col-span-12'}`}>
             <div className="bg-white rounded-[2rem] border border-stroke p-8 space-y-6 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                <div>
-                  <h3 className="text-2xl font-bold tracking-tight text-text-primary">System <span className="text-brand">Health.</span></h3>
-                  <p className="text-xs text-text-muted mt-1">Operational performance indicators</p>
+                  <h3 className="text-2xl font-bold tracking-tight text-text-primary">System Health</h3>
+                  <p className="text-xs text-text-muted mt-1">Status indicators</p>
                </div>
                <div className="space-y-6">
                   {[
-                    { label: "Execution Speed", val: "Optimal (98/100)", fill: "w-[98%]" },
-                    { label: "Mobile Responsiveness", val: "Excellent", fill: "w-[95%]" },
-                    { label: "SEO Status", val: "Fully Optimized", fill: "w-[100%]" }
+                    { label: "Site Speed", val: "Optimal", fill: "w-[98%]" },
+                    { label: "Mobile View", val: "Excellent", fill: "w-[95%]" },
+                    { label: "SEO Status", val: "Optimized", fill: "w-[100%]" }
                   ].map((node: any, i: number) => (
                     <div key={i} className="space-y-2">
                        <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
@@ -427,7 +427,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 -z-10" />
                <div className="flex items-center gap-3">
                   <ShieldCheck size={28} />
-                  <h3 className="text-2xl font-black uppercase tracking-tight leading-none">Content <br />Publishing.</h3>
+                  <h3 className="text-2xl font-bold uppercase tracking-tight leading-none">Content</h3>
                </div>
                <p className="text-white/80 text-xs leading-relaxed font-medium">Quick shortcuts to expand portfolio or blog entries</p>
                <div className="grid grid-cols-2 gap-4">
@@ -442,7 +442,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                    {isAdmin && (
                        <Link href="/dashboard/team" className="col-span-2 flex items-center justify-center gap-3 p-4 bg-white/10 hover:bg-white/20 transition-all rounded-xl border border-white/10 duration-300">
                           <Users size={18} />
-                          <span className="text-[10px] font-bold uppercase tracking-wider">Manage Experts / Team</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider">Manage Team</span>
                        </Link>
                     )}
                </div>

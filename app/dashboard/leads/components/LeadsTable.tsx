@@ -75,7 +75,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
       setLeads(leads.filter(l => l.id !== id));
       setSelectedLead(null);
       setSelectedIds(selectedIds.filter(i => i !== id));
-      toast.success("Lead eliminated from registry");
+      toast.success("Lead deleted successfully.");
     }
   };
 
@@ -88,7 +88,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
     }
     setLeads(leads.filter(l => !selectedIds.includes(l.id)));
     setSelectedIds([]);
-    toast.success(`${successCount} nodes purged from system.`);
+    toast.success(`${successCount} leads deleted.`);
   };
 
   const exportToCSV = () => {
@@ -114,7 +114,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success("Intelligence report exported.");
+    toast.success("Leads exported.");
   };
 
   return (
@@ -126,34 +126,34 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
             <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
             <input 
               type="text" 
-              placeholder="Search Intelligence..." 
+              placeholder="Search leads..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-14 bg-surface/50 border border-stroke rounded-2xl pl-16 pr-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
+              className="w-full h-12 bg-surface/50 border border-stroke rounded-xl pl-16 pr-6 text-sm focus:outline-none focus:border-brand transition-all" 
             />
           </div>
-          <button 
-            onClick={exportToCSV}
-            className="h-14 px-6 bg-white border border-stroke rounded-2xl flex items-center gap-3 text-[10px] font-bold uppercase hover:border-brand hover:text-brand transition-all shadow-sm"
-          >
-            <Download size={16} /> Export
-          </button>
+            <button 
+                onClick={exportToCSV}
+                className="h-12 px-6 bg-white border border-stroke rounded-xl flex items-center gap-2 text-xs font-bold hover:border-brand hover:text-brand transition-all shadow-sm"
+            >
+                <Download size={16} /> Export
+            </button>
         </div>
 
         <div className="flex items-center gap-3 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-           {["ALL", "NEW", "CONTACTED", "QUALIFIED", "ARCHIVED"].map(status => (
-             <button
-               key={status}
-               onClick={() => setStatusFilter(status)}
-               className={`px-6 h-14 rounded-2xl text-[10px] font-black uppercase transition-all whitespace-nowrap border ${
-                 statusFilter === status 
-                   ? "bg-brand text-white border-brand shadow-lg shadow-brand/20" 
-                   : "bg-white text-text-muted border-stroke hover:border-brand/30"
-               }`}
-             >
-               {status}
-             </button>
-           ))}
+            {["ALL", "NEW", "CONTACTED", "QUALIFIED", "ARCHIVED"].map(status => (
+              <button
+                key={status}
+                onClick={() => setStatusFilter(status)}
+                className={`px-4 h-12 rounded-xl text-[10px] font-bold uppercase transition-all whitespace-nowrap border ${
+                  statusFilter === status 
+                    ? "bg-brand text-white border-brand shadow-md" 
+                    : "bg-white text-text-muted border-stroke hover:border-brand/30"
+                }`}
+              >
+                {status}
+              </button>
+            ))}
         </div>
       </div>
 
@@ -169,14 +169,14 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
               <div className="w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-xs font-bold">
                 {selectedIds.length}
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Nodes Selected</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Leads Selected</span>
             </div>
             <div className="flex items-center gap-4">
               <button 
                 onClick={handleBulkDelete}
                 className="flex items-center gap-2 text-[10px] font-bold uppercase text-red-400 hover:text-red-300 transition-colors"
               >
-                <Trash2 size={16} /> Purge
+                <Trash2 size={16} /> Delete
               </button>
               <button 
                 onClick={() => setSelectedIds([])}
@@ -206,10 +206,10 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                      {selectedIds.length === filteredLeads.length && filteredLeads.length > 0 && <Check size={14} />}
                    </button>
                 </th>
-                <th className="px-10 py-8 text-[10px] font-black uppercase text-text-muted tracking-widest">Lead Intelligence</th>
-                <th className="px-10 py-8 text-[10px] font-black uppercase text-text-muted tracking-widest">Contact Node</th>
-                <th className="px-10 py-8 text-[10px] font-black uppercase text-text-muted tracking-widest text-center">Status</th>
-                <th className="px-10 py-8 text-[10px] font-black uppercase text-text-muted tracking-widest text-right">Operations</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted tracking-widest">Lead Details</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted tracking-widest">Contact Info</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted tracking-widest text-center">Status</th>
+                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted tracking-widest text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stroke">
@@ -237,7 +237,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                         <div className="flex items-center gap-3 mt-1">
                            <Building2 size={12} className="text-text-muted" />
                            <p className="text-[10px] font-bold uppercase text-text-muted">
-                             {lead.company || "Independent Node"}
+                             {lead.company || "Individual"}
                            </p>
                         </div>
                       </div>
@@ -279,12 +279,12 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                   </td>
                   <td className="px-10 py-10 text-right">
                     <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
-                      <button 
-                        onClick={() => setSelectedLead(lead)}
-                        className="p-4 bg-white border border-stroke hover:bg-brand hover:text-white rounded-xl transition-all text-text-muted shadow-sm flex items-center gap-2 text-[10px] font-bold uppercase"
-                      >
-                        <Zap size={16} /> Analyze
-                      </button>
+                        <button 
+                          onClick={() => setSelectedLead(lead)}
+                          className="p-3 bg-white border border-stroke hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted shadow-sm flex items-center gap-2 text-xs font-bold"
+                        >
+                          <Zap size={16} /> View
+                        </button>
                       <button 
                         onClick={() => handleDelete(lead.id)}
                         className="p-4 bg-white border border-red-100 hover:bg-red-500 hover:text-white rounded-xl transition-all text-red-400 shadow-sm"
@@ -303,7 +303,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                   <td colSpan={5} className="px-10 py-32 text-center">
                      <div className="flex flex-col items-center gap-4">
                         <Search size={48} className="text-stroke" />
-                        <p className="text-[11px] font-black uppercase text-text-muted tracking-widest">No matching intelligence nodes found.</p>
+                         <p className="text-[11px] font-bold uppercase text-text-muted tracking-widest">No matching leads found.</p>
                      </div>
                   </td>
                 </tr>
@@ -338,8 +338,8 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                         <div className="space-y-1">
                            <h2 className="text-4xl font-black uppercase tracking-tighter text-text-primary leading-none">{selectedLead.name}</h2>
                            <div className="flex items-center gap-3">
-                              <Building2 size={14} className="text-brand" />
-                              <p className="text-xs font-bold uppercase text-text-muted tracking-wider">{selectedLead.company || "Independent Entity"}</p>
+                               <Building2 size={14} className="text-brand" />
+                              <p className="text-xs font-bold text-text-muted">{selectedLead.company || "Individual"}</p>
                            </div>
                         </div>
                       </div>
@@ -353,21 +353,21 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
 
                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-10 border-y border-stroke">
                       <div className="space-y-4">
-                         <p className="text-[10px] font-black uppercase text-brand tracking-widest flex items-center gap-2">
-                            <Mail size={12} /> Transmission Node
-                         </p>
+                          <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-2">
+                             <Mail size={12} /> Email Address
+                          </p>
                          <p className="text-sm font-bold text-text-primary">{selectedLead.email}</p>
                       </div>
                       <div className="space-y-4">
-                         <p className="text-[10px] font-black uppercase text-brand tracking-widest flex items-center gap-2">
-                            <Zap size={12} /> Strategic Service
-                         </p>
+                          <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-2">
+                             <Zap size={12} /> Requested Service
+                          </p>
                          <p className="text-sm font-bold text-text-primary uppercase">{selectedLead.service || "General Growth"}</p>
                       </div>
                       <div className="space-y-4">
-                         <p className="text-[10px] font-black uppercase text-brand tracking-widest flex items-center gap-2">
-                            <Calendar size={12} /> Reception Date
-                         </p>
+                          <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-2">
+                             <Calendar size={12} /> Date Received
+                          </p>
                          <p className="text-sm font-bold text-text-primary">
                             {new Date(selectedLead.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                          </p>
@@ -376,9 +376,9 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
 
                    <div className="space-y-8">
                       <div className="flex items-center justify-between">
-                         <p className="text-[10px] font-black uppercase text-brand tracking-widest flex items-center gap-3">
-                            <MessageSquare size={14} /> Core Brief / Intelligence
-                         </p>
+                          <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-3">
+                             <MessageSquare size={14} /> Message Details
+                          </p>
                          <div className="px-4 py-1.5 bg-brand/5 border border-brand/20 rounded-full text-[9px] font-black uppercase text-brand">High Priority</div>
                       </div>
                       <div className="bg-surface p-10 rounded-[3rem] border border-stroke relative">
@@ -391,23 +391,23 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
 
                    <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-8">
                       <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                         <button 
-                          onClick={() => handleStatusChange(selectedLead.id, "CONTACTED")}
-                          className="h-14 px-8 bg-black text-white text-[10px] font-black uppercase rounded-2xl flex items-center gap-3 hover:bg-zinc-800 transition-all shadow-xl"
-                         >
-                            <CheckCircle size={18} /> Initiate Contact
-                         </button>
-                         <button 
-                          onClick={() => handleStatusChange(selectedLead.id, "QUALIFIED")}
-                          className="h-14 px-8 bg-white border border-stroke text-[10px] font-black uppercase rounded-2xl flex items-center gap-3 hover:bg-surface transition-all"
-                         >
-                            <Zap size={18} className="text-brand" /> Qualify Lead
-                         </button>
+                          <button 
+                           onClick={() => handleStatusChange(selectedLead.id, "CONTACTED")}
+                           className="h-12 px-6 bg-black text-white text-xs font-bold rounded-xl flex items-center gap-2 hover:bg-zinc-800 transition-all shadow-md"
+                          >
+                             <CheckCircle size={18} /> Mark Contacted
+                          </button>
+                          <button 
+                           onClick={() => handleStatusChange(selectedLead.id, "QUALIFIED")}
+                           className="h-12 px-6 bg-white border border-stroke text-xs font-bold rounded-xl flex items-center gap-2 hover:bg-surface transition-all"
+                          >
+                             <Zap size={18} className="text-brand" /> Mark Qualified
+                          </button>
                       </div>
-                      <div className="flex items-center gap-4 p-4 bg-brand/5 border border-brand/10 rounded-[1.5rem]">
-                         <div className="w-3 h-3 rounded-full bg-brand animate-ping" />
-                         <span className="text-[10px] font-black uppercase text-brand tracking-[0.2em]">Secure Session Active</span>
-                      </div>
+                       <div className="flex items-center gap-3 p-3 bg-brand/5 border border-brand/10 rounded-xl">
+                          <div className="w-2 h-2 rounded-full bg-brand animate-pulse" />
+                          <span className="text-[10px] font-bold text-brand uppercase tracking-wider">Viewing Details</span>
+                       </div>
                    </div>
                 </div>
              </motion.div>
