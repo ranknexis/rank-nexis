@@ -14,23 +14,38 @@ interface Props {
 
 export default function BlogDetailClient({ post, relatedPosts }: Props) {
   const [headings, setHeadings] = useState<{ id: string; text: string; level: string }[]>([]);
+  const [activeId, setActiveId] = useState<string>("");
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!contentRef.current) return;
 
-    const renderedHeadings = contentRef.current.querySelectorAll('h2, h3');
-    const headingsData = Array.from(renderedHeadings).map((heading, index) => {
-      const id = heading.id || `section-${index}`;
-      heading.id = id;
-      return { 
-        id, 
-        text: heading.textContent || '',
-        level: heading.tagName.toLowerCase() 
-      };
-    });
-    setHeadings(headingsData);
+      const renderedHeadings = contentRef.current.querySelectorAll('h2, h3');
+      const headingsData = Array.from(renderedHeadings).map((heading, index) => {
+        const id = heading.id || `section-${index}`;
+        heading.id = id;
+        return { 
+          id, 
+          text: heading.textContent || '',
+          level: heading.tagName.toLowerCase() 
+        };
+      });
+      setHeadings(headingsData);
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveId(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: '-100px 0px -70% 0px' }
+      );
+
+      renderedHeadings.forEach((heading) => observer.observe(heading));
+      return () => observer.disconnect();
     }, 100);
 
     return () => clearTimeout(timer);
@@ -140,7 +155,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 xl:gap-24 items-start">
 
-            <aside className="lg:col-span-3 lg:sticky lg:top-32 order-2 lg:order-1">
+            <aside className="lg:col-span-3 lg:sticky lg:top-32 order-2 lg:order-1 self-start max-h-[calc(100vh-160px)] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
                <div className="space-y-12">
 
                   <div className="space-y-6">
@@ -161,10 +176,12 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                           <button 
                             key={heading.id}
                             onClick={() => scrollToHeading(heading.id)}
-                            className={`flex items-start gap-3 text-[10px] font-bold uppercase text-gray-500 hover:text-brand text-left transition-colors group ${heading.level === 'h3' ? 'ml-4 opacity-80' : ''}`}
+                            className={`flex items-start gap-3 text-[10px] font-bold uppercase transition-all duration-300 text-left group 
+                              ${activeId === heading.id ? 'text-brand translate-x-2' : 'text-gray-500 hover:text-brand'}
+                              ${heading.level === 'h3' ? 'ml-4 opacity-80' : ''}`}
                           >
-                            <ChevronRight size={14} className="mt-0.5 text-brand/30 group-hover:text-brand" />
-                            {heading.text}
+                            <ChevronRight size={14} className={`mt-0.5 transition-colors ${activeId === heading.id ? 'text-brand' : 'text-brand/30 group-hover:text-brand'}`} />
+                            <span className="line-clamp-2">{heading.text}</span>
                           </button>
                         ))}
                       </nav>
@@ -187,34 +204,16 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
             </aside>
 
             <article className="lg:col-span-9 order-1 lg:order-2">
-               <style jsx global>{`
-                 .blog-content-area h2 {
-                   scroll-margin-top: 150px;
-                   margin-top: 6rem !important;
-                   margin-bottom: 2rem !important;
-                   padding-top: 4rem !important;
-                   border-top: 1px solid #f3f4f6;
-                 }
-                 .blog-content-area h3 {
-                   scroll-margin-top: 150px;
-                   margin-top: 4rem !important;
-                   margin-bottom: 1.5rem !important;
-                 }
-                 .blog-content-area p {
-                   margin-bottom: 2rem !important;
-                 }
-                 .blog-content-area hr {
-                   margin: 4rem 0 !important;
-                   opacity: 0.5;
-                 }
-               `}</style>
                <div className="max-w-3xl prose prose-xl prose-gray blog-content-area
                  prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
                  prose-h2:text-3xl md:prose-h2:text-4xl
+                 prose-h2:scroll-mt-[150px] prose-h2:mt-24 prose-h2:mb-8 prose-h2:pt-16 prose-h2:border-t prose-h2:border-gray-100
                  prose-h3:text-xl md:prose-h3:text-2xl
-                 prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:font-medium
+                 prose-h3:scroll-mt-[150px] prose-h3:mt-16 prose-h3:mb-6
+                 prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:font-medium prose-p:mb-8
                  prose-strong:text-text-primary prose-strong:font-bold
                  prose-ul:list-disc prose-li:marker:text-brand prose-li:text-gray-600 prose-li:mb-2
+                 prose-hr:my-16 prose-hr:opacity-50
                  prose-img:rounded-3xl prose-img:shadow-premium prose-img:my-16">
                   <div 
                     ref={contentRef}
