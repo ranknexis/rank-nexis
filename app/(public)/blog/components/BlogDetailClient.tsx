@@ -13,19 +13,27 @@ interface Props {
 }
 
 export default function BlogDetailClient({ post, relatedPosts }: Props) {
-  const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
+  const [headings, setHeadings] = useState<{ id: string; text: string; level: string }[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!contentRef.current) return;
+    const timer = setTimeout(() => {
+      if (!contentRef.current) return;
 
-    const renderedH2s = contentRef.current.querySelectorAll('h2');
-    const h2s = Array.from(renderedH2s).map((h2, index) => {
-      const id = `section-${index}`;
-      h2.id = id;
-      return { id, text: h2.textContent || '' };
+    const renderedHeadings = contentRef.current.querySelectorAll('h2, h3');
+    const headingsData = Array.from(renderedHeadings).map((heading, index) => {
+      const id = heading.id || `section-${index}`;
+      heading.id = id;
+      return { 
+        id, 
+        text: heading.textContent || '',
+        level: heading.tagName.toLowerCase() 
+      };
     });
-    setHeadings(h2s);
+    setHeadings(headingsData);
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, [post.content]);
 
   const formattedDate = useMemo(() => new Date(post.createdAt).toLocaleDateString(undefined, { 
@@ -43,16 +51,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
   const scrollToHeading = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) {
-        const offset = 100;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = el.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        });
+      el.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
 
@@ -162,7 +161,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                           <button 
                             key={heading.id}
                             onClick={() => scrollToHeading(heading.id)}
-                            className="flex items-start gap-3 text-[10px] font-bold uppercase text-gray-500 hover:text-brand text-left transition-colors group"
+                            className={`flex items-start gap-3 text-[10px] font-bold uppercase text-gray-500 hover:text-brand text-left transition-colors group ${heading.level === 'h3' ? 'ml-4 opacity-80' : ''}`}
                           >
                             <ChevronRight size={14} className="mt-0.5 text-brand/30 group-hover:text-brand" />
                             {heading.text}
@@ -188,11 +187,32 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
             </aside>
 
             <article className="lg:col-span-9 order-1 lg:order-2">
-               <div className="max-w-3xl prose prose-xl prose-gray 
+               <style jsx global>{`
+                 .blog-content-area h2 {
+                   scroll-margin-top: 150px;
+                   margin-top: 6rem !important;
+                   margin-bottom: 2rem !important;
+                   padding-top: 4rem !important;
+                   border-top: 1px solid #f3f4f6;
+                 }
+                 .blog-content-area h3 {
+                   scroll-margin-top: 150px;
+                   margin-top: 4rem !important;
+                   margin-bottom: 1.5rem !important;
+                 }
+                 .blog-content-area p {
+                   margin-bottom: 2rem !important;
+                 }
+                 .blog-content-area hr {
+                   margin: 4rem 0 !important;
+                   opacity: 0.5;
+                 }
+               `}</style>
+               <div className="max-w-3xl prose prose-xl prose-gray blog-content-area
                  prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
-                 prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-24 prose-h2:mb-8 prose-h2:pt-16 prose-h2:border-t prose-h2:border-gray-100
-                 prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-16 prose-h3:mb-6
-                 prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:font-medium prose-p:mb-8
+                 prose-h2:text-3xl md:prose-h2:text-4xl
+                 prose-h3:text-xl md:prose-h3:text-2xl
+                 prose-p:text-gray-600 prose-p:leading-[1.8] prose-p:font-medium
                  prose-strong:text-text-primary prose-strong:font-bold
                  prose-ul:list-disc prose-li:marker:text-brand prose-li:text-gray-600 prose-li:mb-2
                  prose-img:rounded-3xl prose-img:shadow-premium prose-img:my-16">

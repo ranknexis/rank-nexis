@@ -35,7 +35,7 @@ export async function createBlogPost(data: {
         revalidatePath("/blog");
         revalidatePath("/dashboard/blog");
         revalidatePath("/");
-        return { success: true, post };
+        return { success: true, data: post };
     } catch (error) {
         
         return { error: "Failed to create blog post." };
@@ -69,7 +69,7 @@ export async function updateBlogPost(id: string, data: any) {
         revalidatePath("/dashboard/blog");
         revalidatePath("/");
         revalidatePath("/blog", "page");
-        return { success: true, post };
+        return { success: true, data: post };
     } catch (error) {
         
         return { error: "Failed to update blog post." };
@@ -96,5 +96,50 @@ export async function deleteBlogPost(id: string) {
     } catch (error) {
         
         return { error: "Failed to delete blog post." };
+    }
+}
+
+export async function createBlogCategory(data: { name: string; slug: string }) {
+    const session = await getSession();
+    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
+    try {
+        const category = await prisma.blogCategory.create({ data });
+        revalidatePath("/dashboard/blog");
+        return { success: true, data: category };
+    } catch (error) {
+        return { error: "Failed to create category." };
+    }
+}
+
+export async function updateBlogCategory(id: string, data: any) {
+    const session = await getSession();
+    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
+    try {
+        const category = await prisma.blogCategory.update({
+            where: { id },
+            data
+        });
+        revalidatePath("/dashboard/blog");
+        return { success: true, data: category };
+    } catch (error) {
+        return { error: "Failed to update category." };
+    }
+}
+
+export async function deleteBlogCategory(id: string) {
+    const session = await getSession();
+    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
+    try {
+        const blogsCount = await prisma.blog.count({ where: { categoryId: id } });
+        if (blogsCount > 0) return { error: "Category is not empty. Reassign blogs first." };
+
+        await prisma.blogCategory.delete({ where: { id } });
+        revalidatePath("/dashboard/blog");
+        return { success: true };
+    } catch (error) {
+        return { error: "Failed to delete category." };
     }
 }

@@ -1,25 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { createBlogPost, updateBlogPost, deleteBlogPost } from "@/actions/cms";
-import { toast } from "sonner";
-import { 
-  Save, 
-  Trash2, 
-  ArrowLeft, 
-  Eye, 
-  Settings2,
+import { createBlogPost, deleteBlogPost, updateBlogPost } from "@/actions/blog";
+import {
   ChevronLeft,
-  User,
-  Tags,
-  Globe,
+  Cloud,
   FileText,
-  Cloud
+  Globe,
+  Save,
+  Settings2,
+  Tags,
+  Trash2,
+  User,
+  Code
 } from "lucide-react";
 import Link from "next/link";
-import RichTextEditor from "../../pages/components/RichTextEditor";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import CloudinaryUpload from "../../components/CloudinaryUpload";
+import RichTextEditor from "../../pages/components/RichTextEditor";
+import { convertMarkdownToHtml } from "@/app/lib/markdown";
 
 interface Props {
   initialData: any;
@@ -40,6 +40,8 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
     authorId: authors[0]?.id || "",
   });
   const [loading, setLoading] = useState(false);
+  const [mdInput, setMdInput] = useState("");
+  const [showMdForge, setShowMdForge] = useState(false);
 
   useEffect(() => {
     if (!initialData && data.title) {
@@ -78,6 +80,14 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
       toast.success("Node Terminated");
       router.push("/dashboard/blog");
     }
+  };
+
+  const handleMdConvert = () => {
+    if (!mdInput) return;
+    const html = convertMarkdownToHtml(mdInput);
+    setData((prev: any) => ({ ...prev, content: html }));
+    setShowMdForge(false);
+    toast.success("Manuscript Processed Successfully");
   };
 
   return (
@@ -134,13 +144,46 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
                  </div>
 
                  <div className="space-y-6">
-                    <p className="text-[10px] font-bold uppercase text-brand tracking-[0.3em] ml-2">Core Manuscript</p>
-                    <div className="min-h-[600px] prose-slate max-w-none">
-                       <RichTextEditor 
-                         value={data.content} 
-                         onChange={content => setData({...data, content})} 
-                       />
+                    <div className="flex justify-between items-center ml-2">
+                       <p className="text-[10px] font-bold uppercase text-brand tracking-[0.3em]">Core Manuscript</p>
+                       <button 
+                         onClick={() => setShowMdForge(!showMdForge)}
+                         type="button"
+                         className="flex items-center gap-2 text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-all"
+                       >
+                         <Code size={14} /> {showMdForge ? "Hide MD Forge" : "Markdown Forge"}
+                       </button>
                     </div>
+
+                    {showMdForge ? (
+                      <div className="space-y-6 bg-surface/50 p-10 rounded-[2rem] border border-brand/10">
+                        <div className="space-y-2">
+                          <h4 className="text-sm font-bold uppercase">Markdown Ingestor</h4>
+                          <p className="text-[10px] text-text-muted uppercase">Paste your raw markdown here for automated optimization.</p>
+                        </div>
+                        <textarea 
+                          value={mdInput}
+                          onChange={e => setMdInput(e.target.value)}
+                          placeholder="PASTE RAW MARKDOWN HERE..."
+                          rows={15}
+                          className="w-full bg-white border border-stroke rounded-2xl p-8 text-xs font-mono text-text-primary focus:border-brand transition-all resize-none"
+                        />
+                        <button 
+                          onClick={handleMdConvert}
+                          type="button"
+                          className="w-full h-14 bg-brand text-white rounded-xl text-[10px] font-bold uppercase hover:scale-[1.02] active:scale-95 transition-all shadow-lg"
+                        >
+                          Process & Integrate Manuscript
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="min-h-[600px] prose-slate max-w-none">
+                         <RichTextEditor 
+                           value={data.content} 
+                           onChange={content => setData({...data, content})} 
+                         />
+                      </div>
+                    )}
                  </div>
               </div>
            </div>
