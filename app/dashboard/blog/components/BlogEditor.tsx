@@ -84,10 +84,13 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
 
   const handleMdConvert = () => {
     if (!mdInput) return;
-    const html = convertMarkdownToHtml(mdInput);
-    setData((prev: any) => ({ ...prev, content: html }));
+    
+    const isHtml = mdInput.trim().startsWith('<') || mdInput.trim().includes('</');
+    const finalContent = isHtml ? mdInput : convertMarkdownToHtml(mdInput);
+    
+    setData((prev: any) => ({ ...prev, content: finalContent }));
     setShowMdForge(false);
-    toast.success("Manuscript Processed Successfully");
+    toast.success(isHtml ? "HTML Manuscript Integrated" : "Markdown Manuscript Processed");
   };
 
   return (
@@ -157,9 +160,15 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
 
                     {showMdForge ? (
                       <div className="space-y-6 bg-surface/50 p-10 rounded-[2rem] border border-brand/10">
-                        <div className="space-y-2">
-                          <h4 className="text-sm font-bold uppercase">Markdown Ingestor</h4>
-                          <p className="text-[10px] text-text-muted uppercase">Paste your raw markdown here for automated optimization.</p>
+                        <div className="space-y-4">
+                          <h4 className="text-sm font-bold uppercase">Content Forge</h4>
+                          <div className="flex gap-3">
+                            <span className="px-3 py-1 bg-brand/10 text-brand text-[9px] font-bold uppercase rounded-full tracking-wider">Direct HTML</span>
+                            <span className="px-3 py-1 bg-gray-100 text-gray-500 text-[9px] font-bold uppercase rounded-full tracking-wider">Markdown</span>
+                          </div>
+                          <p className="text-[10px] text-text-muted leading-relaxed uppercase max-w-lg">
+                            Paste your <span className="text-brand font-bold">Direct HTML</span> or Raw Markdown here. The system will automatically detect the format and integrate it into the editor.
+                          </p>
                         </div>
                         <textarea 
                           value={mdInput}

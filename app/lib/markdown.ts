@@ -33,12 +33,10 @@ export function convertMarkdownToHtml(md: string) {
       return;
     }
 
-    // Handle Headings (H1, H2, H3)
     const hMatch = trimmed.match(/^(#{1,3})\s*(.*)/);
     if (hMatch) {
         const level = hMatch[1].length;
         let rawText = hMatch[2].trim().replace(/^\**|\**$/g, '').trim();
-        // If the text is too long, it's likely a misformatted paragraph, not a heading
         if (rawText.length > 0 && rawText.length <= 120) {
             if (inList) { html += '    </ul>\n'; inList = false; }
             if (inOrderedList) { html += '    </ol>\n'; inOrderedList = false; }
@@ -49,7 +47,6 @@ export function convertMarkdownToHtml(md: string) {
         }
     }
 
-    // Handle Lists
     if (trimmed.startsWith('* ') || trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
       if (!inList) {
         if (inOrderedList) { html += '    </ol>\n'; inOrderedList = false; }
@@ -62,7 +59,6 @@ export function convertMarkdownToHtml(md: string) {
       return;
     }
 
-    // Handle Ordered Lists
     if (/^\d+[\.\)]\s/.test(trimmed)) {
       if (!inOrderedList) {
         if (inList) { html += '    </ul>\n'; inList = false; }
@@ -75,7 +71,6 @@ export function convertMarkdownToHtml(md: string) {
       return;
     }
 
-    // Paragraphs
     if (inList) { html += '    </ul>\n'; inList = false; }
     if (inOrderedList) { html += '    </ol>\n'; inOrderedList = false; }
 
