@@ -15,7 +15,19 @@ export async function createCaseStudy(data: any) {
     try {
         const caseStudy = await prisma.caseStudy.create({
             data: {
-                ...data,
+                title: data.title,
+                slug: data.slug,
+                client: data.client,
+                description: data.description,
+                challenge: data.challenge,
+                solution: data.solution,
+                execution: data.execution,
+                results: data.results,
+                image: data.image,
+                stats: data.stats,
+                kpi: data.kpi,
+                tag: data.tag,
+                technologies: data.technologies,
                 authorId
             }
         });
@@ -24,7 +36,6 @@ export async function createCaseStudy(data: any) {
         revalidatePath("/");
         return { success: true, caseStudy };
     } catch (error) {
-        
         return { error: "Failed to create case study." };
     }
 }
@@ -47,7 +58,19 @@ export async function updateCaseStudy(id: string, data: any) {
         const caseStudy = await prisma.caseStudy.update({
             where: { id },
             data: {
-                ...data,
+                title: data.title,
+                slug: data.slug,
+                client: data.client,
+                description: data.description,
+                challenge: data.challenge,
+                solution: data.solution,
+                execution: data.execution,
+                results: data.results,
+                image: data.image,
+                stats: data.stats,
+                kpi: data.kpi,
+                tag: data.tag,
+                technologies: data.technologies,
                 authorId: session.role === "ADMIN" ? data.authorId : existing.authorId
             }
         });
@@ -58,7 +81,6 @@ export async function updateCaseStudy(id: string, data: any) {
         revalidatePath("/");
         return { success: true, caseStudy };
     } catch (error) {
-        
         return { error: "Failed to update case study." };
     }
 }

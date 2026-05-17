@@ -49,7 +49,6 @@ export async function updateBlogPost(id: string, data: any) {
     if (!session) return { error: "Unauthorized" };
 
     try {
-        
         const existing = await prisma.blog.findUnique({ where: { id } });
         if (!existing) return { error: "Post not found" };
         
@@ -63,8 +62,13 @@ export async function updateBlogPost(id: string, data: any) {
         const post = await prisma.blog.update({
             where: { id },
             data: {
-                ...data,
-                
+                title: data.title,
+                slug: data.slug,
+                content: data.content,
+                image: data.image,
+                metaTitle: data.metaTitle,
+                metaDescription: data.metaDescription,
+                categoryId: data.categoryId,
                 authorId: session.role === "ADMIN" ? data.authorId : existing.authorId
             }
         });
@@ -76,7 +80,6 @@ export async function updateBlogPost(id: string, data: any) {
         revalidatePath("/blog", "page");
         return { success: true, data: post };
     } catch (error) {
-        
         return { error: "Failed to update blog post." };
     }
 }
