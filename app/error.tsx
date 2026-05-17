@@ -34,7 +34,7 @@ export default function Error({
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-bold uppercase tracking-tighter leading-tight"
           >
-            System <br /> <span className="text-red-500">Anomaly.</span>
+            Unexpected <br /> <span className="text-red-500">Error.</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -42,7 +42,7 @@ export default function Error({
             transition={{ delay: 0.2 }}
             className="text-text-secondary max-w-md mx-auto text-lg font-medium leading-relaxed"
           >
-            A technical protocol failure occurred. The system logs have been updated with this diagnostic event.
+            An unexpected error occurred while loading this page. Please try reloading or go back to the dashboard.
           </motion.p>
         </div>
  
@@ -56,10 +56,10 @@ export default function Error({
             onClick={() => reset()}
             className="btn-primary h-16 px-10 text-[10px] font-bold uppercase flex gap-4 w-full sm:w-auto"
           >
-            <RefreshCw size={18} /> Re-Initialize Protocol
+            <RefreshCw size={18} /> Reload Page
           </button>
-          <Link href="/" className="btn-outline h-16 px-10 text-[10px] font-bold uppercase flex gap-4 w-full sm:w-auto">
-            <Home size={18} /> Return to Hub
+          <Link href="/dashboard" className="btn-outline h-16 px-10 text-[10px] font-bold uppercase flex gap-4 w-full sm:w-auto">
+            <Home size={18} /> Return to Dashboard
           </Link>
         </motion.div>
       </div>

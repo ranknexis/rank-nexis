@@ -512,9 +512,9 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
              <div className="w-16 h-16 bg-white rounded-2xl border border-brand/10 flex items-center justify-center text-brand mx-auto shadow-sm">
                 <Star size={32} />
              </div>
-             <h3 className="text-xl font-bold tracking-tight">Feedback Synchronization</h3>
+             <h3 className="text-xl font-bold tracking-tight">Customer Testimonials</h3>
              <p className="text-sm text-text-muted leading-relaxed max-w-sm mx-auto">
-                This section automatically syncs with the **Feedback** manager. Manage all testimonials centrally in the feedback section.
+                This section automatically syncs with the central Testimonials manager. Manage all testimonials centrally in the feedback section.
              </p>
              <div className="grid grid-cols-2 gap-10 text-left mt-8">
                 <div className="space-y-4">
@@ -617,7 +617,7 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
       default:
         return (
           <div className="p-10 bg-surface/30 rounded-3xl border-2 border-dashed border-stroke text-center">
-             <p className="text-[10px] font-bold uppercase text-text-muted">Editor for type "{section.sectionType}" is being programmed. <br /> You can edit raw JSON if needed.</p>
+             <p className="text-[10px] font-bold uppercase text-text-muted">Advanced content module editor. <br /> Update raw module data below if needed.</p>
              <textarea 
                value={JSON.stringify(content, null, 2)} 
                onChange={(e) => {

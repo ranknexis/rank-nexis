@@ -6,7 +6,8 @@ import {
    Globe,
    Info
 } from 'lucide-react';
-import { useState, memo } from 'react';
+import { memo, useState } from 'react';
+import CloudinaryUpload from '../../components/CloudinaryUpload';
 
 interface SeoEditorProps {
   data: any;
@@ -42,7 +43,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
           onClick={() => setActiveTab('og')}
           className={`px-6 py-2 rounded-full text-[10px] font-bold uppercase transition-all ${activeTab === 'og' ? 'bg-brand text-white shadow-lg shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
         >
-          Social Share (OG)
+          Social Media Preview
         </button>
       </div>
 
@@ -52,7 +53,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
           <div className="bg-white p-10 rounded-[2.5rem] border border-stroke shadow-sm space-y-6">
             <div className="flex items-center gap-3 text-text-muted mb-4">
                <Globe size={14} />
-               <p className="text-[10px] font-bold uppercase">Google SERP Preview</p>
+               <p className="text-[10px] font-bold uppercase">Google Search Preview</p>
             </div>
             
             <div className="space-y-2 max-w-xl">
@@ -63,7 +64,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
                   https://www.ranknexis.com{slug === 'home' ? '' : `/${slug}`} <ChevronDown size={12} />
                </p>
                <p className="text-[#4d5156] text-sm leading-relaxed line-clamp-2">
-                  {data.metaDescription || "Please provide a meta description for this node to improve search visibility..."}
+                  {data.metaDescription || "Please provide a meta description for this page to improve search visibility..."}
                </p>
             </div>
           </div>
@@ -141,7 +142,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
                  ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center text-text-muted gap-4">
                        <AlertCircle size={40} strokeWidth={1} />
-                       <p className="text-[10px] font-bold uppercase">No OG Image defined</p>
+                       <p className="text-[10px] font-bold uppercase">No Social Image selected</p>
                     </div>
                  )}
               </div>
@@ -157,36 +158,33 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
            </div>
 
            <div className="grid grid-cols-1 gap-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                 <div className="space-y-4">
-                    <label className="text-[11px] font-bold uppercase text-brand ml-4">OG Title</label>
-                    <input 
-                      type="text" 
-                      value={data.ogTitle || ''} 
-                      onChange={(e) => updateField('ogTitle', e.target.value)}
-                      placeholder="Same as Meta Title"
-                      className="input-field"
-                    />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="text-[11px] font-bold uppercase text-brand ml-4">OG Image URL</label>
-                    <input 
-                      type="text" 
-                      value={data.ogImage || ''} 
-                      onChange={(e) => updateField('ogImage', e.target.value)}
-                      placeholder="https://..."
-                      className="input-field"
-                    />
-                 </div>
-              </div>
               <div className="space-y-4">
-                 <label className="text-[11px] font-bold uppercase text-brand ml-4">OG Description</label>
+                 <label className="text-[11px] font-bold uppercase text-brand ml-4">Social Title</label>
+                 <input 
+                   type="text" 
+                   value={data.ogTitle || ''} 
+                   onChange={(e) => updateField('ogTitle', e.target.value)}
+                   placeholder="Same as Meta Title"
+                   className="input-field"
+                 />
+              </div>
+
+              <div className="space-y-4">
+                 <label className="text-[11px] font-bold uppercase text-brand ml-4">Social Description</label>
                  <textarea 
                    rows={3}
                    value={data.ogDescription || ''} 
                    onChange={(e) => updateField('ogDescription', e.target.value)}
                    placeholder="Same as Meta Description"
                    className="input-field h-auto py-6 resize-none"
+                 />
+              </div>
+
+              <div className="p-8 bg-surface/30 rounded-3xl border border-stroke">
+                 <CloudinaryUpload 
+                   value={data.ogImage || ''} 
+                   onChange={(url) => updateField('ogImage', url)}
+                   label="Social Media Image"
                  />
               </div>
            </div>
@@ -201,7 +199,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
                </div>
                <div>
                   <p className="text-sm font-bold uppercase text-text-primary">Search Indexing</p>
-                  <p className="text-[10px] font-bold uppercase text-text-muted">Control if this node appears in search engines.</p>
+                  <p className="text-[10px] font-bold uppercase text-text-muted">Control if this page appears in search engines.</p>
                </div>
             </div>
             <button 

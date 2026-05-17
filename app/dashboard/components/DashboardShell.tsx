@@ -27,75 +27,33 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 
-export default function DashboardShell({ 
-    children, 
-    session 
-}: { 
-    children: React.ReactNode, 
-    session: any 
-}) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [showUserDropdown, setShowUserDropdown] = useState(false);
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+interface SidebarContentProps {
+  isMobile?: boolean;
+  isCollapsed: boolean;
+  showUserDropdown: boolean;
+  setShowUserDropdown: (val: boolean) => void;
+  setShowLogoutConfirm: (val: boolean) => void;
+  session: any;
+  role: string;
+  pathname: string;
+  setMobileMenuOpen: (val: boolean) => void;
+  NAV_ITEMS: any[];
+}
 
-  useEffect(() => {
-    if (!session && pathname !== "/dashboard/login") {
-      router.push("/dashboard/login");
-    }
-  }, [session, pathname, router]);
-
-  useEffect(() => {
-    const activeEl = document.querySelector('.active-nav-link');
-    if (activeEl) {
-      activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }
-  }, [pathname]);
-
-  const role = session?.role || "TEAM_MEMBER";
-
-  const NAV_ITEMS = [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard", roles: ["ADMIN", "TEAM_MEMBER"] },
-    { icon: FileCode, label: "Pages", href: "/dashboard/pages", roles: ["ADMIN"], permission: "manage_pages" },
-    { icon: Zap, label: "Services", href: "/dashboard/services", roles: ["ADMIN"], permission: "manage_services" },
-    { icon: Briefcase, label: "Careers", href: "/dashboard/careers", roles: ["ADMIN"], permission: "manage_careers" },
-    { icon: Users, label: "Team", href: "/dashboard/team", roles: ["ADMIN"], permission: "manage_team" },
-    { icon: FileText, label: "Blog", href: "/dashboard/blog", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_blog" },
-    { icon: BarChart3, label: "Work", href: "/dashboard/work", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_work" },
-    { icon: MessageSquare, label: "Leads", href: "/dashboard/leads", roles: ["ADMIN"], permission: "manage_leads" },
-    { icon: Star, label: "Feedback", href: "/dashboard/feedback", roles: ["ADMIN"], permission: "manage_feedback" },
-    { icon: Users, label: "Users", href: "/dashboard/users", roles: ["ADMIN"], permission: "manage_users" },
-    { icon: Activity, label: "Performance", href: "/dashboard/performance", roles: ["ADMIN"] },
-    { icon: FileText, label: "Reports", href: "/dashboard/report", roles: ["ADMIN"] },
-    { icon: Settings, label: "Settings", href: "/dashboard/settings", roles: ["ADMIN"], permission: "manage_settings" },
-
-  ].filter(item => {
-    if (role === "ADMIN") return true;
-    if (item.roles.includes("TEAM_MEMBER")) {
-        if (["Overview", "Profile", "Blog", "Portfolio"].includes(item.label)) return true;
-        if (!item.permission) return true;
-        const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse(session?.permissions || "[]");
-        return userPermissions.includes(item.permission);
-    }
-    return false;
-  });
-
-  const handleLogout = async () => {
-    setShowLogoutConfirm(false);
-    await logout();
-    window.location.replace("/dashboard/login");
-  };
-
-  if (pathname === "/dashboard/login") {
-    return <>{children}</>;
-  }
-
-  if (!session) return null;
-
-  const SidebarContent = ({ isMobile = false }) => (
-    <div className="flex flex-col h-full bg-white relative overflow-x-hidden">
+function SidebarContent({
+  isMobile = false,
+  isCollapsed,
+  showUserDropdown,
+  setShowUserDropdown,
+  setShowLogoutConfirm,
+  session,
+  role,
+  pathname,
+  setMobileMenuOpen,
+  NAV_ITEMS
+}: SidebarContentProps) {
+  return (
+    <div className="flex flex-col h-full bg-white relative">
       <div className={`mb-2 ${isCollapsed && !isMobile ? "py-6 px-0 flex justify-center" : "p-6"}`}>
          <div className={`flex items-center ${isCollapsed && !isMobile ? "justify-center" : "gap-3"}`}>
             <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand/20 shrink-0">
@@ -184,7 +142,7 @@ export default function DashboardShell({
                            setShowLogoutConfirm(true);
                         }}
                         className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-red-500 hover:bg-red-50 transition-all"
-                     >
+                      >
                         <LogOut size={16} />
                         <span>Logout</span>
                      </button>
@@ -213,17 +171,76 @@ export default function DashboardShell({
             )}
          </button>
       </div>
- 
-      {!isMobile && (
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-3 top-20 w-6 h-6 bg-white border border-stroke rounded-full flex items-center justify-center text-text-muted hover:text-brand hover:border-brand transition-all shadow-sm z-30 animate-pulse"
-        >
-          {isCollapsed ? <PanelLeftOpen size={14} /> : <PanelLeftClose size={14} />}
-        </button>
-      )}
     </div>
   );
+}
+
+export default function DashboardShell({ 
+    children, 
+    session 
+}: { 
+    children: React.ReactNode, 
+    session: any 
+}) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  useEffect(() => {
+    if (!session && pathname !== "/dashboard/login") {
+      router.push("/dashboard/login");
+    }
+  }, [session, pathname, router]);
+
+  useEffect(() => {
+    const activeEl = document.querySelector('.active-nav-link');
+    if (activeEl) {
+      activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [pathname]);
+
+  const role = session?.role || "TEAM_MEMBER";
+
+  const NAV_ITEMS = [
+    { icon: LayoutDashboard, label: "Overview", href: "/dashboard", roles: ["ADMIN", "TEAM_MEMBER"] },
+    { icon: FileCode, label: "Pages", href: "/dashboard/pages", roles: ["ADMIN"], permission: "manage_pages" },
+    { icon: Zap, label: "Services", href: "/dashboard/services", roles: ["ADMIN"], permission: "manage_services" },
+    { icon: Briefcase, label: "Careers", href: "/dashboard/careers", roles: ["ADMIN"], permission: "manage_careers" },
+    { icon: Users, label: "Team", href: "/dashboard/team", roles: ["ADMIN"], permission: "manage_team" },
+    { icon: FileText, label: "Blog", href: "/dashboard/blog", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_blog" },
+    { icon: BarChart3, label: "Work", href: "/dashboard/work", roles: ["ADMIN", "TEAM_MEMBER"], permission: "manage_work" },
+    { icon: MessageSquare, label: "Leads", href: "/dashboard/leads", roles: ["ADMIN"], permission: "manage_leads" },
+    { icon: Star, label: "Feedback", href: "/dashboard/feedback", roles: ["ADMIN"], permission: "manage_feedback" },
+    { icon: Users, label: "Users", href: "/dashboard/users", roles: ["ADMIN"], permission: "manage_users" },
+    { icon: Activity, label: "Performance", href: "/dashboard/performance", roles: ["ADMIN"] },
+    { icon: FileText, label: "Reports", href: "/dashboard/report", roles: ["ADMIN"] },
+    { icon: Settings, label: "Settings", href: "/dashboard/settings", roles: ["ADMIN"], permission: "manage_settings" },
+
+  ].filter(item => {
+    if (role === "ADMIN") return true;
+    if (item.roles.includes("TEAM_MEMBER")) {
+        if (["Overview", "Profile", "Blog", "Portfolio"].includes(item.label)) return true;
+        if (!item.permission) return true;
+        const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse(session?.permissions || "[]");
+        return userPermissions.includes(item.permission);
+    }
+    return false;
+  });
+
+  const handleLogout = async () => {
+    setShowLogoutConfirm(false);
+    await logout();
+    window.location.replace("/dashboard/login");
+  };
+
+  if (pathname === "/dashboard/login") {
+    return <>{children}</>;
+  }
+
+  if (!session) return null;
 
   return (
     <div className="min-h-screen bg-surface flex flex-col md:flex-row overflow-hidden font-sans">
@@ -241,11 +258,27 @@ export default function DashboardShell({
       </div>
 
       <aside 
-        className={`hidden md:flex border-r border-stroke flex-col h-screen sticky top-0 z-20 shrink-0 bg-white transition-all duration-300 ease-in-out overflow-x-hidden ${
-          isCollapsed ? "w-16" : "w-64"
+        className={`hidden md:flex border-r border-stroke flex-col h-screen sticky top-0 z-20 shrink-0 bg-white transition-all duration-300 ease-in-out relative ${
+          isCollapsed ? "w-20" : "w-64"
         }`}
       >
-        <SidebarContent />
+        <SidebarContent 
+          isCollapsed={isCollapsed}
+          showUserDropdown={showUserDropdown}
+          setShowUserDropdown={setShowUserDropdown}
+          setShowLogoutConfirm={setShowLogoutConfirm}
+          session={session}
+          role={role}
+          pathname={pathname}
+          setMobileMenuOpen={setMobileMenuOpen}
+          NAV_ITEMS={NAV_ITEMS}
+        />
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="absolute -right-3 top-20 w-6 h-6 bg-white border border-stroke rounded-full flex items-center justify-center text-text-muted hover:text-brand hover:border-brand transition-all shadow-sm z-30 cursor-pointer"
+        >
+          {isCollapsed ? <PanelLeftOpen size={14} /> : <PanelLeftClose size={14} />}
+        </button>
       </aside>
 
       <AnimatePresence>
@@ -265,7 +298,18 @@ export default function DashboardShell({
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed left-0 top-0 bottom-0 w-[260px] bg-white shadow-2xl z-50 md:hidden flex flex-col"
             >
-               <SidebarContent isMobile />
+               <SidebarContent 
+                 isMobile
+                 isCollapsed={false}
+                 showUserDropdown={showUserDropdown}
+                 setShowUserDropdown={setShowUserDropdown}
+                 setShowLogoutConfirm={setShowLogoutConfirm}
+                 session={session}
+                 role={role}
+                 pathname={pathname}
+                 setMobileMenuOpen={setMobileMenuOpen}
+                 NAV_ITEMS={NAV_ITEMS}
+               />
             </motion.aside>
           </>
         )}

@@ -158,6 +158,21 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
      toast.success("Page layout updated");
   }, [page.id, page.sections]);
 
+  const handleSeoChange = useCallback((newData: any) => {
+    setPage((prev: any) => ({ ...prev, ...newData }));
+  }, []);
+
+  const handleUpdateSection = useCallback(async (sectionId: string, sectionLabel: string, newContent: any) => {
+     const result = await updateSection(sectionId, newContent);
+     if (result.success) {
+        toast.success(`${sectionLabel} updated`);
+     }
+  }, []);
+
+  const handleSectionDeleteConfirm = useCallback((sectionId: string) => {
+     setDeleteConfirm({ isOpen: true, id: sectionId });
+  }, []);
+
   return (
     <div className="space-y-10">
 
@@ -206,8 +221,8 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
 
-        <div className="lg:col-span-1 space-y-4">
-           <div className="bg-white rounded-[3rem] p-3 sm:p-4 border border-stroke shadow-sm lg:sticky lg:top-10">
+        <div className="lg:col-span-1 space-y-4 lg:sticky lg:top-10 h-fit">
+           <div className="bg-white rounded-[3rem] p-3 sm:p-4 border border-stroke shadow-sm">
               <button 
                 type="button"
                 onClick={() => setActiveTab('sections')}
@@ -249,7 +264,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
            {activeTab === 'seo' && (
               <SeoEditor 
                 data={page} 
-                onChange={useCallback((newData: any) => setPage((prev: any) => ({ ...prev, ...newData })), [])} 
+                onChange={handleSeoChange} 
                 slug={page.slug}
               />
            )}
@@ -281,13 +296,8 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                           </div>
                           <SectionEditor 
                             section={section} 
-                            onUpdate={useCallback(async (newContent: any) => {
-                               const result = await updateSection(section.id, newContent);
-                               if (result.success) {
-                                  toast.success(`${section.label} updated`);
-                                }
-                            }, [section.id, section.label])}
-                            onDelete={useCallback(() => setDeleteConfirm({ isOpen: true, id: section.id }), [section.id])}
+                            onUpdate={(newContent: any) => handleUpdateSection(section.id, section.label, newContent)}
+                            onDelete={() => handleSectionDeleteConfirm(section.id)}
                           />
                        </div>
                     ))}

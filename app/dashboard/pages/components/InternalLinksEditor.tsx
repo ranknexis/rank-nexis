@@ -72,15 +72,15 @@ const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initia
       
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="space-y-1">
-          <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-tighter">Internal <span className="text-brand">Graph.</span></h2>
-          <p className="text-[10px] font-bold uppercase text-text-muted">Manage SEO link relevance and page relationships.</p>
+          <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-tighter">Navigation <span className="text-brand">Links.</span></h2>
+          <p className="text-[10px] font-bold uppercase text-text-muted">Manage links and page relationships for search visibility.</p>
         </div>
         <button 
           type="button"
           onClick={addLink}
           className="px-6 h-12 rounded-xl border border-brand/20 bg-brand/5 text-brand text-[10px] font-bold uppercase flex items-center gap-2 hover:bg-brand hover:text-white transition-all shadow-sm w-full sm:w-auto justify-center"
         >
-          <Plus size={16} /> Add Logic Bridge
+          <Plus size={16} /> Add Navigation Link
         </button>
       </div>
 
@@ -88,7 +88,7 @@ const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initia
         {links.length === 0 ? (
           <div className="py-20 text-center border-2 border-dashed border-stroke rounded-[2rem] space-y-4 bg-white/50">
             <LinkIcon size={40} className="mx-auto text-stroke animate-pulse" strokeWidth={1} />
-            <p className="text-[10px] font-bold uppercase text-text-muted">No internal links configured for this node.</p>
+            <p className="text-[10px] font-bold uppercase text-text-muted">No navigation links configured for this page.</p>
           </div>
         ) : (
           links.map((link, index) => (
@@ -113,15 +113,15 @@ const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initia
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[9px] font-bold uppercase text-brand ml-2">Rel-Type</label>
+                  <label className="text-[9px] font-bold uppercase text-brand ml-2">Link Category</label>
                   <select 
                     value={link.relationship || 'Related'} 
                     onChange={(e) => updateLink(index, 'relationship', e.target.value)}
                     className="input-field shadow-sm bg-white appearance-none cursor-pointer"
                   >
-                    <option value="Primary">Primary Hub</option>
-                    <option value="Related">Related Content</option>
-                    <option value="Service">Service Bridge</option>
+                    <option value="Primary">Main Navigation</option>
+                    <option value="Related">Related Article</option>
+                    <option value="Service">Service Page</option>
                     <option value="CaseStudy">Case Study</option>
                   </select>
                 </div>
@@ -145,7 +145,7 @@ const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initia
             onClick={handleSave}
             className={`px-10 h-16 rounded-[2rem] bg-brand text-white shadow-premium text-[10px] font-bold uppercase flex items-center gap-3 transition-all hover:scale-105 ${isSaving ? 'opacity-50 grayscale' : ''} w-full sm:w-auto justify-center`}
            >
-             <Save size={18} /> {isSaving ? "Syncing Graph..." : "Commit Link Structure"}
+             <Save size={18} /> {isSaving ? "Saving Links..." : "Save Navigation Links"}
            </button>
         </div>
       )}
