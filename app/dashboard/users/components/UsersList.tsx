@@ -1,6 +1,6 @@
 "use client";
 
-import { createUser, deleteUser, updateUserPermissions } from "@/actions/users";
+import { createUser, deleteUser, updateUser, updateUserPermissions } from "@/actions/users";
 import {
     Check,
     CheckCircle2,
@@ -72,6 +72,18 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
         } else {
             toast.error(res.error || "Failed to remove user");
         }
+    };
+
+    const handleUpdateUser = async (userId: string, name: string, email: string, role: string) => {
+        setIsLoading(true);
+        const res = await updateUser(userId, { name, email, role });
+        if (res.success) {
+            toast.success("User profile updated successfully.");
+            setExpandedUser(null);
+        } else {
+            toast.error(res.error || "Failed to update user profile");
+        }
+        setIsLoading(false);
     };
 
     const togglePermission = (userId: string, permId: string) => {
@@ -190,10 +202,10 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                     <table className="w-full text-left table-fixed">
                         <thead>
                             <tr className="border-b border-stroke bg-surface/50">
-                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">User</th>
-                                <th className="w-48 px-8 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Access Level</th>
-                                <th className="w-44 px-8 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Status</th>
-                                <th className="w-36 px-8 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted text-right">Actions</th>
+                                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">User</th>
+                                <th className="w-48 px-6 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Access Level</th>
+                                <th className="w-44 px-6 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Status</th>
+                                <th className="w-36 px-6 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-stroke">
@@ -212,7 +224,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                 return (
                                     <React.Fragment key={user.id}>
                                         <tr className={`group transition-colors ${isExpanded ? 'bg-surface/50' : 'hover:bg-surface/30'}`}>
-                                            <td className="px-8 py-4">
+                                            <td className="px-6 py-4">
                                                 <div className="flex items-center gap-4 min-w-0">
                                                     <div className="w-9 h-9 rounded-xl bg-brand/5 border border-brand/10 flex items-center justify-center text-brand font-black text-xs uppercase shrink-0">
                                                         {user.name?.substring(0, 2) || "??"}
@@ -223,7 +235,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-4">
+                                            <td className="px-6 py-4">
                                                 <div className="flex items-center gap-2">
                                                     {user.role === "ADMIN" ? (
                                                         <ShieldAlert size={14} className="text-brand shrink-0" />
@@ -235,7 +247,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-4">
+                                            <td className="px-6 py-4">
                                                 {user.passwordSet ? (
                                                     <div className="flex items-center gap-1.5 text-emerald-500">
                                                         <CheckCircle2 size={14} className="shrink-0" />
@@ -248,7 +260,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-8 py-4 text-right">
+                                            <td className="px-6 py-4 text-right">
                                                 <div className="flex items-center justify-end gap-2">
                                                     <button 
                                                         type="button"
@@ -273,105 +285,174 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                         {isExpanded && (
                                             <tr>
                                                 <td colSpan={4} className="px-6 py-6 bg-surface/30">
-                                                    <div className="max-w-4xl space-y-5 animate-in fade-in slide-in-from-left-4 duration-300">
-                                                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="p-2 bg-brand/5 rounded-xl border border-brand/10 text-brand shrink-0">
-                                                                    <Settings2 size={16} />
-                                                                </div>
-                                                                <div>
-                                                                    <h4 className="text-xs font-bold tracking-tight text-text-primary uppercase">User Permissions</h4>
-                                                                    <p className="text-[10px] text-text-muted">Define modular access roles for this team member.</p>
-                                                                </div>
-                                                            </div>
+                                                    <div className="max-w-6xl w-full space-y-5 animate-in fade-in slide-in-from-left-4 duration-300">
+                                                        
+                                                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                                                             
-                                                            <div className="flex flex-wrap items-center gap-2">
-                                                                <button 
-                                                                    type="button"
-                                                                    onClick={() => {
-                                                                        setUsers(users.map(u => u.id === user.id ? { ...u, permissions: DEFAULT_TEAM_MEMBER_PERMISSIONS } : u));
-                                                                    }}
-                                                                    disabled={user.role === "ADMIN"}
-                                                                    className="px-3 py-1.5 bg-brand/5 border border-brand/15 hover:bg-brand hover:text-white rounded-lg text-[9px] font-black uppercase tracking-wider text-brand transition-all disabled:opacity-50"
-                                                                >
-                                                                    Standard Access
-                                                                </button>
-                                                                <button 
-                                                                    type="button"
-                                                                    onClick={() => {
-                                                                        setUsers(users.map(u => u.id === user.id ? { ...u, permissions: AVAILABLE_PERMISSIONS.map(p => p.id) } : u));
-                                                                    }}
-                                                                    disabled={user.role === "ADMIN"}
-                                                                    className="px-3 py-1.5 bg-white border border-stroke hover:bg-zinc-800 hover:text-white rounded-lg text-[9px] font-black uppercase tracking-wider text-text-muted transition-all disabled:opacity-50"
-                                                                >
-                                                                    Select All
-                                                                </button>
-                                                                <button 
-                                                                    type="button"
-                                                                    onClick={() => {
-                                                                        setUsers(users.map(u => u.id === user.id ? { ...u, permissions: [] } : u));
-                                                                    }}
-                                                                    disabled={user.role === "ADMIN"}
-                                                                    className="px-3 py-1.5 bg-white border border-stroke hover:bg-red-50 hover:text-red-500 rounded-lg text-[9px] font-black uppercase tracking-wider text-text-muted transition-all disabled:opacity-50"
-                                                                >
-                                                                    Clear All
-                                                                </button>
-                                                                <button 
-                                                                    type="button"
-                                                                    onClick={() => savePermissions(user.id)}
-                                                                    disabled={isUpdating}
-                                                                    className="flex items-center gap-1.5 px-4 py-2 bg-brand text-white rounded-lg text-[9px] font-bold uppercase tracking-wider shadow-sm hover:bg-brand-dark transition-all disabled:opacity-50"
-                                                                >
-                                                                    <Save size={12} />
-                                                                    {isUpdating ? "Saving..." : "Save"}
-                                                                </button>
-                                                            </div>
-                                                        </div>
+                                                            {/* User Profile Details section */}
+                                                            <div className="lg:col-span-4 bg-white border border-stroke rounded-2xl p-5 space-y-4 shadow-sm">
+                                                                <div className="flex items-center gap-2.5 pb-2 border-b border-stroke">
+                                                                    <Settings2 size={16} className="text-brand shrink-0" />
+                                                                    <div>
+                                                                        <h4 className="text-xs font-bold tracking-tight text-text-primary uppercase">Profile Details</h4>
+                                                                        <p className="text-[9px] text-text-muted">Edit system operator credentials.</p>
+                                                                    </div>
+                                                                </div>
 
-                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                                            {AVAILABLE_PERMISSIONS.map((perm) => {
-                                                                const isChecked = user.role === "ADMIN" || userPerms.includes(perm.id);
-                                                                const isDisabled = user.role === "ADMIN";
-                                                                return (
-                                                                    <label 
-                                                                        key={perm.id} 
-                                                                        className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer group ${
-                                                                            isChecked 
-                                                                            ? "bg-white border-brand shadow-sm scale-[1.01]" 
-                                                                            : "bg-white/50 border-stroke hover:border-brand/30"
-                                                                        } ${isDisabled ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                                                <div className="space-y-3.5">
+                                                                    <div className="space-y-1.5">
+                                                                        <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Full Name</label>
+                                                                        <input 
+                                                                            type="text"
+                                                                            value={user.name}
+                                                                            onChange={(e) => {
+                                                                                setUsers(users.map(u => u.id === user.id ? { ...u, name: e.target.value } : u));
+                                                                            }}
+                                                                            className="w-full h-10 px-4 bg-surface border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none"
+                                                                        />
+                                                                    </div>
+
+                                                                    <div className="space-y-1.5">
+                                                                        <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Email Address</label>
+                                                                        <input 
+                                                                            type="email"
+                                                                            value={user.email}
+                                                                            onChange={(e) => {
+                                                                                setUsers(users.map(u => u.id === user.id ? { ...u, email: e.target.value } : u));
+                                                                            }}
+                                                                            className="w-full h-10 px-4 bg-surface border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none"
+                                                                        />
+                                                                    </div>
+
+                                                                    <div className="space-y-1.5">
+                                                                        <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Access Level</label>
+                                                                        <select 
+                                                                            value={user.role}
+                                                                            onChange={(e) => {
+                                                                                const newRole = e.target.value;
+                                                                                setUsers(users.map(u => u.id === user.id ? { ...u, role: newRole } : u));
+                                                                            }}
+                                                                            className="w-full h-10 px-4 bg-surface border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none cursor-pointer"
+                                                                        >
+                                                                            <option value="TEAM_MEMBER">Team Member</option>
+                                                                            <option value="ADMIN">Administrator</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <button 
+                                                                        type="button"
+                                                                        onClick={() => handleUpdateUser(user.id, user.name, user.email, user.role)}
+                                                                        disabled={isLoading}
+                                                                        className="w-full h-10 bg-black text-white hover:bg-brand text-[10px] font-bold uppercase tracking-wider rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                                                                     >
-                                                                        <div className={`mt-0.5 w-4.5 h-4.5 rounded border flex items-center justify-center transition-all ${
-                                                                            isChecked ? "bg-brand border-brand text-white" : "border-stroke bg-white group-hover:border-brand/50"
-                                                                        }`}>
-                                                                            <input 
-                                                                                type="checkbox" 
-                                                                                className="hidden" 
-                                                                                checked={isChecked}
-                                                                                disabled={isDisabled}
-                                                                                onChange={() => togglePermission(user.id, perm.id)}
-                                                                            />
-                                                                            {isChecked && <Check size={10} strokeWidth={3} />}
-                                                                        </div>
+                                                                        <Save size={14} />
+                                                                        {isLoading ? "Saving..." : "Save Profile"}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* User Permissions section */}
+                                                            <div className="lg:col-span-8 bg-white border border-stroke rounded-2xl p-5 space-y-4 shadow-sm">
+                                                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                                                    <div className="flex items-center gap-2.5">
+                                                                        <Fingerprint size={16} className="text-brand shrink-0" />
                                                                         <div>
-                                                                            <p className={`text-[10px] font-black uppercase tracking-wider ${isChecked ? 'text-brand' : 'text-text-primary'}`}>
-                                                                                {perm.label}
-                                                                            </p>
-                                                                            <p className="text-[9px] font-semibold text-text-muted mt-0.5 leading-normal">
-                                                                                {perm.desc}
-                                                                            </p>
+                                                                            <h4 className="text-xs font-bold tracking-tight text-text-primary uppercase">User Permissions</h4>
+                                                                            <p className="text-[9px] text-text-muted">Define modular access roles for this team member.</p>
                                                                         </div>
-                                                                    </label>
-                                                                );
-                                                            })}
+                                                                    </div>
+                                                                    
+                                                                    <div className="flex flex-wrap items-center gap-2">
+                                                                        <button 
+                                                                            type="button"
+                                                                            onClick={() => {
+                                                                                setUsers(users.map(u => u.id === user.id ? { ...u, permissions: DEFAULT_TEAM_MEMBER_PERMISSIONS } : u));
+                                                                            }}
+                                                                            disabled={user.role === "ADMIN"}
+                                                                            className="px-3 py-1.5 bg-brand/5 border border-brand/15 hover:bg-brand hover:text-white rounded-lg text-[9px] font-black uppercase tracking-wider text-brand transition-all disabled:opacity-50 cursor-pointer"
+                                                                        >
+                                                                            Standard Access
+                                                                        </button>
+                                                                        <button 
+                                                                            type="button"
+                                                                            onClick={() => {
+                                                                                setUsers(users.map(u => u.id === user.id ? { ...u, permissions: AVAILABLE_PERMISSIONS.map(p => p.id) } : u));
+                                                                            }}
+                                                                            disabled={user.role === "ADMIN"}
+                                                                            className="px-3 py-1.5 bg-white border border-stroke hover:bg-zinc-800 hover:text-white rounded-lg text-[9px] font-black uppercase tracking-wider text-text-muted transition-all disabled:opacity-50 cursor-pointer"
+                                                                        >
+                                                                            Select All
+                                                                        </button>
+                                                                        <button 
+                                                                            type="button"
+                                                                            onClick={() => {
+                                                                                setUsers(users.map(u => u.id === user.id ? { ...u, permissions: [] } : u));
+                                                                            }}
+                                                                            disabled={user.role === "ADMIN"}
+                                                                            className="px-3 py-1.5 bg-white border border-stroke hover:bg-red-50 hover:text-red-500 rounded-lg text-[9px] font-black uppercase tracking-wider text-text-muted transition-all disabled:opacity-50 cursor-pointer"
+                                                                        >
+                                                                            Clear All
+                                                                        </button>
+                                                                        <button 
+                                                                            type="button"
+                                                                            onClick={() => savePermissions(user.id)}
+                                                                            disabled={isUpdating}
+                                                                            className="flex items-center gap-1.5 px-4 py-1.5 bg-brand text-white rounded-lg text-[9px] font-bold uppercase tracking-wider shadow-sm hover:bg-brand-dark transition-all disabled:opacity-50 cursor-pointer"
+                                                                        >
+                                                                            <Save size={12} />
+                                                                            {isUpdating ? "Saving..." : "Save"}
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                                    {AVAILABLE_PERMISSIONS.map((perm) => {
+                                                                        const isChecked = user.role === "ADMIN" || userPerms.includes(perm.id);
+                                                                        const isDisabled = user.role === "ADMIN";
+                                                                        return (
+                                                                            <label 
+                                                                                key={perm.id} 
+                                                                                className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer group ${
+                                                                                    isChecked 
+                                                                                    ? "bg-white border-brand shadow-sm scale-[1.01]" 
+                                                                                    : "bg-white/50 border-stroke hover:border-brand/30"
+                                                                                } ${isDisabled ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                                                            >
+                                                                                <div className={`mt-0.5 w-4.5 h-4.5 rounded border flex items-center justify-center transition-all ${
+                                                                                    isChecked ? "bg-brand border-brand text-white" : "border-stroke bg-white group-hover:border-brand/50"
+                                                                                }`}>
+                                                                                    <input 
+                                                                                        type="checkbox" 
+                                                                                        className="hidden" 
+                                                                                        checked={isChecked}
+                                                                                        disabled={isDisabled}
+                                                                                        onChange={() => togglePermission(user.id, perm.id)}
+                                                                                    />
+                                                                                    {isChecked && <Check size={10} strokeWidth={3} />}
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p className={`text-[10px] font-black uppercase tracking-wider ${isChecked ? 'text-brand' : 'text-text-primary'}`}>
+                                                                                        {perm.label}
+                                                                                    </p>
+                                                                                    <p className="text-[9px] font-semibold text-text-muted mt-0.5 leading-normal">
+                                                                                        {perm.desc}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </label>
+                                                                        );
+                                                                    })}
+                                                                </div>
+                                                                
+                                                                {user.role === "ADMIN" && (
+                                                                    <div className="p-3.5 bg-brand/5 rounded-xl border border-brand/10 flex items-center gap-2.5">
+                                                                        <ShieldAlert size={14} className="text-brand shrink-0" />
+                                                                        <p className="text-[10px] font-bold text-brand uppercase tracking-wider">Admins have absolute system-wide permissions by default.</p>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
                                                         </div>
                                                         
-                                                        {user.role === "ADMIN" && (
-                                                            <div className="p-3.5 bg-brand/5 rounded-xl border border-brand/10 flex items-center gap-2.5">
-                                                                <ShieldAlert size={14} className="text-brand shrink-0" />
-                                                                <p className="text-[10px] font-bold text-brand uppercase tracking-wider">Admins have absolute system-wide permissions by default.</p>
-                                                            </div>
-                                                        )}
                                                     </div>
                                                 </td>
                                             </tr>

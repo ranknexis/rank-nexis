@@ -219,7 +219,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
           <table className="w-full text-left table-fixed">
             <thead>
               <tr className="border-b border-stroke bg-surface/30">
-                <th className="px-8 py-4 w-16">
+                <th className="px-6 py-4 w-16">
                    <button 
                     type="button"
                     onClick={toggleSelectAll}
@@ -232,16 +232,16 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                      {selectedIds.length === filteredLeads.length && filteredLeads.length > 0 && <Check size={12} />}
                    </button>
                 </th>
-                <th className="px-8 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider">Lead</th>
-                <th className="px-8 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider">Contact Details</th>
-                <th className="w-44 px-8 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider text-center">Status</th>
-                <th className="w-36 px-8 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider text-right">Actions</th>
+                <th className="px-6 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider">Lead</th>
+                <th className="px-6 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider">Contact Details</th>
+                <th className="w-44 px-6 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider text-center">Status</th>
+                <th className="w-36 px-6 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stroke">
               {filteredLeads.map((lead) => (
                 <tr key={lead.id} className={`group ${selectedIds.includes(lead.id) ? "bg-brand/[0.03]" : ""}`}>
-                  <td className="px-8 py-4 transition-colors group-hover:bg-brand/[0.02]">
+                  <td className="px-6 py-4 transition-colors group-hover:bg-brand/[0.02]">
                     <button 
                       type="button"
                       onClick={() => toggleSelect(lead.id)}
@@ -254,7 +254,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                       {selectedIds.includes(lead.id) && <Check size={12} />}
                     </button>
                   </td>
-                  <td className="px-8 py-4 transition-colors group-hover:bg-brand/[0.02]">
+                  <td className="px-6 py-4 transition-colors group-hover:bg-brand/[0.02]">
                     <div className="flex items-center gap-4 min-w-0">
                       <div className="w-10 h-10 rounded-xl bg-white border border-stroke shadow-sm flex items-center justify-center text-brand font-black text-sm uppercase shrink-0">
                         {lead.name[0]}
@@ -270,7 +270,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                       </div>
                     </div>
                   </td>
-                  <td className="px-8 py-4 transition-colors group-hover:bg-brand/[0.02]">
+                  <td className="px-6 py-4 transition-colors group-hover:bg-brand/[0.02]">
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 group/link cursor-pointer" onClick={() => window.location.href = `mailto:${lead.email}`}>
                          <Mail size={12} className="text-brand shrink-0" />
@@ -282,7 +282,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                       </div>
                     </div>
                   </td>
-                  <td className="px-8 py-4 transition-colors group-hover:bg-brand/[0.02] text-center">
+                  <td className="px-6 py-4 transition-colors group-hover:bg-brand/[0.02] text-center">
                     <div className="inline-block">
                       <select 
                         value={lead.status}
@@ -304,7 +304,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                       </select>
                     </div>
                   </td>
-                  <td className="px-8 py-4 text-right transition-colors group-hover:bg-brand/[0.02]">
+                  <td className="px-6 py-4 text-right transition-colors group-hover:bg-brand/[0.02]">
                     <div className="flex justify-end items-center gap-2">
                       <button 
                         type="button"
@@ -326,7 +326,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
               ))}
               {filteredLeads.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-8 py-16 text-center">
+                  <td colSpan={5} className="px-6 py-16 text-center">
                      <div className="flex flex-col items-center gap-2">
                         <Search size={32} className="text-stroke" />
                         <p className="text-[10px] font-bold uppercase text-text-muted tracking-wider">No matching leads found.</p>

@@ -118,6 +118,41 @@ export async function updateUserPermissions(userId: string, permissions: string[
     }
 }
 
+export async function updateUser(userId: string, data: { name?: string; email?: string; role?: string }) {
+    const session = await getSession();
+    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+
+    try {
+        if (data.email) {
+            const existing = await prisma.user.findFirst({
+                where: {
+                    email: data.email,
+                    NOT: { id: userId }
+                }
+            });
+            if (existing) return { error: "Email address is already in use" };
+        }
+
+        const user = await prisma.user.update({
+            where: { id: userId },
+            data: {
+                ...(data.name && { name: data.name }),
+                ...(data.email && { email: data.email }),
+                ...(data.role && { role: data.role })
+            }
+        });
+
+        await createAuditLog("USER_UPDATED", user.email, `Updated Fields: ${Object.keys(data).join(", ")}`);
+        revalidatePath("/dashboard/users");
+        revalidatePath("/team");
+        revalidatePath("/about");
+        revalidatePath("/");
+        return { success: true, user };
+    } catch (error) {
+        return { error: "Failed to update user profile" };
+    }
+}
+
 export async function deleteUser(userId: string) {
     const session = await getSession();
     if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };

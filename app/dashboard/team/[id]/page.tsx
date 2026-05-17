@@ -12,7 +12,8 @@ export default async function EditTeamMemberPage({ params }: Props) {
   let initialData = null;
   if (!isNew) {
     initialData = await prisma.teamMember.findUnique({
-      where: { id }
+      where: { id },
+      include: { user: true }
     });
 
     if (initialData && !Array.isArray(initialData.socials)) {

@@ -24,10 +24,22 @@ export async function updateMyProfile(data: any) {
     if (!session) return { error: "Unauthorized" };
 
     try {
-        
+        if (data.email) {
+            const existing = await prisma.user.findFirst({
+                where: {
+                    email: data.email,
+                    NOT: { id: session.id }
+                }
+            });
+            if (existing) return { error: "Email address is already in use by another account" };
+        }
+
         await prisma.user.update({
             where: { id: session.id },
-            data: { name: data.name }
+            data: { 
+                name: data.name,
+                ...(data.email && { email: data.email })
+            }
         });
 
         if (session.role !== "ADMIN") {

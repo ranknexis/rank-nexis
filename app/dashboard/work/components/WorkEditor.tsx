@@ -160,7 +160,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                       value={data.client} 
                       onChange={e => setData({...data, client: e.target.value})}
                       placeholder="e.g. ACME Corp"
-                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                     />
                   </div>
                   <div className="space-y-2">
@@ -275,7 +275,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                         type="text"
                         value={item}
                         onChange={e => update(e.target.value)}
-                        className="w-full h-12 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                        className="w-full h-11 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                         placeholder="Result point..."
                       />
                     )}
@@ -285,7 +285,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
             )}
 
             {activeTab === "settings" && (
-              <div className="p-6 sm:p-8 space-y-8">
+              <div className="p-5 sm:p-6 space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">URL Slug</label>
@@ -295,7 +295,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                         type="text" 
                         value={data.slug} 
                         onChange={e => setData({...data, slug: e.target.value})}
-                        className="w-full h-12 bg-surface border border-stroke rounded-xl pl-12 pr-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
+                        className="w-full h-11 bg-surface border border-stroke rounded-xl pl-12 pr-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
                       />
                     </div>
                   </div>
@@ -324,7 +324,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                         type="text"
                         value={item}
                         onChange={e => update(e.target.value)}
-                        className="w-full h-12 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                        className="w-full h-11 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                         placeholder="e.g. Next.js"
                       />
                     )}

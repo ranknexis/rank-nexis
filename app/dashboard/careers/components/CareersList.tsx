@@ -60,25 +60,25 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
                 <table className="w-full text-left table-fixed">
                     <thead>
                         <tr className="border-b border-stroke bg-surface/10">
-                            <th className="px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Job Title & Location</th>
-                            <th className="w-48 px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Job Type</th>
-                            <th className="w-36 px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Status</th>
-                            <th className="w-32 px-8 py-5 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
+                            <th className="px-6 py-4 text-[10px] font-bold uppercase text-text-muted">Job Title & Location</th>
+                            <th className="w-48 px-6 py-4 text-[10px] font-bold uppercase text-text-muted">Job Type</th>
+                            <th className="w-36 px-6 py-4 text-[10px] font-bold uppercase text-text-muted">Status</th>
+                            <th className="w-32 px-6 py-4 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-stroke">
                         {filteredJobs.map((job: any) => (
                             <tr key={job.id} className="group">
-                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
+                                <td className="px-6 py-4 transition-colors group-hover:bg-surface/30">
                                     <div>
                                         <p className="text-sm font-bold uppercase text-text-primary group-hover:text-brand transition-colors truncate">{job.title}</p>
                                         <p className="text-[10px] font-bold uppercase text-text-muted truncate">{job.location}</p>
                                     </div>
                                 </td>
-                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
+                                <td className="px-6 py-4 transition-colors group-hover:bg-surface/30">
                                     <span className="text-[10px] font-bold uppercase text-text-muted">{job.type.replace('_', ' ')}</span>
                                 </td>
-                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
+                                <td className="px-6 py-4 transition-colors group-hover:bg-surface/30">
                                     <div className="flex items-center gap-2">
                                         {job.active ? (
                                             <span className="flex items-center gap-2 text-[9px] font-bold uppercase text-emerald-500">
@@ -91,7 +91,7 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
                                         )}
                                     </div>
                                 </td>
-                                <td className="px-8 py-5 text-right transition-colors group-hover:bg-surface/30">
+                                <td className="px-6 py-4 text-right transition-colors group-hover:bg-surface/30">
                                     <div className="flex justify-end items-center gap-2">
                                         <Link 
                                             href={`/dashboard/careers/${job.id}`} 
@@ -112,7 +112,7 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
                         ))}
                         {filteredJobs.length === 0 && (
                             <tr>
-                                <td colSpan={4} className="px-8 py-16 text-center">
+                                <td colSpan={4} className="px-6 py-16 text-center">
                                     <p className="text-text-muted font-bold uppercase text-[10px]">No job openings found matching your search.</p>
                                 </td>
                             </tr>

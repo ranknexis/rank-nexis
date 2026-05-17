@@ -55,16 +55,16 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
                 <table className="w-full text-left table-fixed">
                     <thead>
                         <tr className="border-b border-stroke bg-surface/10">
-                            <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-wider text-text-muted">Project</th>
-                            <th className="w-48 px-8 py-5 text-[10px] font-bold uppercase tracking-wider text-text-muted">Client</th>
-                            <th className="w-44 px-8 py-5 text-[10px] font-bold uppercase tracking-wider text-text-muted">Date</th>
-                            <th className="w-36 px-8 py-5 text-[10px] font-bold uppercase tracking-wider text-text-muted text-right">Actions</th>
+                            <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Project</th>
+                            <th className="w-48 px-6 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Client</th>
+                            <th className="w-44 px-6 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Date</th>
+                            <th className="w-36 px-6 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-stroke">
                         {filteredStudies.map((study: any) => (
                             <tr key={study.id} className="group hover:bg-surface/30 transition-colors">
-                                <td className="px-8 py-5">
+                                <td className="px-6 py-4">
                                     <div className="flex items-center gap-4 min-w-0">
                                         <div className="w-16 h-12 rounded-xl bg-surface border border-stroke overflow-hidden shrink-0 shadow-inner">
                                             {study.image ? (
@@ -79,13 +79,13 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-8 py-5">
+                                <td className="px-6 py-4">
                                     <span className="text-[10px] font-bold uppercase text-text-muted">{study.client || 'N/A'}</span>
                                 </td>
-                                <td className="px-8 py-5 text-[10px] font-bold uppercase text-text-muted whitespace-nowrap">
+                                <td className="px-6 py-4 text-[10px] font-bold uppercase text-text-muted whitespace-nowrap">
                                     {new Date(study.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                                 </td>
-                                <td className="px-8 py-5 text-right">
+                                <td className="px-6 py-4 text-right">
                                     <div className="flex justify-end items-center gap-2">
                                         <Link 
                                             href={`/dashboard/work/${study.id}`} 
@@ -106,7 +106,7 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
                         ))}
                         {filteredStudies.length === 0 && (
                             <tr>
-                                <td colSpan={4} className="px-8 py-16 text-center">
+                                <td colSpan={4} className="px-6 py-16 text-center">
                                     <p className="text-text-muted font-bold uppercase text-[9px] tracking-wider">No case studies found matching your search.</p>
                                 </td>
                             </tr>

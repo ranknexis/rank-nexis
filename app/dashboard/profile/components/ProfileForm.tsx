@@ -2,13 +2,14 @@
 
 import { updateMyProfile } from "@/actions/profile";
 import CloudinaryUpload from "@/dashboard/components/CloudinaryUpload";
-import { Briefcase, FileText, Plus, Save, Share2, Trash2, User } from "lucide-react";
+import { Briefcase, FileText, Mail, Plus, Save, Share2, Trash2, User } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export default function ProfileForm({ initialUser }: { initialUser: any }) {
     const profile = initialUser.teamProfile || {};
     const [name, setName] = useState(initialUser.name || "");
+    const [email, setEmail] = useState(initialUser.email || "");
     const [role, setRole] = useState(profile.role || "");
     const [bio, setBio] = useState(profile.bio || "");
     const [image, setImage] = useState(profile.image || "");
@@ -32,7 +33,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        const res = await updateMyProfile({ name, role, bio, image, socials });
+        const res = await updateMyProfile({ name, email, role, bio, image, socials });
         if (res.success) {
             toast.success("Profile updated successfully.");
         } else {
@@ -69,6 +70,21 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                                         className="w-full h-11 pl-11 pr-4 bg-surface border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none transition-all"
                                     />
                                     <User className="absolute left-4 top-1/2 -translate-y-1/2 text-brand" size={14} />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Email Address</label>
+                                <div className="relative">
+                                    <input 
+                                        required
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="Enter your email"
+                                        className="w-full h-11 pl-11 pr-4 bg-surface border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none transition-all"
+                                    />
+                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-brand" size={14} />
                                 </div>
                             </div>
 

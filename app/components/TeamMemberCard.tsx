@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Facebook, Github, Instagram, Link2, Linkedin, Plus, Twitter, Youtube } from 'lucide-react';
+import { Facebook, Github, Globe, Instagram, Link2, Linkedin, Plus, Twitter, Youtube } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
@@ -28,6 +28,7 @@ const getSocialIcon = (platform: string) => {
     case 'github': return <Github size={16} />;
     case 'instagram': return <Instagram size={16} />;
     case 'youtube': return <Youtube size={16} />;
+    case 'portfolio': return <Globe size={16} />;
     case 'dribbble': 
     case 'pinterest': 
       return <Link2 size={16} />; 

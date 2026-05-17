@@ -29,6 +29,28 @@ export async function createTeamMember(data: any) {
 
 export async function updateTeamMember(id: string, data: any) {
   try {
+    const currentMember = await prisma.teamMember.findUnique({
+      where: { id },
+      select: { userId: true }
+    });
+
+    if (currentMember?.userId && data.userEmail) {
+      const existing = await prisma.user.findFirst({
+        where: {
+          email: data.userEmail,
+          NOT: { id: currentMember.userId }
+        }
+      });
+      if (existing) {
+        return { success: false, error: "Email address is already in use by another operator" };
+      }
+
+      await prisma.user.update({
+        where: { id: currentMember.userId },
+        data: { email: data.userEmail, name: data.name }
+      });
+    }
+
     const member = await prisma.teamMember.update({
       where: { id },
       data: {

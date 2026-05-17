@@ -1,21 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { ArrowLeft, Save, Trash2, Plus, X, User as UserIcon, Link as LinkIcon, ShieldCheck, Zap } from "lucide-react";
+import { createTeamMember, deleteTeamMember, updateTeamMember } from "@/actions/team";
+import { motion } from "framer-motion";
+import { ArrowLeft, Link as LinkIcon, Plus, Save, ShieldCheck, Trash2, User as UserIcon, X, Zap } from "lucide-react";
 import Link from "next/link";
-import { createTeamMember, updateTeamMember, deleteTeamMember } from "@/actions/team";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 import CloudinaryUpload from "../../components/CloudinaryUpload";
 import ConfirmationModal from "../../components/ConfirmationModal";
-import { motion } from "framer-motion";
 
 interface Props {
   initialData?: any;
 }
 
 const SOCIAL_PLATFORMS = [
-  "linkedin", "twitter", "facebook", "github", "pinterest", "dribbble", "instagram", "youtube"
+  "linkedin", "portfolio", "github", "twitter", "facebook", "pinterest", "dribbble", "instagram", "youtube"
 ];
 
 export default function TeamEditor({ initialData }: Props) {
@@ -31,6 +31,7 @@ export default function TeamEditor({ initialData }: Props) {
       { platform: "twitter", url: "" }
     ],
   });
+  const [userEmail, setUserEmail] = useState(initialData?.user?.email || "");
   const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
@@ -42,6 +43,7 @@ export default function TeamEditor({ initialData }: Props) {
     setLoading(true);
     const cleanedData = {
       ...data,
+      userEmail,
       socials: data.socials.filter((s: any) => s.url.trim() !== "")
     };
 
@@ -90,7 +92,7 @@ export default function TeamEditor({ initialData }: Props) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
       <div className="lg:col-span-3 space-y-6">
         <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-4">
@@ -195,6 +197,30 @@ export default function TeamEditor({ initialData }: Props) {
                label="Profile Photo"
             />
          </div>
+
+         {initialData?.user && (
+           <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
+              <div className="flex items-center gap-3">
+                 <ShieldCheck size={18} className="text-brand" />
+                 <h2 className="text-lg font-black uppercase tracking-tighter text-text-primary">Linked Operator Account</h2>
+              </div>
+              <div className="space-y-2">
+                 <label className="text-[10px] font-black uppercase text-text-muted px-1 tracking-widest">Operator Email Address</label>
+                 <div className="relative">
+                    <input 
+                      type="email" 
+                      value={userEmail} 
+                      onChange={e => setUserEmail(e.target.value)}
+                      placeholder="operator@ranknexis.com"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
+                    />
+                 </div>
+                 <p className="text-[9px] font-bold text-text-muted uppercase tracking-wider pl-1 leading-normal">
+                    Changing this updates the administrator/operator credential email for system sign-in and notifications.
+                 </p>
+              </div>
+           </div>
+         )}
 
          <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
             <div className="flex justify-between items-center">
