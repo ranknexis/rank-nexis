@@ -207,10 +207,11 @@ const ServiceSummaryCard = React.memo(({ service }: { service: any }) => {
   const Icon = ICON_MAP[service.icon || "Zap"] || Zap;
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      className="glass group p-10 flex flex-col justify-between hover:border-brand/40 transition-all duration-500 rounded-[3rem] shadow-sm hover:shadow-premium h-full border border-stroke bg-white relative overflow-hidden"
+      viewport={{ once: true, margin: "-100px 0px" }}
+      transition={{ duration: 0.4 }}
+      className="glass group p-10 flex flex-col justify-between hover:border-brand/40 transition-all duration-500 rounded-[3rem] shadow-sm hover:shadow-premium h-full border border-stroke bg-white relative overflow-hidden will-change-gpu"
     >
        <div className="space-y-8 relative z-10">
           <div className="bg-surface border border-stroke w-16 h-16 rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-500 shadow-sm">
@@ -239,8 +240,9 @@ const TechCard = React.memo(({ icon: Icon, label }: any) => {
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.1 }}
-      className="glass border border-stroke rounded-[2rem] flex flex-col items-center justify-center gap-6 hover:border-brand transition-all duration-700 shadow-premium group cursor-default p-8 bg-white/50 backdrop-blur-sm"
+      viewport={{ once: true, margin: "-100px 0px" }}
+      transition={{ duration: 0.4 }}
+      className="glass border border-stroke rounded-[2rem] flex flex-col items-center justify-center gap-6 hover:border-brand transition-all duration-700 shadow-premium group cursor-default p-8 bg-white/50 backdrop-blur-sm will-change-gpu"
     >
       <Icon size={48} strokeWidth={1} className="text-brand/30 group-hover:text-brand transition-all duration-500 group-hover:scale-110" />
       <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted text-center leading-tight">{label}</span>
@@ -251,10 +253,11 @@ const TechCard = React.memo(({ icon: Icon, label }: any) => {
 const StackItem = React.memo(({ title, desc }: any) => {
   return (
     <motion.div 
-      initial={{ opacity: 0, x: -20 }}
+      initial={{ opacity: 0, x: -10 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      className="flex gap-8 group bg-surface border border-stroke p-10 rounded-[2.5rem] hover:border-brand transition-all"
+      viewport={{ once: true, margin: "-100px 0px" }}
+      transition={{ duration: 0.4 }}
+      className="flex gap-8 group bg-surface border border-stroke p-10 rounded-[2.5rem] hover:border-brand transition-all will-change-gpu"
     >
       <div className="w-16 h-16 shrink-0 bg-white border border-stroke rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all">
         <ShieldCheck size={32} />

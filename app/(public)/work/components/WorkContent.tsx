@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Filter, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface WorkContentProps {
   initialStudies: any[];
@@ -16,22 +16,26 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
   
   const [activeCategory, setActiveCategory] = useState("All");
   const [isNavVisible, setIsNavVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const lastScrollY = lastScrollYRef.current;
+
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsNavVisible(false);
+        setIsNavVisible(prev => prev ? false : prev);
       } else {
-        setIsNavVisible(true);
+        setIsNavVisible(prev => !prev ? true : prev);
       }
-      setLastScrollY(currentScrollY);
+      
+      lastScrollYRef.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
+
 
   const filteredStudies = activeCategory === "All" 
     ? initialStudies 
@@ -73,10 +77,11 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
                {filteredStudies.map((study, i) => (
                   <motion.div 
                      key={study.id}
-                     initial={{ opacity: 0, y: 40 }}
+                     initial={{ opacity: 0, y: 15 }}
                      whileInView={{ opacity: 1, y: 0 }}
-                     viewport={{ once: true }}
-                     className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center group"
+                     viewport={{ once: true, margin: "-100px 0px" }}
+                     transition={{ duration: 0.4 }}
+                     className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center group will-change-gpu"
                   >
                      <div className="lg:col-span-7 relative overflow-hidden rounded-[3rem] shadow-premium grain border border-stroke">
                         <Image 

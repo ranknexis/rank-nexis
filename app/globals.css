@@ -199,3 +199,12 @@ p { @apply text-sm md:text-base text-text-secondary leading-relaxed font-normal;
 .animate-pulse-soft {
   animation: pulse-soft 8s ease-in-out infinite;
 }
+
+/* GPU Hardware Compositing Optimization */
+.will-change-gpu {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+

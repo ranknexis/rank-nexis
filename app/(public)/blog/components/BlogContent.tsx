@@ -64,10 +64,11 @@ export default function BlogContent({ initialPosts, categories }: BlogContentPro
             filteredPosts.map((post, i) => (
               <motion.div
                 key={post.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true, margin: "-100px 0px" }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
+                className="will-change-gpu"
               >
                 <Link href={`/blog/${post.slug}`} className="group block h-full">
                   <div className="glass border border-stroke rounded-[2.5rem] overflow-hidden hover:border-brand/40 transition-all duration-700 shadow-sm hover:shadow-premium h-full flex flex-col bg-white">

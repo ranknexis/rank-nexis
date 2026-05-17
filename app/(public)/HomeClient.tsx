@@ -175,30 +175,21 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
              <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 hidden md:block" />
              <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4 hidden md:block" />
 
-              <div className="absolute inset-0 opacity-[0.05] hidden md:block">
-                {useMemo(() => [...Array(3)].map((_, i) => (
-                   <motion.div
+              <div className="absolute inset-0 opacity-[0.05] hidden md:block will-change-gpu">
+                {[...Array(3)].map((_, i) => (
+                   <div
                       key={i}
-                      initial={{ opacity: 0 }}
-                      animate={{ 
-                        opacity: [0.03, 0.08, 0.03],
-                        scale: [1, 1.05, 1],
-                      }}
-                      transition={{ 
-                        duration: 20 + i * 10, 
-                        repeat: Infinity, 
-                        ease: "linear"
-                      }}
-                      className="absolute rounded-full border border-brand/10 blur-3xl"
+                      className="absolute rounded-full border border-brand/10 blur-3xl animate-pulse-soft"
                       style={{
                         width: `${400 + i * 100}px`,
                         height: `${400 + i * 100}px`,
                         left: `${20 + (i * 30)}%`,
                         top: `${10 + (i * 20)}%`,
                         background: `radial-gradient(circle, var(--color-brand) 0%, transparent 70%)`,
+                        animationDelay: `${i * 2}s`,
                       }}
                    />
-                )), [])}
+                ))}
               </div>
 
              <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
@@ -221,10 +212,10 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
               <div className="lg:col-span-7 space-y-10">
                 <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="inline-flex items-center gap-3 px-5 py-1.5 glass rounded-full shadow-premium border border-brand/5 mb-2"
+                  transition={{ duration: 0.4 }}
+                  className="inline-flex items-center gap-3 px-5 py-1.5 glass rounded-full shadow-premium border border-brand/5 mb-2 will-change-gpu"
                 >
                    <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand">{hero.badge}</p>
@@ -232,37 +223,37 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
  
                 <div className="space-y-4">
                   <motion.h1 
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                    className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-text-primary"
+                    transition={{ duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] }}
+                    className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-text-primary will-change-gpu"
                   >
                     {hero.heading}
                   </motion.h1>
                   <motion.h1 
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.35, ease: [0.23, 1, 0.32, 1] }}
-                    className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-brand"
+                    transition={{ duration: 0.4, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
+                    className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-brand will-change-gpu"
                   >
                     {hero.headingAccent}
                   </motion.h1>
                 </div>
  
                 <motion.p 
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.7 }}
-                  className="text-gray-500 max-w-xl text-xl md:text-2xl font-medium leading-relaxed"
+                  transition={{ duration: 0.4, delay: 0.15 }}
+                  className="text-gray-500 max-w-xl text-xl md:text-2xl font-medium leading-relaxed will-change-gpu"
                 >
                   {hero.subtext}
                 </motion.p>
                 
                 <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.9 }}
-                  className="flex flex-col sm:flex-row gap-6 pt-4"
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="flex flex-col sm:flex-row gap-6 pt-4 will-change-gpu"
                 >
                     <Link href="/#contact" className="btn-primary group h-16 px-12 text-[11px] font-bold uppercase tracking-wider bg-brand hover:brightness-110 flex items-center justify-center gap-3 shadow-2xl">
                       Book a Free Call
@@ -355,10 +346,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
                <div className="max-w-2xl space-y-6">
                   <motion.div 
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.1 }}
-                    className="inline-flex items-center gap-3 px-4 py-1.5 bg-white border border-stroke rounded-full shadow-sm"
+                    viewport={{ once: true, margin: "-100px 0px" }}
+                    transition={{ duration: 0.4 }}
+                    className="inline-flex items-center gap-3 px-4 py-1.5 bg-white border border-stroke rounded-full shadow-sm will-change-gpu"
                   >
                     <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">{trust.badge}</p>
@@ -384,10 +376,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               ].map((vertical) => (
                 <motion.div 
                   key={vertical.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  className="group flex flex-col justify-between p-12 bg-white border border-stroke rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain"
+                  viewport={{ once: true, margin: "-100px 0px" }}
+                  transition={{ duration: 0.4 }}
+                  className="group flex flex-col justify-between p-12 bg-white border border-stroke rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain will-change-gpu"
                 >
                   <div className="absolute top-0 right-0 w-64 h-64 bg-brand/[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand/5 transition-colors" />
                   
@@ -431,11 +424,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 ].map((vertical, i) => (
                   <motion.div 
                     key={vertical.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.1 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="group flex-1 flex flex-col md:flex-row items-center gap-10 p-10 bg-white border border-stroke rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden"
+                    viewport={{ once: true, margin: "-100px 0px" }}
+                    transition={{ delay: i * 0.05, duration: 0.4 }}
+                    className="group flex-1 flex flex-col md:flex-row items-center gap-10 p-10 bg-white border border-stroke rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden will-change-gpu"
                   >
                     <div className="w-20 h-20 rounded-3xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shrink-0 shadow-sm">
                       <vertical.icon size={36} strokeWidth={1.2} />
@@ -469,10 +462,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
               <div className="max-w-2xl space-y-6">
                 <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full"
+                  viewport={{ once: true, margin: "-100px 0px" }}
+                  transition={{ duration: 0.4 }}
+                  className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full will-change-gpu"
                 >
                   <div className="w-2 h-2 bg-brand rounded-full" />
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">{servicesSection.badge}</p>
@@ -526,11 +520,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 ].map((industry, i) => (
                   <motion.div 
                     key={industry.name}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.1 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="glass p-10 border border-white/40 rounded-[2.5rem] flex flex-col items-center justify-center gap-8 group hover:border-brand/40 transition-all duration-500 shadow-premium cursor-default grain"
+                    viewport={{ once: true, margin: "-100px 0px" }}
+                    transition={{ delay: i * 0.03, duration: 0.4 }}
+                    className="glass p-10 border border-white/40 rounded-[2.5rem] flex flex-col items-center justify-center gap-8 group hover:border-brand/40 transition-all duration-500 shadow-premium cursor-default grain will-change-gpu"
                   >
                     <div className="w-16 h-16 rounded-[1.5rem] bg-brand/5 flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 border border-brand/10 shadow-inner">
                       <industry.icon size={32} strokeWidth={1} />
@@ -548,10 +542,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-10">
               <div className="space-y-6">
                 <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full"
+                  viewport={{ once: true, margin: "-100px 0px" }}
+                  transition={{ duration: 0.4 }}
+                  className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full will-change-gpu"
                 >
                   <div className="w-2 h-2 bg-brand rounded-full" />
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">Case History</p>
@@ -860,11 +855,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug }: any) => {
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ delay: index * 0.1, duration: 0.8 }}
-      className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-8 md:p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-[500px] flex flex-col justify-between"
+      viewport={{ once: true, margin: "-100px 0px" }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
+      className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-8 md:p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-[500px] flex flex-col justify-between will-change-gpu"
     >
       <div className="relative z-10 space-y-8">
         <div className="w-16 h-16 bg-brand/5 border border-brand/10 rounded-2xl flex items-center justify-center text-brand mb-6 group-hover:bg-brand group-hover:text-white transition-all duration-700">
@@ -902,7 +897,7 @@ const CaseStudyCard = React.memo(({ title, stats, kpi, tag, image, slug }: any) 
       className="corporate-card p-0 group overflow-hidden bg-surface border border-stroke rounded-[3rem] shadow-premium"
     >
       <div className="aspect-[16/10] relative overflow-hidden">
-        <Image src={image} alt={title} fill className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
+        <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         <div className="absolute top-8 right-8 px-4 py-1.5 bg-black/50 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider rounded-full border border-white/10">{tag}</div>
         
@@ -978,7 +973,7 @@ const BlogSnippet = React.memo(({ title, date, category, image, slug }: any) => 
   return (
     <div className="corporate-card p-0 group hover:scale-[1.02] bg-surface border border-stroke overflow-hidden rounded-[2.5rem] shadow-premium">
       <div className="aspect-[16/10] overflow-hidden relative">
-         <Image src={image} alt={title} fill className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
+         <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent" />
          <div className="absolute top-6 left-6 px-4 py-1.5 bg-brand text-white rounded-full text-[8px] font-bold uppercase tracking-wider">{category}</div>
       </div>

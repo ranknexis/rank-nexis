@@ -123,11 +123,11 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                  {teamMembers.map((member, i) => (
                     <motion.div
                        key={member.id}
-                       initial={{ opacity: 0, y: 20 }}
+                       initial={{ opacity: 0, y: 15 }}
                        whileInView={{ opacity: 1, y: 0 }}
-                       viewport={{ once: true }}
-                       transition={{ delay: i * 0.1 }}
-                       className="group relative aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-stroke shadow-sm hover:shadow-premium transition-all duration-700"
+                       viewport={{ once: true, margin: "-100px 0px" }}
+                       transition={{ delay: i * 0.05, duration: 0.4 }}
+                       className="group relative aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-stroke shadow-sm hover:shadow-premium transition-all duration-700 will-change-gpu"
                     >
                        <Image 
                           src={member.image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2424"} 

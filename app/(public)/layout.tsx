@@ -2,6 +2,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import prisma from "@/lib/prisma";
 import TrackingScripts from "../../components/TrackingScripts";
+import SmoothScroll from "../components/SmoothScroll";
 
 export default async function PublicLayout({
   children,
@@ -13,12 +14,12 @@ export default async function PublicLayout({
   });
 
   return (
-    <>
+    <SmoothScroll>
       {settings && <TrackingScripts settings={JSON.parse(JSON.stringify(settings))} />}
       <Navbar />
       {children}
       <Footer />
-    </>
+    </SmoothScroll>
   );
 }
 
