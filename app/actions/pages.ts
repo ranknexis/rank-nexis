@@ -42,9 +42,9 @@ export async function getPageBySlug(slug: string) {
         }
       }
     });
-    return { success: true, page, data: page };
+    return { success: true, page, data: page, error: null };
   } catch (error) {
-    return { success: false, error: "Failed to fetch page content." };
+    return { success: false, page: null, data: null, error: "Failed to fetch page content." };
   }
 }
 
