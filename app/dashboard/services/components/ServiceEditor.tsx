@@ -69,6 +69,8 @@ export default function ServiceEditor({ initialData }: Props) {
       toast.success("Service deleted successfully");
       router.push("/dashboard/services");
       router.refresh();
+    } else {
+      toast.error(res.error || "Failed to delete service");
     }
   };
 

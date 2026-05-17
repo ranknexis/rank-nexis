@@ -60,7 +60,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
       if (selectedLead?.id === id) setSelectedLead({ ...selectedLead, status: newStatus });
       toast.success(`Status updated to ${newStatus}`);
     } else {
-      toast.error("Failed to update status.");
+      toast.error(res.error || "Failed to update status.");
     }
   };
 
@@ -90,7 +90,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
           setSelectedIds(selectedIds.filter(i => i !== deleteConfirm.id));
           toast.success("Lead deleted successfully.");
         } else {
-          toast.error("Failed to delete lead.");
+          toast.error(res.error || "Failed to delete lead.");
         }
     }
     setDeleteConfirm({ isOpen: false, id: null, bulk: false });

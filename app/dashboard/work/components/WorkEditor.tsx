@@ -79,7 +79,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
       toast.success("Case study deleted successfully");
       router.push("/dashboard/work");
     } else {
-      toast.error("Failed to delete case study");
+      toast.error(res.error || "Failed to delete case study");
     }
   };
 

@@ -74,7 +74,7 @@ export default function JobEditor({ initialData }: { initialData: any }) {
       toast.success("Job opening deleted successfully");
       router.push("/dashboard/careers");
     } else {
-      toast.error("Failed to delete job opening");
+      toast.error(res.error || "Failed to delete job opening");
     }
   };
 

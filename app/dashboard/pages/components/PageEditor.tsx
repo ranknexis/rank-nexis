@@ -104,6 +104,8 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
       if (result.success) {
         setPage((prev: any) => ({ ...prev, status: newStatus }));
         toast.success(`Page status set to ${newStatus.toUpperCase()}`);
+      } else {
+        toast.error(result.error || "Failed to update page status");
       }
     });
   }, [page.slug, page.status]);
@@ -119,6 +121,8 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
         setPage((prev: any) => ({ ...prev, sections: [...prev.sections, result.section] }));
         setShowAddModal(false);
         toast.success("Section added");
+      } else {
+        toast.error(result.error || "Failed to add section");
       }
     });
   }, [page.id]);
@@ -133,6 +137,8 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
       if (result.success) {
         setPage((prev: any) => ({ ...prev, sections: [...prev.sections, result.section] }));
         toast.success("Section duplicated successfully");
+      } else {
+        toast.error(result.error || "Failed to duplicate section");
       }
     });
   }, [page.id]);
@@ -143,6 +149,8 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
      if (result.success) {
         setPage((prev: any) => ({ ...prev, sections: prev.sections.filter((s: any) => s.id !== deleteConfirm.id) }));
         toast.success("Section deleted");
+     } else {
+        toast.error(result.error || "Failed to delete section");
      }
   }, [deleteConfirm.id]);
 
@@ -154,18 +162,24 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
      [newSections[index], newSections[targetIndex]] = [newSections[targetIndex], newSections[index]];
      
      setPage((prev: any) => ({ ...prev, sections: newSections }));
-     await reorderSections(page.id, newSections.map(s => s.id));
-     toast.success("Page layout updated");
+     const result = await reorderSections(page.id, newSections.map(s => s.id));
+     if (result.success) {
+        toast.success("Page layout updated");
+     } else {
+        toast.error(result.error || "Failed to reorder sections");
+     }
   }, [page.id, page.sections]);
 
   const handleSeoChange = useCallback((newData: any) => {
-    setPage((prev: any) => ({ ...prev, ...newData }));
+     setPage((prev: any) => ({ ...prev, ...newData }));
   }, []);
 
   const handleUpdateSection = useCallback(async (sectionId: string, sectionLabel: string, newContent: any) => {
      const result = await updateSection(sectionId, newContent);
      if (result.success) {
         toast.success(`${sectionLabel} updated`);
+     } else {
+        toast.error(result.error || `Failed to update ${sectionLabel}`);
      }
   }, []);
 
