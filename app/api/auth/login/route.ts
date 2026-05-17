@@ -38,6 +38,7 @@ export async function POST(request: Request) {
         await login({
             id: user.id,
             email: user.email,
+            name: user.name,
             role: user.role,
             passwordSet: user.passwordSet,
             permissions: user.permissions

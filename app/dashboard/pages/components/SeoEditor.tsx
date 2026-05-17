@@ -31,12 +31,14 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
     <div className="space-y-10">
       <div className="flex gap-4 border-b border-stroke pb-6">
         <button 
+          type="button"
           onClick={() => setActiveTab('meta')}
           className={`px-6 py-2 rounded-full text-[10px] font-bold uppercase transition-all ${activeTab === 'meta' ? 'bg-brand text-white shadow-lg shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
         >
           Google Search
         </button>
         <button 
+          type="button"
           onClick={() => setActiveTab('og')}
           className={`px-6 py-2 rounded-full text-[10px] font-bold uppercase transition-all ${activeTab === 'og' ? 'bg-brand text-white shadow-lg shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
         >
@@ -119,7 +121,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
               <label className="text-[11px] font-bold uppercase text-brand ml-4">Meta Keywords (Comma separated)</label>
               <input 
                 type="text" 
-                value={data.metaKeywords?.join(', ') || ''} 
+                value={Array.isArray(data.metaKeywords) ? data.metaKeywords.join(', ') : typeof data.metaKeywords === 'string' ? data.metaKeywords : ''} 
                 onChange={(e) => updateField('metaKeywords', e.target.value.split(',').map(s => s.trim()))}
                 placeholder="SEO, Marketing, Growth..."
                 className="input-field"
@@ -203,6 +205,7 @@ const SeoEditor = memo(({ data, onChange, slug }: SeoEditorProps) => {
                </div>
             </div>
             <button 
+              type="button"
               onClick={() => updateField('noIndex', !data.noIndex)}
               className={`w-16 h-8 rounded-full transition-all relative ${data.noIndex ? 'bg-red-500' : 'bg-emerald-500'}`}
             >

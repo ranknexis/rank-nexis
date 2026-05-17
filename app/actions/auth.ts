@@ -1,11 +1,63 @@
 "use server";
 
-import { getSession, logout as libLogout } from "@/lib/auth";
+import { getSession, login as libLogin, logout as libLogout } from "@/lib/auth";
 import { getResetTemplate, sendEmail } from "@/lib/email";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+export async function loginUser(data: { email: string; password: string }) {
+    let shouldRedirect = false;
+    let passwordSet = true;
+
+    try {
+        const { email, password } = data;
+
+        const user = await prisma.user.findUnique({
+            where: { email },
+        });
+
+        if (!user) {
+            return { error: "Invalid credentials" };
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return { error: "Invalid credentials" };
+        }
+
+        const allowedRoles = ["ADMIN", "TEAM_MEMBER"];
+        if (!allowedRoles.includes(user.role)) {
+            return { error: "Unauthorized access" };
+        }
+
+        await libLogin({
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            passwordSet: user.passwordSet,
+            permissions: user.permissions
+        });
+
+        passwordSet = user.passwordSet;
+        shouldRedirect = true;
+    } catch (error) {
+        return { error: "Authentication failed" };
+    }
+
+    if (shouldRedirect) {
+        revalidatePath("/dashboard");
+        if (passwordSet === false) {
+            redirect("/dashboard/setup-password");
+        } else {
+            redirect("/dashboard");
+        }
+    }
+}
 
 export async function logout() {
     await libLogout();

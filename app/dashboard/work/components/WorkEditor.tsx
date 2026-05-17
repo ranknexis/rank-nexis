@@ -8,14 +8,10 @@ import {
   Save, 
   Trash2, 
   ArrowLeft, 
-  Eye, 
   Layout, 
   Type, 
-  Image as ImageIcon, 
   Link2, 
   Settings,
-  ChevronRight,
-  Target,
   BarChart3,
   Layers,
   Zap
@@ -57,7 +53,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
 
   const handleSave = async () => {
     if (!data.title || !data.slug) {
-      toast.error("Title and Slug are required.");
+      toast.error("Title and URL Slug are required.");
       return;
     }
 
@@ -68,10 +64,10 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
     
     setLoading(false);
     if (res.success) {
-      toast.success(initialData?.id ? "Narrative updated" : "Narrative created");
+      toast.success(initialData?.id ? "Case study saved successfully" : "Case study created successfully");
       if (!initialData?.id && res.caseStudy) router.push(`/dashboard/work/${res.caseStudy.id}`);
     } else {
-      toast.error(res.error);
+      toast.error(res.error || "Failed to save case study");
     }
   };
 
@@ -80,274 +76,291 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
   const handleDelete = async () => {
     const res = await deleteCaseStudy(initialData.id);
     if (res.success) {
-      toast.success("Narrative removed");
+      toast.success("Case study deleted successfully");
       router.push("/dashboard/work");
+    } else {
+      toast.error("Failed to delete case study");
     }
   };
 
   const tabs = [
-    { id: "overview", label: "Protocol Overview", icon: Layout },
-    { id: "narrative", label: "Strategic Narrative", icon: Type },
+    { id: "overview", label: "Overview", icon: Layout },
+    { id: "narrative", label: "Details & Solution", icon: Type },
     { id: "results", label: "Impact & Results", icon: BarChart3 },
-    { id: "settings", label: "Operational Data", icon: Settings }
+    { id: "settings", label: "Project Settings", icon: Settings }
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-
-      <div className="lg:col-span-3 space-y-6">
-        <div className="bg-white rounded-[2rem] border border-stroke p-8 shadow-sm space-y-2">
-           {tabs.map(tab => (
-             <button 
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all text-[11px] font-bold uppercase tracking-tight ${
-                activeTab === tab.id 
-                  ? "bg-brand text-white shadow-lg shadow-brand/20" 
-                  : "bg-surface text-text-muted hover:bg-brand/5 hover:text-brand"
-              }`}
-            >
-              <tab.icon size={18} /> {tab.label}
-            </button>
-           ))}
-        </div>
-      </div>
-
-      <div className="lg:col-span-12 mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-        <div className="space-y-2">
+    <div className="space-y-8">
+      {/* Page Header Outside Grid to Avoid Layout Breaks */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-b border-stroke pb-6">
+        <div className="space-y-1">
           <Link 
             href="/dashboard/work" 
-            className="flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted hover:text-brand transition-all group"
+            className="flex items-center gap-2 text-[9px] font-black uppercase text-text-muted hover:text-brand transition-all group"
           >
-            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Project Registry
+            <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" /> Back to Case Studies
           </Link>
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">
-            {initialData?.id ? "Refine" : "Forge"} <span className="text-brand">Narrative.</span>
+          <h1 className="text-3xl font-extrabold uppercase tracking-tight text-text-primary">
+            {initialData?.id ? "Edit" : "Create"} <span className="text-brand">Case Study</span>
           </h1>
         </div>
 
-        <div className="flex items-center gap-4">
-           <button 
-             onClick={handleSave}
-             disabled={loading}
-             className="px-10 h-16 rounded-[1.5rem] bg-brand text-white shadow-2xl shadow-brand/20 text-[11px] font-bold uppercase flex items-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
-           >
-              <Save size={18} /> {loading ? 'Synchronizing...' : 'Deploy Narrative'}
-           </button>
-           
-           {initialData?.id && (
-              <button 
-                onClick={() => setDeleteConfirmOpen(true)}
-                className="w-16 h-16 rounded-[1.5rem] border border-red-100 bg-white text-red-400 flex items-center justify-center hover:bg-red-50 transition-all shadow-sm"
-              >
-                <Trash2 size={20} />
-              </button>
-           )}
+        <div className="flex items-center gap-3">
+          <button 
+            type="button"
+            onClick={handleSave}
+            disabled={loading}
+            className="px-6 h-12 rounded-xl bg-brand text-white shadow-md shadow-brand/10 text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-brand-dark active:scale-95 transition-all disabled:opacity-50"
+          >
+            <Save size={16} /> {loading ? 'Saving...' : 'Save Case Study'}
+          </button>
+          
+          {initialData?.id && (
+            <button 
+              type="button"
+              onClick={() => setDeleteConfirmOpen(true)}
+              className="w-12 h-12 rounded-xl border border-stroke bg-white text-red-500 hover:bg-red-50 flex items-center justify-center transition-all shadow-sm shrink-0"
+            >
+              <Trash2 size={16} />
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="lg:col-span-9">
-         <div className="bg-white rounded-[2.5rem] border border-stroke shadow-sm overflow-hidden">
+      {/* Structured Columns Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        {/* Navigation Sidebar */}
+        <div className="lg:col-span-3 space-y-4">
+          <div className="bg-white rounded-2xl border border-stroke p-4 shadow-sm space-y-1">
+            {tabs.map(tab => (
+              <button 
+                type="button"
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-wider ${
+                  activeTab === tab.id 
+                    ? "bg-brand text-white shadow-md shadow-brand/15" 
+                    : "bg-transparent text-text-muted hover:bg-surface hover:text-text-primary"
+                }`}
+              >
+                <tab.icon size={16} /> {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Content Fields Container */}
+        <div className="lg:col-span-9">
+          <div className="bg-white rounded-2xl border border-stroke shadow-sm overflow-hidden">
             
             {activeTab === "overview" && (
-              <div className="p-10 space-y-10">
-                 <div className="space-y-4">
-                    <label className="text-[10px] font-bold uppercase text-text-muted px-2">Narrative Title</label>
+              <div className="p-6 sm:p-8 space-y-6">
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Project Title</label>
+                  <input 
+                    type="text" 
+                    value={data.title} 
+                    onChange={e => setData({...data, title: e.target.value})}
+                    placeholder="e.g. Next-Gen SEO Strategy & Growth"
+                    className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-sm font-bold focus:outline-none focus:border-brand transition-all"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Client Name</label>
                     <input 
                       type="text" 
-                      value={data.title} 
-                      onChange={e => setData({...data, title: e.target.value})}
-                      placeholder="ENTER IMPACTFUL TITLE..."
-                      className="w-full h-20 bg-surface border border-stroke rounded-2xl px-10 text-2xl font-bold uppercase tracking-tighter focus:outline-none focus:border-brand transition-all"
+                      value={data.client} 
+                      onChange={e => setData({...data, client: e.target.value})}
+                      placeholder="e.g. ACME Corp"
+                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                     />
-                 </div>
-
-                 <div className="grid grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Client Name</label>
-                        <input 
-                          type="text" 
-                          value={data.client} 
-                          onChange={e => setData({...data, client: e.target.value})}
-                          className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                        />
-                    </div>
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Industry / Sector (Tag)</label>
-                        <input 
-                          type="text" 
-                          value={data.tag} 
-                          onChange={e => setData({...data, tag: e.target.value})}
-                          className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                        />
-                    </div>
-                 </div>
-
-                 <div className="space-y-4">
-                    <label className="text-[10px] font-bold uppercase text-text-muted px-2">High-Level Objective (Description)</label>
-                    <textarea 
-                      value={data.description} 
-                      onChange={e => setData({...data, description: e.target.value})}
-                      rows={4}
-                      className="w-full bg-surface border border-stroke rounded-2xl p-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Project Category / Industry (Tag)</label>
+                    <input 
+                      type="text" 
+                      value={data.tag} 
+                      onChange={e => setData({...data, tag: e.target.value})}
+                      placeholder="e.g. E-Commerce"
+                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                     />
-                 </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Project Overview (Description)</label>
+                  <textarea 
+                    value={data.description} 
+                    onChange={e => setData({...data, description: e.target.value})}
+                    rows={4}
+                    placeholder="Describe the high-level objective and overview of this case study..."
+                    className="w-full bg-surface border border-stroke rounded-xl p-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                  />
+                </div>
               </div>
             )}
 
             {activeTab === "narrative" && (
-              <div className="p-10 space-y-12">
-                 <div className="space-y-8">
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">The Challenge (The Problem)</label>
-                        <textarea 
-                          value={data.challenge} 
-                          onChange={e => setData({...data, challenge: e.target.value})}
-                          rows={4}
-                          className="w-full bg-surface border border-stroke rounded-2xl p-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                        />
-                    </div>
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">The Approach (The Solution)</label>
-                        <textarea 
-                          value={data.solution} 
-                          onChange={e => setData({...data, solution: e.target.value})}
-                          rows={4}
-                          className="w-full bg-surface border border-stroke rounded-2xl p-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                        />
-                    </div>
-                 </div>
-
-                 <div className="pt-8 border-t border-stroke space-y-8">
-                    <h3 className="text-sm font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                       <Zap size={18} className="text-brand" /> Execution Architecture
-                    </h3>
-                    <RepeaterField 
-                      label="Key Actions Taken"
-                      items={data.execution}
-                      newItemDefault=""
-                      onChange={execution => setData({...data, execution})}
-                      renderItem={(item, index, update) => (
-                        <input 
-                          type="text"
-                          value={item}
-                          onChange={e => update(e.target.value)}
-                          className="w-full h-12 bg-white border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                          placeholder="Action item..."
-                        />
-                      )}
+              <div className="p-6 sm:p-8 space-y-8">
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">The Challenge</label>
+                    <textarea 
+                      value={data.challenge} 
+                      onChange={e => setData({...data, challenge: e.target.value})}
+                      rows={4}
+                      placeholder="Describe the main problem or constraints the client faced..."
+                      className="w-full bg-surface border border-stroke rounded-xl p-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                     />
-                 </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">The Solution</label>
+                    <textarea 
+                      value={data.solution} 
+                      onChange={e => setData({...data, solution: e.target.value})}
+                      rows={4}
+                      placeholder="Describe your strategic approach and the solution implemented..."
+                      className="w-full bg-surface border border-stroke rounded-xl p-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-6 border-t border-stroke space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-text-primary flex items-center gap-2">
+                    <Zap size={14} className="text-brand" /> Execution Plan
+                  </h3>
+                  <RepeaterField 
+                    label="Key Actions Taken"
+                    items={data.execution}
+                    newItemDefault=""
+                    onChange={execution => setData({...data, execution})}
+                    renderItem={(item, index, update) => (
+                      <input 
+                        type="text"
+                        value={item}
+                        onChange={e => update(e.target.value)}
+                        className="w-full h-12 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                        placeholder="Action item..."
+                      />
+                    )}
+                  />
+                </div>
               </div>
             )}
 
             {activeTab === "results" && (
-               <div className="p-10 space-y-12">
-                  <div className="grid grid-cols-2 gap-10">
-                     <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Core KPI (Label)</label>
-                        <input 
-                          type="text" 
-                          value={data.kpi} 
-                          onChange={e => setData({...data, kpi: e.target.value})}
-                          placeholder="REVENUE INCREASE"
-                          className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                        />
-                     </div>
-                     <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Core Stat (Value)</label>
-                        <input 
-                          type="text" 
-                          value={data.stats} 
-                          onChange={e => setData({...data, stats: e.target.value})}
-                          placeholder="+240%"
-                          className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all text-brand"
-                        />
-                     </div>
+              <div className="p-6 sm:p-8 space-y-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Main KPI (Label)</label>
+                    <input 
+                      type="text" 
+                      value={data.kpi} 
+                      onChange={e => setData({...data, kpi: e.target.value})}
+                      placeholder="e.g. Organic traffic boost"
+                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                    />
                   </div>
-
-                  <div className="pt-8 border-t border-stroke space-y-8">
-                    <h3 className="text-sm font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                       <BarChart3 size={18} className="text-brand" /> Strategic Results
-                    </h3>
-                    <RepeaterField 
-                      label="Impact Points"
-                      items={data.results}
-                      newItemDefault=""
-                      onChange={results => setData({...data, results})}
-                      renderItem={(item, index, update) => (
-                        <input 
-                          type="text"
-                          value={item}
-                          onChange={e => update(e.target.value)}
-                          className="w-full h-12 bg-white border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                          placeholder="Result point..."
-                        />
-                      )}
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Main KPI Value</label>
+                    <input 
+                      type="text" 
+                      value={data.stats} 
+                      onChange={e => setData({...data, stats: e.target.value})}
+                      placeholder="e.g. +240%"
+                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-brand"
                     />
-                 </div>
-               </div>
-            )}
+                  </div>
+                </div>
 
-            {activeTab === "settings" && (
-              <div className="p-10 space-y-12">
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Archive Slug (URL)</label>
-                        <div className="relative">
-                          <Link2 size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
-                          <input 
-                            type="text" 
-                            value={data.slug} 
-                            onChange={e => setData({...data, slug: e.target.value})}
-                            className="w-full h-14 bg-surface border border-stroke rounded-xl pl-16 pr-6 text-[11px] font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
-                          />
-                        </div>
-                    </div>
-
-                     <div className="space-y-4">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Visual Identity Node</label>
-                        <CloudinaryUpload 
-                          value={data.image} 
-                          onChange={(url) => setData({...data, image: url})} 
-                          label="PROJECT HERO ASSET"
-                        />
-                     </div>
-                 </div>
-
-                 <div className="space-y-8">
-                    <h3 className="text-sm font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                       <Layers size={18} className="text-brand" /> Technology Stack
-                    </h3>
-                    <RepeaterField 
-                      label="Technologies Used"
-                      items={data.technologies}
-                      newItemDefault=""
-                      onChange={technologies => setData({...data, technologies})}
-
-                      renderItem={(item, index, update) => (
-                        <input 
-                          type="text"
-                          value={item}
-                          onChange={e => update(e.target.value)}
-                          className="w-full h-12 bg-white border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
-                          placeholder="Stack component..."
-                        />
-                      )}
-                    />
-                 </div>
+                <div className="pt-6 border-t border-stroke space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-text-primary flex items-center gap-2">
+                    <BarChart3 size={14} className="text-brand" /> Project Results
+                  </h3>
+                  <RepeaterField 
+                    label="Impact Points"
+                    items={data.results}
+                    newItemDefault=""
+                    onChange={results => setData({...data, results})}
+                    renderItem={(item, index, update) => (
+                      <input 
+                        type="text"
+                        value={item}
+                        onChange={e => update(e.target.value)}
+                        className="w-full h-12 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                        placeholder="Result point..."
+                      />
+                    )}
+                  />
+                </div>
               </div>
             )}
 
-         </div>
+            {activeTab === "settings" && (
+              <div className="p-6 sm:p-8 space-y-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">URL Slug</label>
+                    <div className="relative">
+                      <Link2 size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                      <input 
+                        type="text" 
+                        value={data.slug} 
+                        onChange={e => setData({...data, slug: e.target.value})}
+                        className="w-full h-12 bg-surface border border-stroke rounded-xl pl-12 pr-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Feature Image</label>
+                    <CloudinaryUpload 
+                      value={data.image} 
+                      onChange={(url) => setData({...data, image: url})} 
+                      label="Upload Project Image"
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-6 border-t border-stroke space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-text-primary flex items-center gap-2">
+                    <Layers size={14} className="text-brand" /> Technologies Used
+                  </h3>
+                  <RepeaterField 
+                    label="Technologies Used"
+                    items={data.technologies}
+                    newItemDefault=""
+                    onChange={technologies => setData({...data, technologies})}
+                    renderItem={(item, index, update) => (
+                      <input 
+                        type="text"
+                        value={item}
+                        onChange={e => update(e.target.value)}
+                        className="w-full h-12 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                        placeholder="e.g. Next.js"
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+            )}
+
+          </div>
+        </div>
+
       </div>
+
       <ConfirmationModal 
         isOpen={deleteConfirmOpen}
         onClose={() => setDeleteConfirmOpen(false)}
         onConfirm={handleDelete}
-        title="Permanently Decommission Narrative?"
-        message="This action will irrecoverably terminate this project narrative from the global registry. Are you absolutely certain?"
-        confirmText="Confirm Termination"
+        title="Delete Case Study"
+        message="Are you sure you want to permanently delete this case study? This action is irreversible."
+        confirmText="Delete"
       />
     </div>
   );

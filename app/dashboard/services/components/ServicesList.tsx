@@ -1,14 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { CheckCircle2, Edit2, MoreVertical, Search, Trash2, XCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CheckCircle2, Edit2, Search, Trash2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { deleteService } from "@/actions/services";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function ServicesList({ initialServices }: { initialServices: any[] }) {
     const [services, setServices] = useState(initialServices);
     const [searchTerm, setSearchTerm] = useState("");
+
+    // Sync state with props to prevent status/data mismatches on updates
+    useEffect(() => {
+        setServices(initialServices);
+    }, [initialServices]);
 
     const filteredServices = services.filter(s => 
         s.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -49,28 +55,28 @@ export default function ServicesList({ initialServices }: { initialServices: any
             </div>
 
             <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left table-fixed">
                     <thead>
                         <tr className="border-b border-stroke bg-surface/10">
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Order</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Service Name</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Status</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
+                            <th className="w-24 px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Order</th>
+                            <th className="px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Service Name</th>
+                            <th className="w-36 px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Status</th>
+                            <th className="w-32 px-8 py-5 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-stroke">
                         {filteredServices.map((service: any) => (
-                            <tr key={service.id} className="hover:bg-surface/30 transition-colors group">
-                                <td className="px-10 py-8">
+                            <tr key={service.id} className="group">
+                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
                                     <span className="text-sm font-bold text-text-muted">#{service.order}</span>
                                 </td>
-                                <td className="px-10 py-8">
+                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
                                     <div>
-                                        <p className="text-sm font-bold uppercase text-text-primary group-hover:text-brand transition-colors">{service.title}</p>
-                                        <p className="text-[10px] font-bold uppercase text-text-muted">Slug: {service.slug}</p>
+                                        <p className="text-sm font-bold uppercase text-text-primary group-hover:text-brand transition-colors truncate">{service.title}</p>
+                                        <p className="text-[10px] font-bold uppercase text-text-muted truncate">Slug: {service.slug}</p>
                                     </div>
                                 </td>
-                                <td className="px-10 py-8">
+                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
                                     <div className="flex items-center gap-2">
                                         {service.active ? (
                                             <span className="flex items-center gap-2 text-[9px] font-bold uppercase text-emerald-500">
@@ -83,23 +89,28 @@ export default function ServicesList({ initialServices }: { initialServices: any
                                         )}
                                     </div>
                                 </td>
-                                <td className="px-10 py-8 text-right">
-                                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <Link href={`/dashboard/services/${service.id}`} className="p-3 bg-white border border-stroke hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted shadow-sm"><Edit2 size={16} /></Link>
-                                        <button 
-                                            onClick={() => setDeleteConfirm({ isOpen: true, id: service.id })}
-                                            className="p-3 bg-white border border-stroke hover:bg-red-500 hover:text-white rounded-lg transition-all text-text-muted shadow-sm"
+                                <td className="px-8 py-5 text-right transition-colors group-hover:bg-surface/30">
+                                    <div className="flex justify-end items-center gap-2">
+                                        <Link 
+                                            href={`/dashboard/services/${service.id}`} 
+                                            className="p-2.5 bg-white border border-stroke hover:bg-brand hover:text-white hover:border-brand rounded-xl transition-all text-text-muted hover:text-white shadow-sm flex items-center justify-center shrink-0"
                                         >
-                                            <Trash2 size={16} />
+                                            <Edit2 size={14} />
+                                        </Link>
+                                        <button 
+                                            type="button"
+                                            onClick={() => setDeleteConfirm({ isOpen: true, id: service.id })}
+                                            className="p-2.5 bg-white border border-stroke hover:bg-red-50 hover:text-red-500 hover:border-red-200 rounded-xl transition-all text-text-muted hover:text-red-500 shadow-sm flex items-center justify-center shrink-0"
+                                        >
+                                            <Trash2 size={14} />
                                         </button>
                                     </div>
-                                    <button className="p-3 text-text-muted group-hover:hidden"><MoreVertical size={16} /></button>
                                 </td>
                             </tr>
                         ))}
                         {filteredServices.length === 0 && (
                             <tr>
-                                <td colSpan={4} className="px-10 py-24 text-center">
+                                <td colSpan={4} className="px-8 py-16 text-center">
                                     <p className="text-text-muted font-bold uppercase text-[10px]">No services found matching your search.</p>
                                 </td>
                             </tr>
@@ -118,5 +129,3 @@ export default function ServicesList({ initialServices }: { initialServices: any
         </div>
     );
 }
-
-import ConfirmationModal from "../../components/ConfirmationModal";

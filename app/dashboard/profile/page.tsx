@@ -6,20 +6,21 @@ export default async function ProfilePage() {
     const res = await getMyProfile();
     const user = res.user;
 
-    if (!user) return <div>Access Denied</div>;
+    if (!user) return <div className="p-8 text-center text-xs font-bold text-red-500 uppercase">Access Denied</div>;
 
     return (
-        <div className="space-y-12 pb-20">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
-                <div className="space-y-4">
-                    <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Operator <span className="text-brand">Identity.</span></h1>
-                    <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Manage personal credentials and system access protocols.</p>
+        <div className="space-y-8 pb-16">
+            {/* Unified Page Header */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-stroke pb-6">
+                <div className="space-y-1">
+                    <h1 className="text-3xl font-extrabold uppercase tracking-tight text-text-primary">Profile Settings</h1>
+                    <p className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Manage your personal profile details, contact information, and account password.</p>
                 </div>
             </div>
 
             <ProfileForm initialUser={JSON.parse(JSON.stringify(user))} />
 
-            <div className="pt-12 border-t border-stroke">
+            <div className="pt-8 border-t border-stroke">
                 <SecurityForm />
             </div>
         </div>

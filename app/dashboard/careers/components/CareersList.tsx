@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { CheckCircle2, Edit2, MoreVertical, Search, Trash2, XCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CheckCircle2, Edit2, Search, Trash2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { deleteJob } from "@/actions/careers";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
     const [jobs, setJobs] = useState(initialJobs);
     const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+        setJobs(initialJobs);
+    }, [initialJobs]);
 
     const filteredJobs = jobs.filter(j => 
         j.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -26,54 +31,54 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
         const res = await deleteJob(deleteConfirm.id);
         if (res.success) {
             setJobs(jobs.filter(j => j.id !== deleteConfirm.id));
-            toast.success("Position removed from pipeline.");
+            toast.success("Job opening deleted successfully.");
             setDeleteConfirm({ isOpen: false, id: null });
         } else {
-            toast.error(res.error || "Failed to delete");
+            toast.error(res.error || "Failed to delete job opening");
         }
     };
 
     return (
-        <div className="bg-white rounded-[2.5rem] border border-stroke overflow-hidden shadow-premium grain">
-            <div className="p-10 border-b border-stroke flex flex-col xl:flex-row justify-between items-center gap-8 bg-surface/30">
-                <div className="relative w-full xl:w-96">
-                    <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-brand" />
+        <div className="bg-white rounded-[2rem] border border-stroke overflow-hidden shadow-sm">
+            <div className="p-8 border-b border-stroke flex justify-between items-center bg-surface/30">
+                <div className="relative w-full md:w-96">
+                    <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
                     <input 
                         type="text" 
-                        placeholder="FILTER POSITIONS..." 
+                        placeholder="Search jobs..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-16 bg-white border border-stroke rounded-2xl pl-16 pr-6 text-[11px] font-bold uppercase tracking-widest focus:outline-none focus:border-brand transition-all shadow-sm" 
+                        className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
                     />
                 </div>
-                <div className="px-6 py-3 bg-brand/5 border border-brand/20 rounded-xl">
-                    <p className="text-[10px] font-black uppercase text-brand tracking-widest">Live Deployments: <span className="text-text-primary ml-2">{jobs.filter((j: any) => j.active).length}</span></p>
+                <div className="px-4 py-2 bg-brand/5 border border-brand/20 rounded-xl">
+                    <p className="text-[9px] font-black uppercase text-brand tracking-widest">Active Jobs: <span className="text-text-primary ml-2">{jobs.filter((j: any) => j.active).length}</span></p>
                 </div>
             </div>
 
             <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left table-fixed">
                     <thead>
                         <tr className="border-b border-stroke bg-surface/10">
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Job Title / Location</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Type</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted">Status</th>
-                            <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
+                            <th className="px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Job Title & Location</th>
+                            <th className="w-48 px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Job Type</th>
+                            <th className="w-36 px-8 py-5 text-[10px] font-bold uppercase text-text-muted">Status</th>
+                            <th className="w-32 px-8 py-5 text-[10px] font-bold uppercase text-text-muted text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-stroke">
                         {filteredJobs.map((job: any) => (
                             <tr key={job.id} className="hover:bg-surface/30 transition-colors group">
-                                <td className="px-10 py-8">
+                                <td className="px-8 py-5">
                                     <div>
-                                        <p className="text-sm font-bold uppercase tracking-tight text-text-primary group-hover:text-brand transition-colors">{job.title}</p>
-                                        <p className="text-[10px] font-bold uppercase text-text-muted">{job.location}</p>
+                                        <p className="text-sm font-bold uppercase text-text-primary group-hover:text-brand transition-colors truncate">{job.title}</p>
+                                        <p className="text-[10px] font-bold uppercase text-text-muted truncate">{job.location}</p>
                                     </div>
                                 </td>
-                                <td className="px-10 py-8">
-                                    <span className="text-[10px] font-bold uppercase text-text-muted">{job.type}</span>
+                                <td className="px-8 py-5">
+                                    <span className="text-[10px] font-bold uppercase text-text-muted">{job.type.replace('_', ' ')}</span>
                                 </td>
-                                <td className="px-10 py-8">
+                                <td className="px-8 py-5">
                                     <div className="flex items-center gap-2">
                                         {job.active ? (
                                             <span className="flex items-center gap-2 text-[9px] font-bold uppercase text-emerald-500">
@@ -86,23 +91,28 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
                                         )}
                                     </div>
                                 </td>
-                                <td className="px-10 py-8 text-right">
-                                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <Link href={`/dashboard/careers/${job.id}`} className="p-3 bg-white border border-stroke hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted shadow-sm"><Edit2 size={16} /></Link>
-                                        <button 
-                                            onClick={() => setDeleteConfirm({ isOpen: true, id: job.id })}
-                                            className="p-3 bg-white border border-stroke hover:bg-red-500 hover:text-white rounded-lg transition-all text-text-muted shadow-sm"
+                                <td className="px-8 py-5 text-right">
+                                    <div className="flex justify-end items-center gap-2">
+                                        <Link 
+                                            href={`/dashboard/careers/${job.id}`} 
+                                            className="p-2.5 bg-white border border-stroke hover:bg-brand hover:text-white hover:border-brand rounded-xl transition-all text-text-muted hover:text-white shadow-sm flex items-center justify-center shrink-0"
                                         >
-                                            <Trash2 size={16} />
+                                            <Edit2 size={14} />
+                                        </Link>
+                                        <button 
+                                            type="button"
+                                            onClick={() => setDeleteConfirm({ isOpen: true, id: job.id })}
+                                            className="p-2.5 bg-white border border-stroke hover:bg-red-50 hover:text-red-500 hover:border-red-200 rounded-xl transition-all text-text-muted hover:text-red-500 shadow-sm flex items-center justify-center shrink-0"
+                                        >
+                                            <Trash2 size={14} />
                                         </button>
                                     </div>
-                                    <button className="p-3 text-text-muted group-hover:hidden"><MoreVertical size={16} /></button>
                                 </td>
                             </tr>
                         ))}
                         {filteredJobs.length === 0 && (
                             <tr>
-                                <td colSpan={4} className="px-10 py-24 text-center">
+                                <td colSpan={4} className="px-8 py-16 text-center">
                                     <p className="text-text-muted font-bold uppercase text-[10px]">No job openings found matching your search.</p>
                                 </td>
                             </tr>
@@ -114,12 +124,10 @@ export default function CareersList({ initialJobs }: { initialJobs: any[] }) {
                 isOpen={deleteConfirm.isOpen}
                 onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
                 onConfirm={handleDelete}
-                title="Delete Position"
-                message="Are you sure you want to remove this position from the Careers pipeline? This action is immutable."
-                confirmText="Delete Position"
+                title="Delete Job Opening"
+                message="Are you sure you want to remove this job opening? This action cannot be undone."
+                confirmText="Delete"
             />
         </div>
     );
 }
-
-import ConfirmationModal from "../../components/ConfirmationModal";

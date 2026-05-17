@@ -64,7 +64,6 @@ export default function DashboardShell({
     { icon: Users, label: "Users", href: "/dashboard/users", roles: ["ADMIN"], permission: "manage_users" },
     { icon: Activity, label: "Performance", href: "/dashboard/performance", roles: ["ADMIN"] },
     { icon: FileText, label: "Reports", href: "/dashboard/report", roles: ["ADMIN"] },
-    { icon: UserCircle, label: "Profile", href: "/dashboard/profile", roles: ["ADMIN", "TEAM_MEMBER"] },
     { icon: Settings, label: "Settings", href: "/dashboard/settings", roles: ["ADMIN"], permission: "manage_settings" },
 
   ].filter(item => {
@@ -81,8 +80,7 @@ export default function DashboardShell({
   const handleLogout = async () => {
     setShowLogoutConfirm(false);
     await logout();
-    router.push("/dashboard/login");
-    router.refresh();
+    window.location.replace("/dashboard/login");
   };
 
   if (pathname === "/dashboard/login") {
@@ -92,12 +90,12 @@ export default function DashboardShell({
   if (!session) return null;
 
   const SidebarContent = ({ isMobile = false }) => (
-    <div className="flex flex-col h-full bg-white relative">
+    <div className="flex flex-col h-full bg-white relative overflow-x-hidden">
       {/* Header */}
-      <div className={`p-6 mb-2 ${isCollapsed && !isMobile ? "items-center px-4" : ""}`}>
-         <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand/20 shrink-0">
-               <Zap size={20} fill="currentColor" />
+      <div className={`mb-2 ${isCollapsed && !isMobile ? "py-6 px-0 flex justify-center" : "p-6"}`}>
+         <div className={`flex items-center ${isCollapsed && !isMobile ? "justify-center" : "gap-3"}`}>
+            <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand/20 shrink-0">
+               <Zap size={22} fill="currentColor" />
             </div>
             {(!isCollapsed || isMobile) && (
                <motion.div 
@@ -113,7 +111,7 @@ export default function DashboardShell({
       </div>
  
       {/* Navigation */}
-      <nav className={`flex-grow px-4 space-y-1 overflow-y-auto custom-scrollbar ${isCollapsed && !isMobile ? "items-center" : ""}`}>
+      <nav className={`flex flex-col space-y-1 overflow-y-auto overflow-x-hidden custom-scrollbar ${isCollapsed && !isMobile ? "px-0 items-center" : "px-4"}`}>
          {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
             return (
@@ -121,16 +119,16 @@ export default function DashboardShell({
                 key={item.href} 
                 href={item.href}
                 onClick={() => isMobile && setMobileMenuOpen(false)}
-                className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 group relative ${
+                className={`flex items-center rounded-xl transition-all duration-200 group relative ${
                   isActive 
-                  ? "bg-brand/5 text-brand" 
+                  ? "bg-brand/5 text-brand font-semibold" 
                   : "text-text-muted hover:bg-surface hover:text-text-primary"
-                } ${isCollapsed && !isMobile ? "justify-center px-0 w-10 mx-auto" : "gap-3"}`}
+                } ${isCollapsed && !isMobile ? "justify-center p-0 w-12 h-12 mx-auto shrink-0" : "px-4 py-3 gap-3 w-full"}`}
               >
                  <item.icon 
                    size={20} 
                    strokeWidth={isActive ? 2.5 : 2} 
-                   className={isActive ? "text-brand" : "text-text-muted group-hover:text-text-primary"} 
+                   className={`${isActive ? "text-brand" : "text-text-muted group-hover:text-text-primary"} shrink-0`} 
                  />
                  
                  {(!isCollapsed || isMobile) && (
@@ -142,13 +140,13 @@ export default function DashboardShell({
                       {item.label}
                    </motion.span>
                  )}
-
+ 
                  {isActive && !isCollapsed && (
                    <div className="absolute right-4">
                      <div className="w-1.5 h-1.5 rounded-full bg-brand" />
                    </div>
                  )}
-
+ 
                  {/* Tooltip for collapsed state */}
                  {isCollapsed && !isMobile && (
                    <div className="absolute left-full ml-4 px-2 py-1 bg-text-primary text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 whitespace-nowrap">
@@ -161,14 +159,14 @@ export default function DashboardShell({
       </nav>
  
       {/* Footer / User Dropdown */}
-      <div className={`p-4 mt-auto border-t border-stroke relative ${isCollapsed && !isMobile ? "px-2" : ""}`}>
+      <div className={`mt-auto border-t border-stroke relative ${isCollapsed && !isMobile ? "p-3 px-0 flex justify-center" : "p-4"}`}>
          <AnimatePresence>
             {showUserDropdown && (
                <motion.div 
                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
                  animate={{ opacity: 1, y: 0, scale: 1 }}
                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                 className={`absolute bottom-full left-4 right-4 mb-2 bg-white border border-stroke rounded-2xl shadow-xl z-50 overflow-hidden ${isCollapsed && !isMobile ? "left-1 right-1 w-48 left-full ml-2 bottom-0" : ""}`}
+                 className={`absolute bottom-full left-4 right-4 mb-2 bg-white border border-stroke rounded-2xl shadow-xl z-50 overflow-hidden ${isCollapsed && !isMobile ? "w-48 left-full ml-2 bottom-0" : ""}`}
                >
                   <div className="p-2 space-y-1">
                      <Link 
@@ -193,17 +191,17 @@ export default function DashboardShell({
                </motion.div>
             )}
          </AnimatePresence>
-
+ 
          <button 
             onClick={() => setShowUserDropdown(!showUserDropdown)}
-            className={`w-full flex items-center p-2 rounded-xl bg-surface/50 border border-stroke/50 hover:border-brand/30 transition-all group ${isCollapsed && !isMobile ? "justify-center p-1" : "gap-3"}`}
+            className={`flex items-center rounded-xl bg-surface/50 border border-stroke/50 hover:border-brand/30 transition-all group ${isCollapsed && !isMobile ? "w-12 h-12 justify-center p-0 mx-auto shrink-0" : "w-full p-2 gap-3"}`}
          >
-            <div className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center text-brand font-bold text-sm shrink-0 group-hover:bg-brand group-hover:text-white transition-all">
-               {session?.name?.substring(0, 1) || "R"}
+            <div className={`rounded-xl bg-brand/10 flex items-center justify-center text-brand font-bold text-sm shrink-0 group-hover:bg-brand group-hover:text-white transition-all ${isCollapsed && !isMobile ? "w-9 h-9" : "w-10 h-10"}`}>
+               {(session?.name || session?.email || "?")[0].toUpperCase()}
             </div>
             {(!isCollapsed || isMobile) && (
                <div className="min-w-0 text-left flex-grow">
-                  <p className="text-xs font-bold text-text-primary truncate">{session?.name || "Admin"}</p>
+                  <p className="text-xs font-bold text-text-primary truncate">{session?.name || session?.email?.split('@')[0] || (role === "ADMIN" ? "Administrator" : "Team Member")}</p>
                   <p className="text-[10px] text-text-muted truncate capitalize">{role.toLowerCase().replace('_', ' ')}</p>
                </div>
             )}
@@ -214,12 +212,12 @@ export default function DashboardShell({
             )}
          </button>
       </div>
-
+ 
       {/* Collapse Toggle Button (Desktop) */}
       {!isMobile && (
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-3 top-20 w-6 h-6 bg-white border border-stroke rounded-full flex items-center justify-center text-text-muted hover:text-brand hover:border-brand transition-all shadow-sm z-30"
+          className="absolute -right-3 top-20 w-6 h-6 bg-white border border-stroke rounded-full flex items-center justify-center text-text-muted hover:text-brand hover:border-brand transition-all shadow-sm z-30 animate-pulse"
         >
           {isCollapsed ? <PanelLeftOpen size={14} /> : <PanelLeftClose size={14} />}
         </button>
@@ -245,7 +243,7 @@ export default function DashboardShell({
 
       {/* Desktop Sidebar */}
       <aside 
-        className={`hidden md:flex border-r border-stroke flex-col h-screen sticky top-0 z-20 shrink-0 bg-white transition-all duration-300 ease-in-out ${
+        className={`hidden md:flex border-r border-stroke flex-col h-screen sticky top-0 z-20 shrink-0 bg-white transition-all duration-300 ease-in-out overflow-x-hidden ${
           isCollapsed ? "w-20" : "w-72"
         }`}
       >

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import PasswordInput from "../components/PasswordInput";
 import Link from "next/link";
+import { loginUser } from "@/actions/auth";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -19,23 +20,11 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        toast.success("Login successful.");
-        if (data.passwordSet === false) {
-          router.push("/dashboard/setup-password");
-        } else {
-          router.push("/dashboard");
-        }
+      const res = await loginUser({ email, password });
+      if (res && res.error) {
+        toast.error(res.error);
       } else {
-        toast.error(data.error || "Invalid Credentials");
+        toast.success("Login successful.");
       }
     } catch (error) {
       toast.error("Process error. Please try again.");

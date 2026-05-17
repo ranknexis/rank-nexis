@@ -29,7 +29,7 @@ export default function SetupPasswordPage() {
         const res = await setupPassword(password);
         if (res.success) {
             toast.success("Security configuration complete. Access granted.");
-            router.push("/dashboard");
+            window.location.replace("/dashboard");
         } else {
             toast.error(res.error || "Update failed");
         }

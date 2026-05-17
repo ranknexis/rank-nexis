@@ -141,7 +141,7 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
 
       {isAdmin && (
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-12">
-            <div className="bg-white rounded-[2rem] border border-stroke p-8 md:p-10 space-y-10 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
+            <div className="xl:col-span-2 bg-white rounded-[2rem] border border-stroke p-8 md:p-10 space-y-10 shadow-sm hover:shadow-premium transition-all duration-500 relative overflow-hidden grain">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-1">
                         <h3 className="text-2xl font-bold tracking-tight text-text-primary">System Resources</h3>
@@ -151,15 +151,15 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
 
                 <div className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="p-6 bg-surface/50 rounded-2xl border border-stroke/60 space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-white border border-stroke flex items-center justify-center text-brand">
+                        <div className="p-4 sm:p-6 bg-surface/50 rounded-2xl border border-stroke/60 space-y-4">
+                            <div className="flex items-center justify-between gap-3">
+                                <div className="flex items-center gap-3 min-w-0">
+                                    <div className="w-8 h-8 rounded-lg bg-white border border-stroke flex items-center justify-center text-brand shrink-0">
                                         <Activity size={16} />
                                     </div>
-                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">DB Response</p>
+                                    <p className="text-[10px] sm:text-xs font-bold uppercase tracking-tight text-text-primary truncate">DB Response</p>
                                 </div>
-                                <span className="text-[10px] font-black text-brand">{perf?.db?.latency || 0}ms</span>
+                                <span className="text-[10px] sm:text-xs font-black text-brand shrink-0">{perf?.db?.latency || 0}ms</span>
                             </div>
                             <div className="h-1.5 w-full bg-white rounded-full overflow-hidden border border-stroke/30">
                                 <motion.div 
@@ -170,15 +170,15 @@ export default function DashboardContent({ stats, recentLeads, role }: Dashboard
                             </div>
                         </div>
 
-                        <div className="p-6 bg-surface/50 rounded-2xl border border-stroke/60 space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-white border border-stroke flex items-center justify-center text-purple-500">
+                        <div className="p-4 sm:p-6 bg-surface/50 rounded-2xl border border-stroke/60 space-y-4">
+                            <div className="flex items-center justify-between gap-3">
+                                <div className="flex items-center gap-3 min-w-0">
+                                    <div className="w-8 h-8 rounded-lg bg-white border border-stroke flex items-center justify-center text-purple-500 shrink-0">
                                         <Server size={16} />
                                     </div>
-                                    <p className="text-[10px] font-bold uppercase tracking-tight text-text-primary">Server Memory</p>
+                                    <p className="text-[10px] sm:text-xs font-bold uppercase tracking-tight text-text-primary truncate">Server Memory</p>
                                 </div>
-                                <span className="text-[10px] font-black text-brand">{perf?.server?.memory || 0}%</span>
+                                <span className="text-[10px] sm:text-xs font-black text-brand shrink-0">{perf?.server?.memory || 0}%</span>
                             </div>
                             <div className="h-1.5 w-full bg-white rounded-full overflow-hidden border border-stroke/30">
                                 <motion.div 

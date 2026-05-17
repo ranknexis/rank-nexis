@@ -1,19 +1,17 @@
 "use client";
 
-import { useState } from 'react';
-import { 
-  Search, 
-  Plus, 
-  MoreHorizontal, 
-  Edit3, 
-  Trash2, 
-  User as UserIcon,
-  ChevronRight,
-  ArrowUpDown
+import { deleteTeamMember } from '@/actions/team';
+import {
+  Edit3,
+  Plus,
+  Search,
+  Trash2,
+  User as UserIcon
 } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { deleteTeamMember } from '@/actions/team';
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 interface TeamListProps {
   initialTeam: any[];
@@ -22,6 +20,10 @@ interface TeamListProps {
 export default function TeamList({ initialTeam }: TeamListProps) {
   const [team, setTeam] = useState(initialTeam);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    setTeam(initialTeam);
+  }, [initialTeam]);
 
   const filteredTeam = team.filter(m => 
     m.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -41,30 +43,36 @@ export default function TeamList({ initialTeam }: TeamListProps) {
       toast.success("Team member deleted");
       setDeleteConfirm({ isOpen: false, id: null });
     } else {
-      toast.error(res.error);
+      toast.error(res.error || "Failed to delete team member");
     }
   };
 
   return (
-    <div className="space-y-8">
-
-      <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="relative w-full md:w-96 group">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-brand transition-colors" size={18} />
-          <input 
-            type="text"
-            placeholder="Search team members..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-14 pl-14 pr-8 bg-white border border-stroke rounded-2xl text-sm font-medium focus:border-brand outline-none shadow-sm transition-all"
-          />
+    <div className="space-y-10">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 border-b border-stroke pb-8">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Core <span className="text-brand">Operators.</span></h1>
+          <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Manage team members and their profiles.</p>
         </div>
-        <Link 
-          href="/dashboard/team/new" 
-          className="btn-primary h-12 px-6 text-xs font-bold flex items-center gap-2 shadow-md w-full md:w-auto"
-        >
-          <Plus size={18} /> Add Team Member
-        </Link>
+        
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" size={16} />
+            <input 
+              type="text"
+              placeholder="Search team..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full h-12 pl-12 pr-4 bg-white border border-stroke rounded-xl text-xs font-semibold focus:border-brand outline-none shadow-sm transition-all"
+            />
+          </div>
+          <Link 
+            href="/dashboard/team/new" 
+            className="h-12 px-6 bg-brand text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-brand/20 w-full sm:w-auto shrink-0"
+          >
+            <Plus size={16} /> Add Team Member
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -95,6 +103,7 @@ export default function TeamList({ initialTeam }: TeamListProps) {
                    <Edit3 size={14} /> Edit Profile
                 </Link>
                 <button 
+                  type="button"
                   onClick={() => setDeleteConfirm({ isOpen: true, id: member.id })}
                   className="w-12 h-12 bg-surface border border-stroke rounded-xl text-text-muted hover:text-red-400 hover:bg-red-50 hover:border-red-200 transition-all flex items-center justify-center"
                 >
@@ -117,12 +126,10 @@ export default function TeamList({ initialTeam }: TeamListProps) {
         isOpen={deleteConfirm.isOpen}
         onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
         onConfirm={handleDelete}
-        title="Decommission Team Member?"
-        message="This action will permanently remove this profile from the global directory. Are you certain?"
-        confirmText="Confirm Deletion"
+        title="Delete Team Member Profile?"
+        message="Are you sure you want to permanently remove this profile from the directory? This action cannot be undone."
+        confirmText="Delete"
       />
     </div>
   );
 }
-
-import ConfirmationModal from "../../components/ConfirmationModal";

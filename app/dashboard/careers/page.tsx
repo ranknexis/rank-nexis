@@ -12,15 +12,15 @@ export default async function AdminCareersPage() {
     <div className="space-y-10">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Human <span className="text-brand">Capital.</span></h1>
-          <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Architect the future team and manage incoming talent.</p>
+          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Careers & <span className="text-brand">Jobs.</span></h1>
+          <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Manage job openings and review candidate applications.</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
           <Link href="/dashboard/careers/applications" className="h-16 px-8 bg-white border border-stroke rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:border-brand hover:text-brand transition-all shadow-sm">
-            Recruitment Queue
+            View Applications
           </Link>
           <Link href="/dashboard/careers/new" className="h-16 px-8 bg-brand text-white rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-brand/20">
-            <Plus size={18} /> Deploy Position
+            <Plus size={18} /> Add Job Opening
           </Link>
         </div>
       </div>
@@ -29,4 +29,3 @@ export default async function AdminCareersPage() {
     </div>
   );
 }
-

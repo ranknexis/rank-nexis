@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-
 import { 
     UserPlus, 
     Trash2, 
@@ -9,19 +8,16 @@ import {
     Shield, 
     ShieldAlert, 
     CheckCircle2, 
-    XCircle,
     Fingerprint,
     Save,
     Settings2,
-    ChevronDown,
-    ChevronUp
+    Check
 } from "lucide-react";
 import { createUser, deleteUser, updateUserPermissions } from "@/actions/users";
 import { toast } from "sonner";
 import ConfirmationModal from "../../components/ConfirmationModal";
 
 const AVAILABLE_PERMISSIONS = [
-
     { id: "manage_pages", label: "Pages", desc: "Manage site pages and sections" },
     { id: "manage_services", label: "Services", desc: "Manage core business services" },
     { id: "manage_careers", label: "Careers", desc: "Handle job postings and applications" },
@@ -32,8 +28,9 @@ const AVAILABLE_PERMISSIONS = [
     { id: "manage_feedback", label: "Feedback", desc: "Manage client testimonials" },
     { id: "manage_users", label: "Users", desc: "Manage system users and permissions" },
     { id: "manage_settings", label: "Settings", desc: "Manage global site settings" },
-
 ];
+
+const DEFAULT_TEAM_MEMBER_PERMISSIONS = ["manage_blog", "manage_work", "manage_services"];
 
 export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
     const [users, setUsers] = useState(initialUsers);
@@ -81,7 +78,17 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
         const user = users.find(u => u.id === userId);
         if (!user) return;
 
-        const currentPerms = Array.isArray(user.permissions) ? user.permissions : JSON.parse(user.permissions || "[]");
+        const rawPerms = Array.isArray(user.permissions) 
+            ? user.permissions 
+            : typeof user.permissions === 'string' 
+                ? JSON.parse(user.permissions || "[]") 
+                : (user.permissions as any) || [];
+
+        // If the permissions list was empty, we pre-populate with default team permissions first
+        const currentPerms = (user.role === "TEAM_MEMBER" && rawPerms.length === 0) 
+            ? DEFAULT_TEAM_MEMBER_PERMISSIONS 
+            : rawPerms;
+
         const newPerms = currentPerms.includes(permId) 
             ? currentPerms.filter((p: string) => p !== permId)
             : [...currentPerms, permId];
@@ -94,7 +101,17 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
         if (!user) return;
 
         startTransition(async () => {
-            const perms = Array.isArray(user.permissions) ? user.permissions : JSON.parse(user.permissions || "[]");
+            const rawPerms = Array.isArray(user.permissions) 
+                ? user.permissions 
+                : typeof user.permissions === 'string' 
+                    ? JSON.parse(user.permissions || "[]") 
+                    : (user.permissions as any) || [];
+            
+            // Handle saving permissions properly when utilizing the smart default
+            const perms = (user.role === "TEAM_MEMBER" && rawPerms.length === 0)
+                ? DEFAULT_TEAM_MEMBER_PERMISSIONS
+                : rawPerms;
+
             const res = await updateUserPermissions(userId, perms);
             if (res.success) {
                 toast.success("Permissions updated successfully.");
@@ -106,51 +123,54 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
     };
 
     return (
-        <div className="space-y-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
-                <div className="space-y-4">
-                    <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Global <span className="text-brand">Operators.</span></h1>
-                    <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Manage system access and protocol permissions.</p>
+        <div className="space-y-6">
+            
+            {/* Unified Page Header */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-stroke pb-6">
+                <div className="space-y-1">
+                    <h1 className="text-3xl font-extrabold uppercase tracking-tight text-text-primary">Users & Roles</h1>
+                    <p className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Invite administrators and team members, and manage their workspace permissions.</p>
                 </div>
                 <button 
+                    type="button"
                     onClick={() => setIsAdding(!isAdding)}
-                    className="flex items-center gap-3 px-8 h-16 bg-brand text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-brand/20 self-start md:self-auto"
+                    className="flex items-center gap-2 px-5 h-10 bg-brand text-white rounded-xl text-[10px] font-bold uppercase tracking-wider hover:bg-brand-dark active:scale-95 transition-all shadow-sm"
                 >
-                    <UserPlus size={18} />
-                    {isAdding ? "Cancel Protocol" : "Forge New User"}
+                    <UserPlus size={14} />
+                    {isAdding ? "Cancel" : "Invite User"}
                 </button>
             </div>
 
             {isAdding && (
-                <div className="bg-white border-2 border-brand/20 p-8 rounded-[2rem] shadow-xl animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="bg-white border border-stroke p-6 rounded-2xl shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
                     <form onSubmit={handleAddUser} className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase text-text-muted ml-1">Full Name</label>
+                            <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Full Name</label>
                             <input 
                                 required
                                 value={newName}
                                 onChange={(e) => setNewName(e.target.value)}
-                                className="w-full h-12 px-4 bg-surface border border-stroke rounded-xl text-sm font-medium focus:border-brand outline-none"
+                                className="w-full h-11 px-4 bg-surface border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none"
                                 placeholder="John Doe"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase text-text-muted ml-1">Email Address</label>
+                            <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Email Address</label>
                             <input 
                                 required
                                 type="email"
                                 value={newEmail}
                                 onChange={(e) => setNewEmail(e.target.value)}
-                                className="w-full h-12 px-4 bg-surface border border-stroke rounded-xl text-sm font-medium focus:border-brand outline-none"
+                                className="w-full h-11 px-4 bg-surface border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none"
                                 placeholder="john@ranknexis.com"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-bold uppercase text-text-muted ml-1">Access Level</label>
+                            <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Access Level</label>
                             <select 
                                 value={newRole}
                                 onChange={(e) => setNewRole(e.target.value)}
-                                className="w-full h-12 px-4 bg-surface border border-stroke rounded-xl text-sm font-medium focus:border-brand outline-none appearance-none"
+                                className="w-full h-11 px-4 bg-surface border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none cursor-pointer"
                             >
                                 <option value="TEAM_MEMBER">Team Member</option>
                                 <option value="ADMIN">Administrator</option>
@@ -159,177 +179,224 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                         <div className="md:col-span-3 flex justify-end">
                             <button 
                                 disabled={isLoading}
-                                className="px-8 py-3 bg-brand text-white rounded-xl text-[10px] font-bold uppercase tracking-widest disabled:opacity-50"
+                                className="px-6 h-10 bg-black hover:bg-brand text-white rounded-xl text-[10px] font-bold uppercase tracking-wider disabled:opacity-50 transition-all"
                             >
-                                {isLoading ? "Saving..." : "Create Account & Send Invite"}
+                                {isLoading ? "Saving..." : "Send Invitation"}
                             </button>
                         </div>
                     </form>
                 </div>
             )}
 
-            <div className="bg-white border border-stroke rounded-[2rem] overflow-hidden shadow-sm overflow-x-auto">
-                <table className="w-full text-left min-w-[800px]">
-                    <thead>
-                        <tr className="border-b border-stroke bg-surface/50">
-                            <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">User</th>
-                            <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Access Level</th>
-                            <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted">Status</th>
-                            <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-text-muted text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-stroke">
-                        {users.map((user) => {
-                             const isExpanded = expandedUser === user.id;
-                             const userPerms = Array.isArray(user.permissions) 
-                                ? user.permissions 
-                                : typeof user.permissions === 'string' 
-                                    ? JSON.parse(user.permissions || "[]") 
-                                    : (user.permissions as any) || [];
-                            
-                            return (
-                                <React.Fragment key={user.id}>
-                                    <tr className={`transition-colors group ${isExpanded ? 'bg-surface/50' : 'hover:bg-surface/30'}`}>
-                                        <td className="px-8 py-6">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-xl bg-brand/5 border border-brand/10 flex items-center justify-center text-brand font-black text-xs uppercase">
-                                                    {user.name?.substring(0, 2) || "??"}
-                                                </div>
-                                                <div>
-                                                    <p className="text-sm font-bold text-text-primary uppercase tracking-tight">{user.name}</p>
-                                                    <p className="text-[10px] font-medium text-text-muted lowercase">{user.email}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-6">
-                                            <div className="flex items-center gap-2">
-                                                {user.role === "ADMIN" ? (
-                                                    <ShieldAlert size={14} className="text-brand" />
-                                                ) : (
-                                                    <Shield size={14} className="text-text-muted" />
-                                                )}
-                                                <span className={`text-[10px] font-bold uppercase tracking-widest ${user.role === "ADMIN" ? "text-brand" : "text-text-muted"}`}>
-                                                    {user.role}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-6">
-                                            {user.passwordSet ? (
-                                                <div className="flex items-center gap-1.5 text-emerald-500">
-                                                    <CheckCircle2 size={14} />
-                                                    <span className="text-[10px] font-bold uppercase">Active</span>
-                                                </div>
-                                            ) : (
-                                                <div className="flex items-center gap-1.5 text-amber-500">
-                                                    <Mail size={14} />
-                                                    <span className="text-[10px] font-bold uppercase">Invited</span>
-                                                </div>
-                                            )}
-                                        </td>
-                                        <td className="px-8 py-6 text-right">
-                                            <div className="flex items-center justify-end gap-2">
-                                                <button 
-                                                    onClick={() => setExpandedUser(isExpanded ? null : user.id)}
-                                                    className={`p-2 rounded-lg transition-all ${isExpanded ? 'bg-brand text-white' : 'text-text-muted hover:text-brand hover:bg-brand/5'}`}
-                                                    title="Manage Permissions"
-                                                >
-                                                    <Fingerprint size={18} />
-                                                </button>
-                                                <button 
-                                                    onClick={() => setDeleteConfirm({ isOpen: true, id: user.id })}
-                                                    className="p-2 text-text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                                                    title="Delete User"
-                                                >
-                                                    <Trash2 size={18} />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {isExpanded && (
-                                        <tr>
-                                            <td colSpan={4} className="px-8 py-10 bg-surface/30">
-                                                <div className="max-w-4xl space-y-8 animate-in fade-in slide-in-from-left-4 duration-500">
-                                                    <div className="flex items-center justify-between">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="p-2.5 bg-brand/5 rounded-xl border border-brand/10 text-brand">
-                                                                <Settings2 size={18} />
-                                                            </div>
-                                                            <div>
-                                                                <h4 className="text-sm font-bold tracking-tight text-text-primary">User Permissions</h4>
-                                                                <p className="text-xs text-text-muted">Define access levels for this user.</p>
-                                                            </div>
-                                                        </div>
-                                                        <button 
-                                                            onClick={() => savePermissions(user.id)}
-                                                            disabled={isUpdating}
-                                                            className="flex items-center gap-2 px-6 py-2.5 bg-brand text-white rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-brand/20 disabled:opacity-50"
-                                                        >
-                                                            <Save size={14} />
-                                                            {isUpdating ? "Saving..." : "Save Permissions"}
-                                                        </button>
+            {/* Users Table */}
+            <div className="bg-white border border-stroke rounded-2xl overflow-hidden shadow-sm">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left table-fixed">
+                        <thead>
+                            <tr className="border-b border-stroke bg-surface/50">
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">User</th>
+                                <th className="w-48 px-8 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Access Level</th>
+                                <th className="w-44 px-8 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted">Status</th>
+                                <th className="w-36 px-8 py-4 text-[10px] font-bold uppercase tracking-wider text-text-muted text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-stroke">
+                            {users.map((user) => {
+                                 const isExpanded = expandedUser === user.id;
+                                 const rawPerms = Array.isArray(user.permissions) 
+                                    ? user.permissions 
+                                    : typeof user.permissions === 'string' 
+                                        ? JSON.parse(user.permissions || "[]") 
+                                        : (user.permissions as any) || [];
+                                
+                                 // Smart Default UI state: if empty permissions list and user is TEAM_MEMBER, default standard team roles are rendered active
+                                 const userPerms = (user.role === "TEAM_MEMBER" && rawPerms.length === 0) 
+                                    ? DEFAULT_TEAM_MEMBER_PERMISSIONS 
+                                    : rawPerms;
+                                
+                                return (
+                                    <React.Fragment key={user.id}>
+                                        <tr className="group">
+                                            <td className={`px-8 py-4 transition-colors ${isExpanded ? 'bg-surface/50' : 'group-hover:bg-surface/30'}`}>
+                                                <div className="flex items-center gap-4 min-w-0">
+                                                    <div className="w-9 h-9 rounded-xl bg-brand/5 border border-brand/10 flex items-center justify-center text-brand font-black text-xs uppercase shrink-0">
+                                                        {user.name?.substring(0, 2) || "??"}
                                                     </div>
-
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        {AVAILABLE_PERMISSIONS.map((perm) => {
-                                                            const isChecked = user.role === "ADMIN" || userPerms.includes(perm.id);
-                                                            const isDisabled = user.role === "ADMIN";
-                                                            return (
-                                                                <label 
-                                                                    key={perm.id} 
-                                                                    className={`flex items-start gap-4 p-5 rounded-2xl border transition-all cursor-pointer group ${
-                                                                        isChecked 
-                                                                        ? "bg-white border-brand shadow-md" 
-                                                                        : "bg-white/50 border-stroke hover:border-brand/30"
-                                                                    } ${isDisabled ? 'opacity-60 cursor-not-allowed' : ''}`}
-                                                                >
-                                                                    <div className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center transition-all ${
-                                                                        isChecked ? "bg-brand border-brand text-white" : "border-stroke bg-white group-hover:border-brand/50"
-                                                                    }`}>
-                                                                        <input 
-                                                                            type="checkbox" 
-                                                                            className="hidden" 
-                                                                            checked={isChecked}
-                                                                            disabled={isDisabled}
-                                                                            onChange={() => togglePermission(user.id, perm.id)}
-                                                                        />
-                                                                        {isChecked && <CheckCircle2 size={12} strokeWidth={3} />}
-                                                                    </div>
-                                                                    <div>
-                                                                        <p className={`text-[10px] font-bold uppercase tracking-wider ${isChecked ? 'text-brand' : 'text-text-primary'}`}>
-                                                                            {perm.label}
-                                                                        </p>
-                                                                        <p className="text-[9px] font-medium text-text-muted mt-1 leading-relaxed">
-                                                                            {perm.desc}
-                                                                        </p>
-                                                                    </div>
-                                                                </label>
-                                                            );
-                                                        })}
+                                                    <div className="min-w-0">
+                                                        <p className="text-sm font-bold text-text-primary uppercase tracking-tight truncate">{user.name}</p>
+                                                        <p className="text-[10px] font-medium text-text-muted lowercase truncate">{user.email}</p>
                                                     </div>
-                                                    {user.role === "ADMIN" && (
-                                                        <div className="p-4 bg-brand/5 rounded-xl border border-brand/10 flex items-center gap-3">
-                                                            <ShieldAlert size={14} className="text-brand" />
-                                                            <p className="text-xs text-brand">Admins have full access to all modules by default.</p>
-                                                        </div>
+                                                </div>
+                                            </td>
+                                            <td className={`px-8 py-4 transition-colors ${isExpanded ? 'bg-surface/50' : 'group-hover:bg-surface/30'}`}>
+                                                <div className="flex items-center gap-2">
+                                                    {user.role === "ADMIN" ? (
+                                                        <ShieldAlert size={14} className="text-brand shrink-0" />
+                                                    ) : (
+                                                        <Shield size={14} className="text-text-muted shrink-0" />
                                                     )}
+                                                    <span className={`text-[10px] font-bold uppercase tracking-wider whitespace-nowrap ${user.role === "ADMIN" ? "text-brand" : "text-text-muted"}`}>
+                                                        {user.role === "ADMIN" ? "Administrator" : "Team Member"}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td className={`px-8 py-4 transition-colors ${isExpanded ? 'bg-surface/50' : 'group-hover:bg-surface/30'}`}>
+                                                {user.passwordSet ? (
+                                                    <div className="flex items-center gap-1.5 text-emerald-500">
+                                                        <CheckCircle2 size={14} className="shrink-0" />
+                                                        <span className="text-[10px] font-bold uppercase tracking-wider">Active</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-1.5 text-amber-500">
+                                                        <Mail size={14} className="shrink-0" />
+                                                        <span className="text-[10px] font-bold uppercase tracking-wider">Invited</span>
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td className={`px-8 py-4 text-right transition-colors ${isExpanded ? 'bg-surface/50' : 'group-hover:bg-surface/30'}`}>
+                                                <div className="flex items-center justify-end gap-2">
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => setExpandedUser(isExpanded ? null : user.id)}
+                                                        className={`p-2 rounded-xl border transition-all flex items-center justify-center shrink-0 ${isExpanded ? 'bg-brand text-white border-brand shadow-sm' : 'bg-white border-stroke text-text-muted hover:text-brand hover:border-brand/30 hover:bg-brand/5 shadow-sm'}`}
+                                                        title="Manage Permissions"
+                                                    >
+                                                        <Fingerprint size={16} />
+                                                    </button>
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => setDeleteConfirm({ isOpen: true, id: user.id })}
+                                                        className="p-2 bg-white border border-stroke text-text-muted hover:text-red-500 hover:border-red-200 rounded-xl transition-all shadow-sm flex items-center justify-center shrink-0"
+                                                        title="Delete User"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
-                                    )}
-                                </React.Fragment>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                                        
+                                        {isExpanded && (
+                                            <tr>
+                                                <td colSpan={4} className="px-8 py-8 bg-surface/30">
+                                                    <div className="max-w-4xl space-y-6 animate-in fade-in slide-in-from-left-4 duration-300">
+                                                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="p-2 bg-brand/5 rounded-xl border border-brand/10 text-brand shrink-0">
+                                                                    <Settings2 size={16} />
+                                                                </div>
+                                                                <div>
+                                                                    <h4 className="text-xs font-bold tracking-tight text-text-primary uppercase">User Permissions</h4>
+                                                                    <p className="text-[10px] text-text-muted">Define modular access roles for this team member.</p>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div className="flex flex-wrap items-center gap-2">
+                                                                {/* Dynamic Helper Buttons for Permissions Selection */}
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        setUsers(users.map(u => u.id === user.id ? { ...u, permissions: DEFAULT_TEAM_MEMBER_PERMISSIONS } : u));
+                                                                    }}
+                                                                    disabled={user.role === "ADMIN"}
+                                                                    className="px-3 py-1.5 bg-brand/5 border border-brand/15 hover:bg-brand hover:text-white rounded-lg text-[9px] font-black uppercase tracking-wider text-brand transition-all disabled:opacity-50"
+                                                                >
+                                                                    Standard Access
+                                                                </button>
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        setUsers(users.map(u => u.id === user.id ? { ...u, permissions: AVAILABLE_PERMISSIONS.map(p => p.id) } : u));
+                                                                    }}
+                                                                    disabled={user.role === "ADMIN"}
+                                                                    className="px-3 py-1.5 bg-white border border-stroke hover:bg-zinc-800 hover:text-white rounded-lg text-[9px] font-black uppercase tracking-wider text-text-muted transition-all disabled:opacity-50"
+                                                                >
+                                                                    Select All
+                                                                </button>
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        setUsers(users.map(u => u.id === user.id ? { ...u, permissions: [] } : u));
+                                                                    }}
+                                                                    disabled={user.role === "ADMIN"}
+                                                                    className="px-3 py-1.5 bg-white border border-stroke hover:bg-red-50 hover:text-red-500 rounded-lg text-[9px] font-black uppercase tracking-wider text-text-muted transition-all disabled:opacity-50"
+                                                                >
+                                                                    Clear All
+                                                                </button>
+                                                                <button 
+                                                                    type="button"
+                                                                    onClick={() => savePermissions(user.id)}
+                                                                    disabled={isUpdating}
+                                                                    className="flex items-center gap-1.5 px-4 py-2 bg-brand text-white rounded-lg text-[9px] font-bold uppercase tracking-wider shadow-sm hover:bg-brand-dark transition-all disabled:opacity-50"
+                                                                >
+                                                                    <Save size={12} />
+                                                                    {isUpdating ? "Saving..." : "Save"}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                            {AVAILABLE_PERMISSIONS.map((perm) => {
+                                                                const isChecked = user.role === "ADMIN" || userPerms.includes(perm.id);
+                                                                const isDisabled = user.role === "ADMIN";
+                                                                return (
+                                                                    <label 
+                                                                        key={perm.id} 
+                                                                        className={`flex items-start gap-3 p-4 rounded-xl border transition-all cursor-pointer group ${
+                                                                            isChecked 
+                                                                            ? "bg-white border-brand shadow-sm scale-[1.01]" 
+                                                                            : "bg-white/50 border-stroke hover:border-brand/30"
+                                                                        } ${isDisabled ? 'opacity-60 cursor-not-allowed' : ''}`}
+                                                                    >
+                                                                        <div className={`mt-0.5 w-4.5 h-4.5 rounded border flex items-center justify-center transition-all ${
+                                                                            isChecked ? "bg-brand border-brand text-white" : "border-stroke bg-white group-hover:border-brand/50"
+                                                                        }`}>
+                                                                            <input 
+                                                                                type="checkbox" 
+                                                                                className="hidden" 
+                                                                                checked={isChecked}
+                                                                                disabled={isDisabled}
+                                                                                onChange={() => togglePermission(user.id, perm.id)}
+                                                                            />
+                                                                            {isChecked && <Check size={10} strokeWidth={3} />}
+                                                                        </div>
+                                                                        <div>
+                                                                            <p className={`text-[10px] font-black uppercase tracking-wider ${isChecked ? 'text-brand' : 'text-text-primary'}`}>
+                                                                                {perm.label}
+                                                                            </p>
+                                                                            <p className="text-[9px] font-semibold text-text-muted mt-0.5 leading-normal">
+                                                                                {perm.desc}
+                                                                            </p>
+                                                                        </div>
+                                                                    </label>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                        
+                                                        {user.role === "ADMIN" && (
+                                                            <div className="p-3.5 bg-brand/5 rounded-xl border border-brand/10 flex items-center gap-2.5">
+                                                                <ShieldAlert size={14} className="text-brand shrink-0" />
+                                                                <p className="text-[10px] font-bold text-brand uppercase tracking-wider">Admins have absolute system-wide permissions by default.</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </React.Fragment>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <ConfirmationModal 
                 isOpen={deleteConfirm.isOpen}
                 onClose={() => setDeleteConfirm({ isOpen: false, id: null })}
                 onConfirm={handleDelete}
-                title="Delete User"
-                message="Are you sure you want to delete this user? This action cannot be undone."
-                confirmText="Delete User"
+                title="Remove System Operator"
+                message="Are you sure you want to permanently delete this user account? This will terminate their workspace access instantly."
+                confirmText="Delete"
             />
         </div>
     );

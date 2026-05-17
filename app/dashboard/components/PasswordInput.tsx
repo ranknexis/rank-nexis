@@ -13,24 +13,25 @@ export default function PasswordInput({ label, icon, className, ...props }: Pass
 
     return (
         <div className="space-y-2">
-            {label && <label className="text-[10px] font-bold uppercase text-text-muted ml-2">{label}</label>}
+            {label && <label className="text-[9px] font-black uppercase text-text-muted ml-2 tracking-wider">{label}</label>}
             <div className="relative">
                 <input 
                     {...props}
                     type={show ? "text" : "password"} 
-                    className={`w-full h-14 pl-12 pr-12 bg-white border border-stroke rounded-xl text-sm font-medium focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all shadow-sm text-text-primary placeholder:text-text-muted/40 ${className}`}
+                    className={`w-full h-11 pl-10 pr-10 bg-white border border-stroke rounded-xl text-xs font-bold focus:border-brand outline-none transition-all shadow-sm text-text-primary placeholder:text-text-muted/40 ${className}`}
                 />
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-brand/50">
-                    {icon || <Lock size={18} />}
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-brand">
+                    {icon || <Lock size={14} />}
                 </div>
                 <button 
                     type="button"
                     onClick={() => setShow(!show)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted/40 hover:text-brand transition-colors p-1"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-brand transition-colors p-1"
                 >
-                    {show ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {show ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
             </div>
         </div>
     );
 }
+

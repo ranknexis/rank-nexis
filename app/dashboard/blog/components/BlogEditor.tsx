@@ -1,6 +1,6 @@
 "use client";
 
-import { createBlogPost, deleteBlogPost, updateBlogPost } from "@/actions/cms";
+import { createBlogPost, deleteBlogPost, updateBlogPost } from "@/actions/blog";
 import { convertMarkdownToHtml } from "@/lib/markdown";
 import {
   ChevronLeft,
@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CloudinaryUpload from "../../components/CloudinaryUpload";
 import RichTextEditor from "../../pages/components/RichTextEditor";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 interface Props {
   initialData: any;
@@ -55,7 +56,7 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
 
   const handleSave = async () => {
     if (!data.title || !data.slug || !data.content) {
-      toast.error("Node integrity check failed. Please ensure Title, Slug and Content are configured.");
+      toast.error("Validation failed. Please ensure Title, Slug and Content are filled.");
       return;
     }
 
@@ -66,10 +67,10 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
     
     setLoading(false);
     if (res.success) {
-      toast.success(initialData?.id ? "Content Node Synchronized" : "New Node Deployed Successfully");
+      toast.success(initialData?.id ? "Post saved successfully" : "New post created successfully");
       if (!initialData?.id && res.data) router.push(`/dashboard/blog/${res.data.id}`);
     } else {
-      toast.error(res.error);
+      toast.error(res.error || "Failed to save post");
     }
   };
 
@@ -78,8 +79,10 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
   const handleDelete = async () => {
     const res = await deleteBlogPost(initialData.id);
     if (res.success) {
-      toast.success("Node Terminated");
+      toast.success("Post deleted successfully");
       router.push("/dashboard/blog");
+    } else {
+      toast.error(res.error || "Failed to delete post");
     }
   };
 
@@ -91,157 +94,154 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
     
     setData((prev: any) => ({ ...prev, content: finalContent }));
     setShowMdForge(false);
-    toast.success(isHtml ? "HTML Manuscript Integrated" : "Markdown Manuscript Processed");
+    toast.success(isHtml ? "HTML content integrated successfully" : "Markdown content processed successfully");
   };
 
   return (
-    <div className="min-h-screen bg-surface/30 -m-8 md:-m-12 p-8 md:p-12">
+    <div className="space-y-10">
 
-      <div className="max-w-[1600px] mx-auto mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
         <div className="space-y-4">
           <Link 
             href="/dashboard/blog" 
             className="flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted hover:text-brand transition-all group"
           >
-            <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Knowledge Base
+            <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Blog Posts
           </Link>
-          <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter text-text-primary">
-            {initialData?.id ? "Refine" : "Forge"} <span className="text-brand">Publication.</span>
+          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">
+            {initialData?.id ? "Edit" : "Create"} <span className="text-brand">Post.</span>
           </h1>
+          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest">
+            {initialData?.id ? "Update article details, content, and SEO meta tags." : "Draft a new publication for the content engine."}
+          </p>
         </div>
 
-        <div className="flex items-center gap-4 w-full lg:w-auto">
+        <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto shrink-0">
            <button 
+             type="button"
              onClick={handleSave}
              disabled={loading}
-             className="flex-grow lg:flex-grow-0 px-10 h-16 rounded-[1.5rem] bg-brand text-white shadow-2xl shadow-brand/20 text-[11px] font-bold uppercase flex items-center justify-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+             className="h-16 px-8 bg-brand text-white rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-98 transition-all shadow-xl shadow-brand/20 disabled:opacity-50 cursor-pointer"
            >
-              <Save size={18} /> {loading ? 'Synchronizing...' : 'Deploy Changes'}
+              <Save size={18} /> {loading ? 'Saving...' : 'Save Post'}
            </button>
            
            {initialData?.id && (
               <button 
+                type="button"
                 onClick={() => setDeleteConfirmOpen(true)}
-                className="w-16 h-16 shrink-0 rounded-[1.5rem] border border-red-100 bg-white text-red-400 flex items-center justify-center hover:bg-red-50 transition-all shadow-sm"
+                className="h-16 px-8 bg-white border border-red-100 text-red-500 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-red-50 transition-all shadow-sm cursor-pointer"
               >
-                <Trash2 size={20} />
+                <Trash2 size={18} /> Delete Post
               </button>
            )}
         </div>
       </div>
 
-      <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-        <div className="lg:col-span-8 space-y-8">
-           <div className="bg-white rounded-[3rem] border border-stroke shadow-premium overflow-hidden min-h-[900px] flex flex-col">
-              <div className="p-12 md:p-20 flex-grow space-y-16">
+        <div className="lg:col-span-8 space-y-6">
+           <div className="bg-white rounded-[2rem] border border-stroke p-8 sm:p-10 shadow-sm space-y-8">
+              <div className="space-y-3">
+                 <label className="text-[10px] font-bold uppercase text-text-muted px-2 tracking-widest">Post Title</label>
+                 <input 
+                   type="text" 
+                   value={data.title} 
+                   onChange={e => setData({...data, title: e.target.value})}
+                   placeholder="e.g. 10 SEO Strategies to Increase Organic Traffic"
+                   className="w-full h-16 bg-surface border border-stroke rounded-2xl px-6 text-base sm:text-lg font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
+                 />
+              </div>
 
-                 <div className="space-y-4">
-                    <p className="text-[10px] font-bold uppercase text-brand tracking-[0.3em] ml-2">Publication Heading</p>
-                    <textarea 
-                      value={data.title} 
-                      onChange={e => setData({...data, title: e.target.value})}
-                      placeholder="ENTER IMPACTFUL TITLE..."
-                      rows={2}
-                      className="w-full bg-transparent border-none text-5xl md:text-6xl font-black uppercase tracking-tighter text-text-primary focus:outline-none focus:ring-0 placeholder:text-surface/50 resize-none leading-[0.95]"
-                    />
+              <div className="space-y-4">
+                 <div className="flex justify-between items-center px-2">
+                    <label className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Content</label>
+                    <button 
+                      onClick={() => setShowMdForge(!showMdForge)}
+                      type="button"
+                      className="flex items-center gap-2 text-[10px] font-bold uppercase text-text-muted hover:text-brand transition-all cursor-pointer"
+                    >
+                      <Code size={14} /> {showMdForge ? "Hide Paste Editor" : "Paste Markdown / HTML"}
+                    </button>
                  </div>
 
-                 <div className="space-y-6">
-                    <div className="flex justify-between items-center ml-2">
-                       <p className="text-[10px] font-bold uppercase text-brand tracking-[0.3em]">Core Manuscript</p>
-                       <button 
-                         onClick={() => setShowMdForge(!showMdForge)}
-                         type="button"
-                         className="flex items-center gap-2 text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-all"
-                       >
-                         <Code size={14} /> {showMdForge ? "Hide MD Forge" : "Markdown Forge"}
-                       </button>
-                    </div>
-
-                    {showMdForge ? (
-                      <div className="space-y-6 bg-surface/50 p-10 rounded-[2rem] border border-brand/10">
-                        <div className="space-y-4">
-                          <h4 className="text-sm font-bold uppercase">Content Forge</h4>
-                          <div className="flex gap-3">
-                            <span className="px-3 py-1 bg-brand/10 text-brand text-[9px] font-bold uppercase rounded-full tracking-wider">Direct HTML</span>
-                          </div>
-                          <p className="text-[10px] text-text-muted leading-relaxed uppercase max-w-lg">
-                            Paste your <span className="text-brand font-bold underline decoration-brand/30 underline-offset-4">Direct HTML</span> output here. This is the recommended and simplest format to preserve styles when migrating content from ChatGPT or Claude.
-                          </p>
-                        </div>
-                        <textarea 
-                          value={mdInput}
-                          onChange={e => setMdInput(e.target.value)}
-                          placeholder="PASTE RAW MARKDOWN HERE..."
-                          rows={15}
-                          className="w-full bg-white border border-stroke rounded-2xl p-8 text-xs font-mono text-text-primary focus:border-brand transition-all resize-none"
-                        />
-                        <button 
-                          onClick={handleMdConvert}
-                          type="button"
-                          className="w-full h-14 bg-brand text-white rounded-xl text-[10px] font-bold uppercase hover:scale-[1.02] active:scale-95 transition-all shadow-lg"
-                        >
-                          Process & Integrate Manuscript
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="min-h-[600px] prose-slate max-w-none">
-                         <RichTextEditor 
-                           value={data.content} 
-                           onChange={content => setData({...data, content})} 
-                         />
-                      </div>
-                    )}
-                 </div>
+                 {showMdForge ? (
+                   <div className="space-y-6 bg-surface p-6 rounded-2xl border border-stroke">
+                     <div className="space-y-2">
+                       <h4 className="text-xs font-bold uppercase">Paste Markdown/HTML</h4>
+                       <p className="text-[10px] text-text-muted leading-relaxed uppercase">
+                         Paste pre-formatted HTML or Markdown text here (e.g. from ChatGPT or Claude) to preserve heading structures and lists perfectly.
+                       </p>
+                     </div>
+                     <textarea 
+                       value={mdInput}
+                       onChange={e => setMdInput(e.target.value)}
+                       placeholder="Paste raw Markdown or HTML text here..."
+                       rows={12}
+                       className="w-full bg-white border border-stroke rounded-xl p-6 text-xs font-mono text-text-primary focus:border-brand outline-none transition-all resize-none"
+                     />
+                     <button 
+                       onClick={handleMdConvert}
+                       type="button"
+                       className="w-full h-12 bg-brand text-white rounded-xl text-[10px] font-bold uppercase hover:scale-[1.02] active:scale-95 transition-all shadow-md cursor-pointer"
+                     >
+                       Integrate Content
+                     </button>
+                   </div>
+                 ) : (
+                   <div className="min-h-[500px] prose-slate max-w-none border border-stroke rounded-2xl overflow-hidden p-2 bg-surface/10">
+                      <RichTextEditor 
+                        value={data.content} 
+                        onChange={content => setData({...data, content})} 
+                      />
+                   </div>
+                 )}
               </div>
            </div>
         </div>
 
-        <div className="lg:col-span-4 space-y-8">
+        <div className="lg:col-span-4 space-y-6">
 
-           <div className="bg-white rounded-[2.5rem] border border-stroke shadow-premium p-10 space-y-10">
-              <div className="flex items-center gap-4 pb-6 border-b border-stroke">
-                 <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
-                    <Settings2 size={20} />
-                 </div>
-                 <h2 className="text-sm font-bold uppercase tracking-tight">Configuration</h2>
+           <div className="bg-white rounded-[2rem] border border-stroke shadow-sm p-8 space-y-6">
+              <div className="flex items-center gap-3 pb-4 border-b border-stroke">
+                 <Settings2 size={18} className="text-brand" />
+                 <h2 className="text-xs font-bold uppercase tracking-tight text-text-primary">Configuration</h2>
               </div>
 
-              <div className="space-y-8">
-                 <div className="space-y-4">
-                    <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-2">
-                       <Globe size={14} /> Global Slug (URL)
+              <div className="space-y-4">
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
+                       <Globe size={12} /> URL Slug
                     </label>
                     <input 
                       type="text" 
                       value={data.slug} 
                       onChange={e => setData({...data, slug: e.target.value})}
-                      className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-xs font-bold text-text-primary focus:border-brand transition-all"
+                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:border-brand outline-none transition-all"
                     />
                  </div>
 
-                 <div className="grid grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                       <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-2">
-                          <Tags size={14} /> Category
+                 <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                       <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
+                          <Tags size={12} /> Category
                        </label>
                        <select 
                          value={data.categoryId}
                          onChange={e => setData({...data, categoryId: e.target.value})}
-                         className="w-full h-14 bg-surface border border-stroke rounded-xl px-4 text-[10px] font-bold uppercase focus:border-brand transition-all appearance-none"
+                         className="w-full h-12 bg-surface border border-stroke rounded-xl px-3 text-[10px] font-bold uppercase focus:border-brand outline-none transition-all appearance-none text-text-primary cursor-pointer"
                        >
                          {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                        </select>
                     </div>
-                    <div className="space-y-4">
-                       <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-2">
-                          <User size={14} /> Author
+                    <div className="space-y-2">
+                       <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
+                          <User size={12} /> Author
                        </label>
                        <select 
                          value={data.authorId}
                          onChange={e => setData({...data, authorId: e.target.value})}
-                         className="w-full h-14 bg-surface border border-stroke rounded-xl px-4 text-[10px] font-bold uppercase focus:border-brand transition-all appearance-none"
+                         className="w-full h-12 bg-surface border border-stroke rounded-xl px-3 text-[10px] font-bold uppercase focus:border-brand outline-none transition-all appearance-none text-text-primary cursor-pointer"
                        >
                          {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                        </select>
@@ -250,12 +250,10 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
               </div>
            </div>
 
-           <div className="bg-white rounded-[2.5rem] border border-stroke shadow-premium p-10 space-y-8">
-              <div className="flex items-center gap-4 pb-6 border-b border-stroke">
-                 <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
-                    <Cloud size={20} />
-                 </div>
-                 <h2 className="text-sm font-bold uppercase tracking-tight">Visual Engine</h2>
+           <div className="bg-white rounded-[2rem] border border-stroke shadow-sm p-8 space-y-6">
+              <div className="flex items-center gap-3 pb-4 border-b border-stroke">
+                 <Cloud size={18} className="text-brand" />
+                 <h2 className="text-xs font-bold uppercase tracking-tight text-text-primary">Feature Image</h2>
               </div>
               
               <CloudinaryUpload 
@@ -264,33 +262,31 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
               />
            </div>
 
-           <div className="bg-white rounded-[2.5rem] border border-stroke shadow-premium p-10 space-y-10">
-              <div className="flex items-center gap-4 pb-6 border-b border-stroke">
-                 <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
-                    <FileText size={20} />
-                 </div>
-                 <h2 className="text-sm font-bold uppercase tracking-tight">SEO Engine</h2>
+           <div className="bg-white rounded-[2rem] border border-stroke shadow-sm p-8 space-y-6">
+              <div className="flex items-center gap-3 pb-4 border-b border-stroke">
+                 <FileText size={18} className="text-brand" />
+                 <h2 className="text-xs font-bold uppercase tracking-tight text-text-primary">SEO Settings</h2>
               </div>
 
-              <div className="space-y-8">
-                 <div className="space-y-4">
-                    <label className="text-[10px] font-bold uppercase text-text-muted">Meta Title Override</label>
+              <div className="space-y-4">
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-widest">Meta Title</label>
                     <input 
                       type="text" 
-                      value={data.metaTitle} 
+                      value={data.metaTitle || ""} 
                       onChange={e => setData({...data, metaTitle: e.target.value})}
-                      placeholder="SEARCH ENGINE TITLE..."
-                      className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[10px] font-bold uppercase focus:border-brand transition-all"
+                      placeholder="e.g. SEO Strategies | RankNexis"
+                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-semibold focus:border-brand outline-none transition-all"
                     />
                  </div>
-                 <div className="space-y-4">
-                    <label className="text-[10px] font-bold uppercase text-text-muted">Meta Description</label>
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-widest">Meta Description</label>
                     <textarea 
-                      value={data.metaDescription} 
+                      value={data.metaDescription || ""} 
                       onChange={e => setData({...data, metaDescription: e.target.value})}
                       rows={4}
-                      placeholder="BRIEF SUMMARY FOR SERP..."
-                      className="w-full bg-surface border border-stroke rounded-xl p-6 text-[11px] font-medium text-text-primary focus:border-brand transition-all resize-none"
+                      placeholder="Provide a concise description for search results..."
+                      className="w-full bg-surface border border-stroke rounded-xl p-4 text-xs font-semibold focus:border-brand outline-none transition-all resize-none text-text-primary"
                     />
                  </div>
               </div>
@@ -301,12 +297,10 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
         isOpen={deleteConfirmOpen}
         onClose={() => setDeleteConfirmOpen(false)}
         onConfirm={handleDelete}
-        title="Permanently Decommission Node?"
-        message="This action will irrecoverably terminate this publication node from the global registry. Are you absolutely certain?"
-        confirmText="Confirm Termination"
+        title="Delete Blog Post?"
+        message="Are you sure you want to permanently delete this blog post? This action cannot be undone."
+        confirmText="Delete"
       />
     </div>
   );
 }
-
-import ConfirmationModal from "../../components/ConfirmationModal";

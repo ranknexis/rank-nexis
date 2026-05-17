@@ -4,22 +4,15 @@ import { useState } from "react";
 import { updateLeadStatus, deleteLead } from "@/actions/leads";
 import { toast } from "sonner";
 import { 
-  ExternalLink, 
   Mail, 
-  MoreVertical, 
   Search, 
   Trash2, 
-  User, 
   Building2, 
   Calendar,
   X,
   CheckCircle,
-  Clock,
   MessageSquare,
-  Phone,
   Zap,
-  Filter,
-  ArrowUpRight,
   Download,
   Check
 } from "lucide-react";
@@ -66,6 +59,8 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
       setLeads(leads.map(l => l.id === id ? { ...l, status: newStatus } : l));
       if (selectedLead?.id === id) setSelectedLead({ ...selectedLead, status: newStatus });
       toast.success(`Status updated to ${newStatus}`);
+    } else {
+      toast.error("Failed to update status.");
     }
   };
 
@@ -94,74 +89,98 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
           setSelectedLead(null);
           setSelectedIds(selectedIds.filter(i => i !== deleteConfirm.id));
           toast.success("Lead deleted successfully.");
+        } else {
+          toast.error("Failed to delete lead.");
         }
     }
     setDeleteConfirm({ isOpen: false, id: null, bulk: false });
   };
 
   const exportToCSV = () => {
-    const headers = ["Name", "Email", "Phone", "Company", "Service", "Status", "Date"];
-    const rows = filteredLeads.map(l => [
-      l.name,
-      l.email,
-      l.phone || "",
-      l.company || "",
-      l.service || "",
-      l.status,
-      new Date(l.createdAt).toLocaleDateString()
-    ]);
+    try {
+      const headers = ["Name", "Email", "Phone", "Company", "Service", "Budget", "Message", "Status", "Date"];
+      const rows = filteredLeads.map(l => [
+        l.name,
+        l.email,
+        l.phone || "",
+        l.company || "",
+        l.service || "",
+        l.budget || "",
+        `"${l.message.replace(/"/g, '""')}"`,
+        l.status,
+        new Date(l.createdAt).toLocaleDateString()
+      ]);
 
-    const csvContent = "data:text/csv;charset=utf-8," 
-      + headers.join(",") + "\n"
-      + rows.map(e => e.join(",")).join("\n");
-
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `ranknexis_leads_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toast.success("Leads exported.");
+      const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `ranknexis_leads_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Leads exported successfully.");
+    } catch (err) {
+      toast.error("Failed to export leads.");
+    }
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
 
-      <div className="bg-white rounded-[2.5rem] border border-stroke p-8 shadow-premium flex flex-col xl:flex-row justify-between items-center gap-8 relative overflow-hidden grain">
-        <div className="flex flex-col md:flex-row items-center gap-6 w-full xl:w-auto">
-          <div className="relative w-full md:w-96">
-            <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-brand" />
-            <input 
-              type="text" 
-              placeholder="FILTER INTEL..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-16 bg-surface border border-stroke rounded-2xl pl-16 pr-6 text-[11px] font-bold uppercase tracking-widest focus:outline-none focus:border-brand transition-all shadow-sm" 
-            />
+      {/* Combined Compact Header & Action Bar */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-stroke pb-6">
+        <div className="space-y-1">
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-extrabold uppercase tracking-tight text-text-primary">Sales Leads</h1>
+            <span className="px-2.5 py-0.5 rounded-full bg-brand/5 border border-brand/10 text-brand text-[10px] font-black tracking-wider uppercase">
+              {filteredLeads.length} Leads
+            </span>
           </div>
-          <button 
-              onClick={exportToCSV}
-              className="h-16 px-10 bg-black text-white rounded-2xl flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-brand transition-all shadow-xl shadow-black/10 active:scale-95"
-          >
-              <Download size={18} /> Export
-          </button>
+          <p className="text-[9px] font-bold uppercase tracking-wider text-text-muted">View and manage contact requests and inquiries.</p>
         </div>
 
-        <div className="flex items-center gap-3 overflow-x-auto w-full xl:w-auto pb-4 xl:pb-0 no-scrollbar">
-            {["ALL", "NEW", "CONTACTED", "QUALIFIED", "ARCHIVED"].map(status => (
-              <button
-                key={status}
-                onClick={() => setStatusFilter(status)}
-                className={`px-8 h-16 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border-2 ${
-                  statusFilter === status 
-                    ? "bg-brand text-white border-brand shadow-lg shadow-brand/20 scale-105" 
-                    : "bg-surface text-text-muted border-stroke hover:border-brand/30 hover:text-brand"
-                }`}
-              >
-                {status}
-              </button>
-            ))}
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          {/* Compact Search Field */}
+          <div className="relative flex-grow sm:flex-grow-0 sm:w-56">
+            <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
+            <input 
+              type="text" 
+              placeholder="Search leads..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full h-10 bg-white border border-stroke rounded-xl pl-10 pr-4 text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-brand transition-all shadow-sm" 
+            />
+          </div>
+
+          {/* Status Dropdown */}
+          <div className="relative">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="h-10 bg-white border border-stroke rounded-xl px-4 pr-8 text-[10px] font-bold uppercase tracking-wider text-text-muted focus:outline-none focus:border-brand transition-all cursor-pointer shadow-sm appearance-none"
+            >
+              <option value="ALL">ALL STATUSES</option>
+              <option value="NEW">NEW</option>
+              <option value="CONTACTED">CONTACTED</option>
+              <option value="QUALIFIED">QUALIFIED</option>
+              <option value="ARCHIVED">ARCHIVED</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-text-muted">
+              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            </div>
+          </div>
+
+          {/* Compact Export Button */}
+          <button 
+            type="button"
+            onClick={exportToCSV}
+            className="h-10 px-4 bg-black hover:bg-brand text-white text-[10px] font-bold uppercase tracking-wider rounded-xl flex items-center gap-2 transition-all shadow-sm active:scale-95 shrink-0"
+          >
+            <Download size={14} /> Export
+          </button>
         </div>
       </div>
 
@@ -171,147 +190,151 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
-            className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-black text-white px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-8 border border-white/10 backdrop-blur-xl"
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-black text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-6 border border-white/10 backdrop-blur-xl"
           >
-            <div className="flex items-center gap-3 border-r border-white/20 pr-8">
-              <div className="w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-xs font-bold">
+            <div className="flex items-center gap-3 border-r border-white/20 pr-6">
+              <div className="w-6 h-6 rounded-lg bg-brand flex items-center justify-center text-[10px] font-black">
                 {selectedIds.length}
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Leads Selected</span>
+              <span className="text-[9px] font-bold uppercase tracking-wider">Leads Selected</span>
             </div>
             <div className="flex items-center gap-4">
               <button 
+                type="button"
                 onClick={() => setDeleteConfirm({ isOpen: true, id: null, bulk: true })}
-                className="flex items-center gap-2 text-[10px] font-bold uppercase text-red-400 hover:text-red-300 transition-colors"
+                className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-red-400 hover:text-red-300 transition-colors"
               >
-                <Trash2 size={16} /> Delete
+                <Trash2 size={14} /> Delete
               </button>
               <button 
+                type="button"
                 onClick={() => setSelectedIds([])}
-                className="flex items-center gap-2 text-[10px] font-bold uppercase text-white/60 hover:text-white transition-colors"
+                className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-white/60 hover:text-white transition-colors"
               >
-                <X size={16} /> Deselect
+                <X size={14} /> Clear selection
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="bg-white rounded-[2.5rem] border border-stroke overflow-hidden shadow-sm">
+      {/* Leads Table Container */}
+      <div className="bg-white rounded-2xl border border-stroke overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left table-fixed">
             <thead>
               <tr className="border-b border-stroke bg-surface/30">
-                <th className="px-10 py-8 w-20">
+                <th className="px-8 py-4 w-16">
                    <button 
+                    type="button"
                     onClick={toggleSelectAll}
-                    className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all ${
+                    className={`w-5 h-5 rounded-lg border flex items-center justify-center transition-all ${
                       selectedIds.length === filteredLeads.length && filteredLeads.length > 0
                       ? "bg-brand border-brand text-white"
                       : "border-stroke bg-white"
                     }`}
                    >
-                     {selectedIds.length === filteredLeads.length && filteredLeads.length > 0 && <Check size={14} />}
+                     {selectedIds.length === filteredLeads.length && filteredLeads.length > 0 && <Check size={12} />}
                    </button>
                 </th>
-                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted tracking-widest">Lead Details</th>
-                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted tracking-widest">Contact Info</th>
-                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted tracking-widest text-center">Status</th>
-                <th className="px-10 py-6 text-[10px] font-bold uppercase text-text-muted tracking-widest text-right">Actions</th>
+                <th className="px-8 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider">Lead</th>
+                <th className="px-8 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider">Contact Details</th>
+                <th className="w-44 px-8 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider text-center">Status</th>
+                <th className="w-36 px-8 py-4 text-[10px] font-bold uppercase text-text-muted tracking-wider text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stroke">
               {filteredLeads.map((lead) => (
-                <tr key={lead.id} className={`hover:bg-brand/[0.02] transition-colors group ${selectedIds.includes(lead.id) ? "bg-brand/[0.03]" : ""}`}>
-                  <td className="px-10 py-10">
+                <tr key={lead.id} className={`group ${selectedIds.includes(lead.id) ? "bg-brand/[0.03]" : ""}`}>
+                  <td className="px-8 py-4 transition-colors group-hover:bg-brand/[0.02]">
                     <button 
+                      type="button"
                       onClick={() => toggleSelect(lead.id)}
-                      className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all ${
+                      className={`w-5 h-5 rounded-lg border flex items-center justify-center transition-all ${
                         selectedIds.includes(lead.id)
                         ? "bg-brand border-brand text-white"
                         : "border-stroke bg-white group-hover:border-brand/30"
                       }`}
                     >
-                      {selectedIds.includes(lead.id) && <Check size={14} />}
+                      {selectedIds.includes(lead.id) && <Check size={12} />}
                     </button>
                   </td>
-                  <td className="px-10 py-10">
-                    <div className="flex items-center gap-6">
-                      <div className="w-14 h-14 rounded-2xl bg-white border border-stroke shadow-sm flex items-center justify-center text-brand font-black text-xl uppercase group-hover:border-brand/30 transition-all">
+                  <td className="px-8 py-4 transition-colors group-hover:bg-brand/[0.02]">
+                    <div className="flex items-center gap-4 min-w-0">
+                      <div className="w-10 h-10 rounded-xl bg-white border border-stroke shadow-sm flex items-center justify-center text-brand font-black text-sm uppercase shrink-0">
                         {lead.name[0]}
                       </div>
-                      <div>
-                        <p className="text-base font-black uppercase tracking-tighter text-text-primary group-hover:text-brand transition-colors">{lead.name}</p>
-                        <div className="flex items-center gap-3 mt-1">
-                           <Building2 size={12} className="text-text-muted" />
-                           <p className="text-[10px] font-bold uppercase text-text-muted">
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold uppercase tracking-tight text-text-primary group-hover:text-brand transition-colors truncate">{lead.name}</p>
+                        <div className="flex items-center gap-1.5 mt-0.5 min-w-0">
+                           <Building2 size={10} className="text-text-muted shrink-0" />
+                           <p className="text-[10px] font-bold uppercase text-text-muted truncate">
                              {lead.company || "Individual"}
                            </p>
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-10 py-10">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2 group/link cursor-pointer" onClick={() => window.location.href = `mailto:${lead.email}`}>
-                         <Mail size={14} className="text-brand" />
-                         <p className="text-[11px] font-bold text-text-primary uppercase group-hover/link:text-brand transition-colors">{lead.email}</p>
+                  <td className="px-8 py-4 transition-colors group-hover:bg-brand/[0.02]">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5 group/link cursor-pointer" onClick={() => window.location.href = `mailto:${lead.email}`}>
+                         <Mail size={12} className="text-brand shrink-0" />
+                         <p className="text-xs font-bold text-text-primary group-hover/link:text-brand transition-colors truncate">{lead.email}</p>
                       </div>
-                      <div className="flex items-center gap-2">
-                         <Calendar size={12} className="text-text-muted" />
-                         <p className="text-[10px] font-bold uppercase text-text-muted">Captured {new Date(lead.createdAt).toLocaleDateString()}</p>
+                      <div className="flex items-center gap-1.5">
+                         <Calendar size={10} className="text-text-muted shrink-0" />
+                         <p className="text-[9px] font-bold uppercase text-text-muted">Captured {new Date(lead.createdAt).toLocaleDateString()}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-10 py-10">
-                     <div className="flex justify-center">
-                        <select 
-                          value={lead.status}
-                          onChange={(e) => handleStatusChange(lead.id, e.target.value)}
-                          className={`px-5 py-2 rounded-xl text-[9px] font-black uppercase border cursor-pointer focus:outline-none transition-all shadow-sm ${
-                              lead.status === "NEW" 
-                              ? "bg-brand/10 text-brand border-brand/20" 
-                              : lead.status === "CONTACTED"
-                              ? "bg-emerald-50 text-emerald-600 border-emerald-200"
-                              : lead.status === "QUALIFIED"
-                              ? "bg-blue-50 text-blue-600 border-blue-200"
-                              : "bg-surface text-text-muted border-stroke"
-                          }`}
-                        >
-                          <option value="NEW">NEW</option>
-                          <option value="CONTACTED">CONTACTED</option>
-                          <option value="QUALIFIED">QUALIFIED</option>
-                          <option value="ARCHIVED">ARCHIVED</option>
-                        </select>
-                     </div>
-                  </td>
-                  <td className="px-10 py-10 text-right">
-                    <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
-                        <button 
-                          onClick={() => setSelectedLead(lead)}
-                          className="p-3 bg-white border border-stroke hover:bg-brand hover:text-white rounded-lg transition-all text-text-muted shadow-sm flex items-center gap-2 text-xs font-bold"
-                        >
-                          <Zap size={16} /> View
-                        </button>
-                      <button 
-                        onClick={() => setDeleteConfirm({ isOpen: true, id: lead.id, bulk: false })}
-                        className="p-4 bg-white border border-red-100 hover:bg-red-500 hover:text-white rounded-xl transition-all text-red-400 shadow-sm"
+                  <td className="px-8 py-4 transition-colors group-hover:bg-brand/[0.02] text-center">
+                    <div className="inline-block">
+                      <select 
+                        value={lead.status}
+                        onChange={(e) => handleStatusChange(lead.id, e.target.value)}
+                        className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase border cursor-pointer focus:outline-none transition-all shadow-sm ${
+                            lead.status === "NEW" 
+                            ? "bg-brand/10 text-brand border-brand/20" 
+                            : lead.status === "CONTACTED"
+                            ? "bg-emerald-50 text-emerald-600 border-emerald-200"
+                            : lead.status === "QUALIFIED"
+                            ? "bg-blue-50 text-blue-600 border-blue-200"
+                            : "bg-surface text-text-muted border-stroke"
+                        }`}
                       >
-                        <Trash2 size={16} />
-                      </button>
+                        <option value="NEW">NEW</option>
+                        <option value="CONTACTED">CONTACTED</option>
+                        <option value="QUALIFIED">QUALIFIED</option>
+                        <option value="ARCHIVED">ARCHIVED</option>
+                      </select>
                     </div>
-                    <div className="group-hover:hidden">
-                       <ArrowUpRight size={18} className="text-stroke ml-auto" />
+                  </td>
+                  <td className="px-8 py-4 text-right transition-colors group-hover:bg-brand/[0.02]">
+                    <div className="flex justify-end items-center gap-2">
+                      <button 
+                        type="button"
+                        onClick={() => setSelectedLead(lead)}
+                        className="p-2 bg-white border border-stroke hover:bg-brand hover:text-white hover:border-brand rounded-xl transition-all text-text-muted hover:text-white shadow-sm flex items-center justify-center shrink-0"
+                      >
+                        <Zap size={14} />
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => setDeleteConfirm({ isOpen: true, id: lead.id, bulk: false })}
+                        className="p-2 bg-white border border-stroke hover:bg-red-50 hover:text-red-500 hover:border-red-200 rounded-xl transition-all text-text-muted hover:text-red-500 shadow-sm flex items-center justify-center shrink-0"
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </div>
                   </td>
                 </tr>
               ))}
               {filteredLeads.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-10 py-32 text-center">
-                     <div className="flex flex-col items-center gap-4">
-                        <Search size={48} className="text-stroke" />
-                         <p className="text-[11px] font-bold uppercase text-text-muted tracking-widest">No matching leads found.</p>
+                  <td colSpan={5} className="px-8 py-16 text-center">
+                     <div className="flex flex-col items-center gap-2">
+                        <Search size={32} className="text-stroke" />
+                        <p className="text-[10px] font-bold uppercase text-text-muted tracking-wider">No matching leads found.</p>
                      </div>
                   </td>
                 </tr>
@@ -323,7 +346,7 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
 
       <AnimatePresence>
         {selectedLead && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
              <motion.div 
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }}
@@ -332,90 +355,92 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                className="absolute inset-0 bg-black/60 backdrop-blur-md"
              />
              <motion.div 
-               initial={{ opacity: 0, scale: 0.95, y: 40 }}
+               initial={{ opacity: 0, scale: 0.95, y: 20 }}
                animate={{ opacity: 1, scale: 1, y: 0 }}
-               exit={{ opacity: 0, scale: 0.95, y: 40 }}
-               className="relative w-full max-w-3xl bg-white rounded-[4rem] border border-stroke shadow-3xl overflow-hidden"
+               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+               className="relative w-full max-w-2xl bg-white rounded-2xl border border-stroke shadow-2xl overflow-hidden"
              >
-                <div className="p-12 md:p-16 space-y-12">
+                <div className="p-6 sm:p-8 space-y-6">
                    <div className="flex justify-between items-start">
-                      <div className="flex items-center gap-8">
-                        <div className="w-20 h-20 rounded-[2.5rem] bg-brand text-white flex items-center justify-center font-black text-3xl uppercase shadow-2xl shadow-brand/20">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-2xl bg-brand text-white flex items-center justify-center font-black text-xl uppercase shadow-lg shadow-brand/10 shrink-0">
                            {selectedLead.name[0]}
                         </div>
-                        <div className="space-y-1">
-                           <h2 className="text-4xl font-black uppercase tracking-tighter text-text-primary leading-none">{selectedLead.name}</h2>
-                           <div className="flex items-center gap-3">
-                               <Building2 size={14} className="text-brand" />
+                        <div className="space-y-0.5">
+                           <h2 className="text-2xl font-extrabold uppercase tracking-tight text-text-primary leading-tight">{selectedLead.name}</h2>
+                           <div className="flex items-center gap-2">
+                              <Building2 size={12} className="text-brand shrink-0" />
                               <p className="text-xs font-bold text-text-muted">{selectedLead.company || "Individual"}</p>
                            </div>
                         </div>
                       </div>
                       <button 
+                        type="button"
                         onClick={() => setSelectedLead(null)}
-                        className="p-4 bg-surface border border-stroke rounded-2xl text-text-muted hover:text-brand hover:rotate-90 transition-all"
+                        className="p-2 bg-surface border border-stroke rounded-xl text-text-muted hover:text-brand hover:rotate-90 transition-all shrink-0"
                       >
-                         <X size={24} />
+                         <X size={18} />
                       </button>
                    </div>
 
-                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-10 border-y border-stroke">
-                      <div className="space-y-4">
-                          <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-2">
-                             <Mail size={12} /> Email Address
-                          </p>
-                         <p className="text-sm font-bold text-text-primary">{selectedLead.email}</p>
+                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 py-6 border-y border-stroke">
+                      <div className="space-y-2">
+                         <p className="text-[9px] font-black uppercase text-brand tracking-wider flex items-center gap-1.5">
+                            <Mail size={10} /> Email Address
+                         </p>
+                         <p className="text-xs font-bold text-text-primary break-all">{selectedLead.email}</p>
                       </div>
-                      <div className="space-y-4">
-                          <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-2">
-                             <Zap size={12} /> Requested Service
-                          </p>
-                         <p className="text-sm font-bold text-text-primary uppercase">{selectedLead.service || "General Growth"}</p>
+                      <div className="space-y-2">
+                         <p className="text-[9px] font-black uppercase text-brand tracking-wider flex items-center gap-1.5">
+                            <Zap size={10} /> Service
+                         </p>
+                         <p className="text-xs font-bold text-text-primary uppercase">{selectedLead.service || "General Inquiry"}</p>
                       </div>
-                      <div className="space-y-4">
-                          <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-2">
-                             <Calendar size={12} /> Date Received
-                          </p>
-                         <p className="text-sm font-bold text-text-primary">
+                      <div className="space-y-2">
+                         <p className="text-[9px] font-black uppercase text-brand tracking-wider flex items-center gap-1.5">
+                            <Calendar size={10} /> Date Received
+                         </p>
+                         <p className="text-xs font-bold text-text-primary">
                             {new Date(selectedLead.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                          </p>
                       </div>
                    </div>
 
-                   <div className="space-y-8">
+                   <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                          <p className="text-[10px] font-bold uppercase text-brand tracking-widest flex items-center gap-3">
-                             <MessageSquare size={14} /> Message Details
-                          </p>
-                         <div className="px-4 py-1.5 bg-brand/5 border border-brand/20 rounded-full text-[9px] font-black uppercase text-brand">High Priority</div>
+                         <p className="text-[9px] font-black uppercase text-brand tracking-wider flex items-center gap-2">
+                            <MessageSquare size={12} /> Message Details
+                         </p>
+                         <div className="px-2.5 py-0.5 bg-brand/5 border border-brand/20 rounded-full text-[9px] font-black uppercase text-brand">INQUIRY</div>
                       </div>
-                      <div className="bg-surface p-10 rounded-[3rem] border border-stroke relative">
-                         <div className="absolute -top-4 -left-4 w-10 h-10 bg-white border border-stroke rounded-xl flex items-center justify-center italic text-brand text-2xl font-serif">"</div>
-                         <p className="text-lg font-medium leading-relaxed text-text-secondary italic antialiased">
-                            {selectedLead.message}
+                      <div className="bg-surface p-6 rounded-xl border border-stroke relative shadow-inner min-h-[100px] max-h-[180px] overflow-y-auto">
+                         <p className="text-sm font-medium leading-relaxed text-text-secondary italic">
+                            "{selectedLead.message}"
                          </p>
                       </div>
                    </div>
 
-                   <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-8">
-                      <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                          <button 
-                           onClick={() => handleStatusChange(selectedLead.id, "CONTACTED")}
-                           className="h-12 px-6 bg-black text-white text-xs font-bold rounded-xl flex items-center gap-2 hover:bg-zinc-800 transition-all shadow-md"
-                          >
-                             <CheckCircle size={18} /> Mark Contacted
-                          </button>
-                          <button 
-                           onClick={() => handleStatusChange(selectedLead.id, "QUALIFIED")}
-                           className="h-12 px-6 bg-white border border-stroke text-xs font-bold rounded-xl flex items-center gap-2 hover:bg-surface transition-all"
-                          >
-                             <Zap size={18} className="text-brand" /> Mark Qualified
-                          </button>
+                   <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-stroke">
+                      <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+                         <button 
+                          type="button"
+                          onClick={() => handleStatusChange(selectedLead.id, "CONTACTED")}
+                          className="h-10 px-4 bg-black text-white text-[10px] font-bold uppercase tracking-wider rounded-xl flex items-center gap-1.5 hover:bg-zinc-800 transition-all shadow-md"
+                         >
+                            <CheckCircle size={14} /> Contacted
+                         </button>
+                         <button 
+                          type="button"
+                          onClick={() => handleStatusChange(selectedLead.id, "QUALIFIED")}
+                          className="h-10 px-4 bg-white border border-stroke text-[10px] font-bold uppercase tracking-wider rounded-xl flex items-center gap-1.5 hover:bg-surface transition-all"
+                         >
+                            <Zap size={14} className="text-brand" /> Qualified
+                         </button>
                       </div>
-                       <div className="flex items-center gap-3 p-3 bg-brand/5 border border-brand/10 rounded-xl">
-                          <div className="w-2 h-2 rounded-full bg-brand animate-pulse" />
-                          <span className="text-[10px] font-bold text-brand uppercase tracking-wider">Viewing Details</span>
-                       </div>
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-brand/5 border border-brand/10 rounded-xl w-full sm:w-auto justify-center shrink-0">
+                         <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+                         <span className="text-[9px] font-bold text-brand uppercase tracking-wider">Lead Details</span>
+                      </div>
                    </div>
                 </div>
              </motion.div>
@@ -428,9 +453,8 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
         onClose={() => setDeleteConfirm({ isOpen: false, id: null, bulk: false })}
         onConfirm={handleDelete}
         title={deleteConfirm.bulk ? "Bulk Deletion" : "Delete Lead"}
-        message={deleteConfirm.bulk ? `Are you sure you want to delete ${selectedIds.length} selected leads?` : "Are you sure you want to delete this lead? This action is immutable."}
+        message={deleteConfirm.bulk ? `Are you sure you want to delete the ${selectedIds.length} selected leads?` : "Are you sure you want to delete this lead? This action is irreversible."}
         confirmText="Delete"
-        type="danger"
       />
     </div>
   );

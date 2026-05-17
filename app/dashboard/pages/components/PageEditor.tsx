@@ -207,36 +207,39 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
 
         <div className="lg:col-span-1 space-y-4">
-           <div className="bg-white rounded-[3rem] p-4 border border-stroke shadow-sm sticky top-10">
+           <div className="bg-white rounded-[3rem] p-3 sm:p-4 border border-stroke shadow-sm lg:sticky lg:top-10">
               <button 
+                type="button"
                 onClick={() => setActiveTab('sections')}
-                className={`w-full flex items-center gap-5 p-6 rounded-[2rem] transition-all ${activeTab === 'sections' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
+                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all ${activeTab === 'sections' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
-                 <Layers size={22} />
-                 <span className="text-[11px] font-bold uppercase tracking-wider">Page Content</span>
+                 <Layers size={22} className="shrink-0" />
+                 <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-left">Page Content</span>
               </button>
               <button 
+                type="button"
                 onClick={() => setActiveTab('seo')}
-                className={`w-full flex items-center gap-5 p-6 rounded-[2rem] transition-all mt-3 ${activeTab === 'seo' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
+                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all mt-3 ${activeTab === 'seo' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
-                 <Settings2 size={22} />
-                 <span className="text-[11px] font-bold uppercase tracking-wider">SEO Settings</span>
+                 <Settings2 size={22} className="shrink-0" />
+                 <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-left">SEO Settings</span>
               </button>
               <button 
+                type="button"
                 onClick={() => setActiveTab('links')}
-                className={`w-full flex items-center gap-5 p-6 rounded-[2rem] transition-all mt-3 ${activeTab === 'links' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
+                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all mt-3 ${activeTab === 'links' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
-                 <LinkIcon size={22} />
-                 <span className="text-[11px] font-bold uppercase tracking-wider">Navigation Links</span>
+                 <LinkIcon size={22} className="shrink-0" />
+                 <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-left">Navigation Links</span>
               </button>
            </div>
-
-           <div className="p-10 bg-brand/[0.03] rounded-[3rem] border border-brand/10 space-y-5">
+ 
+           <div className="p-6 sm:p-8 lg:p-6 xl:p-10 bg-brand/[0.03] rounded-[3rem] border border-brand/10 space-y-5">
               <div className="flex items-center gap-3">
-                 <Zap size={16} className="text-brand" />
+                 <Zap size={16} className="text-brand shrink-0" />
                  <p className="text-[10px] font-black uppercase text-brand tracking-widest">Growth Tip</p>
               </div>
-              <p className="text-[12px] font-medium text-text-secondary leading-relaxed opacity-80">
+              <p className="text-[11px] sm:text-[12px] font-medium text-text-secondary leading-relaxed opacity-80">
                  Page sections are updated in real-time. SEO and link changes will take effect once saved.
               </p>
            </div>
