@@ -7,7 +7,7 @@ import prisma from "@/lib/prisma";
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageData("home");
   return buildSeoMetadata(page, {
-    title: "RankNexis | High-Performance Digital Marketing & Growth Engineering",
+    title: "RankNexis | High-Performance Digital Marketing & Strategic Growth",
     description: "RankNexis is a professional digital marketing agency specializing in SEO, Facebook Ads, Google Ads, and custom Web Development.",
   });
 }

@@ -8,7 +8,7 @@ import InternalLinksSection from "@/components/InternalLinksSection";
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageData("services");
   return buildSeoMetadata(page, {
-    title: "Our Services | Digital Marketing & Scale Engineering",
+    title: "Our Services | Digital Marketing & Strategic Scaling",
     description: "Explore our specialized services in SEO, Ads, Design and Development.",
   });
 }

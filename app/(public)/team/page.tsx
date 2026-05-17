@@ -36,12 +36,12 @@ export default async function TeamPage() {
      badge: "Strategic Core",
      heading: "Tactical",
      headingAccent: "Experts.",
-     subtext: "We are a high-performance unit of strategists, engineers, and designers dedicated to scaling elite brands."
+     subtext: "We are a high-performance unit of strategists, digital specialists, and designers dedicated to scaling elite brands."
   });
 
   const strengths = getSectionData(sectionsMap, "strengths", {
      items: [
-        { icon: "ShieldCheck", title: "Strategic Precision", description: "Our work is rooted in deep market diagnostics and competitive engineering." },
+        { icon: "ShieldCheck", title: "Strategic Precision", description: "Our work is rooted in deep market diagnostics and competitive analysis." },
         { icon: "Zap", title: "Creative Velocity", description: "We operate with maximum efficiency to ensure rapid deployment and impact." },
         { icon: "TrendingUp", title: "Result Governance", description: "Every action is monitored against strict ROI benchmarks and scaling goals." }
      ]
@@ -117,7 +117,7 @@ export default async function TeamPage() {
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-brand/5 rounded-full blur-[200px] -z-10" />
            <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase mb-12 antialiased leading-tight">Ready to grow <br /> <span className="text-brand">Together?</span></h2>
            <p className="text-text-secondary max-w-2xl mx-auto text-xl md:text-2xl font-medium leading-relaxed mb-16 antialiased">
-              Connect with our team of technical experts and let&apos;s build a scalable roadmap for your brand.
+              Connect with our team of growth specialists and let&apos;s build a scalable roadmap for your brand.
            </p>
            <div className="flex justify-center">
               <Link href="/contact" className="btn-primary h-20 px-16 text-[10px] font-bold uppercase tracking-[0.4em] group shadow-premium inline-flex items-center gap-3">

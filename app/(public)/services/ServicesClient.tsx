@@ -57,22 +57,22 @@ export default function ServicesClient({ services, sectionsMap }: { services: an
   });
 
   const pillar3 = getSectionData(sectionsMap, "pillar_03", {
-     badge: "Engineering",
-     heading: "Engineering &",
+     badge: "Development",
+     heading: "Development &",
      headingAccent: "Web Solutions."
   });
 
   const techStack = getSectionData(sectionsMap, "tech_stack", {
      badge: "The Engine",
-     heading: "System",
-     headingAccent: "Architecture."
+     heading: "Growth",
+     headingAccent: "Platform."
   });
 
   const stats = getSectionData(sectionsMap, "growth_stats", {
      items: [
-        { title: "Market Analysis", description: "Comprehensive review of your current digital presence and market positioning." },
-        { title: "Scale Strategy", description: "Designing flexible systems built to handle rapid growth and high user traffic." },
-        { title: "Performance Ops", description: "Continuous monitoring and optimization to ensure your business leads the market." }
+        { title: "Market Diagnostics", description: "Comprehensive review of your current digital presence and market positioning." },
+        { title: "Growth Scaling", description: "Designing flexible strategic models built to handle rapid business growth." },
+        { title: "Performance Optimization", description: "Continuous refinement and optimization to ensure your business leads the market." }
      ]
   });
 

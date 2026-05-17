@@ -88,7 +88,7 @@ export default function CareersContent({ initialJobs }: CareersContentProps) {
                      </div>
                      <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-primary mb-3">No matching roles found</h3>
                      <p className="text-text-muted text-lg font-medium leading-relaxed max-w-xl mx-auto mb-10 antialiased">
-                        We don't have any matching positions open right now, but we are always scouting for top tier marketing & engineering talent. Direct-email us with your resume!
+                        We don't have any matching positions open right now, but we are always scouting for top-tier creative and digital growth talent. Direct-email us with your resume!
                      </p>
                      
                      <div className="flex flex-wrap justify-center gap-4">

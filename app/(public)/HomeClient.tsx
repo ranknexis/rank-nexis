@@ -38,9 +38,9 @@ const SERVICES = [
   },
   {
     icon: Code2,
-    title: "Systems Engineering",
-    desc: "High-performance, scalable digital infrastructure and ecosystems built for enterprise reliability and seamless scaling.",
-    features: ["Custom Software", "MVP Engineering", "Cloud Infrastructure"],
+    title: "Custom Development",
+    desc: "High-performance web and mobile applications designed to optimize your operations, deliver outstanding UX, and scale seamlessly.",
+    features: ["Custom Software", "Product Strategy", "Cloud Solutions"],
     slug: "development"
   }
 ];
@@ -86,14 +86,14 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
     badge: "Strategic Approach",
     heading: "Beyond",
     headingAccent: "Agency.",
-    subtext: "Our approach integrates precision engineering with strategic thinking to deliver sustainable impact."
+    subtext: "Our approach integrates commercial strategy with deep creative execution to deliver sustainable impact."
   }), [sectionsMap]);
 
   const excellence = useMemo(() => getSectionData(sectionsMap, "excellence", {
     badge: "Partnership Values",
-    heading: "Engineering",
+    heading: "Strategic",
     headingAccent: "Excellence.",
-    subtext: "We focus on long-term value, designing systems that grow alongside your business goals."
+    subtext: "We focus on long-term value, developing custom solutions that grow alongside your business goals."
   }), [sectionsMap]);
 
   const testimonials = useMemo(() => getSectionData(sectionsMap, "testimonials", {
@@ -599,7 +599,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 <>
                   <ProcessItem step="01" title="Business Review" desc="Deep-dive into your growth potential and technical needs." />
                   <ProcessItem step="02" title="Growth Plan" desc="Designing a high-performance roadmap for market success." />
-                  <ProcessItem step="03" title="Expert Engineering" desc="Building elite digital infrastructure with precision." />
+                  <ProcessItem step="03" title="Custom Build" desc="Developing and polishing your digital platform to absolute perfection." />
                   <ProcessItem step="04" title="Performance" desc="Continuous improvement based on real-world data." />
                   <ProcessItem step="05" title="Rapid Growth" desc="Scaling your business through sustained expert help." />
                 </>
@@ -630,8 +630,8 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                     <div className="w-12 h-12 rounded-xl bg-brand/5 flex items-center justify-center text-brand">
                       <Code2 size={24} />
                     </div>
-                    <h4 className="text-lg font-bold uppercase tracking-tight">Expert Engineering</h4>
-                    <p className="text-text-muted text-sm font-medium">We maintain full control over our tech stack, ensuring elite reliability.</p>
+                    <h4 className="text-lg font-bold uppercase tracking-tight">Premium Builds</h4>
+                    <p className="text-text-muted text-sm font-medium">We create optimized custom solutions to ensure unmatched performance and reliability.</p>
                   </div>
                   <div className="space-y-4">
                     <div className="w-12 h-12 rounded-xl bg-brand/5 flex items-center justify-center text-brand">
