@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import { 
   ChevronDown, 
   ChevronUp, 
@@ -28,6 +28,104 @@ import {
 import RichTextEditor from './RichTextEditor';
 import RepeaterField from './RepeaterField';
 import CloudinaryUpload from '../../components/CloudinaryUpload';
+import { getAllPages } from '@/actions/pages';
+
+const LinkSelector = ({ label, value, onChange }: { label?: string; value: string; onChange: (val: string) => void }) => {
+  const [availablePages, setAvailablePages] = useState<{ title: string; url: string }[]>([]);
+  const [isCustom, setIsCustom] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    const fetchPages = async () => {
+      const defaultPages = [
+        { title: "Home Page", url: "/" },
+        { title: "About Us", url: "/about" },
+        { title: "Services", url: "/services" },
+        { title: "Careers", url: "/careers" },
+        { title: "Contact", url: "/contact" },
+        { title: "Blog", url: "/blog" },
+        { title: "Portfolio / Work", url: "/work" },
+        { title: "Our Team", url: "/team" },
+        { title: "Privacy Policy", url: "/privacy" },
+        { title: "Terms of Service", url: "/terms" }
+      ];
+      try {
+        const res = await getAllPages();
+        if (active) {
+          if (res.success && res.pages) {
+            const fetchedList = res.pages.map((p: any) => ({
+              title: p.title,
+              url: p.slug === 'home' ? '/' : `/${p.slug}`
+            }));
+            const combined = [...defaultPages];
+            fetchedList.forEach((item: any) => {
+              if (!combined.some(c => c.url === item.url)) {
+                combined.push(item);
+              }
+            });
+            setAvailablePages(combined);
+            setIsCustom(value ? !combined.some(p => p.url === value) : false);
+          } else {
+            setAvailablePages(defaultPages);
+            setIsCustom(value ? !defaultPages.some(p => p.url === value) : false);
+          }
+        }
+      } catch (e) {
+        if (active) {
+          setAvailablePages(defaultPages);
+          setIsCustom(value ? !defaultPages.some(p => p.url === value) : false);
+        }
+      }
+    };
+    fetchPages();
+    return () => { active = false; };
+  }, [value]);
+
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center px-4">
+        {label && <label className="text-[11px] font-bold uppercase text-brand tracking-wider">{label}</label>}
+        <button
+          type="button"
+          onClick={() => {
+            setIsCustom(!isCustom);
+            onChange('');
+          }}
+          className="text-[9px] font-bold uppercase text-brand hover:underline cursor-pointer transition-colors"
+        >
+          {isCustom ? "Select Page" : "Type Custom URL"}
+        </button>
+      </div>
+      {isCustom ? (
+        <input 
+          type="text"
+          value={value || ''} 
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="e.g. /custom-route or https://..." 
+          className="input-field shadow-sm bg-white" 
+        />
+      ) : (
+        <select
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          className="input-field shadow-sm bg-white cursor-pointer text-text-primary"
+        >
+          <option value="" className="text-text-muted">-- Select Destination Page --</option>
+          {availablePages.map((p) => (
+            <option key={p.url} value={p.url} className="text-text-primary">
+              {p.title} ({p.url})
+            </option>
+          ))}
+          {!availablePages.some(p => p.url === value) && value && (
+            <option value={value} className="text-text-primary">
+              {value}
+            </option>
+          )}
+        </select>
+      )}
+    </div>
+  );
+};
 
 interface SectionEditorProps {
   section: any;
@@ -75,9 +173,8 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                 <label className="text-[11px] font-bold uppercase text-brand ml-4">CTA Text</label>
                 <input type="text" value={content.ctaText || ''} onChange={(e) => updateField('ctaText', e.target.value)} className="input-field" />
              </div>
-             <div className="space-y-4">
-                <label className="text-[11px] font-bold uppercase text-brand ml-4">CTA Link</label>
-                <input type="text" value={content.ctaLink || ''} onChange={(e) => updateField('ctaLink', e.target.value)} className="input-field" />
+             <div className="space-y-2">
+                <LinkSelector label="CTA Link" value={content.ctaLink || ''} onChange={(val) => updateField('ctaLink', val)} />
              </div>
              <div className="md:col-span-2">
                 <CloudinaryUpload 
@@ -322,7 +419,10 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                      <div className="grid grid-cols-3 gap-6">
                         <input type="text" value={item.title} onChange={(e) => update({ title: e.target.value })} className="input-field" placeholder="Title" />
                         <input type="text" value={item.icon} onChange={(e) => update({ icon: e.target.value })} className="input-field" placeholder="Icon (Lucide)" />
-                        <input type="text" value={item.link} onChange={(e) => update({ link: e.target.value })} className="input-field" placeholder="Link (Optional)" />
+                        <input type="text" value={item.link || ''} onChange={(e) => {}} className="hidden" />
+                         <div className="col-span-3 mt-2">
+                            <LinkSelector label="Destination Link" value={item.link || ''} onChange={(val) => update({ link: val })} />
+                         </div>
                      </div>
                      <textarea rows={2} value={item.description} onChange={(e) => update({ description: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Description" />
                   </div>

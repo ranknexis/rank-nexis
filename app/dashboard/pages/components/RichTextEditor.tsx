@@ -198,7 +198,7 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
     toast.success("Image URL copied to clipboard!");
   };
 
-  const fontSizes = ['12px', '14px', '16px', '18px', '20px', '24px', '30px', '36px'];
+  const fontSizes = ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '30px', '36px', '40px', '48px', '64px'];
 
   return (
     <div className="space-y-4">
@@ -432,7 +432,20 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
             <div className="space-y-4">
               <CloudinaryUpload
                 value={uploadedImageUrl}
-                onChange={(url) => setUploadedImageUrl(url)}
+                onChange={(url) => {
+                  setUploadedImageUrl(url);
+                  if (url) {
+                    editor.chain().focus().setImage({ src: url }).run();
+                    try {
+                      navigator.clipboard.writeText(url);
+                      toast.success("Uploaded image URL copied to clipboard and inserted at cursor!");
+                    } catch (e) {
+                      toast.success("Uploaded image inserted successfully!");
+                    }
+                    setIsImageModalOpen(false);
+                    setUploadedImageUrl('');
+                  }
+                }}
                 label="Deploy Image Asset to Cloudinary"
               />
               

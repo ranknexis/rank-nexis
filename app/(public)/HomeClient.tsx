@@ -255,8 +255,8 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   transition={{ duration: 0.4, delay: 0.2 }}
                   className="flex flex-col sm:flex-row gap-6 pt-4 will-change-gpu"
                 >
-                    <Link href="/#contact" className="btn-primary group h-16 px-12 text-[11px] font-bold uppercase tracking-wider bg-brand hover:brightness-110 flex items-center justify-center gap-3 shadow-2xl">
-                      Book a Free Call
+                    <Link href={hero.ctaLink || "/#contact"} className="btn-primary group h-16 px-12 text-[11px] font-bold uppercase tracking-wider bg-brand hover:brightness-110 flex items-center justify-center gap-3 shadow-2xl">
+                      {hero.ctaText || "Book a Free Call"}
                     <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-500" />
                   </Link>
                   <Link href="/work" className="btn-outline h-16 px-12 text-[11px] font-bold uppercase tracking-wider border border-stroke hover:border-brand/40 flex items-center justify-center">
@@ -586,11 +586,24 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             </div>
  
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12 relative">
-              <ProcessItem step="01" title="Business Review" desc="Deep-dive into your growth potential and technical needs." />
-              <ProcessItem step="02" title="Growth Plan" desc="Designing a high-performance roadmap for market success." />
-              <ProcessItem step="03" title="Expert Engineering" desc="Building elite digital infrastructure with precision." />
-              <ProcessItem step="04" title="Performance" desc="Continuous improvement based on real-world data." />
-              <ProcessItem step="05" title="Rapid Growth" desc="Scaling your business through sustained expert help." />
+              {partnership.items && partnership.items.length > 0 ? (
+                partnership.items.map((item: any, idx: number) => (
+                  <ProcessItem
+                    key={idx}
+                    step={item.step || `0${idx + 1}`}
+                    title={item.title || "Process Step"}
+                    desc={item.description || item.desc || "Details..."}
+                  />
+                ))
+              ) : (
+                <>
+                  <ProcessItem step="01" title="Business Review" desc="Deep-dive into your growth potential and technical needs." />
+                  <ProcessItem step="02" title="Growth Plan" desc="Designing a high-performance roadmap for market success." />
+                  <ProcessItem step="03" title="Expert Engineering" desc="Building elite digital infrastructure with precision." />
+                  <ProcessItem step="04" title="Performance" desc="Continuous improvement based on real-world data." />
+                  <ProcessItem step="05" title="Rapid Growth" desc="Scaling your business through sustained expert help." />
+                </>
+              )}
 
               <div className="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-px bg-brand/20 -z-10" />
             </div>
