@@ -1,17 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { deleteService } from "@/actions/services";
 import { CheckCircle2, Edit2, Search, Trash2, XCircle } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { deleteService } from "@/actions/services";
 import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function ServicesList({ initialServices }: { initialServices: any[] }) {
     const [services, setServices] = useState(initialServices);
     const [searchTerm, setSearchTerm] = useState("");
 
-    // Sync state with props to prevent status/data mismatches on updates
     useEffect(() => {
         setServices(initialServices);
     }, [initialServices]);

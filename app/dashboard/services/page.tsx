@@ -9,14 +9,14 @@ export default async function AdminServicesPage() {
   });
 
   return (
-    <div className="space-y-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Core <span className="text-brand">Services.</span></h1>
-          <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Manage your core service offerings.</p>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stroke pb-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-primary">Core <span className="text-brand">Services.</span></h1>
+          <p className="text-[9px] font-bold uppercase text-text-muted tracking-wider">Manage your core service offerings.</p>
         </div>
-        <Link href="/dashboard/services/new" className="h-16 px-8 bg-brand text-white rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-brand/20">
-          <Plus size={18} /> New Service
+        <Link href="/dashboard/services/new" className="h-11 px-4 bg-brand text-white rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 hover:bg-brand-dark active:scale-95 transition-all shadow-md shadow-brand/10 shrink-0">
+          <Plus size={16} /> New Service
         </Link>
       </div>
 

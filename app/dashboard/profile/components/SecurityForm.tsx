@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { changePassword } from "@/actions/auth";
+import { Save, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
-import { ShieldCheck, Save } from "lucide-react";
 import PasswordInput from "../../components/PasswordInput";
 
 export default function SecurityForm() {
@@ -40,7 +40,6 @@ export default function SecurityForm() {
         <div className="max-w-[1400px] mx-auto">
             <div className="bg-white border border-stroke rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
 
-                {/* Section Header */}
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-brand/10 text-brand flex items-center justify-center shrink-0">
                         <ShieldCheck size={20} />
@@ -51,7 +50,6 @@ export default function SecurityForm() {
                     </div>
                 </div>
 
-                {/* Form Elements */}
                 <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl">
                     <div className="space-y-2">
                         <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Current Password</label>

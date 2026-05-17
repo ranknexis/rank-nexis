@@ -1,25 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { createCaseStudy, updateCaseStudy, deleteCaseStudy } from "@/actions/work";
-import { toast } from "sonner";
-import { 
-  Save, 
-  Trash2, 
-  ArrowLeft, 
-  Layout, 
-  Type, 
-  Link2, 
-  Settings,
+import { createCaseStudy, deleteCaseStudy, updateCaseStudy } from "@/actions/work";
+import {
+  ArrowLeft,
   BarChart3,
   Layers,
+  Layout,
+  Link2,
+  Save,
+  Settings,
+  Trash2,
+  Type,
   Zap
 } from "lucide-react";
 import Link from "next/link";
-import RepeaterField from "../../pages/components/RepeaterField";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import CloudinaryUpload from "../../components/CloudinaryUpload";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import RepeaterField from "../../pages/components/RepeaterField";
 
 export default function WorkEditor({ initialData }: { initialData: any }) {
   const router = useRouter();
@@ -91,72 +91,56 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
   ];
 
   return (
-    <div className="space-y-8">
-      {/* Page Header Outside Grid to Avoid Layout Breaks */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-b border-stroke pb-6">
-        <div className="space-y-1">
-          <Link 
-            href="/dashboard/work" 
-            className="flex items-center gap-2 text-[9px] font-black uppercase text-text-muted hover:text-brand transition-all group"
-          >
-            <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" /> Back to Case Studies
-          </Link>
-          <h1 className="text-3xl font-extrabold uppercase tracking-tight text-text-primary">
-            {initialData?.id ? "Edit" : "Create"} <span className="text-brand">Case Study</span>
-          </h1>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button 
-            type="button"
-            onClick={handleSave}
-            disabled={loading}
-            className="px-6 h-12 rounded-xl bg-brand text-white shadow-md shadow-brand/10 text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-brand-dark active:scale-95 transition-all disabled:opacity-50"
-          >
-            <Save size={16} /> {loading ? 'Saving...' : 'Save Case Study'}
-          </button>
-          
-          {initialData?.id && (
-            <button 
-              type="button"
-              onClick={() => setDeleteConfirmOpen(true)}
-              className="w-12 h-12 rounded-xl border border-stroke bg-white text-red-500 hover:bg-red-50 flex items-center justify-center transition-all shadow-sm shrink-0"
-            >
-              <Trash2 size={16} />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Structured Columns Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* Navigation Sidebar */}
-        <div className="lg:col-span-3 space-y-4">
-          <div className="bg-white rounded-2xl border border-stroke p-4 shadow-sm space-y-1">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="lg:col-span-3 space-y-6">
+        <div className="bg-white rounded-2xl border border-stroke p-4 shadow-sm space-y-1.5">
             {tabs.map(tab => (
               <button 
                 type="button"
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-wider ${
+                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-wider ${
                   activeTab === tab.id 
                     ? "bg-brand text-white shadow-md shadow-brand/15" 
-                    : "bg-transparent text-text-muted hover:bg-surface hover:text-text-primary"
+                    : "bg-surface text-text-muted hover:bg-brand/5 hover:text-brand"
                 }`}
               >
                 <tab.icon size={16} /> {tab.label}
               </button>
             ))}
           </div>
+
+          <div className="space-y-3">
+            <button 
+              type="button"
+              onClick={handleSave}
+              disabled={loading}
+              className="w-full h-11 bg-brand text-white rounded-xl text-xs font-bold uppercase hover:bg-brand-hover transition-all shadow-md flex items-center justify-center gap-2.5 disabled:opacity-50"
+            >
+              <Save size={16} /> {loading ? "Saving..." : "Save Case Study"}
+            </button>
+            
+            <Link href="/dashboard/work" className="w-full h-11 bg-white border border-stroke text-text-muted rounded-xl text-xs font-bold uppercase hover:bg-surface transition-all flex items-center justify-center gap-2.5">
+              <ArrowLeft size={16} /> Back to List
+            </Link>
+
+            {initialData?.id && (
+               <button 
+                type="button"
+                onClick={() => setDeleteConfirmOpen(true)}
+                className="w-full h-11 bg-white border border-stroke text-red-500 rounded-xl text-xs font-bold uppercase hover:bg-red-50 transition-all flex items-center justify-center gap-2.5"
+              >
+                <Trash2 size={16} /> Delete Study
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Content Fields Container */}
         <div className="lg:col-span-9">
           <div className="bg-white rounded-2xl border border-stroke shadow-sm overflow-hidden">
             
             {activeTab === "overview" && (
-              <div className="p-6 sm:p-8 space-y-6">
+              <div className="p-5 sm:p-6 space-y-6">
                 <div className="space-y-2">
                   <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Project Title</label>
                   <input 
@@ -164,7 +148,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                     value={data.title} 
                     onChange={e => setData({...data, title: e.target.value})}
                     placeholder="e.g. Next-Gen SEO Strategy & Growth"
-                    className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-sm font-bold focus:outline-none focus:border-brand transition-all"
+                    className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-sm font-bold focus:outline-none focus:border-brand transition-all text-text-primary"
                   />
                 </div>
 
@@ -186,7 +170,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                       value={data.tag} 
                       onChange={e => setData({...data, tag: e.target.value})}
                       placeholder="e.g. E-Commerce"
-                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                     />
                   </div>
                 </div>
@@ -205,7 +189,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
             )}
 
             {activeTab === "narrative" && (
-              <div className="p-6 sm:p-8 space-y-8">
+              <div className="p-5 sm:p-6 space-y-6">
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">The Challenge</label>
@@ -243,7 +227,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                         type="text"
                         value={item}
                         onChange={e => update(e.target.value)}
-                        className="w-full h-12 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                        className="w-full h-11 bg-white border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                         placeholder="Action item..."
                       />
                     )}
@@ -253,7 +237,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
             )}
 
             {activeTab === "results" && (
-              <div className="p-6 sm:p-8 space-y-8">
+              <div className="p-5 sm:p-6 space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Main KPI (Label)</label>
@@ -262,7 +246,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                       value={data.kpi} 
                       onChange={e => setData({...data, kpi: e.target.value})}
                       placeholder="e.g. Organic traffic boost"
-                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all"
                     />
                   </div>
                   <div className="space-y-2">
@@ -272,7 +256,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
                       value={data.stats} 
                       onChange={e => setData({...data, stats: e.target.value})}
                       placeholder="e.g. +240%"
-                      className="w-full h-12 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-brand"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-brand"
                     />
                   </div>
                 </div>
@@ -349,7 +333,6 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
               </div>
             )}
 
-          </div>
         </div>
 
       </div>

@@ -93,33 +93,33 @@ export default function TeamEditor({ initialData }: Props) {
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-white rounded-[2.5rem] border border-stroke p-6 shadow-sm space-y-4">
+        <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-4">
             <button 
                 type="button"
                 onClick={handleSave}
                 disabled={loading}
-                className="w-full h-16 bg-brand text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-brand/90 transition-all shadow-xl shadow-brand/20 flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer"
+                className="w-full h-11 bg-brand text-white rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-brand/90 transition-all shadow-md shadow-brand/20 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
             >
-                <Save size={18} /> {loading ? "Saving..." : "Save Profile"}
+                <Save size={16} /> {loading ? "Saving..." : "Save Profile"}
             </button>
             
-            <Link href="/dashboard/team" className="w-full h-16 bg-white border border-stroke text-text-muted rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-surface transition-all flex items-center justify-center gap-3">
-                <ArrowLeft size={18} /> Cancel
+            <Link href="/dashboard/team" className="w-full h-11 bg-white border border-stroke text-text-muted rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-surface transition-all flex items-center justify-center gap-2">
+                <ArrowLeft size={16} /> Cancel
             </Link>
 
             {initialData?.id && (
                 <button 
                 type="button"
                 onClick={() => setDeleteConfirmOpen(true)}
-                className="w-full h-16 bg-white border border-red-100 text-red-400 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-red-50 transition-all flex items-center justify-center gap-3 mt-4 cursor-pointer"
+                className="w-full h-11 bg-white border border-red-100 text-red-400 rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-red-50 transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer"
                 >
-                <Trash2 size={18} /> Delete Profile
+                <Trash2 size={16} /> Delete Profile
                 </button>
             )}
         </div>
 
-        <div className="p-8 bg-brand/[0.03] rounded-[2.5rem] border border-brand/10 space-y-4">
-           <div className="flex items-center gap-3">
+        <div className="p-5 sm:p-6 bg-brand/[0.03] rounded-2xl border border-brand/10 space-y-3">
+           <div className="flex items-center gap-2">
               <Zap size={14} className="text-brand" />
               <p className="text-[10px] font-black uppercase text-brand tracking-widest">Team Guidelines</p>
            </div>
@@ -129,65 +129,65 @@ export default function TeamEditor({ initialData }: Props) {
         </div>
       </div>
 
-      <div className="lg:col-span-9 space-y-10">
-         <div className="bg-white rounded-[3.5rem] border border-stroke shadow-sm p-12 md:p-16 space-y-12 relative overflow-hidden">
+      <div className="lg:col-span-9 space-y-6">
+         <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-brand/[0.01] rounded-full blur-[100px] -z-10" />
             
-            <div className="flex items-center gap-4">
-               <ShieldCheck size={20} className="text-brand" />
-               <h2 className="text-2xl font-black uppercase tracking-tighter text-text-primary">Profile Details</h2>
+            <div className="flex items-center gap-3">
+               <ShieldCheck size={18} className="text-brand" />
+               <h2 className="text-lg font-black uppercase tracking-tighter text-text-primary">Profile Details</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-               <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase text-text-muted px-2 tracking-widest">Full Name</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase text-text-muted px-1 tracking-widest">Full Name</label>
                   <input 
                     type="text" 
                     value={data.name} 
                     onChange={e => setData({...data, name: e.target.value})}
                     placeholder="e.g. Jane Doe"
-                    className="w-full h-16 bg-surface border border-stroke rounded-2xl px-8 text-sm font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
+                    className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-sm font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
                   />
                </div>
-               <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase text-text-muted px-2 tracking-widest">Job Title / Role</label>
+               <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase text-text-muted px-1 tracking-widest">Job Title / Role</label>
                   <input 
                     type="text" 
                     value={data.role} 
                     onChange={e => setData({...data, role: e.target.value})}
                     placeholder="e.g. Chief Operations Officer"
-                    className="w-full h-16 bg-surface border border-stroke rounded-2xl px-8 text-sm font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
+                    className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-sm font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
                   />
                </div>
             </div>
 
-            <div className="space-y-4">
-               <label className="text-[10px] font-black uppercase text-text-muted px-2 tracking-widest">Biography</label>
+            <div className="space-y-2">
+               <label className="text-[10px] font-black uppercase text-text-muted px-1 tracking-widest">Biography</label>
                <textarea 
                  value={data.bio} 
                  onChange={e => setData({...data, bio: e.target.value})}
                  placeholder="Write a brief biography describing their background and expertise..."
-                 className="w-full h-40 bg-surface border border-stroke rounded-[2rem] p-8 text-sm font-bold text-text-primary focus:outline-none focus:border-brand transition-all resize-none uppercase leading-relaxed"
+                 className="w-full h-32 bg-surface border border-stroke rounded-xl p-4 text-sm font-medium text-text-primary focus:outline-none focus:border-brand transition-all resize-none uppercase leading-relaxed"
                />
             </div>
 
-            <div className="space-y-4">
-               <label className="text-[10px] font-black uppercase text-text-muted px-2 tracking-widest">Display Order</label>
+            <div className="space-y-2">
+               <label className="text-[10px] font-black uppercase text-text-muted px-1 tracking-widest">Display Order</label>
                <div className="relative w-full md:w-48">
                   <input 
                     type="number" 
                     value={data.order} 
                     onChange={e => setData({...data, order: parseInt(e.target.value) || 0})}
-                    className="w-full h-16 bg-surface border border-stroke rounded-2xl px-8 text-sm font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
+                    className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-sm font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
                   />
                </div>
             </div>
          </div>
 
-         <div className="bg-white rounded-[3.5rem] border border-stroke shadow-sm p-12 md:p-16 space-y-10">
-            <div className="flex items-center gap-4">
-               <UserIcon size={20} className="text-brand" />
-               <h2 className="text-2xl font-black uppercase tracking-tighter text-text-primary">Visual Identity</h2>
+         <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
+            <div className="flex items-center gap-3">
+               <UserIcon size={18} className="text-brand" />
+               <h2 className="text-lg font-black uppercase tracking-tighter text-text-primary">Visual Identity</h2>
             </div>
             <CloudinaryUpload 
                value={data.image} 
@@ -196,18 +196,18 @@ export default function TeamEditor({ initialData }: Props) {
             />
          </div>
 
-         <div className="bg-white rounded-[3.5rem] border border-stroke shadow-sm p-12 md:p-16 space-y-10">
+         <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-4">
-                 <LinkIcon size={20} className="text-brand" />
-                 <h2 className="text-2xl font-black uppercase tracking-tighter text-text-primary">Social Links</h2>
+              <div className="flex items-center gap-3">
+                 <LinkIcon size={18} className="text-brand" />
+                 <h2 className="text-lg font-black uppercase tracking-tighter text-text-primary">Social Links</h2>
               </div>
               <button 
                 type="button"
                 onClick={addSocial}
-                className="px-6 h-12 bg-black text-white text-[10px] font-black rounded-xl shadow-xl font-bold uppercase flex items-center gap-3 hover:bg-zinc-800 transition-all cursor-pointer"
+                className="px-4 h-10 bg-black text-white text-[10px] font-black rounded-xl shadow-sm font-bold uppercase flex items-center gap-2 hover:bg-zinc-800 transition-all cursor-pointer"
               >
-                <Plus size={16} /> Add Social Link
+                <Plus size={14} /> Add Social Link
               </button>
             </div>
             
@@ -217,12 +217,12 @@ export default function TeamEditor({ initialData }: Props) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     key={idx} 
-                    className="flex flex-col md:flex-row gap-4 p-6 bg-surface border border-stroke rounded-2xl transition-all hover:border-brand/30"
+                    className="flex flex-col md:flex-row gap-4 p-4 bg-surface border border-stroke rounded-xl transition-all hover:border-brand/30"
                  >
                     <select 
                       value={social.platform}
                       onChange={e => updateSocial(idx, "platform", e.target.value)}
-                      className="h-14 px-6 bg-white border border-stroke rounded-xl text-[10px] font-black uppercase outline-none focus:border-brand w-full md:w-48 shrink-0 appearance-none cursor-pointer"
+                      className="h-11 px-4 bg-white border border-stroke rounded-xl text-[10px] font-black uppercase outline-none focus:border-brand w-full md:w-48 shrink-0 appearance-none cursor-pointer"
                     >
                       {SOCIAL_PLATFORMS.map(p => (
                         <option key={p} value={p}>{p}</option>
@@ -233,19 +233,19 @@ export default function TeamEditor({ initialData }: Props) {
                       value={social.url}
                       onChange={e => updateSocial(idx, "url", e.target.value)}
                       placeholder={`https://${social.platform}.com/username`}
-                      className="w-full h-14 px-6 bg-white border border-stroke rounded-xl text-sm font-bold outline-none focus:border-brand"
+                      className="w-full h-11 px-4 bg-white border border-stroke rounded-xl text-sm font-medium outline-none focus:border-brand"
                     />
                     <button 
                       type="button"
                       onClick={() => removeSocial(idx)}
-                      className="w-14 h-14 bg-white border border-stroke rounded-xl flex items-center justify-center text-red-400 hover:bg-red-50 hover:border-red-200 transition-all shrink-0 cursor-pointer"
+                      className="w-11 h-11 bg-white border border-stroke rounded-xl flex items-center justify-center text-red-400 hover:bg-red-50 hover:border-red-200 transition-all shrink-0 cursor-pointer"
                     >
-                      <X size={20} />
+                      <X size={16} />
                     </button>
                  </motion.div>
                ))}
                {data.socials.length === 0 && (
-                 <div className="py-20 border-2 border-dashed border-stroke rounded-[3rem] text-center">
+                 <div className="py-12 border-2 border-dashed border-stroke rounded-2xl text-center">
                     <p className="text-[11px] font-black uppercase text-text-muted tracking-widest">No social links defined yet.</p>
                  </div>
                )}

@@ -1,23 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { updateLeadStatus, deleteLead } from "@/actions/leads";
-import { toast } from "sonner";
-import { 
-  Mail, 
-  Search, 
-  Trash2, 
-  Building2, 
+import { deleteLead, updateLeadStatus } from "@/actions/leads";
+import {
+  Building2,
   Calendar,
-  X,
+  Check,
   CheckCircle,
-  MessageSquare,
-  Zap,
   Download,
-  Check
+  Mail,
+  MessageSquare,
+  Search,
+  Trash2,
+  X,
+  Zap
 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
@@ -130,7 +130,6 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
   return (
     <div className="space-y-6">
 
-      {/* Combined Compact Header & Action Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-stroke pb-6">
         <div className="space-y-1">
           <div className="flex items-center gap-3">
@@ -143,7 +142,6 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-          {/* Compact Search Field */}
           <div className="relative flex-grow sm:flex-grow-0 sm:w-56">
             <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
             <input 
@@ -155,7 +153,6 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
             />
           </div>
 
-          {/* Status Dropdown */}
           <div className="relative">
             <select
               value={statusFilter}
@@ -173,7 +170,6 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
             </div>
           </div>
 
-          {/* Compact Export Button */}
           <button 
             type="button"
             onClick={exportToCSV}
@@ -218,7 +214,6 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
         )}
       </AnimatePresence>
 
-      {/* Leads Table Container */}
       <div className="bg-white rounded-2xl border border-stroke overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left table-fixed">
@@ -360,10 +355,10 @@ export default function LeadsTable({ initialLeads }: { initialLeads: any[] }) {
                exit={{ opacity: 0, scale: 0.95, y: 20 }}
                className="relative w-full max-w-2xl bg-white rounded-2xl border border-stroke shadow-2xl overflow-hidden"
              >
-                <div className="p-6 sm:p-8 space-y-6">
+                <div className="p-5 sm:p-6 space-y-5">
                    <div className="flex justify-between items-start">
                       <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-brand text-white flex items-center justify-center font-black text-xl uppercase shadow-lg shadow-brand/10 shrink-0">
+                        <div className="w-12 h-12 rounded-xl bg-brand text-white flex items-center justify-center font-black text-xl uppercase shadow-lg shadow-brand/10 shrink-0">
                            {selectedLead.name[0]}
                         </div>
                         <div className="space-y-0.5">

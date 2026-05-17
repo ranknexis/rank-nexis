@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { updateMyProfile } from "@/actions/profile";
-import { toast } from "sonner";
 import CloudinaryUpload from "@/dashboard/components/CloudinaryUpload";
-import { Save, User, Briefcase, FileText, Share2, Plus, Trash2 } from "lucide-react";
+import { Briefcase, FileText, Plus, Save, Share2, Trash2, User } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function ProfileForm({ initialUser }: { initialUser: any }) {
     const profile = initialUser.teamProfile || {};
@@ -42,12 +42,11 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
     };
 
     return (
-        <div className="max-w-[1400px] mx-auto">
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="max-w-[1400px] mx-auto bg-white border border-stroke rounded-2xl p-6 sm:p-8 shadow-sm">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 
-                {/* Left Column: Photo & Basic Details */}
                 <div className="lg:col-span-4 space-y-6">
-                    <div className="bg-white border border-stroke rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+                    <div className="space-y-5">
                         <div className="space-y-4 text-center">
                             <p className="text-[9px] font-black uppercase text-brand tracking-wider block">Profile Photo</p>
                             <div className="flex justify-center">
@@ -90,11 +89,9 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                     </div>
                 </div>
 
-                {/* Right Column: Bio & Social Connections */}
                 <div className="lg:col-span-8 space-y-6">
-                    <div className="bg-white border border-stroke rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+                    <div className="space-y-6">
                         
-                        {/* Biography */}
                         <div className="space-y-3">
                             <div className="flex items-center gap-2.5">
                                 <FileText size={16} className="text-brand shrink-0" />
@@ -109,7 +106,6 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                             />
                         </div>
 
-                        {/* Social Links */}
                         <div className="space-y-4 pt-2">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2.5">
@@ -158,7 +154,6 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                             </div>
                         </div>
 
-                        {/* Submit Actions */}
                         <div className="pt-4 border-t border-stroke flex justify-end">
                             <button 
                                 disabled={isLoading}

@@ -63,8 +63,8 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
                     </thead>
                     <tbody className="divide-y divide-stroke">
                         {filteredStudies.map((study: any) => (
-                            <tr key={study.id} className="group">
-                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
+                            <tr key={study.id} className="group hover:bg-surface/30 transition-colors">
+                                <td className="px-8 py-5">
                                     <div className="flex items-center gap-4 min-w-0">
                                         <div className="w-16 h-12 rounded-xl bg-surface border border-stroke overflow-hidden shrink-0 shadow-inner">
                                             {study.image ? (
@@ -79,13 +79,13 @@ export default function WorkList({ initialStudies }: { initialStudies: any[] }) 
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
+                                <td className="px-8 py-5">
                                     <span className="text-[10px] font-bold uppercase text-text-muted">{study.client || 'N/A'}</span>
                                 </td>
-                                <td className="px-8 py-5 text-[10px] font-bold uppercase text-text-muted whitespace-nowrap transition-colors group-hover:bg-surface/30">
+                                <td className="px-8 py-5 text-[10px] font-bold uppercase text-text-muted whitespace-nowrap">
                                     {new Date(study.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                                 </td>
-                                <td className="px-8 py-5 text-right transition-colors group-hover:bg-surface/30">
+                                <td className="px-8 py-5 text-right">
                                     <div className="flex justify-end items-center gap-2">
                                         <Link 
                                             href={`/dashboard/work/${study.id}`} 

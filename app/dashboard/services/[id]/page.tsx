@@ -18,12 +18,12 @@ export default async function EditServicePage({ params }: Props) {
     }
 
     return (
-        <div className="space-y-10">
-            <div className="space-y-4">
-                <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">
-                    {id === "new" ? "New" : "Edit"} <span className="text-brand">Service Node.</span>
+        <div className="space-y-6">
+            <div className="space-y-1 pb-4 border-b border-stroke">
+                <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-primary">
+                    {id === "new" ? "New" : "Edit"} <span className="text-brand">Service.</span>
                 </h1>
-                <p className="text-text-muted text-[10px] font-bold uppercase">Configure service architecture and parameters.</p>
+                <p className="text-text-muted text-[9px] font-bold uppercase tracking-wider">Manage details, categories, and value features.</p>
             </div>
             <ServiceEditor initialData={service ? JSON.parse(JSON.stringify(service)) : null} />
         </div>

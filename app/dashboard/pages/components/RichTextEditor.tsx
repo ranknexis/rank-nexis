@@ -221,7 +221,7 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
             </BubbleMenu>
           )}
 
-          <div className="p-10 md:p-16 min-h-[400px]">
+          <div className="p-5 sm:p-8 md:p-10 min-h-[400px]">
              <EditorContent editor={editor} />
           </div>
         </div>

@@ -88,8 +88,8 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                     </thead>
                     <tbody className="divide-y divide-stroke">
                         {filteredPosts.map((post: any) => (
-                            <tr key={post.id} className="group">
-                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
+                            <tr key={post.id} className="group hover:bg-surface/30 transition-colors">
+                                <td className="px-8 py-5">
                                     <div className="flex items-center gap-6 min-w-0">
                                         <div className="w-16 h-12 rounded-xl overflow-hidden border border-stroke hidden sm:block shrink-0 shadow-inner">
                                             <img src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt="" className="w-full h-full object-cover transition-all duration-700" />
@@ -100,15 +100,15 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
+                                <td className="px-8 py-5">
                                     <span className="px-4 py-1.5 rounded-full bg-brand/5 text-brand text-[9px] font-bold uppercase border border-brand/10">
                                         {post.category?.name || "Uncategorized"}
                                     </span>
                                 </td>
-                                <td className="px-8 py-5 text-[10px] font-bold uppercase text-text-muted whitespace-nowrap transition-colors group-hover:bg-surface/30">
+                                <td className="px-8 py-5 text-[10px] font-bold uppercase text-text-muted whitespace-nowrap">
                                     {new Date(post.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                                 </td>
-                                <td className="px-8 py-5 text-right transition-colors group-hover:bg-surface/30">
+                                <td className="px-8 py-5 text-right">
                                     <div className="flex justify-end items-center gap-2">
                                         <Link href={`/blog/${post.slug}`} target="_blank" className="p-2.5 bg-white border border-stroke hover:bg-brand hover:text-white hover:border-brand rounded-xl transition-all text-text-muted hover:text-white shadow-sm flex items-center justify-center shrink-0">
                                             <Eye size={14} />

@@ -29,94 +29,94 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
       <div className="lg:col-span-3 space-y-4">
-        <div className="bg-white border border-stroke rounded-[2.5rem] p-4 shadow-premium grain">
+        <div className="bg-white border border-stroke rounded-2xl p-2 shadow-sm grain space-y-1">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-4 px-8 h-16 rounded-2xl transition-all text-[10px] font-black uppercase tracking-widest ${
+              className={`w-full flex items-center gap-3 px-4 h-11 rounded-xl transition-all text-xs font-bold uppercase tracking-tight ${
                 activeTab === tab.id 
-                  ? "bg-brand text-white shadow-xl shadow-brand/20 scale-[1.02]" 
+                  ? "bg-brand text-white shadow-md shadow-brand/15 scale-[1.01]" 
                   : "bg-transparent text-text-muted hover:bg-brand/5 hover:text-brand"
               }`}
             >
-              <tab.icon size={18} />
+              <tab.icon size={16} />
               {tab.label}
             </button>
           ))}
         </div>
 
-        <div className="pt-6">
+        <div>
            <button 
             onClick={handleSave}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-4 h-18 bg-black text-white rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-brand hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20 disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2.5 h-11 bg-brand text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-brand-dark active:scale-95 transition-all shadow-md shadow-brand/10 disabled:opacity-50"
           >
-            {loading ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-            Commit Changes
+            {loading ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
+            Save Settings
           </button>
         </div>
       </div>
 
       <div className="lg:col-span-9">
-        <div className="bg-white rounded-[3rem] border border-stroke p-12 shadow-premium relative overflow-hidden grain">
+        <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm relative overflow-hidden grain">
           
           {activeTab === "general" && (
-            <div className="space-y-10">
-              <div className="space-y-6">
-                <h3 className="text-lg font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                   <Globe size={20} className="text-brand" /> Website Branding
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-text-primary flex items-center gap-2 pb-2 border-b border-stroke/50">
+                   <Globe size={16} className="text-brand" /> Website Branding
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase text-text-muted px-2">Site Name</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-text-muted px-1">Site Name</label>
                     <input 
                       type="text" 
                       value={data.siteName || ""} 
                       onChange={e => setData({...data, siteName: e.target.value})}
-                      className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold uppercase focus:outline-none focus:border-brand transition-all text-text-primary"
                     />
                   </div>
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase text-text-muted px-2">Title Suffix (SEO)</label>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-text-muted px-1">Title Suffix (SEO)</label>
                     <input 
                       type="text" 
                       value={data.siteTitleSuffix || ""} 
                       onChange={e => setData({...data, siteTitleSuffix: e.target.value})}
-                      className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold uppercase focus:outline-none focus:border-brand transition-all text-text-primary"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                 <label className="text-[10px] font-bold uppercase text-text-muted px-2">Global Description</label>
+              <div className="space-y-2">
+                 <label className="text-[10px] font-bold uppercase text-text-muted px-1">Global Description</label>
                  <textarea 
                    value={data.siteDescription || ""} 
                    onChange={e => setData({...data, siteDescription: e.target.value})}
                    rows={4}
-                   className="w-full bg-surface border border-stroke rounded-2xl p-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                   className="w-full bg-surface border border-stroke rounded-xl p-4 text-xs font-bold uppercase focus:outline-none focus:border-brand transition-all text-text-primary leading-relaxed"
                    placeholder="Enter a default description for the entire site..."
                  />
               </div>
 
-              <div className="space-y-6">
-                 <label className="text-[10px] font-bold uppercase text-text-muted px-2">Global OG Image URL</label>
+              <div className="space-y-2">
+                 <label className="text-[10px] font-bold uppercase text-text-muted px-1">Global OG Image URL</label>
                  <div className="flex gap-4">
                     <div className="relative flex-grow">
-                      <Link2 size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+                      <Link2 size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                       <input 
                         type="text" 
                         value={data.ogImage || ""} 
                         onChange={e => setData({...data, ogImage: e.target.value})}
-                        className="w-full h-14 bg-surface border border-stroke rounded-xl pl-14 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                        className="w-full h-11 bg-surface border border-stroke rounded-xl pl-10 pr-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-text-primary"
                       />
                     </div>
                     {data.ogImage && (
-                       <div className="w-24 h-14 rounded-xl overflow-hidden border border-stroke bg-surface">
+                       <div className="w-16 h-11 rounded-lg overflow-hidden border border-stroke bg-surface shrink-0">
                           <img src={data.ogImage} className="w-full h-full object-cover" alt="" />
                        </div>
                     )}
@@ -126,42 +126,42 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
           )}
 
           {activeTab === "contact" && (
-             <div className="space-y-10">
-                <div className="space-y-6">
-                  <h3 className="text-lg font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                    <Mail size={20} className="text-brand" /> Contact Information
+             <div className="space-y-6">
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-text-primary flex items-center gap-2 pb-2 border-b border-stroke/50">
+                    <Mail size={16} className="text-brand" /> Contact Information
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <div className="space-y-3">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Primary Email</label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-1">Primary Email</label>
                         <input 
                           type="email" 
                           value={data.contactEmail || ""} 
                           onChange={e => setData({...data, contactEmail: e.target.value})}
-                          className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                          className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-text-primary"
                         />
                      </div>
-                     <div className="space-y-3">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Support Phone</label>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-1">Support Phone</label>
                         <input 
                           type="text" 
                           value={data.contactPhone || ""} 
                           onChange={e => setData({...data, contactPhone: e.target.value})}
-                          className="w-full h-14 bg-surface border border-stroke rounded-xl px-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                          className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-text-primary"
                         />
                      </div>
                   </div>
                 </div>
 
-                <div className="space-y-6">
-                   <label className="text-[10px] font-bold uppercase text-text-muted px-2">Physical Headquarters Address</label>
+                <div className="space-y-2">
+                   <label className="text-[10px] font-bold uppercase text-text-muted px-1">Physical Headquarters Address</label>
                    <div className="relative">
-                      <MapPin size={18} className="absolute left-6 top-6 text-text-muted" />
+                      <MapPin size={16} className="absolute left-4 top-4 text-text-muted" />
                       <textarea 
                         value={data.address || ""} 
                         onChange={e => setData({...data, address: e.target.value})}
                         rows={3}
-                        className="w-full bg-surface border border-stroke rounded-2xl pl-16 p-6 text-[11px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                        className="w-full bg-surface border border-stroke rounded-xl pl-11 p-4 text-xs font-bold uppercase focus:outline-none focus:border-brand transition-all text-text-primary leading-relaxed"
                       />
                    </div>
                 </div>
@@ -169,13 +169,13 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
           )}
 
           {activeTab === "social" && (
-             <div className="space-y-10">
-                <div className="space-y-8">
-                  <h3 className="text-lg font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                    <Share2 size={20} className="text-brand" /> Social Media Links
+             <div className="space-y-6">
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-text-primary flex items-center gap-2 pb-2 border-b border-stroke/50">
+                    <Share2 size={16} className="text-brand" /> Social Media Links
                   </h3>
                   
-                  <div className="grid grid-cols-1 gap-6">
+                  <div className="grid grid-cols-1 gap-4">
                      {[
                        { key: "facebookUrl", label: "Facebook Page URL", icon: Share2 },
                        { key: "twitterUrl", label: "Twitter / X Profile", icon: Share2 },
@@ -183,15 +183,15 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
                        { key: "instagramUrl", label: "Instagram Profile", icon: Share2 },
                        { key: "youtubeUrl", label: "YouTube Channel", icon: Share2 }
                      ].map(social => (
-                       <div key={social.key} className="space-y-3">
-                          <label className="text-[10px] font-bold uppercase text-text-muted px-2">{social.label}</label>
+                       <div key={social.key} className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase text-text-muted px-1">{social.label}</label>
                           <div className="relative">
-                             <Link2 size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+                             <Link2 size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                              <input 
                                type="text" 
                                value={data[social.key] || ""} 
                                onChange={e => setData({...data, [social.key]: e.target.value})}
-                               className="w-full h-14 bg-surface border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                               className="w-full h-11 bg-surface border border-stroke rounded-xl pl-11 pr-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-text-primary"
                                placeholder="https://..."
                              />
                           </div>
@@ -203,13 +203,13 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
           )}
 
           {activeTab === "analytics" && (
-            <div className="space-y-10">
-                <div className="space-y-8">
-                  <h3 className="text-lg font-bold uppercase tracking-tight text-text-primary flex items-center gap-3">
-                    <Activity size={20} className="text-brand" /> Tracking & Analytics
+            <div className="space-y-6">
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-text-primary flex items-center gap-2 pb-2 border-b border-stroke/50">
+                    <Activity size={16} className="text-brand" /> Tracking & Analytics
                   </h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                      {[
                        { key: "gtmId", label: "Google Tag Manager (GTM-XXXX)", placeholder: "GTM-XXXXXXX", icon: Zap },
                        { key: "gaId", label: "Google Analytics 4 (G-XXXX)", placeholder: "G-XXXXXXXXX", icon: BarChart3 },
@@ -225,26 +225,26 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
                        { key: "hotjarId", label: "Hotjar Site ID", placeholder: "1234567", icon: Activity },
                        { key: "clarityId", label: "Microsoft Clarity ID", placeholder: "abcdefghij", icon: Activity }
                      ].map(item => (
-                       <div key={item.key} className="space-y-3">
-                          <label className="text-[10px] font-bold uppercase text-text-muted px-2">{item.label}</label>
+                       <div key={item.key} className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase text-text-muted px-1">{item.label}</label>
                           <div className="relative">
-                             <item.icon size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+                             <item.icon size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                              <input 
                                type="text" 
                                value={data[item.key] || ""} 
                                onChange={e => setData({...data, [item.key]: e.target.value})}
-                               className="w-full h-14 bg-surface border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all"
+                               className="w-full h-11 bg-surface border border-stroke rounded-xl pl-11 pr-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-text-primary"
                                placeholder={item.placeholder}
                              />
                           </div>
                        </div>
                      ))}
                   </div>
-                  <div className="p-6 bg-brand/5 border border-brand/10 rounded-2xl">
+                  <div className="p-4 bg-brand/5 border border-brand/10 rounded-xl mt-4">
                      <p className="text-[10px] font-bold uppercase text-brand flex items-center gap-2">
                         <Shield size={14} /> Compliance Note
                      </p>
-                     <p className="text-[11px] text-text-muted mt-2 leading-relaxed">
+                     <p className="text-[11px] text-text-muted mt-1 leading-relaxed">
                         These trackers will only initialize if the user provides explicit consent via the Cookie Consent banner. Ensure your Privacy Policy is updated accordingly.
                      </p>
                   </div>

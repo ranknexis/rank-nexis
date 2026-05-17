@@ -7,7 +7,7 @@ export default async function UsersPage() {
     const users = res.users || [];
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-6">
 
 
             <UsersList initialUsers={JSON.parse(JSON.stringify(users))} />

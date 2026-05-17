@@ -422,7 +422,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                     </div>
 
                     <div className="flex items-center justify-center gap-6 pt-6 border-t border-stroke">
-                       <p className="text-[10px] font-black uppercase text-text-muted tracking-widest">Custom components available via technical sync.</p>
+                       <p className="text-[10px] font-black uppercase text-text-muted tracking-widest">Custom sections can be requested via support.</p>
                     </div>
                  </div>
               </motion.div>

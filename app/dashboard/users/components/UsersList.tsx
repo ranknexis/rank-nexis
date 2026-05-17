@@ -1,19 +1,19 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { 
-    UserPlus, 
-    Trash2, 
-    Mail, 
-    Shield, 
-    ShieldAlert, 
-    CheckCircle2, 
+import { createUser, deleteUser, updateUserPermissions } from "@/actions/users";
+import {
+    Check,
+    CheckCircle2,
     Fingerprint,
+    Mail,
     Save,
     Settings2,
-    Check
+    Shield,
+    ShieldAlert,
+    Trash2,
+    UserPlus
 } from "lucide-react";
-import { createUser, deleteUser, updateUserPermissions } from "@/actions/users";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import ConfirmationModal from "../../components/ConfirmationModal";
 
@@ -84,7 +84,6 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                 ? JSON.parse(user.permissions || "[]") 
                 : (user.permissions as any) || [];
 
-        // If the permissions list was empty, we pre-populate with default team permissions first
         const currentPerms = (user.role === "TEAM_MEMBER" && rawPerms.length === 0) 
             ? DEFAULT_TEAM_MEMBER_PERMISSIONS 
             : rawPerms;
@@ -107,7 +106,6 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                     ? JSON.parse(user.permissions || "[]") 
                     : (user.permissions as any) || [];
             
-            // Handle saving permissions properly when utilizing the smart default
             const perms = (user.role === "TEAM_MEMBER" && rawPerms.length === 0)
                 ? DEFAULT_TEAM_MEMBER_PERMISSIONS
                 : rawPerms;
@@ -125,8 +123,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
     return (
         <div className="space-y-6">
             
-            {/* Unified Page Header */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-stroke pb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-stroke pb-4">
                 <div className="space-y-1">
                     <h1 className="text-3xl font-extrabold uppercase tracking-tight text-text-primary">Users & Roles</h1>
                     <p className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Invite administrators and team members, and manage their workspace permissions.</p>
@@ -142,7 +139,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
             </div>
 
             {isAdding && (
-                <div className="bg-white border border-stroke p-6 rounded-2xl shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
+                <div className="bg-white border border-stroke p-5 rounded-xl shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
                     <form onSubmit={handleAddUser} className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="space-y-2">
                             <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Full Name</label>
@@ -188,7 +185,6 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                 </div>
             )}
 
-            {/* Users Table */}
             <div className="bg-white border border-stroke rounded-2xl overflow-hidden shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left table-fixed">
@@ -209,15 +205,14 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                         ? JSON.parse(user.permissions || "[]") 
                                         : (user.permissions as any) || [];
                                 
-                                 // Smart Default UI state: if empty permissions list and user is TEAM_MEMBER, default standard team roles are rendered active
                                  const userPerms = (user.role === "TEAM_MEMBER" && rawPerms.length === 0) 
                                     ? DEFAULT_TEAM_MEMBER_PERMISSIONS 
                                     : rawPerms;
                                 
                                 return (
                                     <React.Fragment key={user.id}>
-                                        <tr className="group">
-                                            <td className={`px-8 py-4 transition-colors ${isExpanded ? 'bg-surface/50' : 'group-hover:bg-surface/30'}`}>
+                                        <tr className={`group transition-colors ${isExpanded ? 'bg-surface/50' : 'hover:bg-surface/30'}`}>
+                                            <td className="px-8 py-4">
                                                 <div className="flex items-center gap-4 min-w-0">
                                                     <div className="w-9 h-9 rounded-xl bg-brand/5 border border-brand/10 flex items-center justify-center text-brand font-black text-xs uppercase shrink-0">
                                                         {user.name?.substring(0, 2) || "??"}
@@ -228,7 +223,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className={`px-8 py-4 transition-colors ${isExpanded ? 'bg-surface/50' : 'group-hover:bg-surface/30'}`}>
+                                            <td className="px-8 py-4">
                                                 <div className="flex items-center gap-2">
                                                     {user.role === "ADMIN" ? (
                                                         <ShieldAlert size={14} className="text-brand shrink-0" />
@@ -240,7 +235,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td className={`px-8 py-4 transition-colors ${isExpanded ? 'bg-surface/50' : 'group-hover:bg-surface/30'}`}>
+                                            <td className="px-8 py-4">
                                                 {user.passwordSet ? (
                                                     <div className="flex items-center gap-1.5 text-emerald-500">
                                                         <CheckCircle2 size={14} className="shrink-0" />
@@ -253,7 +248,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className={`px-8 py-4 text-right transition-colors ${isExpanded ? 'bg-surface/50' : 'group-hover:bg-surface/30'}`}>
+                                            <td className="px-8 py-4 text-right">
                                                 <div className="flex items-center justify-end gap-2">
                                                     <button 
                                                         type="button"
@@ -277,8 +272,8 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                         
                                         {isExpanded && (
                                             <tr>
-                                                <td colSpan={4} className="px-8 py-8 bg-surface/30">
-                                                    <div className="max-w-4xl space-y-6 animate-in fade-in slide-in-from-left-4 duration-300">
+                                                <td colSpan={4} className="px-6 py-6 bg-surface/30">
+                                                    <div className="max-w-4xl space-y-5 animate-in fade-in slide-in-from-left-4 duration-300">
                                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                                             <div className="flex items-center gap-3">
                                                                 <div className="p-2 bg-brand/5 rounded-xl border border-brand/10 text-brand shrink-0">
@@ -291,7 +286,6 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                             </div>
                                                             
                                                             <div className="flex flex-wrap items-center gap-2">
-                                                                {/* Dynamic Helper Buttons for Permissions Selection */}
                                                                 <button 
                                                                     type="button"
                                                                     onClick={() => {
@@ -341,7 +335,7 @@ export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
                                                                 return (
                                                                     <label 
                                                                         key={perm.id} 
-                                                                        className={`flex items-start gap-3 p-4 rounded-xl border transition-all cursor-pointer group ${
+                                                                        className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer group ${
                                                                             isChecked 
                                                                             ? "bg-white border-brand shadow-sm scale-[1.01]" 
                                                                             : "bg-white/50 border-stroke hover:border-brand/30"

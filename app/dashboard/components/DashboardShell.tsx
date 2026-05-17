@@ -1,32 +1,30 @@
 "use client";
 
 import { logout } from "@/actions/auth";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-   Activity,
-   BarChart3,
-   Briefcase,
-   ChevronRight,
-   FileCode,
-   FileText,
-   LayoutDashboard,
-   LogOut,
-   Menu,
-   MessageSquare,
-   Settings,
-   UserCircle,
-   Users,
-   X,
-   Zap,
-   Star,
-   PanelLeftClose,
-   PanelLeftOpen,
-   ChevronUp,
-   ChevronDown
+  Activity,
+  BarChart3,
+  Briefcase,
+  ChevronUp,
+  FileCode,
+  FileText,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  MessageSquare,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Settings,
+  Star,
+  UserCircle,
+  Users,
+  X,
+  Zap
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 
 export default function DashboardShell({ 
@@ -50,7 +48,6 @@ export default function DashboardShell({
   }, [session, pathname, router]);
 
   useEffect(() => {
-    // Keep active sidebar navigation tab visible on scroll
     const activeEl = document.querySelector('.active-nav-link');
     if (activeEl) {
       activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -99,7 +96,6 @@ export default function DashboardShell({
 
   const SidebarContent = ({ isMobile = false }) => (
     <div className="flex flex-col h-full bg-white relative overflow-x-hidden">
-      {/* Header */}
       <div className={`mb-2 ${isCollapsed && !isMobile ? "py-6 px-0 flex justify-center" : "p-6"}`}>
          <div className={`flex items-center ${isCollapsed && !isMobile ? "justify-center" : "gap-3"}`}>
             <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand/20 shrink-0">
@@ -118,7 +114,6 @@ export default function DashboardShell({
          </div>
       </div>
  
-      {/* Navigation */}
       <nav className={`flex flex-col space-y-1 overflow-y-auto overflow-x-hidden custom-scrollbar ${isCollapsed && !isMobile ? "px-0 items-center" : "px-3"}`}>
          {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
@@ -155,7 +150,6 @@ export default function DashboardShell({
                    </div>
                  )}
  
-                 {/* Tooltip for collapsed state */}
                  {isCollapsed && !isMobile && (
                    <div className="absolute left-full ml-4 px-2 py-1 bg-text-primary text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 whitespace-nowrap">
                      {item.label}
@@ -166,7 +160,6 @@ export default function DashboardShell({
          })}
       </nav>
  
-      {/* Footer / User Dropdown */}
       <div className={`mt-auto border-t border-stroke relative ${isCollapsed && !isMobile ? "p-2 px-0 flex justify-center" : "p-3"}`}>
          <AnimatePresence>
             {showUserDropdown && (
@@ -209,7 +202,7 @@ export default function DashboardShell({
             </div>
             {(!isCollapsed || isMobile) && (
                <div className="min-w-0 text-left flex-grow">
-                  <p className="text-xs font-bold text-text-primary truncate">{session?.name || session?.email?.split('@')[0] || (role === "ADMIN" ? "Administrator" : "Team Member")}</p>
+                  <p className="text-xs font-bold text-text-primary truncate">{session?.name || session?.email?.split('@')[0] || "User"}</p>
                   <p className="text-[9px] text-text-muted truncate capitalize">{role.toLowerCase().replace('_', ' ')}</p>
                </div>
             )}
@@ -221,7 +214,6 @@ export default function DashboardShell({
          </button>
       </div>
  
-      {/* Collapse Toggle Button (Desktop) */}
       {!isMobile && (
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -235,7 +227,6 @@ export default function DashboardShell({
 
   return (
     <div className="min-h-screen bg-surface flex flex-col md:flex-row overflow-hidden font-sans">
-      {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between p-4 border-b border-stroke bg-white sticky top-0 z-30">
          <div className="flex items-center gap-3">
             <Zap size={24} className="text-brand" fill="currentColor" />
@@ -249,7 +240,6 @@ export default function DashboardShell({
          </button>
       </div>
 
-      {/* Desktop Sidebar */}
       <aside 
         className={`hidden md:flex border-r border-stroke flex-col h-screen sticky top-0 z-20 shrink-0 bg-white transition-all duration-300 ease-in-out overflow-x-hidden ${
           isCollapsed ? "w-16" : "w-64"
@@ -258,7 +248,6 @@ export default function DashboardShell({
         <SidebarContent />
       </aside>
 
-      {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
@@ -282,7 +271,6 @@ export default function DashboardShell({
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
       <main className="flex-grow h-screen overflow-y-auto bg-surface/30 relative">
          <div className="max-w-[1600px] mx-auto p-4 sm:p-6 md:p-8">
             {children}

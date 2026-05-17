@@ -85,109 +85,109 @@ export default function JobEditor({ initialData }: { initialData: any }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <div className="lg:col-span-3 space-y-6">
-        <div className="bg-white rounded-[2rem] border border-stroke p-6 shadow-sm space-y-2">
+        <div className="bg-white rounded-2xl border border-stroke p-4 shadow-sm space-y-1.5">
            {tabs.map(tab => (
              <button 
               type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all text-[11px] font-bold uppercase tracking-tight ${
+              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-xs font-bold uppercase tracking-tight ${
                 activeTab === tab.id 
                   ? "bg-brand text-white shadow-lg shadow-brand/20" 
                   : "bg-surface text-text-muted hover:bg-brand/5 hover:text-brand"
               }`}
             >
-              <tab.icon size={18} /> {tab.label}
+              <tab.icon size={16} /> {tab.label}
             </button>
            ))}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <button 
             type="button"
             onClick={handleSave}
             disabled={loading}
-            className="w-full h-16 bg-brand text-white rounded-2xl text-[11px] font-bold uppercase hover:bg-brand-hover transition-all shadow-xl flex items-center justify-center gap-3 disabled:opacity-50"
+            className="w-full h-11 bg-brand text-white rounded-xl text-xs font-bold uppercase hover:bg-brand-hover transition-all shadow-xl flex items-center justify-center gap-2.5 disabled:opacity-50"
           >
-            <Save size={18} /> {loading ? "Saving..." : "Save Job Opening"}
+            <Save size={16} /> {loading ? "Saving..." : "Save Job Opening"}
           </button>
           
-          <Link href="/dashboard/careers" className="w-full h-16 bg-white border border-stroke text-text-muted rounded-2xl text-[11px] font-bold uppercase hover:bg-surface transition-all flex items-center justify-center gap-3">
-            <ArrowLeft size={18} /> Back to Careers
+          <Link href="/dashboard/careers" className="w-full h-11 bg-white border border-stroke text-text-muted rounded-xl text-xs font-bold uppercase hover:bg-surface transition-all flex items-center justify-center gap-2.5">
+            <ArrowLeft size={16} /> Back to Careers
           </Link>
 
           {initialData?.id && (
              <button 
               type="button"
               onClick={() => setShowDeleteConfirm(true)}
-              className="w-full h-16 bg-white border border-red-100 text-red-500 rounded-2xl text-[11px] font-bold uppercase hover:bg-red-50 transition-all flex items-center justify-center gap-3"
+              className="w-full h-11 bg-white border border-stroke text-red-500 rounded-xl text-xs font-bold uppercase hover:bg-red-50 transition-all flex items-center justify-center gap-2.5"
             >
-              <Trash2 size={18} /> Delete Job
+              <Trash2 size={16} /> Delete Job
             </button>
           )}
         </div>
       </div>
 
       <div className="lg:col-span-9">
-         <div className="bg-white rounded-[2rem] border border-stroke shadow-sm overflow-hidden">
+         <div className="bg-white rounded-2xl border border-stroke shadow-sm overflow-hidden">
             
             {activeTab === "overview" && (
-              <div className="p-8 sm:p-10 space-y-8">
-                 <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase text-text-muted px-2">Job Title</label>
+              <div className="p-5 sm:p-6 space-y-6">
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-text-muted px-1">Job Title</label>
                     <input 
                       type="text" 
                       value={data.title} 
                       onChange={e => setData({...data, title: e.target.value})}
                       placeholder="e.g. Senior SEO Strategist"
-                      className="w-full h-16 bg-surface border border-stroke rounded-2xl px-6 text-xl font-bold focus:outline-none focus:border-brand transition-all text-text-primary"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-sm font-semibold focus:outline-none focus:border-brand transition-all text-text-primary"
                     />
                  </div>
 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-3">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Location</label>
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-1">Location</label>
                         <div className="relative">
-                           <MapPin size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+                           <MapPin size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                            <input 
                             type="text" 
                             value={data.location} 
                             onChange={e => setData({...data, location: e.target.value})}
                             placeholder="e.g. Dhaka (Hybrid) / Remote"
-                            className="w-full h-14 bg-surface border border-stroke rounded-xl pl-16 pr-6 text-sm font-semibold focus:outline-none focus:border-brand transition-all text-text-primary"
+                            className="w-full h-11 bg-surface border border-stroke rounded-xl pl-10 pr-4 text-sm font-semibold focus:outline-none focus:border-brand transition-all text-text-primary"
                           />
                         </div>
                     </div>
-                    <div className="space-y-3">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Job Type</label>
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-1">Job Type</label>
                         <div className="relative">
-                           <Clock size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+                           <Clock size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                            <select 
                             value={data.type}
                             onChange={e => setData({...data, type: e.target.value})}
-                            className="w-full h-14 bg-surface border border-stroke rounded-xl pl-16 pr-10 text-sm font-semibold focus:outline-none focus:border-brand transition-all appearance-none text-text-primary"
+                            className="w-full h-11 bg-surface border border-stroke rounded-xl pl-10 pr-8 text-sm font-semibold focus:outline-none focus:border-brand transition-all appearance-none text-text-primary cursor-pointer"
                            >
                              <option value="FULL_TIME">Full Time</option>
                              <option value="PART_TIME">Part Time</option>
                              <option value="CONTRACT">Contract</option>
                              <option value="INTERN">Internship</option>
                            </select>
-                           <div className="absolute right-6 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none">
-                             <Clock size={14} className="rotate-180" />
+                           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none">
+                             <Clock size={12} className="rotate-180" />
                            </div>
                         </div>
                     </div>
                  </div>
 
-                 <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase text-text-muted px-2">Job Description</label>
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase text-text-muted px-1">Job Description</label>
                     <textarea 
                       value={data.description} 
                       onChange={e => setData({...data, description: e.target.value})}
                       rows={6}
-                      className="w-full bg-surface border border-stroke rounded-2xl p-6 text-sm leading-relaxed focus:outline-none focus:border-brand transition-all text-text-primary"
+                      className="w-full bg-surface border border-stroke rounded-xl p-4 text-sm leading-relaxed focus:outline-none focus:border-brand transition-all text-text-primary"
                       placeholder="Write a clear and engaging job description here..."
                     />
                  </div>
@@ -195,11 +195,11 @@ export default function JobEditor({ initialData }: { initialData: any }) {
             )}
 
             {activeTab === "protocol" && (
-              <div className="p-8 sm:p-10 space-y-10">
-                 <div className="space-y-8">
-                    <div className="space-y-6">
-                      <h3 className="text-sm font-bold text-text-primary flex items-center gap-3">
-                        <Zap size={18} className="text-brand" /> Core Responsibilities
+              <div className="p-5 sm:p-6 space-y-6">
+                 <div className="space-y-6">
+                    <div className="space-y-4">
+                      <h3 className="text-sm font-bold text-text-primary flex items-center gap-2">
+                        <Zap size={16} className="text-brand" /> Core Responsibilities
                       </h3>
                       <RepeaterField 
                         label="Responsibilities"
@@ -211,16 +211,16 @@ export default function JobEditor({ initialData }: { initialData: any }) {
                             type="text"
                             value={item}
                             onChange={e => update(e.target.value)}
-                            className="w-full h-12 bg-white border border-stroke rounded-xl px-6 text-sm font-medium focus:outline-none focus:border-brand transition-all text-text-primary"
+                            className="w-full h-11 bg-white border border-stroke rounded-xl px-4 text-sm font-medium focus:outline-none focus:border-brand transition-all text-text-primary"
                             placeholder="Add a responsibility..."
                           />
                         )}
                       />
                     </div>
 
-                    <div className="space-y-6 pt-8 border-t border-stroke">
-                      <h3 className="text-sm font-bold text-text-primary flex items-center gap-3">
-                        <CheckCircle2 size={18} className="text-brand" /> Job Requirements
+                    <div className="space-y-4 pt-5 border-t border-stroke">
+                      <h3 className="text-sm font-bold text-text-primary flex items-center gap-2">
+                        <CheckCircle2 size={16} className="text-brand" /> Job Requirements
                       </h3>
                       <RepeaterField 
                         label="Requirements"
@@ -232,16 +232,16 @@ export default function JobEditor({ initialData }: { initialData: any }) {
                             type="text"
                             value={item}
                             onChange={e => update(e.target.value)}
-                            className="w-full h-12 bg-white border border-stroke rounded-xl px-6 text-sm font-medium focus:outline-none focus:border-brand transition-all text-text-primary"
+                            className="w-full h-11 bg-white border border-stroke rounded-xl px-4 text-sm font-medium focus:outline-none focus:border-brand transition-all text-text-primary"
                             placeholder="Add a requirement..."
                           />
                         )}
                       />
                     </div>
 
-                    <div className="space-y-6 pt-8 border-t border-stroke">
-                      <h3 className="text-sm font-bold text-text-primary flex items-center gap-3">
-                        <Gift size={18} className="text-brand" /> Benefits & Perks
+                    <div className="space-y-4 pt-5 border-t border-stroke">
+                      <h3 className="text-sm font-bold text-text-primary flex items-center gap-2">
+                        <Gift size={16} className="text-brand" /> Benefits & Perks
                       </h3>
                       <RepeaterField 
                         label="Benefits"
@@ -253,7 +253,7 @@ export default function JobEditor({ initialData }: { initialData: any }) {
                             type="text"
                             value={item}
                             onChange={e => update(e.target.value)}
-                            className="w-full h-12 bg-white border border-stroke rounded-xl px-6 text-sm font-medium focus:outline-none focus:border-brand transition-all text-text-primary"
+                            className="w-full h-11 bg-white border border-stroke rounded-xl px-4 text-sm font-medium focus:outline-none focus:border-brand transition-all text-text-primary"
                             placeholder="Add a benefit..."
                           />
                         )}
@@ -264,34 +264,34 @@ export default function JobEditor({ initialData }: { initialData: any }) {
             )}
 
             {activeTab === "settings" && (
-              <div className="p-8 sm:p-10 space-y-8">
+              <div className="p-5 sm:p-6 space-y-6">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-3">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">URL Slug</label>
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-1">URL Slug</label>
                         <div className="relative">
-                          <Link2 size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+                          <Link2 size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                           <input 
                             type="text" 
                             value={data.slug} 
                             onChange={e => setData({...data, slug: e.target.value})}
-                            className="w-full h-14 bg-surface border border-stroke rounded-xl pl-16 pr-6 text-sm font-semibold focus:outline-none focus:border-brand transition-all text-text-primary"
+                            className="w-full h-11 bg-surface border border-stroke rounded-xl pl-10 pr-4 text-sm font-semibold focus:outline-none focus:border-brand transition-all text-text-primary"
                           />
                         </div>
                     </div>
 
-                    <div className="space-y-3">
-                        <label className="text-[10px] font-bold uppercase text-text-muted px-2">Job Status</label>
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-text-muted px-1">Job Status</label>
                         <button 
                           type="button"
                           onClick={() => setData({...data, active: !data.active})}
-                          className={`w-full h-14 rounded-xl border flex items-center justify-center cursor-pointer transition-all gap-3 text-sm font-bold uppercase tracking-wider ${
+                          className={`w-full h-11 rounded-xl border flex items-center justify-center cursor-pointer transition-all gap-2 text-xs font-bold uppercase tracking-wider ${
                             data.active 
                               ? "bg-brand/5 border-brand/20 text-brand" 
                               : "bg-surface border-stroke text-text-muted"
                           }`}
                         >
-                           <CheckCircle2 size={16} />
-                           <span>{data.active ? "Active (Visible on site)" : "Draft (Hidden)"}</span>
+                           <CheckCircle2 size={14} />
+                           <span>{data.active ? "Active (Visible)" : "Draft (Hidden)"}</span>
                         </button>
                     </div>
                  </div>

@@ -23,11 +23,11 @@ export default async function AdminSettingsPage() {
   };
 
   return (
-    <div className="space-y-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-stroke pb-8">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold uppercase tracking-tighter text-text-primary">Global <span className="text-brand">Configurations.</span></h1>
-          <p className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Master control for platform branding and environmental parameters.</p>
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stroke pb-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-tight text-text-primary">Website <span className="text-brand">Settings.</span></h1>
+          <p className="text-[9px] font-bold uppercase text-text-muted tracking-wider">Manage your website settings, branding details, and contact options.</p>
         </div>
       </div>
 
