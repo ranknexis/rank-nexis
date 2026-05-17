@@ -8,7 +8,7 @@ export async function POST(req: Request) {
 
         if (!name || !email || !message) {
             return NextResponse.json(
-                { error: "Missing required fields" },
+                { success: false, error: "Missing required fields" },
                 { status: 400 }
             );
         }
@@ -30,9 +30,8 @@ export async function POST(req: Request) {
     } catch (error) {
         
         return NextResponse.json(
-            { error: "Internal Server Error" },
+            { success: false, error: "Internal Server Error" },
             { status: 500 }
         );
     }
 }
-

@@ -9,7 +9,7 @@ import { createAuditLog } from "./audit";
 
 export async function getAllUsers() {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    if (!session || session.role !== "ADMIN") return { success: false, error: "Unauthorized" };
 
     try {
         const users = await prisma.user.findMany({
@@ -18,20 +18,19 @@ export async function getAllUsers() {
             },
             orderBy: { createdAt: 'desc' }
         });
-        return { success: true, users };
+        return { success: true, users, data: users };
     } catch (error) {
-        return { error: "Failed to fetch users" };
+        return { success: false, error: "Failed to fetch users" };
     }
 }
 
 export async function createUser(data: { name: string; email: string; role: string }) {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    if (!session || session.role !== "ADMIN") return { success: false, error: "Unauthorized" };
 
     try {
-        
         const existing = await prisma.user.findUnique({ where: { email: data.email } });
-        if (existing) return { error: "User already exists" };
+        if (existing) return { success: false, error: "User already exists" };
 
         const defaultPassword = "RankNexis@2026";
         const hashedPassword = await bcrypt.hash(defaultPassword, 10);
@@ -43,7 +42,6 @@ export async function createUser(data: { name: string; email: string; role: stri
                 role: data.role,
                 password: hashedPassword,
                 passwordSet: true,
-                
                 permissions: data.role === "ADMIN" ? ["all"] : ["manage_blog", "manage_work", "manage_own_content"]
             }
         });
@@ -71,16 +69,15 @@ export async function createUser(data: { name: string; email: string; role: stri
         revalidatePath("/team");
         revalidatePath("/about");
         revalidatePath("/");
-        return { success: true, user };
+        return { success: true, user, data: user };
     } catch (error) {
-        
-        return { error: "Failed to create user" };
+        return { success: false, error: "Failed to create user" };
     }
 }
 
 export async function updateUserRole(userId: string, role: string) {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    if (!session || session.role !== "ADMIN") return { success: false, error: "Unauthorized" };
 
     try {
         const user = await prisma.user.update({
@@ -94,13 +91,13 @@ export async function updateUserRole(userId: string, role: string) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        return { error: "Failed to update user" };
+        return { success: false, error: "Failed to update user" };
     }
 }
 
 export async function updateUserPermissions(userId: string, permissions: string[]) {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    if (!session || session.role !== "ADMIN") return { success: false, error: "Unauthorized" };
 
     try {
         const user = await prisma.user.update({
@@ -114,13 +111,13 @@ export async function updateUserPermissions(userId: string, permissions: string[
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        return { error: "Failed to update permissions" };
+        return { success: false, error: "Failed to update permissions" };
     }
 }
 
 export async function updateUser(userId: string, data: { name?: string; email?: string; role?: string }) {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    if (!session || session.role !== "ADMIN") return { success: false, error: "Unauthorized" };
 
     try {
         if (data.email) {
@@ -130,7 +127,7 @@ export async function updateUser(userId: string, data: { name?: string; email?: 
                     NOT: { id: userId }
                 }
             });
-            if (existing) return { error: "Email address is already in use" };
+            if (existing) return { success: false, error: "Email address is already in use" };
         }
 
         const user = await prisma.user.update({
@@ -147,15 +144,15 @@ export async function updateUser(userId: string, data: { name?: string; email?: 
         revalidatePath("/team");
         revalidatePath("/about");
         revalidatePath("/");
-        return { success: true, user };
+        return { success: true, user, data: user };
     } catch (error) {
-        return { error: "Failed to update user profile" };
+        return { success: false, error: "Failed to update user profile" };
     }
 }
 
 export async function deleteUser(userId: string) {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    if (!session || session.role !== "ADMIN") return { success: false, error: "Unauthorized" };
 
     try {
         const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -169,7 +166,7 @@ export async function deleteUser(userId: string) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        return { error: "Failed to delete user" };
+        return { success: false, error: "Failed to delete user" };
     }
 }
 

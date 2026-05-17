@@ -55,7 +55,15 @@ export async function updateTestimonial(id: string, data: any) {
   try {
     const testimonial = await prisma.testimonial.update({
       where: { id },
-      data
+      data: {
+        name: data.name,
+        role: data.role,
+        company: data.company,
+        content: data.content,
+        image: data.image,
+        rating: data.rating,
+        status: data.status
+      }
     });
     revalidatePath('/dashboard/feedback');
     revalidatePath('/');

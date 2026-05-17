@@ -8,7 +8,7 @@ export async function createCaseStudy(data: any) {
     const session = await getSession();
     const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
     const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_work");
-    if (!session || !hasPermission) return { error: "Unauthorized" };
+    if (!session || !hasPermission) return { success: false, error: "Unauthorized" };
 
     const authorId = session.role === "ADMIN" ? data.authorId : session.id;
 
@@ -34,25 +34,25 @@ export async function createCaseStudy(data: any) {
         revalidatePath("/work");
         revalidatePath("/dashboard/work");
         revalidatePath("/");
-        return { success: true, caseStudy };
+        return { success: true, caseStudy, data: caseStudy };
     } catch (error) {
-        return { error: "Failed to create case study." };
+        return { success: false, error: "Failed to create case study." };
     }
 }
 
 export async function updateCaseStudy(id: string, data: any) {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    if (!session) return { success: false, error: "Unauthorized" };
 
     try {
         const existing = await prisma.caseStudy.findUnique({ where: { id } });
-        if (!existing) return { error: "Case study not found" };
+        if (!existing) return { success: false, error: "Case study not found" };
 
         const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
         const hasManageWork = session.role === "ADMIN" || userPermissions.includes("manage_work");
 
         if (!hasManageWork && existing.authorId !== session.id) {
-            return { error: "Permission denied" };
+            return { success: false, error: "Permission denied" };
         }
 
         const caseStudy = await prisma.caseStudy.update({
@@ -79,25 +79,25 @@ export async function updateCaseStudy(id: string, data: any) {
         revalidatePath("/work/[slug]", "layout");
         revalidatePath("/dashboard/work");
         revalidatePath("/");
-        return { success: true, caseStudy };
+        return { success: true, caseStudy, data: caseStudy };
     } catch (error) {
-        return { error: "Failed to update case study." };
+        return { success: false, error: "Failed to update case study." };
     }
 }
 
 export async function deleteCaseStudy(id: string) {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    if (!session) return { success: false, error: "Unauthorized" };
 
     try {
         const existing = await prisma.caseStudy.findUnique({ where: { id } });
-        if (!existing) return { error: "Case study not found" };
+        if (!existing) return { success: false, error: "Case study not found" };
 
         const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
         const hasManageWork = session.role === "ADMIN" || userPermissions.includes("manage_work");
 
         if (!hasManageWork && existing.authorId !== session.id) {
-            return { error: "Permission denied" };
+            return { success: false, error: "Permission denied" };
         }
 
         await prisma.caseStudy.delete({ where: { id } });
@@ -106,7 +106,6 @@ export async function deleteCaseStudy(id: string) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Failed to delete case study." };
+        return { success: false, error: "Failed to delete case study." };
     }
 }

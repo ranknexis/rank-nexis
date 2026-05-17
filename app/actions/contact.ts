@@ -11,7 +11,7 @@ export async function submitContactForm(formData: FormData) {
     const message = formData.get("message") as string;
 
     if (!name || !email || !message) {
-        return { error: "Missing required identification or mission objectives." };
+        return { success: false, error: "Missing required identification or mission objectives." };
     }
 
     try {
@@ -29,7 +29,6 @@ export async function submitContactForm(formData: FormData) {
         revalidatePath("/dashboard/leads");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Transmission error. Please verify your connection and retry." };
+        return { success: false, error: "Transmission error. Please verify your connection and retry." };
     }
 }

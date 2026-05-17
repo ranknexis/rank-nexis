@@ -17,7 +17,7 @@ export async function createBlogPost(data: {
     const session = await getSession();
     const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
     const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_blog");
-    if (!session || !hasPermission) return { error: "Unauthorized" };
+    if (!session || !hasPermission) return { success: false, error: "Unauthorized" };
 
     const finalAuthorId = session.role === "ADMIN" ? data.authorId : session.id;
 
@@ -39,24 +39,23 @@ export async function createBlogPost(data: {
         revalidatePath("/");
         return { success: true, data: post };
     } catch (error) {
-        
-        return { error: "Failed to create blog post." };
+        return { success: false, error: "Failed to create blog post." };
     }
 }
 
 export async function updateBlogPost(id: string, data: any) {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    if (!session) return { success: false, error: "Unauthorized" };
 
     try {
         const existing = await prisma.blog.findUnique({ where: { id } });
-        if (!existing) return { error: "Post not found" };
+        if (!existing) return { success: false, error: "Post not found" };
         
         const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
         const hasManageBlog = session.role === "ADMIN" || userPermissions.includes("manage_blog");
 
         if (!hasManageBlog && existing.authorId !== session.id) {
-            return { error: "Permission denied" };
+            return { success: false, error: "Permission denied" };
         }
 
         const post = await prisma.blog.update({
@@ -80,23 +79,23 @@ export async function updateBlogPost(id: string, data: any) {
         revalidatePath("/blog", "page");
         return { success: true, data: post };
     } catch (error) {
-        return { error: "Failed to update blog post." };
+        return { success: false, error: "Failed to update blog post." };
     }
 }
 
 export async function deleteBlogPost(id: string) {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    if (!session) return { success: false, error: "Unauthorized" };
 
     try {
         const existing = await prisma.blog.findUnique({ where: { id } });
-        if (!existing) return { error: "Post not found" };
+        if (!existing) return { success: false, error: "Post not found" };
         
         const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
         const hasManageBlog = session.role === "ADMIN" || userPermissions.includes("manage_blog");
 
         if (!hasManageBlog && existing.authorId !== session.id) {
-            return { error: "Permission denied" };
+            return { success: false, error: "Permission denied" };
         }
 
         await prisma.blog.delete({ where: { id } });
@@ -105,8 +104,7 @@ export async function deleteBlogPost(id: string) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Failed to delete blog post." };
+        return { success: false, error: "Failed to delete blog post." };
     }
 }
 
@@ -114,14 +112,14 @@ export async function createBlogCategory(data: { name: string; slug: string }) {
     const session = await getSession();
     const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
     const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_blog");
-    if (!session || !hasPermission) return { error: "Unauthorized" };
+    if (!session || !hasPermission) return { success: false, error: "Unauthorized" };
 
     try {
         const category = await prisma.blogCategory.create({ data });
         revalidatePath("/dashboard/blog");
         return { success: true, data: category };
     } catch (error) {
-        return { error: "Failed to create category." };
+        return { success: false, error: "Failed to create category." };
     }
 }
 
@@ -129,7 +127,7 @@ export async function updateBlogCategory(id: string, data: any) {
     const session = await getSession();
     const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
     const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_blog");
-    if (!session || !hasPermission) return { error: "Unauthorized" };
+    if (!session || !hasPermission) return { success: false, error: "Unauthorized" };
 
     try {
         const category = await prisma.blogCategory.update({
@@ -139,7 +137,7 @@ export async function updateBlogCategory(id: string, data: any) {
         revalidatePath("/dashboard/blog");
         return { success: true, data: category };
     } catch (error) {
-        return { error: "Failed to update category." };
+        return { success: false, error: "Failed to update category." };
     }
 }
 
@@ -147,16 +145,16 @@ export async function deleteBlogCategory(id: string) {
     const session = await getSession();
     const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
     const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_blog");
-    if (!session || !hasPermission) return { error: "Unauthorized" };
+    if (!session || !hasPermission) return { success: false, error: "Unauthorized" };
 
     try {
         const blogsCount = await prisma.blog.count({ where: { categoryId: id } });
-        if (blogsCount > 0) return { error: "Category is not empty. Reassign blogs first." };
+        if (blogsCount > 0) return { success: false, error: "Category is not empty. Reassign blogs first." };
 
         await prisma.blogCategory.delete({ where: { id } });
         revalidatePath("/dashboard/blog");
         return { success: true };
     } catch (error) {
-        return { error: "Failed to delete category." };
+        return { success: false, error: "Failed to delete category." };
     }
 }

@@ -19,18 +19,18 @@ export async function loginUser(data: { email: string; password: string }) {
         });
 
         if (!user) {
-            return { error: "Invalid credentials" };
+            return { success: false, error: "Invalid credentials" };
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return { error: "Invalid credentials" };
+            return { success: false, error: "Invalid credentials" };
         }
 
         const allowedRoles = ["ADMIN", "TEAM_MEMBER"];
         if (!allowedRoles.includes(user.role)) {
-            return { error: "Unauthorized access" };
+            return { success: false, error: "Unauthorized access" };
         }
 
         await libLogin({
@@ -43,7 +43,7 @@ export async function loginUser(data: { email: string; password: string }) {
 
         shouldRedirect = true;
     } catch (error) {
-        return { error: "Authentication failed" };
+        return { success: false, error: "Authentication failed" };
     }
 
     if (shouldRedirect) {
@@ -92,7 +92,7 @@ export async function forgotPassword(email: string) {
         return { success: true };
     } catch (error) {
         
-        return { error: "Failed to process request" };
+        return { success: false, error: "Failed to process request" };
     }
 }
 
@@ -103,7 +103,7 @@ export async function resetPassword(token: string, password: string) {
         });
 
         if (!resetToken || resetToken.expiresAt < new Date()) {
-            return { error: "Invalid or expired token" };
+            return { success: false, error: "Invalid or expired token" };
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -120,20 +120,20 @@ export async function resetPassword(token: string, password: string) {
 
         return { success: true };
     } catch (error) {
-        return { error: "Failed to reset password" };
+        return { success: false, error: "Failed to reset password" };
     }
 }
 
 export async function changePassword(data: { old: string; new: string }) {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    if (!session) return { success: false, error: "Unauthorized" };
 
     try {
         const user = await prisma.user.findUnique({ where: { id: session.id } });
-        if (!user) return { error: "User not found" };
+        if (!user) return { success: false, error: "User not found" };
 
         const isValid = await bcrypt.compare(data.old, user.password);
-        if (!isValid) return { error: "Current password is incorrect" };
+        if (!isValid) return { success: false, error: "Current password is incorrect" };
 
         const hashedPassword = await bcrypt.hash(data.new, 10);
         await prisma.user.update({
@@ -143,6 +143,6 @@ export async function changePassword(data: { old: string; new: string }) {
 
         return { success: true };
     } catch (error) {
-        return { error: "Failed to change password" };
+        return { success: false, error: "Failed to change password" };
     }
 }

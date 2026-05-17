@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
         if (!user) {
             return NextResponse.json(
-                { error: "Invalid credentials" },
+                { success: false, error: "Invalid credentials" },
                 { status: 401 }
             );
         }
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
         if (!isPasswordValid) {
             return NextResponse.json(
-                { error: "Invalid credentials" },
+                { success: false, error: "Invalid credentials" },
                 { status: 401 }
             );
         }
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         const allowedRoles = ["ADMIN", "TEAM_MEMBER"];
         if (!allowedRoles.includes(user.role)) {
             return NextResponse.json(
-                { error: "Unauthorized access" },
+                { success: false, error: "Unauthorized access" },
                 { status: 403 }
             );
         }
@@ -47,9 +47,8 @@ export async function POST(request: Request) {
             success: true
         });
     } catch (error) {
-        
         return NextResponse.json(
-            { error: "Authentication failed" },
+            { success: false, error: "Authentication failed" },
             { status: 500 }
         );
     }

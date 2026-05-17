@@ -43,7 +43,7 @@ export async function deleteBlogPost(id: string) {
     revalidatePath("/");
     return { success: true };
   } catch (error) {
-    return { success: false };
+    return { success: false, error: "Failed to delete blog post." };
   }
 }
 
@@ -83,7 +83,7 @@ export async function deleteCaseStudy(id: string) {
     revalidatePath("/");
     return { success: true };
   } catch (error) {
-    return { success: false };
+    return { success: false, error: "Failed to delete case study." };
   }
 }
 
@@ -119,7 +119,7 @@ export async function deleteJob(id: string) {
     revalidatePath("/dashboard/careers");
     return { success: true };
   } catch (error) {
-    return { success: false };
+    return { success: false, error: "Failed to delete job opening." };
   }
 }
 

@@ -38,11 +38,59 @@ export async function updateSettings(data: any) {
     const updated = await prisma.siteSettings.upsert({
       where: { id: "global" },
       update: {
-        ...data,
+        siteName: data.siteName,
+        siteTitleSuffix: data.siteTitleSuffix,
+        siteDescription: data.siteDescription,
+        ogImage: data.ogImage,
+        contactEmail: data.contactEmail,
+        contactPhone: data.contactPhone,
+        address: data.address,
+        facebookUrl: data.facebookUrl,
+        twitterUrl: data.twitterUrl,
+        linkedinUrl: data.linkedinUrl,
+        instagramUrl: data.instagramUrl,
+        youtubeUrl: data.youtubeUrl,
+        gtmId: data.gtmId,
+        gaId: data.gaId,
+        pixelId: data.pixelId,
+        linkedinInsightId: data.linkedinInsightId,
+        hotjarId: data.hotjarId,
+        clarityId: data.clarityId,
+        pinterestId: data.pinterestId,
+        tiktokId: data.tiktokId,
+        twitterId: data.twitterId,
+        snapchatId: data.snapchatId,
+        redditId: data.redditId,
+        quoraId: data.quoraId,
+        googleAdsId: data.googleAdsId
       },
       create: {
         id: "global",
-        ...data,
+        siteName: data.siteName,
+        siteTitleSuffix: data.siteTitleSuffix,
+        siteDescription: data.siteDescription,
+        ogImage: data.ogImage,
+        contactEmail: data.contactEmail,
+        contactPhone: data.contactPhone,
+        address: data.address,
+        facebookUrl: data.facebookUrl,
+        twitterUrl: data.twitterUrl,
+        linkedinUrl: data.linkedinUrl,
+        instagramUrl: data.instagramUrl,
+        youtubeUrl: data.youtubeUrl,
+        gtmId: data.gtmId,
+        gaId: data.gaId,
+        pixelId: data.pixelId,
+        linkedinInsightId: data.linkedinInsightId,
+        hotjarId: data.hotjarId,
+        clarityId: data.clarityId,
+        pinterestId: data.pinterestId,
+        tiktokId: data.tiktokId,
+        twitterId: data.twitterId,
+        snapchatId: data.snapchatId,
+        redditId: data.redditId,
+        quoraId: data.quoraId,
+        googleAdsId: data.googleAdsId
       }
     });
 
@@ -55,7 +103,6 @@ export async function updateSettings(data: any) {
     return { success: true, data: updated };
 
   } catch (error) {
-    
     return { success: false, error: "Failed to update configuration." };
   }
 }

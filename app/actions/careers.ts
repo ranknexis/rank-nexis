@@ -23,12 +23,19 @@ export async function createJob(data: {
     benefits: string[];
 }) {
     const { allowed } = await checkCareersPermission();
-    if (!allowed) return { error: "Unauthorized" };
+    if (!allowed) return { success: false, error: "Unauthorized" };
 
     try {
         const job = await prisma.job.create({
             data: {
-                ...data,
+                title: data.title,
+                slug: data.slug,
+                description: data.description,
+                location: data.location,
+                type: data.type,
+                responsibilities: data.responsibilities,
+                requirements: data.requirements,
+                benefits: data.benefits,
                 active: true
             }
         });
@@ -38,14 +45,13 @@ export async function createJob(data: {
         revalidatePath("/");
         return { success: true, job, data: job };
     } catch (error) {
-        
-        return { error: "Failed to create job opening." };
+        return { success: false, error: "Failed to create job opening." };
     }
 }
 
 export async function toggleJobStatus(id: string, active: boolean) {
     const { allowed } = await checkCareersPermission();
-    if (!allowed) return { error: "Unauthorized" };
+    if (!allowed) return { success: false, error: "Unauthorized" };
 
     try {
         const job = await prisma.job.update({
@@ -59,14 +65,13 @@ export async function toggleJobStatus(id: string, active: boolean) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Failed to update job status." };
+        return { success: false, error: "Failed to update job status." };
     }
 }
 
 export async function deleteJob(id: string) {
     const { allowed } = await checkCareersPermission();
-    if (!allowed) return { error: "Unauthorized" };
+    if (!allowed) return { success: false, error: "Unauthorized" };
 
     try {
         const job = await prisma.job.findUnique({ where: { id } });
@@ -79,8 +84,7 @@ export async function deleteJob(id: string) {
         revalidatePath("/careers", "page");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Failed to delete job opening." };
+        return { success: false, error: "Failed to delete job opening." };
     }
 }
 
@@ -106,8 +110,7 @@ export async function submitJobApplication(data: {
         revalidatePath("/dashboard/careers");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Failed to submit application. Please try again." };
+        return { success: false, error: "Failed to submit application. Please try again." };
     }
 }
 
@@ -118,7 +121,17 @@ export async function updateJob(id: string, data: any) {
     try {
         const updated = await prisma.job.update({
             where: { id },
-            data,
+            data: {
+                title: data.title,
+                slug: data.slug,
+                description: data.description,
+                location: data.location,
+                type: data.type,
+                responsibilities: data.responsibilities,
+                requirements: data.requirements,
+                benefits: data.benefits,
+                active: data.active
+            },
         });
         revalidatePath("/dashboard/careers");
         revalidatePath("/careers");

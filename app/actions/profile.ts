@@ -6,22 +6,22 @@ import { revalidatePath } from "next/cache";
 
 export async function getMyProfile() {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    if (!session) return { success: false, error: "Unauthorized" };
 
     try {
         const user = await prisma.user.findUnique({
             where: { id: session.id },
             include: { teamProfile: true }
         });
-        return { success: true, user };
+        return { success: true, user, data: user };
     } catch (error) {
-        return { error: "Failed to fetch profile" };
+        return { success: false, error: "Failed to fetch profile" };
     }
 }
 
 export async function updateMyProfile(data: any) {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    if (!session) return { success: false, error: "Unauthorized" };
 
     try {
         if (data.email) {
@@ -31,7 +31,7 @@ export async function updateMyProfile(data: any) {
                     NOT: { id: session.id }
                 }
             });
-            if (existing) return { error: "Email address is already in use by another account" };
+            if (existing) return { success: false, error: "Email address is already in use by another account" };
         }
 
         await prisma.user.update({
@@ -69,7 +69,6 @@ export async function updateMyProfile(data: any) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Failed to update profile" };
+        return { success: false, error: "Failed to update profile" };
     }
 }

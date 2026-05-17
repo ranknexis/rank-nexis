@@ -15,7 +15,7 @@ async function checkPagesPermission() {
 
 export async function getAllPages() {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
     const pages = await prisma.pageContent.findMany({
@@ -26,10 +26,9 @@ export async function getAllPages() {
       },
       orderBy: { title: 'asc' }
     });
-    return { success: true, pages };
+    return { success: true, pages, data: pages };
   } catch (error) {
-    
-    return { error: "Failed to fetch pages." };
+    return { success: false, error: "Failed to fetch pages." };
   }
 }
 
@@ -43,16 +42,15 @@ export async function getPageBySlug(slug: string) {
         }
       }
     });
-    return { success: true, page };
+    return { success: true, page, data: page };
   } catch (error) {
-    
-    return { error: "Failed to fetch page content." };
+    return { success: false, error: "Failed to fetch page content." };
   }
 }
 
 export async function updatePageSeo(slug: string, data: any) {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
     const page = await prisma.pageContent.update({
@@ -72,16 +70,15 @@ export async function updatePageSeo(slug: string, data: any) {
     await createAuditLog("PAGE_SEO_UPDATED", slug, `Meta Title: ${data.metaTitle}`);
     
     revalidatePath(`/${slug === 'home' ? '' : slug}`);
-    return { success: true, page };
+    return { success: true, page, data: page };
   } catch (error) {
-    
-    return { error: "Failed to update SEO." };
+    return { success: false, error: "Failed to update SEO." };
   }
 }
 
 export async function updatePageStatus(slug: string, status: string) {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
     await prisma.pageContent.update({
@@ -94,13 +91,13 @@ export async function updatePageStatus(slug: string, status: string) {
     revalidatePath(`/${slug === 'home' ? '' : slug}`);
     return { success: true };
   } catch (error) {
-    return { error: "Failed to update status" };
+    return { success: false, error: "Failed to update status" };
   }
 }
 
 export async function updateInternalLinks(slug: string, links: any[]) {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
     await prisma.pageContent.update({
@@ -113,16 +110,15 @@ export async function updateInternalLinks(slug: string, links: any[]) {
     revalidatePath(`/${slug === 'home' ? '' : slug}`);
     return { success: true };
   } catch (error) {
-    return { error: "Failed to update internal links" };
+    return { success: false, error: "Failed to update internal links" };
   }
 }
 
 export async function addSection(pageId: string, data: { label: string, sectionType: string, content: any }) {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
-    
     const lastSection = await prisma.pageSection.findFirst({
       where: { pageId },
       orderBy: { order: 'desc' }
@@ -146,16 +142,15 @@ export async function addSection(pageId: string, data: { label: string, sectionT
     await createAuditLog("SECTION_ADDED", `${section.page.slug}:${data.sectionType}`, `Label: ${data.label}`);
 
     revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
-    return { success: true, section };
+    return { success: true, section, data: section };
   } catch (error) {
-    
-    return { error: "Failed to create section" };
+    return { success: false, error: "Failed to create section" };
   }
 }
 
 export async function deleteSection(id: string) {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
     const section = await prisma.pageSection.findUnique({ where: { id }, include: { page: true } });
@@ -166,13 +161,13 @@ export async function deleteSection(id: string) {
     }
     return { success: true };
   } catch (error) {
-    return { error: "Failed to delete section" };
+    return { success: false, error: "Failed to delete section" };
   }
 }
 
 export async function updateSection(sectionId: string, content: any, isVisible?: boolean) {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
     const section = await prisma.pageSection.update({
@@ -187,16 +182,15 @@ export async function updateSection(sectionId: string, content: any, isVisible?:
     await createAuditLog("SECTION_UPDATED", `${section.page.slug}:${section.sectionType}`);
     
     revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
-    return { success: true, section };
+    return { success: true, section, data: section };
   } catch (error) {
-    
-    return { error: "Failed to update section content." };
+    return { success: false, error: "Failed to update section content." };
   }
 }
 
 export async function toggleSectionVisibility(sectionId: string, isVisible: boolean) {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
     const section = await prisma.pageSection.update({
@@ -207,14 +201,13 @@ export async function toggleSectionVisibility(sectionId: string, isVisible: bool
     revalidatePath(`/${section.page.slug === 'home' ? '' : section.page.slug}`);
     return { success: true };
   } catch (error) {
-    
-    return { error: "Failed to toggle section visibility." };
+    return { success: false, error: "Failed to toggle section visibility." };
   }
 }
 
 export async function reorderSections(pageId: string, sectionIds: string[]) {
   const { allowed, session } = await checkPagesPermission();
-  if (!allowed || !session) return { error: "Unauthorized" };
+  if (!allowed || !session) return { success: false, error: "Unauthorized" };
 
   try {
     await prisma.$transaction(
@@ -231,7 +224,6 @@ export async function reorderSections(pageId: string, sectionIds: string[]) {
     }
     return { success: true };
   } catch (error) {
-    
-    return { error: "Failed to reorder sections." };
+    return { success: false, error: "Failed to reorder sections." };
   }
 }

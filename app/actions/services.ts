@@ -22,12 +22,18 @@ export async function createService(data: {
     category: string;
 }) {
     const { allowed } = await checkServicesPermission();
-    if (!allowed) return { error: "Unauthorized" };
+    if (!allowed) return { success: false, error: "Unauthorized" };
 
     try {
         const service = await prisma.service.create({
             data: {
-                ...data,
+                title: data.title,
+                slug: data.slug,
+                description: data.description,
+                icon: data.icon,
+                features: data.features,
+                order: Number(data.order) || 0,
+                category: data.category,
                 active: true
             }
         });
@@ -35,36 +41,43 @@ export async function createService(data: {
         revalidatePath("/services/[slug]", "layout");
         revalidatePath("/dashboard/services");
         revalidatePath("/");
-        return { success: true, service };
+        return { success: true, service, data: service };
     } catch (error) {
-        
-        return { error: "Failed to create service." };
+        return { success: false, error: "Failed to create service." };
     }
 }
 
 export async function updateService(id: string, data: any) {
     const { allowed } = await checkServicesPermission();
-    if (!allowed) return { error: "Unauthorized" };
+    if (!allowed) return { success: false, error: "Unauthorized" };
 
     try {
         const service = await prisma.service.update({
             where: { id },
-            data
+            data: {
+                title: data.title,
+                slug: data.slug,
+                description: data.description,
+                icon: data.icon,
+                features: data.features,
+                order: Number(data.order) || 0,
+                category: data.category,
+                active: data.active
+            }
         });
         revalidatePath("/services");
         revalidatePath(`/services/${service.slug}`);
         revalidatePath("/dashboard/services");
         revalidatePath("/");
-        return { success: true, service };
+        return { success: true, service, data: service };
     } catch (error) {
-        
-        return { error: "Failed to update service." };
+        return { success: false, error: "Failed to update service." };
     }
 }
 
 export async function toggleServiceStatus(id: string, active: boolean) {
     const { allowed } = await checkServicesPermission();
-    if (!allowed) return { error: "Unauthorized" };
+    if (!allowed) return { success: false, error: "Unauthorized" };
 
     try {
         const service = await prisma.service.update({
@@ -77,14 +90,13 @@ export async function toggleServiceStatus(id: string, active: boolean) {
         revalidatePath("/");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Failed to update service status." };
+        return { success: false, error: "Failed to update service status." };
     }
 }
 
 export async function deleteService(id: string) {
     const { allowed } = await checkServicesPermission();
-    if (!allowed) return { error: "Unauthorized" };
+    if (!allowed) return { success: false, error: "Unauthorized" };
 
     try {
         const service = await prisma.service.findUnique({ where: { id } });
@@ -97,8 +109,7 @@ export async function deleteService(id: string) {
         revalidatePath("/services", "page");
         return { success: true };
     } catch (error) {
-        
-        return { error: "Failed to delete service." };
+        return { success: false, error: "Failed to delete service." };
     }
 }
 
