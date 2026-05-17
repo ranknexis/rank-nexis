@@ -2,6 +2,15 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getSession } from "@/lib/auth";
+
+async function checkFeedbackPermission() {
+  const session = await getSession();
+  if (!session) return { allowed: false };
+  const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+  const isAllowed = session.role === "ADMIN" || userPermissions.includes("manage_feedback");
+  return { allowed: isAllowed };
+}
 
 export async function getTestimonials() {
   try {
@@ -15,6 +24,9 @@ export async function getTestimonials() {
 }
 
 export async function addTestimonial(data: any) {
+  const { allowed } = await checkFeedbackPermission();
+  if (!allowed) return { success: false, error: "Unauthorized" };
+
   try {
     const testimonial = await prisma.testimonial.create({
       data: {
@@ -37,6 +49,9 @@ export async function addTestimonial(data: any) {
 }
 
 export async function updateTestimonial(id: string, data: any) {
+  const { allowed } = await checkFeedbackPermission();
+  if (!allowed) return { success: false, error: "Unauthorized" };
+
   try {
     const testimonial = await prisma.testimonial.update({
       where: { id },
@@ -52,6 +67,9 @@ export async function updateTestimonial(id: string, data: any) {
 }
 
 export async function deleteTestimonial(id: string) {
+  const { allowed } = await checkFeedbackPermission();
+  if (!allowed) return { success: false, error: "Unauthorized" };
+
   try {
     await prisma.testimonial.delete({
       where: { id }

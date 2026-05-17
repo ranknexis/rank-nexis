@@ -1,6 +1,6 @@
 "use client";
 
-import { createJob, deleteJob, updateJob } from "@/actions/cms";
+import { createJob, deleteJob, updateJob } from "@/actions/careers";
 import {
   ArrowLeft,
   Briefcase,

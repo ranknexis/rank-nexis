@@ -15,7 +15,9 @@ export async function createBlogPost(data: {
     metaDescription?: string;
 }) {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+    const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_blog");
+    if (!session || !hasPermission) return { error: "Unauthorized" };
 
     const finalAuthorId = session.role === "ADMIN" ? data.authorId : session.id;
 
@@ -51,7 +53,10 @@ export async function updateBlogPost(id: string, data: any) {
         const existing = await prisma.blog.findUnique({ where: { id } });
         if (!existing) return { error: "Post not found" };
         
-        if (session.role !== "ADMIN" && existing.authorId !== session.id) {
+        const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+        const hasManageBlog = session.role === "ADMIN" || userPermissions.includes("manage_blog");
+
+        if (!hasManageBlog && existing.authorId !== session.id) {
             return { error: "Permission denied" };
         }
 
@@ -84,7 +89,10 @@ export async function deleteBlogPost(id: string) {
         const existing = await prisma.blog.findUnique({ where: { id } });
         if (!existing) return { error: "Post not found" };
         
-        if (session.role !== "ADMIN" && existing.authorId !== session.id) {
+        const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+        const hasManageBlog = session.role === "ADMIN" || userPermissions.includes("manage_blog");
+
+        if (!hasManageBlog && existing.authorId !== session.id) {
             return { error: "Permission denied" };
         }
 
@@ -101,7 +109,9 @@ export async function deleteBlogPost(id: string) {
 
 export async function createBlogCategory(data: { name: string; slug: string }) {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+    const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_blog");
+    if (!session || !hasPermission) return { error: "Unauthorized" };
 
     try {
         const category = await prisma.blogCategory.create({ data });
@@ -114,7 +124,9 @@ export async function createBlogCategory(data: { name: string; slug: string }) {
 
 export async function updateBlogCategory(id: string, data: any) {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+    const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_blog");
+    if (!session || !hasPermission) return { error: "Unauthorized" };
 
     try {
         const category = await prisma.blogCategory.update({
@@ -130,7 +142,9 @@ export async function updateBlogCategory(id: string, data: any) {
 
 export async function deleteBlogCategory(id: string) {
     const session = await getSession();
-    if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+    const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+    const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_blog");
+    if (!session || !hasPermission) return { error: "Unauthorized" };
 
     try {
         const blogsCount = await prisma.blog.count({ where: { categoryId: id } });

@@ -2,6 +2,15 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getSession } from "@/lib/auth";
+
+async function checkCareersPermission() {
+    const session = await getSession();
+    if (!session) return { allowed: false };
+    const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+    const isAllowed = session.role === "ADMIN" || userPermissions.includes("manage_careers");
+    return { allowed: isAllowed };
+}
 
 export async function createJob(data: {
     title: string;
@@ -13,6 +22,9 @@ export async function createJob(data: {
     requirements: string[];
     benefits: string[];
 }) {
+    const { allowed } = await checkCareersPermission();
+    if (!allowed) return { error: "Unauthorized" };
+
     try {
         const job = await prisma.job.create({
             data: {
@@ -24,7 +36,7 @@ export async function createJob(data: {
         revalidatePath("/careers/[slug]", "layout");
         revalidatePath("/dashboard/careers");
         revalidatePath("/");
-        return { success: true, job };
+        return { success: true, job, data: job };
     } catch (error) {
         
         return { error: "Failed to create job opening." };
@@ -32,6 +44,9 @@ export async function createJob(data: {
 }
 
 export async function toggleJobStatus(id: string, active: boolean) {
+    const { allowed } = await checkCareersPermission();
+    if (!allowed) return { error: "Unauthorized" };
+
     try {
         const job = await prisma.job.update({
             where: { id },
@@ -50,6 +65,9 @@ export async function toggleJobStatus(id: string, active: boolean) {
 }
 
 export async function deleteJob(id: string) {
+    const { allowed } = await checkCareersPermission();
+    if (!allowed) return { error: "Unauthorized" };
+
     try {
         const job = await prisma.job.findUnique({ where: { id } });
         await prisma.job.delete({ where: { id } });
@@ -90,6 +108,24 @@ export async function submitJobApplication(data: {
     } catch (error) {
         
         return { error: "Failed to submit application. Please try again." };
+    }
+}
+
+export async function updateJob(id: string, data: any) {
+    const { allowed } = await checkCareersPermission();
+    if (!allowed) return { success: false, error: "Unauthorized" };
+
+    try {
+        const updated = await prisma.job.update({
+            where: { id },
+            data,
+        });
+        revalidatePath("/dashboard/careers");
+        revalidatePath("/careers");
+        revalidatePath(`/careers`);
+        return { success: true, data: updated };
+    } catch (error) {
+        return { success: false, error: "Failed to save job listing." };
     }
 }
 

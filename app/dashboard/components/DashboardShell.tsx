@@ -25,6 +25,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import ConfirmationModal from "./ConfirmationModal";
 
 interface SidebarContentProps {
@@ -204,8 +205,51 @@ export default function DashboardShell({
 
   const role = session?.role || "TEAM_MEMBER";
 
+  const ROUTE_PERMISSIONS: { [key: string]: { permission?: string; label: string } } = {
+    "/dashboard/pages": { permission: "manage_pages", label: "Pages" },
+    "/dashboard/services": { permission: "manage_services", label: "Services" },
+    "/dashboard/careers": { permission: "manage_careers", label: "Careers" },
+    "/dashboard/team": { permission: "manage_team", label: "Team" },
+    "/dashboard/blog": { permission: "manage_blog", label: "Blog" },
+    "/dashboard/work": { permission: "manage_work", label: "Work" },
+    "/dashboard/leads": { permission: "manage_leads", label: "Leads" },
+    "/dashboard/feedback": { permission: "manage_feedback", label: "Feedback" },
+    "/dashboard/users": { permission: "manage_users", label: "Users" },
+    "/dashboard/settings": { permission: "manage_settings", label: "Settings" },
+    "/dashboard/performance": { permission: "manage_performance", label: "Performance" },
+    "/dashboard/report": { permission: "manage_reports", label: "Reports" },
+  };
+
+  const isAllowed = (() => {
+    if (role === "ADMIN") return true;
+    if (pathname === "/dashboard/login") return true;
+    if (pathname === "/dashboard/profile") return true;
+
+    const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse(session?.permissions || "[]");
+
+    for (const [route, config] of Object.entries(ROUTE_PERMISSIONS)) {
+      if (pathname.startsWith(route)) {
+        if (!config.permission) return true;
+        return userPermissions.includes(config.permission);
+      }
+    }
+
+    if (pathname === "/dashboard") {
+      return userPermissions.includes("view_overview");
+    }
+
+    return true;
+  })();
+
+  useEffect(() => {
+    if (session && role === "TEAM_MEMBER" && !isAllowed) {
+      toast.error("Access denied. Redirecting to Profile Settings.");
+      router.push("/dashboard/profile");
+    }
+  }, [session, role, isAllowed, router, pathname]);
+
   const NAV_ITEMS = [
-    { icon: LayoutDashboard, label: "Overview", href: "/dashboard", roles: ["ADMIN", "TEAM_MEMBER"] },
+    { icon: LayoutDashboard, label: "Overview", href: "/dashboard", roles: ["ADMIN", "TEAM_MEMBER"], permission: "view_overview" },
     { icon: FileCode, label: "Pages", href: "/dashboard/pages", roles: ["ADMIN"], permission: "manage_pages" },
     { icon: Zap, label: "Services", href: "/dashboard/services", roles: ["ADMIN"], permission: "manage_services" },
     { icon: Briefcase, label: "Careers", href: "/dashboard/careers", roles: ["ADMIN"], permission: "manage_careers" },
@@ -218,11 +262,11 @@ export default function DashboardShell({
     { icon: Activity, label: "Performance", href: "/dashboard/performance", roles: ["ADMIN"] },
     { icon: FileText, label: "Reports", href: "/dashboard/report", roles: ["ADMIN"] },
     { icon: Settings, label: "Settings", href: "/dashboard/settings", roles: ["ADMIN"], permission: "manage_settings" },
-
+    { icon: UserCircle, label: "Profile", href: "/dashboard/profile", roles: ["ADMIN", "TEAM_MEMBER"] }
   ].filter(item => {
     if (role === "ADMIN") return true;
     if (item.roles.includes("TEAM_MEMBER")) {
-        if (["Overview", "Profile", "Blog", "Portfolio"].includes(item.label)) return true;
+        if (item.label === "Profile") return true;
         if (!item.permission) return true;
         const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse(session?.permissions || "[]");
         return userPermissions.includes(item.permission);

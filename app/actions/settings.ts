@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getSession } from "@/lib/auth";
 
 export async function getSettings() {
   try {
@@ -27,6 +28,12 @@ export async function getSettings() {
 }
 
 export async function updateSettings(data: any) {
+  const session = await getSession();
+  if (!session) return { success: false, error: "Unauthorized" };
+  const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+  const hasPermission = session.role === "ADMIN" || userPermissions.includes("manage_settings");
+  if (!hasPermission) return { success: false, error: "Unauthorized" };
+
   try {
     const updated = await prisma.siteSettings.upsert({
       where: { id: "global" },

@@ -76,7 +76,23 @@ export async function getSession() {
     if (!token) return null;
     
     try {
-        return await decrypt(token, ACCESS_SECRET);
+        const payload = await decrypt(token, ACCESS_SECRET);
+        if (!payload || !payload.id) return null;
+
+        const user = await prisma.user.findUnique({
+            where: { id: payload.id },
+            select: { id: true, email: true, name: true, role: true, permissions: true }
+        });
+
+        if (!user) return null;
+
+        return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            permissions: user.permissions
+        };
     } catch (error) {
         return null;
     }

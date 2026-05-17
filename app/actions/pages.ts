@@ -5,9 +5,17 @@ import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth";
 import { createAuditLog } from "./audit";
 
-export async function getAllPages() {
+async function checkPagesPermission() {
   const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  if (!session) return { allowed: false, session: null };
+  const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+  const isAllowed = session.role === "ADMIN" || userPermissions.includes("manage_pages");
+  return { allowed: isAllowed, session };
+}
+
+export async function getAllPages() {
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     const pages = await prisma.pageContent.findMany({
@@ -43,8 +51,8 @@ export async function getPageBySlug(slug: string) {
 }
 
 export async function updatePageSeo(slug: string, data: any) {
-  const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     const page = await prisma.pageContent.update({
@@ -72,8 +80,8 @@ export async function updatePageSeo(slug: string, data: any) {
 }
 
 export async function updatePageStatus(slug: string, status: string) {
-  const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     await prisma.pageContent.update({
@@ -91,8 +99,8 @@ export async function updatePageStatus(slug: string, status: string) {
 }
 
 export async function updateInternalLinks(slug: string, links: any[]) {
-  const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     await prisma.pageContent.update({
@@ -110,8 +118,8 @@ export async function updateInternalLinks(slug: string, links: any[]) {
 }
 
 export async function addSection(pageId: string, data: { label: string, sectionType: string, content: any }) {
-  const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     
@@ -146,8 +154,8 @@ export async function addSection(pageId: string, data: { label: string, sectionT
 }
 
 export async function deleteSection(id: string) {
-  const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     const section = await prisma.pageSection.findUnique({ where: { id }, include: { page: true } });
@@ -163,8 +171,8 @@ export async function deleteSection(id: string) {
 }
 
 export async function updateSection(sectionId: string, content: any, isVisible?: boolean) {
-  const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     const section = await prisma.pageSection.update({
@@ -187,8 +195,8 @@ export async function updateSection(sectionId: string, content: any, isVisible?:
 }
 
 export async function toggleSectionVisibility(sectionId: string, isVisible: boolean) {
-  const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     const section = await prisma.pageSection.update({
@@ -205,8 +213,8 @@ export async function toggleSectionVisibility(sectionId: string, isVisible: bool
 }
 
 export async function reorderSections(pageId: string, sectionIds: string[]) {
-  const session = await getSession();
-  if (!session || session.role !== "ADMIN") return { error: "Unauthorized" };
+  const { allowed, session } = await checkPagesPermission();
+  if (!allowed || !session) return { error: "Unauthorized" };
 
   try {
     await prisma.$transaction(

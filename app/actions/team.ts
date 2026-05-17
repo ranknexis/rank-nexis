@@ -2,8 +2,20 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getSession } from "@/lib/auth";
+
+async function checkTeamPermission() {
+  const session = await getSession();
+  if (!session) return { allowed: false };
+  const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+  const isAllowed = session.role === "ADMIN" || userPermissions.includes("manage_team");
+  return { allowed: isAllowed };
+}
 
 export async function createTeamMember(data: any) {
+  const { allowed } = await checkTeamPermission();
+  if (!allowed) return { success: false, error: "Unauthorized" };
+
   try {
     const member = await prisma.teamMember.create({
       data: {
@@ -28,6 +40,9 @@ export async function createTeamMember(data: any) {
 }
 
 export async function updateTeamMember(id: string, data: any) {
+  const { allowed } = await checkTeamPermission();
+  if (!allowed) return { success: false, error: "Unauthorized" };
+
   try {
     const currentMember = await prisma.teamMember.findUnique({
       where: { id },
@@ -75,6 +90,9 @@ export async function updateTeamMember(id: string, data: any) {
 }
 
 export async function deleteTeamMember(id: string) {
+  const { allowed } = await checkTeamPermission();
+  if (!allowed) return { success: false, error: "Unauthorized" };
+
   try {
     await prisma.teamMember.delete({
       where: { id }

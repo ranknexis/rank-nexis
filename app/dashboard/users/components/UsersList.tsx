@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import ConfirmationModal from "../../components/ConfirmationModal";
 
 const AVAILABLE_PERMISSIONS = [
+    { id: "view_overview", label: "Overview", desc: "Access the overview stats and activity charts" },
     { id: "manage_pages", label: "Pages", desc: "Manage site pages and sections" },
     { id: "manage_services", label: "Services", desc: "Manage core business services" },
     { id: "manage_careers", label: "Careers", desc: "Handle job postings and applications" },
@@ -30,7 +31,7 @@ const AVAILABLE_PERMISSIONS = [
     { id: "manage_settings", label: "Settings", desc: "Manage global site settings" },
 ];
 
-const DEFAULT_TEAM_MEMBER_PERMISSIONS = ["manage_blog", "manage_work", "manage_services"];
+const DEFAULT_TEAM_MEMBER_PERMISSIONS: string[] = [];
 
 export default function UsersList({ initialUsers }: { initialUsers: any[] }) {
     const [users, setUsers] = useState(initialUsers);

@@ -6,7 +6,9 @@ import { getSession } from "@/lib/auth";
 
 export async function createCaseStudy(data: any) {
     const session = await getSession();
-    if (!session) return { error: "Unauthorized" };
+    const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+    const hasPermission = session?.role === "ADMIN" || userPermissions.includes("manage_work");
+    if (!session || !hasPermission) return { error: "Unauthorized" };
 
     const authorId = session.role === "ADMIN" ? data.authorId : session.id;
 
@@ -35,7 +37,10 @@ export async function updateCaseStudy(id: string, data: any) {
         const existing = await prisma.caseStudy.findUnique({ where: { id } });
         if (!existing) return { error: "Case study not found" };
 
-        if (session.role !== "ADMIN" && existing.authorId !== session.id) {
+        const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+        const hasManageWork = session.role === "ADMIN" || userPermissions.includes("manage_work");
+
+        if (!hasManageWork && existing.authorId !== session.id) {
             return { error: "Permission denied" };
         }
 
@@ -66,7 +71,10 @@ export async function deleteCaseStudy(id: string) {
         const existing = await prisma.caseStudy.findUnique({ where: { id } });
         if (!existing) return { error: "Case study not found" };
 
-        if (session.role !== "ADMIN" && existing.authorId !== session.id) {
+        const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
+        const hasManageWork = session.role === "ADMIN" || userPermissions.includes("manage_work");
+
+        if (!hasManageWork && existing.authorId !== session.id) {
             return { error: "Permission denied" };
         }
 
