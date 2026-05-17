@@ -25,7 +25,7 @@ export async function verifyToken(token: string) {
     return await decrypt(token, ACCESS_SECRET);
 }
 
-export async function login(userData: { id: string; email: string; name?: string | null; role: string; passwordSet: boolean; permissions?: any }) {
+export async function login(userData: { id: string; email: string; name?: string | null; role: string; permissions?: any }) {
     const accessToken = await encrypt(userData, ACCESS_SECRET, "24h");
     const refreshToken = await encrypt({ id: userData.id }, REFRESH_SECRET, "7d");
 
@@ -105,7 +105,6 @@ export async function refreshAccessToken() {
             email: user.email,
             name: user.name,
             role: user.role,
-            passwordSet: user.passwordSet,
             permissions: user.permissions
         }, ACCESS_SECRET, "24h");
 

@@ -10,7 +10,6 @@ import { redirect } from "next/navigation";
 
 export async function loginUser(data: { email: string; password: string }) {
     let shouldRedirect = false;
-    let passwordSet = true;
 
     try {
         const { email, password } = data;
@@ -39,11 +38,9 @@ export async function loginUser(data: { email: string; password: string }) {
             email: user.email,
             name: user.name,
             role: user.role,
-            passwordSet: user.passwordSet,
             permissions: user.permissions
         });
 
-        passwordSet = user.passwordSet;
         shouldRedirect = true;
     } catch (error) {
         return { error: "Authentication failed" };
@@ -51,11 +48,7 @@ export async function loginUser(data: { email: string; password: string }) {
 
     if (shouldRedirect) {
         revalidatePath("/dashboard");
-        if (passwordSet === false) {
-            redirect("/dashboard/setup-password");
-        } else {
-            redirect("/dashboard");
-        }
+        return { success: true, redirectUrl: "/dashboard" };
     }
 }
 

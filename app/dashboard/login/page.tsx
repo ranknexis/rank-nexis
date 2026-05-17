@@ -23,8 +23,12 @@ export default function LoginPage() {
       const res = await loginUser({ email, password });
       if (res && res.error) {
         toast.error(res.error);
-      } else {
+      } else if (res && res.success && res.redirectUrl) {
         toast.success("Login successful.");
+        router.push(res.redirectUrl);
+        router.refresh();
+      } else {
+        toast.error("Process error. Please try again.");
       }
     } catch (error) {
       toast.error("Process error. Please try again.");
