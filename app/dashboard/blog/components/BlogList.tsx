@@ -46,16 +46,16 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
     };
 
     return (
-        <div className="bg-white rounded-[2rem] border border-stroke overflow-hidden shadow-sm">
-            <div className="p-8 border-b border-stroke flex flex-col md:flex-row justify-between items-center gap-6 bg-surface/30">
-                <div className="relative w-full md:w-96">
-                    <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+        <div className="bg-white rounded-2xl border border-stroke overflow-hidden shadow-sm">
+            <div className="p-5 sm:p-6 border-b border-stroke flex flex-col md:flex-row justify-between items-center gap-4 bg-surface/30">
+                <div className="relative w-full md:w-80">
+                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                     <input 
                         type="text" 
                         placeholder="Search posts..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-sm focus:outline-none focus:border-brand transition-all text-text-primary" 
+                        className="w-full h-11 bg-white border border-stroke rounded-xl pl-11 pr-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-text-primary placeholder:text-text-muted/40" 
                     />
                 </div>
                 <div className="flex gap-3 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
@@ -138,7 +138,7 @@ export default function BlogList({ initialPosts }: { initialPosts: any[] }) {
                 </table>
             </div>
             
-            <div className="p-8 border-t border-stroke flex justify-between items-center bg-surface/10">
+            <div className="p-5 sm:p-6 border-t border-stroke flex justify-between items-center bg-surface/10">
                 <p className="text-[9px] font-bold uppercase text-text-muted">Showing {filteredPosts.length} of {posts.length} posts</p>
                 <div className="flex gap-2">
                     <button disabled className="btn-outline h-10 px-4 text-[9px] font-bold uppercase opacity-40">Prev</button>

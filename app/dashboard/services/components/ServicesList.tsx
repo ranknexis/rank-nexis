@@ -39,19 +39,19 @@ export default function ServicesList({ initialServices }: { initialServices: any
     };
 
     return (
-        <div className="bg-white rounded-[2rem] border border-stroke overflow-hidden shadow-sm">
-            <div className="p-8 border-b border-stroke flex justify-between items-center bg-surface/30">
-                <div className="relative w-full md:w-96">
-                    <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-text-muted" />
+        <div className="bg-white rounded-2xl border border-stroke overflow-hidden shadow-sm">
+            <div className="p-5 sm:p-6 border-b border-stroke flex justify-between items-center gap-4 bg-surface/30">
+                <div className="relative w-full md:w-80">
+                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                     <input 
                         type="text" 
-                        placeholder="Filter services..." 
+                        placeholder="Search services..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-12 bg-white border border-stroke rounded-xl pl-16 pr-6 text-[10px] font-bold uppercase focus:outline-none focus:border-brand transition-all" 
+                        className="w-full h-11 bg-white border border-stroke rounded-xl pl-11 pr-4 text-xs font-bold focus:outline-none focus:border-brand transition-all text-text-primary placeholder:text-text-muted/40" 
                     />
                 </div>
-                <p className="text-[9px] font-bold uppercase text-text-muted">Total services: <span className="text-brand">{filteredServices.length}</span></p>
+                <p className="text-[9px] font-bold uppercase text-text-muted shrink-0">Total: <span className="text-brand">{filteredServices.length}</span></p>
             </div>
 
             <div className="overflow-x-auto">

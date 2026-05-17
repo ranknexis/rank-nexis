@@ -49,6 +49,14 @@ export default function DashboardShell({
     }
   }, [session, pathname, router]);
 
+  useEffect(() => {
+    // Keep active sidebar navigation tab visible on scroll
+    const activeEl = document.querySelector('.active-nav-link');
+    if (activeEl) {
+      activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [pathname]);
+
   const role = session?.role || "TEAM_MEMBER";
 
   const NAV_ITEMS = [
@@ -111,7 +119,7 @@ export default function DashboardShell({
       </div>
  
       {/* Navigation */}
-      <nav className={`flex flex-col space-y-1 overflow-y-auto overflow-x-hidden custom-scrollbar ${isCollapsed && !isMobile ? "px-0 items-center" : "px-4"}`}>
+      <nav className={`flex flex-col space-y-1 overflow-y-auto overflow-x-hidden custom-scrollbar ${isCollapsed && !isMobile ? "px-0 items-center" : "px-3"}`}>
          {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
             return (
@@ -121,9 +129,9 @@ export default function DashboardShell({
                 onClick={() => isMobile && setMobileMenuOpen(false)}
                 className={`flex items-center rounded-xl transition-all duration-200 group relative ${
                   isActive 
-                  ? "bg-brand/5 text-brand font-semibold" 
+                  ? "bg-brand/5 text-brand font-bold active-nav-link" 
                   : "text-text-muted hover:bg-surface hover:text-text-primary"
-                } ${isCollapsed && !isMobile ? "justify-center p-0 w-12 h-12 mx-auto shrink-0" : "px-4 py-3 gap-3 w-full"}`}
+                } ${isCollapsed && !isMobile ? "justify-center p-0 w-10 h-10 mx-auto shrink-0" : "px-3.5 py-2.5 gap-2.5 w-full"}`}
               >
                  <item.icon 
                    size={20} 
@@ -159,22 +167,22 @@ export default function DashboardShell({
       </nav>
  
       {/* Footer / User Dropdown */}
-      <div className={`mt-auto border-t border-stroke relative ${isCollapsed && !isMobile ? "p-3 px-0 flex justify-center" : "p-4"}`}>
+      <div className={`mt-auto border-t border-stroke relative ${isCollapsed && !isMobile ? "p-2 px-0 flex justify-center" : "p-3"}`}>
          <AnimatePresence>
             {showUserDropdown && (
                <motion.div 
                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
                  animate={{ opacity: 1, y: 0, scale: 1 }}
                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                 className={`absolute bottom-full left-4 right-4 mb-2 bg-white border border-stroke rounded-2xl shadow-xl z-50 overflow-hidden ${isCollapsed && !isMobile ? "w-48 left-full ml-2 bottom-0" : ""}`}
+                 className={`absolute bottom-full left-3 right-3 mb-2 bg-white border border-stroke rounded-xl shadow-xl z-50 overflow-hidden ${isCollapsed && !isMobile ? "w-44 left-full ml-2 bottom-0" : ""}`}
                >
-                  <div className="p-2 space-y-1">
+                  <div className="p-1.5 space-y-0.5">
                      <Link 
                        href="/dashboard/profile"
                        onClick={() => setShowUserDropdown(false)}
-                       className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-text-muted hover:bg-surface hover:text-text-primary transition-all"
+                       className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-text-muted hover:bg-surface hover:text-text-primary transition-all"
                      >
-                        <UserCircle size={18} />
+                        <UserCircle size={16} />
                         <span>Profile Settings</span>
                      </Link>
                      <button 
@@ -182,32 +190,32 @@ export default function DashboardShell({
                            setShowUserDropdown(false);
                            setShowLogoutConfirm(true);
                         }}
-                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 transition-all"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-red-500 hover:bg-red-50 transition-all"
                      >
-                        <LogOut size={18} />
+                        <LogOut size={16} />
                         <span>Logout</span>
                      </button>
                   </div>
                </motion.div>
             )}
          </AnimatePresence>
- 
+
          <button 
             onClick={() => setShowUserDropdown(!showUserDropdown)}
-            className={`flex items-center rounded-xl bg-surface/50 border border-stroke/50 hover:border-brand/30 transition-all group ${isCollapsed && !isMobile ? "w-12 h-12 justify-center p-0 mx-auto shrink-0" : "w-full p-2 gap-3"}`}
+            className={`flex items-center rounded-xl bg-surface/50 border border-stroke/50 hover:border-brand/30 transition-all group ${isCollapsed && !isMobile ? "w-10 h-10 justify-center p-0 mx-auto shrink-0" : "w-full p-1.5 gap-2.5"}`}
          >
-            <div className={`rounded-xl bg-brand/10 flex items-center justify-center text-brand font-bold text-sm shrink-0 group-hover:bg-brand group-hover:text-white transition-all ${isCollapsed && !isMobile ? "w-9 h-9" : "w-10 h-10"}`}>
+            <div className={`rounded-lg bg-brand/10 flex items-center justify-center text-brand font-bold text-xs shrink-0 group-hover:bg-brand group-hover:text-white transition-all ${isCollapsed && !isMobile ? "w-8 h-8" : "w-9 h-9"}`}>
                {(session?.name || session?.email || "?")[0].toUpperCase()}
             </div>
             {(!isCollapsed || isMobile) && (
                <div className="min-w-0 text-left flex-grow">
                   <p className="text-xs font-bold text-text-primary truncate">{session?.name || session?.email?.split('@')[0] || (role === "ADMIN" ? "Administrator" : "Team Member")}</p>
-                  <p className="text-[10px] text-text-muted truncate capitalize">{role.toLowerCase().replace('_', ' ')}</p>
+                  <p className="text-[9px] text-text-muted truncate capitalize">{role.toLowerCase().replace('_', ' ')}</p>
                </div>
             )}
             {(!isCollapsed || isMobile) && (
                <div className={`text-text-muted transition-transform duration-300 ${showUserDropdown ? 'rotate-180' : ''}`}>
-                  <ChevronUp size={16} />
+                  <ChevronUp size={14} />
                </div>
             )}
          </button>
@@ -244,7 +252,7 @@ export default function DashboardShell({
       {/* Desktop Sidebar */}
       <aside 
         className={`hidden md:flex border-r border-stroke flex-col h-screen sticky top-0 z-20 shrink-0 bg-white transition-all duration-300 ease-in-out overflow-x-hidden ${
-          isCollapsed ? "w-20" : "w-72"
+          isCollapsed ? "w-16" : "w-64"
         }`}
       >
         <SidebarContent />
@@ -266,7 +274,7 @@ export default function DashboardShell({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed left-0 top-0 bottom-0 w-[280px] bg-white shadow-2xl z-50 md:hidden flex flex-col"
+              className="fixed left-0 top-0 bottom-0 w-[260px] bg-white shadow-2xl z-50 md:hidden flex flex-col"
             >
                <SidebarContent isMobile />
             </motion.aside>
@@ -276,7 +284,7 @@ export default function DashboardShell({
 
       {/* Main Content */}
       <main className="flex-grow h-screen overflow-y-auto bg-surface/30 relative">
-         <div className="max-w-[1600px] mx-auto p-6 md:p-10 lg:p-12">
+         <div className="max-w-[1600px] mx-auto p-4 sm:p-6 md:p-8">
             {children}
          </div>
       </main>

@@ -138,73 +138,73 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="bg-white rounded-[2.5rem] border border-stroke p-8 md:p-12 shadow-premium relative overflow-hidden grain"
+            className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-premium relative overflow-hidden grain"
           >
-            <div className="flex justify-between items-center mb-10">
+            <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-brand/5 text-brand flex items-center justify-center">
-                        <Star size={20} />
+                    <div className="w-9 h-9 rounded-lg bg-brand/5 text-brand flex items-center justify-center">
+                        <Star size={18} />
                     </div>
-                    <h2 className="text-xl font-bold tracking-tight">
+                    <h2 className="text-lg font-bold tracking-tight">
                         {editingId ? "Edit Feedback" : "Add New Feedback"}
                     </h2>
                 </div>
                 <button onClick={resetForm} className="text-text-muted hover:text-brand transition-colors">
-                    <X size={24} />
+                    <X size={20} />
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <label className="text-xs font-bold text-brand flex items-center gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-brand flex items-center gap-1.5 uppercase">
                     <User size={12} /> Client Name
                 </label>
                 <input 
                   type="text" 
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="input-field" 
+                  className="input-field h-11 text-xs" 
                   placeholder="Full Name" 
                 />
               </div>
 
-              <div className="space-y-4">
-                <label className="text-xs font-bold text-brand flex items-center gap-2">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-brand flex items-center gap-1.5 uppercase">
                     <Building2 size={12} /> Role & Company
                 </label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                     <input 
                       type="text" 
                       value={formData.role}
                       onChange={(e) => setFormData({...formData, role: e.target.value})}
-                      className="input-field" 
+                      className="input-field h-11 text-xs" 
                       placeholder="e.g. CEO" 
                     />
                     <input 
                       type="text" 
                       value={formData.company}
                       onChange={(e) => setFormData({...formData, company: e.target.value})}
-                      className="input-field" 
+                      className="input-field h-11 text-xs" 
                       placeholder="e.g. Google" 
                     />
                 </div>
               </div>
 
-              <div className="md:col-span-2 space-y-4">
-                <label className="text-xs font-bold text-brand flex items-center gap-2">
+              <div className="md:col-span-2 space-y-2">
+                <label className="text-[10px] font-bold text-brand flex items-center gap-1.5 uppercase">
                     <Quote size={12} /> Feedback Content
                 </label>
                 <textarea 
-                  rows={4} 
+                  rows={3} 
                   value={formData.content}
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
-                  className="input-field h-auto py-6 resize-none" 
+                  className="input-field h-24 py-3 resize-none text-xs" 
                   placeholder="The impact of our partnership..." 
                 />
               </div>
 
-              <div className="space-y-4">
-                <label className="text-xs font-bold text-brand">Profile Image</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-brand uppercase">Profile Image</label>
                 <CloudinaryUpload 
                   value={formData.image} 
                   onChange={(url) => setFormData({...formData, image: url})} 
@@ -212,20 +212,20 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
                 />
               </div>
 
-              <div className="space-y-4">
-                 <label className="text-xs font-bold text-brand">Rating & Status</label>
-                 <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                 <label className="text-[10px] font-bold text-brand uppercase">Rating & Status</label>
+                 <div className="grid grid-cols-2 gap-3">
                     <select 
                         value={formData.rating}
                         onChange={(e) => setFormData({...formData, rating: parseInt(e.target.value)})}
-                        className="input-field"
+                        className="input-field h-11 text-xs"
                     >
                         {[5,4,3,2,1].map(n => <option key={n} value={n}>{n} Stars</option>)}
                     </select>
                     <select 
                         value={formData.status}
                         onChange={(e) => setFormData({...formData, status: e.target.value})}
-                        className="input-field"
+                        className="input-field h-11 text-xs"
                     >
                         <option value="published">Live / Published</option>
                         <option value="draft">Draft / Internal</option>
@@ -234,87 +234,87 @@ export default function FeedbackList({ initialTestimonials }: FeedbackListProps)
               </div>
             </div>
 
-            <div className="mt-12 flex justify-end gap-4">
+            <div className="mt-6 flex justify-end gap-3">
                 <button 
                   onClick={resetForm}
-                  className="btn-outline h-14 px-10 rounded-2xl text-[10px] font-black uppercase tracking-widest"
+                  className="btn-outline h-10 px-5 rounded-xl text-[9px] font-black uppercase tracking-widest"
                 >
                   Cancel
                 </button>
                 <button 
                   onClick={() => editingId ? handleUpdate(editingId) : handleAdd()}
                   disabled={isPending}
-                  className="btn-primary h-12 px-8 rounded-xl flex items-center gap-2 text-xs font-bold shadow-md"
+                  className="btn-primary h-10 px-5 rounded-xl flex items-center gap-2 text-xs font-bold shadow-md"
                 >
-                  <Save size={18} /> {editingId ? "Save Changes" : "Save Feedback"}
+                  <Save size={16} /> {editingId ? "Save Changes" : "Save Feedback"}
                 </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {testimonials.map((t, i) => (
             <motion.div 
                 key={t.id}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-[2rem] border border-stroke p-8 flex flex-col justify-between hover:shadow-premium transition-all group relative overflow-hidden grain"
+                className="bg-white rounded-2xl border border-stroke p-5 flex flex-col justify-between hover:shadow-premium transition-all group relative overflow-hidden grain"
             >
-                <div className="space-y-6">
+                <div className="space-y-4">
                     <div className="flex justify-between items-start">
                         <div className="flex gap-1 text-brand">
-                            {[...Array(t.rating)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
+                            {[...Array(t.rating)].map((_, i) => <Star key={i} size={12} fill="currentColor" />)}
                         </div>
-                        <span className={`text-[8px] font-black uppercase px-2 py-1 rounded-md ${t.status === 'published' ? 'bg-emerald-50 text-emerald-600' : 'bg-surface text-text-muted'}`}>
+                        <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded ${t.status === 'published' ? 'bg-emerald-50 text-emerald-600' : 'bg-surface text-text-muted'}`}>
                             {t.status}
                         </span>
                     </div>
 
-                    <p className="text-sm font-bold text-text-primary leading-relaxed line-clamp-4 italic">
+                    <p className="text-xs font-bold text-text-primary leading-relaxed line-clamp-4 italic">
                         "{t.content}"
                     </p>
 
-                    <div className="flex items-center gap-4 pt-4 border-t border-stroke/50">
+                    <div className="flex items-center gap-3 pt-3 border-t border-stroke/50">
                         {t.image ? (
-                            <img src={t.image} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt={t.name} />
+                            <img src={t.image} className="w-10 h-10 rounded-lg object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt={t.name} />
                         ) : (
-                            <div className="w-12 h-12 rounded-xl bg-surface flex items-center justify-center text-text-muted">
-                                <User size={20} />
+                            <div className="w-10 h-10 rounded-lg bg-surface flex items-center justify-center text-text-muted">
+                                <User size={16} />
                             </div>
                         )}
                         <div>
-                            <p className="text-sm font-black uppercase tracking-tight">{t.name}</p>
+                            <p className="text-xs font-black uppercase tracking-tight">{t.name}</p>
                             <p className="text-[9px] font-bold uppercase text-text-muted">{t.role} {t.company && `@ ${t.company}`}</p>
                         </div>
                     </div>
                 </div>
 
-                <div className="mt-8 flex gap-3">
+                <div className="mt-5 flex gap-2">
                     <button 
                         onClick={() => startEdit(t)}
-                        className="flex-1 h-10 rounded-xl bg-surface border border-stroke flex items-center justify-center gap-2 text-[9px] font-black uppercase tracking-widest text-text-muted hover:text-brand hover:border-brand/30 transition-all"
+                        className="flex-1 h-9 rounded-lg bg-surface border border-stroke flex items-center justify-center gap-2 text-[9px] font-black uppercase tracking-widest text-text-muted hover:text-brand hover:border-brand/30 transition-all"
                     >
-                        <Edit2 size={12} /> Edit
+                        <Edit2 size={10} /> Edit
                     </button>
                     <button 
                         onClick={() => setDeleteConfirm({ isOpen: true, id: t.id })}
-                        className="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm shadow-red-100"
+                        className="w-9 h-9 rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm shadow-red-100"
                     >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                     </button>
                 </div>
             </motion.div>
         ))}
 
         {testimonials.length === 0 && !showAddForm && (
-            <div className="col-span-full py-24 text-center bg-surface/30 rounded-[3rem] border-2 border-dashed border-stroke">
-                <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center text-text-muted mx-auto mb-6 shadow-sm">
-                    <Star size={40} className="opacity-20" />
+            <div className="col-span-full py-16 text-center bg-surface/30 rounded-2xl border-2 border-dashed border-stroke">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-text-muted mx-auto mb-4 shadow-sm">
+                    <Star size={32} className="opacity-20" />
                 </div>
-                <h3 className="text-xl font-bold tracking-tight text-text-muted">No Feedback Found</h3>
-                <p className="text-xs text-text-muted mt-2">Add your first client testimonial above.</p>
+                <h3 className="text-lg font-bold tracking-tight text-text-muted">No Feedback Found</h3>
+                <p className="text-xs text-text-muted mt-1.5">Add your first client testimonial above.</p>
             </div>
         )}
       </div>
