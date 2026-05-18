@@ -219,7 +219,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
           
           <div className="container-max w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-              <div className="lg:col-span-7 space-y-10">
+              <div className="lg:col-span-7 space-y-6 md:space-y-10">
                 <motion.div 
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -230,7 +230,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand whitespace-nowrap">{hero.badge}</p>
                 </motion.div>
  
-                <div className="space-y-4">
+                <div className="space-y-2 md:space-y-4">
                   <motion.h1 
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -262,7 +262,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
-                  className="flex flex-col sm:flex-row gap-6 pt-4 will-change-gpu"
+                  className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-2 md:pt-4 will-change-gpu"
                 >
                     <Link href={hero.ctaLink || "/#contact"} className="btn-primary group h-16 px-12 text-[11px] font-bold uppercase tracking-wider bg-brand hover:brightness-110 flex items-center justify-center gap-3 shadow-2xl">
                       {hero.ctaText || "Book a Free Call"}
@@ -350,10 +350,10 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
           </div>
         </section>
 
-        <section className="py-32 border-y border-stroke bg-surface/30 relative overflow-hidden">
+        <section className="py-12 md:py-32 border-y border-stroke bg-surface/30 relative overflow-hidden">
           <div className="container-max">
-            <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
-               <div className="max-w-2xl space-y-6">
+            <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-10 md:mb-20">
+               <div className="max-w-2xl space-y-3 md:space-y-6">
                   <motion.div 
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -389,25 +389,25 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "100px 0px" }}
                   transition={{ duration: 0.4 }}
-                  className="group flex flex-col justify-between p-6 md:p-12 bg-white border border-stroke rounded-3xl md:rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain will-change-gpu"
+                  className="group flex flex-col justify-between p-5 md:p-12 bg-white border border-stroke rounded-2xl md:rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain will-change-gpu"
                 >
                   <div className="absolute top-0 right-0 w-64 h-64 bg-brand/[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand/5 transition-colors" />
                   
-                  <div className="space-y-8 md:space-y-12 relative z-10">
+                  <div className="space-y-5 md:space-y-12 relative z-10">
                     <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl md:rounded-[2rem] bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm">
                       <vertical.icon className="w-8 h-8 md:w-12 md:h-12" strokeWidth={1.2} />
                     </div>
                     
-                    <div className="space-y-4 md:space-y-6">
+                    <div className="space-y-2 md:space-y-6">
                       <div className="flex items-center gap-4">
                         <span className="text-brand text-xs font-black tracking-[0.4em] uppercase">{vertical.id}</span>
-                        <h4 className="text-2xl md:text-3xl font-bold uppercase tracking-tight">{vertical.title}</h4>
+                        <h4 className="text-xl md:text-3xl font-bold uppercase tracking-tight">{vertical.title}</h4>
                       </div>
-                      <p className="text-text-muted text-base md:text-lg font-medium leading-relaxed max-w-md">{vertical.desc}</p>
+                      <p className="text-text-muted text-sm md:text-lg font-medium leading-relaxed max-w-md">{vertical.desc}</p>
                     </div>
                   </div>
 
-                  <div className="pt-8 md:pt-12 border-t border-stroke/50 flex items-center justify-between mt-8 md:mt-auto">
+                  <div className="pt-5 md:pt-12 border-t border-stroke/50 flex items-center justify-between mt-6 md:mt-auto">
                      <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted group-hover:text-brand transition-colors">Strategic Roadmap</span>
                      <div className="w-12 h-12 rounded-full border border-stroke group-hover:border-brand/20 flex items-center justify-center transition-all bg-surface">
                         <ArrowRight className="text-text-muted group-hover:text-brand transition-all -rotate-45 group-hover:rotate-0" size={20} />
@@ -437,16 +437,16 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "100px 0px" }}
                     transition={{ delay: i * 0.05, duration: 0.4 }}
-                    className="group flex-1 flex flex-col md:flex-row items-center gap-6 md:gap-10 p-6 md:p-10 bg-white border border-stroke rounded-2xl md:rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden will-change-gpu"
+                    className="group flex-1 flex flex-col md:flex-row items-center gap-4 md:gap-10 p-4 md:p-10 bg-white border border-stroke rounded-2xl md:rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden will-change-gpu"
                   >
                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shrink-0 shadow-sm">
                       <vertical.icon className="w-8 h-8 md:w-9 md:h-9" strokeWidth={1.2} />
                     </div>
                     
                     <div className="space-y-2 md:space-y-4 text-center md:text-left">
-                      <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 justify-center md:justify-start">
+                      <div className="flex flex-row items-center gap-3 justify-center md:justify-start">
                         <span className="text-brand text-[10px] font-bold tracking-[0.3em] uppercase">{vertical.id}</span>
-                        <h4 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{vertical.title}</h4>
+                        <h4 className="text-lg md:text-2xl font-bold uppercase tracking-tight">{vertical.title}</h4>
                       </div>
                       <p className="text-text-muted text-sm font-medium leading-relaxed max-w-sm">{vertical.desc}</p>
                     </div>
@@ -468,8 +468,8 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 
         <section className="section-padding bg-white relative overflow-hidden">
           <div className="container-max relative z-10">
-            <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
-              <div className="max-w-2xl space-y-6">
+            <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-10 md:mb-20">
+              <div className="max-w-2xl space-y-3 md:space-y-6">
                 <motion.div 
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -489,7 +489,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               </p>
             </div>
  
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
               {SERVICES.map((service, i) => (
                 <ServiceCard key={service.title} {...service} index={i} />
               ))}
@@ -499,11 +499,11 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
           <div className="absolute top-1/2 left-0 w-full h-full bg-brand/5 blur-[120px] -z-10 translate-y-1/2" />
         </section>
 
-        <section className="py-32 border-y border-stroke bg-surface/30 px-6 relative overflow-hidden">
+        <section className="py-16 md:py-32 border-y border-stroke bg-surface/30 px-4 md:px-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] translate-x-1/2 -translate-y-1/2" />
           <div className="container-max relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
-              <div className="lg:col-span-5 space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-20 items-center">
+              <div className="lg:col-span-5 space-y-4 md:space-y-8">
                 <div className="space-y-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">{expertise.badge}</p>
                   <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-none">
@@ -533,7 +533,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "100px 0px" }}
                     transition={{ delay: i * 0.03, duration: 0.4 }}
-                    className="glass p-10 border border-white/40 rounded-[2.5rem] flex flex-col items-center justify-center gap-8 group hover:border-brand/40 transition-all duration-500 shadow-premium cursor-default grain will-change-gpu"
+                    className="glass p-5 md:p-10 border border-white/40 rounded-2xl md:rounded-[2.5rem] flex flex-col items-center justify-center gap-4 md:gap-8 group hover:border-brand/40 transition-all duration-500 shadow-premium cursor-default grain will-change-gpu"
                   >
                     <div className="w-16 h-16 rounded-[1.5rem] bg-brand/5 flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 border border-brand/10 shadow-inner">
                       <industry.icon size={32} strokeWidth={1} />
@@ -548,8 +548,8 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 
         <section id="work" className="section-padding relative">
           <div className="container-max relative z-10">
-            <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-10">
-              <div className="space-y-6">
+            <div className="flex flex-col lg:flex-row justify-between items-end mb-10 md:mb-24 gap-10">
+              <div className="space-y-3 md:space-y-6">
                 <motion.div 
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -569,7 +569,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               </Link>
             </div>
  
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16">
               {studies.slice(0, 2).map((study) => (
                 <CaseStudyCard 
                   key={study.id}
@@ -589,12 +589,12 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
  
         <section className="section-padding border-y border-stroke bg-surface/30 relative">
           <div className="container-max relative z-10">
-            <div className="text-center mb-12 md:mb-32 space-y-4 md:space-y-6">
+            <div className="text-center mb-8 md:mb-32 space-y-3 md:space-y-6">
                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">{partnership.badge}</p>
                <h2 className="text-3xl md:text-6xl font-bold tracking-tight uppercase leading-none">{partnership.heading}</h2>
             </div>
  
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-12 relative">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 relative">
               {partnership.items && partnership.items.length > 0 ? (
                 partnership.items.map((item: any, idx: number) => (
                   <ProcessItem
@@ -621,8 +621,8 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 
         <section className="section-padding relative overflow-hidden bg-white">
           <div className="container-max relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-              <div className="space-y-10 order-2 lg:order-1">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
+              <div className="space-y-6 md:space-y-10 order-2 lg:order-1">
                 <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">{strategy.badge}</p>
                   <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">
@@ -634,7 +634,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   {strategy.subtext}
                 </p>
  
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
                   <div className="space-y-4">
                     <div className="w-12 h-12 rounded-xl bg-brand/5 flex items-center justify-center text-brand">
                       <Code2 size={24} />
@@ -653,7 +653,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               </div>
  
               <div className="lg:order-2 order-1 relative">
-                <div className="aspect-square glass rounded-[3rem] p-10 relative overflow-hidden group shadow-premium grain">
+                <div className="aspect-square glass rounded-2xl md:rounded-[3rem] p-5 md:p-10 relative overflow-hidden group shadow-premium grain">
                    <div className="absolute inset-0 bg-brand/[0.02] -z-10" />
 
                    <div className="relative h-full flex flex-col justify-center gap-6">
@@ -715,13 +715,13 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 
         <section className="section-padding relative bg-surface/30">
           <div className="container-max">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
               <div className="relative group p-4">
-                <div className="aspect-[4/5] glass rounded-[3rem] overflow-hidden relative shadow-premium grain">
+                <div className="aspect-[4/5] glass rounded-2xl md:rounded-[3rem] overflow-hidden relative shadow-premium grain">
                   <Image src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2070" alt="Team Session" fill className="w-full h-full object-cover grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent " />
 
-                  <div className="absolute bottom-10 left-10 right-10 p-8 glass-dark rounded-3xl backdrop-blur-2xl space-y-4">
+                  <div className="absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 md:right-10 p-4 md:p-8 glass-dark rounded-3xl backdrop-blur-2xl space-y-4">
                      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand brightness-125">The Standard</p>
                      <h4 className="text-3xl font-bold tracking-tighter text-white">Growth Focused.</h4>
                      <p className="text-white/90 text-[11px] font-medium uppercase tracking-wider">We measure our success by your brand's actual growth.</p>
@@ -729,7 +729,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 </div>
               </div>
  
-              <div className="space-y-16">
+              <div className="space-y-8 md:space-y-16">
                 <div className="space-y-6">
                   <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">{excellence.badge}</p>
                   <h2 className="text-4xl md:text-5xl font-bold tracking-tight uppercase leading-none">
@@ -737,7 +737,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   </h2>
                 </div>
                 
-                <div className="space-y-10">
+                <div className="space-y-6 md:space-y-10">
                   <ValueProp title="Smart Strategy" desc="We focus on long-term value, designing systems that grow alongside your business goals." />
                   <ValueProp title="Modern Architecture" desc="Our systems are built using reusable, high-performance components for fast scaling." />
                   <ValueProp title="Clear Reporting" desc="Honest, data-backed insights into every phase of our work." />
@@ -753,14 +753,14 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 
         <section className="section-padding relative overflow-hidden bg-white">
           <div className="container-max relative z-10">
-            <div className="text-center mb-24 space-y-6">
+            <div className="text-center mb-10 space-y-3">
               <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">{testimonials.badge}</p>
               <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">
                 {testimonials.heading} <br /> <span className="text-brand">{testimonials.headingAccent}</span>
               </h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
               {(dbTestimonials?.length ? dbTestimonials : testimonials.items)?.slice(0, 3).map((item: any, i: number) => (
                 <TestimonyCard 
                   key={i}
@@ -777,8 +777,8 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 
         <section className="section-padding relative bg-surface/30">
           <div className="container-max relative z-10">
-            <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-10">
-              <div className="space-y-6">
+            <div className="flex flex-col lg:flex-row justify-between items-end mb-10 md:mb-24 gap-10">
+              <div className="space-y-3 md:space-y-6">
                 <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">{insights.badge}</p>
                 <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">
                   {insights.heading} <span className="text-brand">{insights.headingAccent}</span>
@@ -789,7 +789,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               </Link>
             </div>
  
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12">
               {posts.slice(0, 3).map((post) => (
                 <BlogSnippet 
                   key={post.id}
@@ -882,10 +882,10 @@ const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "100px 0px" }}
         transition={{ delay: index * 0.05, duration: 0.4 }}
-      className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-[460px] md:min-h-[500px] flex flex-col justify-between will-change-gpu"
+      className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-5 md:p-10 rounded-2xl md:rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-fit md:min-h-[500px] flex flex-col justify-between will-change-gpu"
     >
-      <div className="relative z-10 space-y-6 md:space-y-8">
-        <div className="w-14 h-14 md:w-16 md:h-16 bg-brand/5 border border-brand/10 rounded-xl md:rounded-2xl flex items-center justify-center text-brand mb-4 md:mb-6 group-hover:bg-brand group-hover:text-white transition-all duration-700">
+      <div className="relative z-10 space-y-4 md:space-y-8">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-brand/5 border border-brand/10 rounded-xl md:rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700">
           <Icon size={24} strokeWidth={1.5} />
         </div>
         
@@ -894,7 +894,7 @@ const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug
           <p className="text-text-muted text-sm md:text-base leading-relaxed line-clamp-3 pr-4 font-medium">{desc}</p>
         </div>
  
-        <ul className="grid grid-cols-2 gap-3 md:gap-4 pt-6 md:pt-8 border-t border-stroke">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4 pt-4 md:pt-8 border-t border-stroke">
           {features && features.map((item: string) => (
             <li key={item} className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-wider text-text-muted">
               <div className="w-1.5 h-1.5 bg-brand rounded-full shrink-0" />
@@ -917,7 +917,7 @@ const CaseStudyCard = React.memo(({ title, stats, kpi, tag, image, slug }: any) 
   return (
     <motion.div 
       whileHover={{ y: -10 }}
-      className="corporate-card p-0 group overflow-hidden bg-surface border border-stroke rounded-3xl md:rounded-[3rem] shadow-premium"
+      className="corporate-card p-0 group overflow-hidden bg-surface border border-stroke rounded-2xl md:rounded-[3rem] shadow-premium"
     >
       <div className="aspect-[16/10] relative overflow-hidden">
         <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
@@ -934,8 +934,8 @@ const CaseStudyCard = React.memo(({ title, stats, kpi, tag, image, slug }: any) 
             </Link>
         </div>
       </div>
-      <div className="p-6 md:p-10 space-y-6 bg-white">
-        <h3 className="text-2xl md:text-3xl font-bold mb-3 tracking-tight uppercase leading-tight">{title}</h3>
+      <div className="p-5 md:p-10 space-y-4 bg-white">
+        <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-3 tracking-tight uppercase leading-tight">{title}</h3>
         <Link href={`/work/${slug}`} className="btn-outline h-14 w-full text-[10px] font-bold uppercase tracking-wider group/link border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
           View Project <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform" />
         </Link>
@@ -964,7 +964,7 @@ const ValueProp = React.memo(({ title, desc }: any) => {
       </div>
       <div>
         <h4 className="text-xl font-bold mb-2 uppercase tracking-tight">{title}</h4>
-        <p className="text-text-muted text-lg font-medium leading-relaxed">{desc}</p>
+        <p className="text-text-muted text-base font-medium leading-relaxed">{desc}</p>
       </div>
     </div>
   );
@@ -972,9 +972,9 @@ const ValueProp = React.memo(({ title, desc }: any) => {
  
 const TestimonyCard = React.memo(({ name, role, quote, image }: any) => {
   return (
-    <div className="corporate-card relative group hover:scale-[1.02] bg-surface border border-stroke p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all h-full flex flex-col justify-between">
+    <div className="corporate-card relative group hover:scale-[1.02] bg-surface border border-stroke p-5 md:p-10 rounded-2xl md:rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all h-full flex flex-col justify-between">
       <MessageSquare className="text-brand/5 absolute top-6 right-6 md:top-8 md:right-8 group-hover:text-brand/10 transition-colors" size={60} />
-      <p className="text-text-secondary italic text-base md:text-xl mb-6 md:mb-10 leading-relaxed font-medium relative z-10 antialiased">"{quote}"</p>
+      <p className="text-text-secondary italic text-sm md:text-xl mb-4 md:mb-10 leading-relaxed font-medium relative z-10 antialiased">"{quote}"</p>
       <div className="flex items-center gap-5 pt-6 md:pt-8 border-t border-stroke mt-auto">
         {image ? (
             <Image src={image} width={48} height={48} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all duration-700 shadow-sm" alt={name} />
@@ -994,13 +994,13 @@ const TestimonyCard = React.memo(({ name, role, quote, image }: any) => {
  
 const BlogSnippet = React.memo(({ title, date, category, image, slug }: any) => {
   return (
-    <div className="corporate-card p-0 group hover:scale-[1.02] bg-surface border border-stroke overflow-hidden rounded-3xl md:rounded-[2.5rem] shadow-premium">
+    <div className="corporate-card p-0 group hover:scale-[1.02] bg-surface border border-stroke overflow-hidden rounded-2xl md:rounded-[2.5rem] shadow-premium">
       <div className="aspect-[16/10] overflow-hidden relative">
          <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent" />
          <div className="absolute top-6 left-6 px-4 py-1.5 bg-brand text-white rounded-full text-[8px] font-bold uppercase tracking-wider">{category}</div>
       </div>
-      <div className="p-5 md:p-8 space-y-6 relative -mt-16 z-10 bg-white mx-4 mb-4 rounded-3xl border border-stroke shadow-sm">
+      <div className="p-4 md:p-8 space-y-4 relative -mt-16 z-10 bg-white mx-3 mb-3 rounded-2xl border border-stroke shadow-sm">
         <div className="space-y-3">
            <p className="text-[10px] font-bold text-text-muted uppercase tracking-wider">{date}</p>
            <h4 className="text-xl font-bold tracking-tight uppercase group-hover:text-brand transition-colors line-clamp-2 leading-tight">{title}</h4>

@@ -60,8 +60,8 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      className="group relative aspect-[4/5] rounded-[2rem] overflow-hidden border border-stroke bg-surface"
+      viewport={{ once: true, margin: "100px 0px" }}
+      className="group relative aspect-[4/5] rounded-2xl md:rounded-[2rem] overflow-hidden border border-stroke bg-surface"
     >
       <Image 
         src={image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2070"} 
@@ -70,10 +70,10 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
         className="object-cover transition-transform duration-700 group-hover:scale-105" 
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-        <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 space-y-4">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-4 md:p-8">
+        <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 space-y-2 md:space-y-4">
           <div className="space-y-1">
-            <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight uppercase leading-none">{name}</h3>
+            <h3 className="text-lg md:text-2xl font-bold text-white tracking-tight uppercase leading-none">{name}</h3>
             <p className="text-[10px] font-bold text-brand uppercase tracking-[0.2em]">{role}</p>
           </div>
           

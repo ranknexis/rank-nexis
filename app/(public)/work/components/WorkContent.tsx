@@ -73,19 +73,19 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
          </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <section className="py-12 md:py-24">
          <div className="container-max">
-            <div className="grid grid-cols-1 gap-16 md:gap-32 px-4 md:px-0">
+            <div className="grid grid-cols-1 gap-8 md:gap-32 px-4 md:px-0">
                {filteredStudies.map((study, i) => (
                   <motion.div 
                      key={study.id}
                      initial={{ opacity: 0, y: 15 }}
                      whileInView={{ opacity: 1, y: 0 }}
-                     viewport={{ once: true, margin: "0px" }}
+                     viewport={{ once: true, margin: "100px 0px" }}
                      transition={{ duration: 0.4 }}
-                     className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center group will-change-gpu"
+                     className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-16 items-center group will-change-gpu"
                   >
-                     <div className="lg:col-span-7 aspect-[16/10] md:aspect-video relative overflow-hidden rounded-3xl md:rounded-[3rem] shadow-premium grain border border-stroke w-full h-full min-h-[220px] sm:min-h-[350px] lg:min-h-[450px]">
+                     <div className="lg:col-span-7 aspect-[16/10] md:aspect-video relative overflow-hidden rounded-2xl md:rounded-[3rem] shadow-premium grain border border-stroke w-full h-full min-h-[220px] sm:min-h-[350px] lg:min-h-[450px]">
                         <Image 
                            src={study.image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426"} 
                            alt={study.title} 
@@ -94,21 +94,21 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
                            className="object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
-                        <div className="absolute bottom-4 left-4 md:bottom-10 md:left-10 p-4 md:p-6 glass-dark rounded-xl md:rounded-2xl text-white border border-white/10">
-                           <p className="text-2xl md:text-5xl font-bold tracking-tighter text-brand leading-none mb-1">{study.stats}</p>
+                        <div className="absolute bottom-3 left-3 md:bottom-10 md:left-10 p-3 md:p-6 glass-dark rounded-xl md:rounded-2xl text-white border border-white/10">
+                           <p className="text-xl md:text-5xl font-bold tracking-tighter text-brand leading-none mb-1">{study.stats}</p>
                            <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest opacity-80">{study.kpi}</p>
                         </div>
                      </div>
                      
-                     <div className="lg:col-span-5 space-y-6 md:space-y-10">
-                        <div className="space-y-4 md:space-y-6">
+                     <div className="lg:col-span-5 space-y-4 md:space-y-10">
+                        <div className="space-y-3 md:space-y-6">
                            <div className="inline-flex items-center gap-2 px-3 py-1 glass rounded-full text-[10px] font-bold uppercase tracking-widest text-brand border border-stroke">
                               {study.tag}
                            </div>
-                           <h3 className="text-2xl md:text-6xl font-bold uppercase tracking-tighter leading-tight lg:leading-[0.85] group-hover:text-brand transition-colors antialiased">
+                           <h3 className="text-xl md:text-6xl font-bold uppercase tracking-tighter leading-tight lg:leading-[0.85] group-hover:text-brand transition-colors antialiased">
                               {study.title}
                            </h3>
-                           <p className="text-text-muted text-base md:text-xl font-medium leading-relaxed antialiased">
+                           <p className="text-text-muted text-sm md:text-base font-medium leading-relaxed antialiased">
                               {study.description}
                            </p>
                         </div>
