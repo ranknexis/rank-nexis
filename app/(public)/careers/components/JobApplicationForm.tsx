@@ -42,7 +42,7 @@ export default function JobApplicationForm({ jobId }: Props) {
   };
 
   return (
-    <form onSubmit={handleApply} className="space-y-8">
+    <form onSubmit={handleApply} className="space-y-6 md:space-y-8">
       <div className="space-y-2">
         <label className="text-[10px] font-bold uppercase text-brand ml-4">Full Name</label>
         <input required name="name" type="text" placeholder="John Doe" className="input-field shadow-sm bg-white" />
@@ -57,10 +57,10 @@ export default function JobApplicationForm({ jobId }: Props) {
       </div>
       <div className="space-y-4">
         <label className="text-[10px] font-bold uppercase text-brand ml-4">Why should we hire you?</label>
-        <textarea required name="coverLetter" rows={4} placeholder="Tell us about your experience..." className="input-field h-auto py-6 resize-none shadow-sm bg-white" />
+        <textarea required name="coverLetter" rows={4} placeholder="Tell us about your experience..." className="input-field h-auto py-4 md:py-6 resize-none shadow-sm bg-white" />
       </div>
 
-      <button disabled={isSubmitting} type="submit" className="btn-primary w-full h-20 text-[10px] uppercase group shadow-premium">
+      <button disabled={isSubmitting} type="submit" className="btn-primary w-full h-16 md:h-20 text-[10px] uppercase group shadow-premium flex items-center justify-center">
         {isSubmitting ? "Sending..." : "Submit Application"}
         <ArrowRight size={16} className="ml-3 group-hover:translate-x-2 transition-transform" />
       </button>

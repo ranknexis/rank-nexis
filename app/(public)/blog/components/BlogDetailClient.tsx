@@ -99,91 +99,91 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
 
   return (
     <div className="min-h-screen bg-white text-text-primary">
-      <main className="pt-24 pb-24 md:pt-32 md:pb-40 grain">
-        <div className="container-max">
+      <main className="pt-16 pb-16 md:pt-32 md:pb-40 grain px-4">
+        <div className="container-max px-4 md:px-0">
 
-          <header className="max-w-4xl mx-auto mb-20 text-center">
+          <header className="max-w-4xl mx-auto mb-10 md:mb-20 text-center">
              <motion.div 
-               initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center gap-3 px-4 py-2 bg-brand/5 border border-brand/10 rounded-full mb-8"
+             >
+                <span className="text-[10px] font-bold uppercase text-brand">Publication / {post.category?.name || 'Knowledge Hub'}</span>
+             </motion.div>
+
+             <motion.h1 
+               initial={{ opacity: 0, y: 30 }}
                animate={{ opacity: 1, y: 0 }}
-               className="inline-flex items-center gap-3 px-4 py-2 bg-brand/5 border border-brand/10 rounded-full mb-8"
-            >
-               <span className="text-[10px] font-bold uppercase text-brand">Publication / {post.category?.name || 'Knowledge Hub'}</span>
-            </motion.div>
+               transition={{ delay: 0.1 }}
+               className="text-2xl md:text-5xl lg:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-tight uppercase"
+             >
+               {post.title}
+             </motion.h1>
+             
+             <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 0.3 }}
+               className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-8 md:mb-16 px-4 md:px-6"
+             >
+                <div className="flex items-center gap-4 text-left">
+                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-brand/20 p-0.5 bg-white shadow-sm">
+                      <div className="w-full h-full rounded-full bg-brand/10 flex items-center justify-center text-brand">
+                         <User size={20} strokeWidth={1.5} />
+                      </div>
+                   </div>
+                   <div>
+                     <p className="text-[10px] font-bold uppercase text-text-primary leading-none mb-1">{post.author?.name || 'Admin'}</p>
+                     <p className="text-[9px] font-bold uppercase text-gray-400">{post.author?.teamProfile?.role || post.author?.role || 'Expert Strategist'}</p>
+                   </div>
+                </div>
+                
+                <div className="h-8 w-px bg-gray-200 hidden sm:block" />
+                
+                <div className="flex items-center gap-4 text-left">
+                   <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 shadow-sm">
+                      <Calendar size={18} />
+                   </div>
+                   <div>
+                     <p className="text-[10px] font-bold uppercase text-text-primary leading-none mb-1">{formattedDate}</p>
+                     <p className="text-[9px] font-bold uppercase text-gray-400">Published Date</p>
+                   </div>
+                </div>
 
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-3xl md:text-5xl lg:text-7xl font-bold mb-8 tracking-tighter leading-[1.1] uppercase"
-            >
-              {post.title}
-            </motion.h1>
-            
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="flex items-center justify-center gap-8 mb-16 px-6"
-            >
-               <div className="flex items-center gap-4 text-left">
-                  <div className="w-12 h-12 rounded-full border-2 border-brand/20 p-0.5 bg-white shadow-sm">
-                     <div className="w-full h-full rounded-full bg-brand/10 flex items-center justify-center text-brand">
-                        <User size={20} strokeWidth={1.5} />
-                     </div>
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold uppercase text-text-primary leading-none mb-1">{post.author?.name || 'Admin'}</p>
-                    <p className="text-[9px] font-bold uppercase text-gray-400">{post.author?.teamProfile?.role || post.author?.role || 'Expert Strategist'}</p>
-                  </div>
-               </div>
-               
-               <div className="h-8 w-px bg-gray-200 hidden sm:block" />
-               
-               <div className="flex items-center gap-4 text-left">
-                  <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 shadow-sm">
-                     <Calendar size={18} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold uppercase text-text-primary leading-none mb-1">{formattedDate}</p>
-                    <p className="text-[9px] font-bold uppercase text-gray-400">Published Date</p>
-                  </div>
-               </div>
+                <div className="h-8 w-px bg-gray-200 hidden md:block" />
 
-               <div className="h-8 w-px bg-gray-200 hidden md:block" />
+                <div className="hidden md:flex items-center gap-4 text-left">
+                   <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 shadow-sm">
+                      <Clock size={18} />
+                   </div>
+                   <div>
+                     <p className="text-[10px] font-bold uppercase text-text-primary leading-none mb-1">{readingTime} MIN READ</p>
+                     <p className="text-[9px] font-bold uppercase text-gray-400">Est. Time</p>
+                   </div>
+                </div>
+             </motion.div>
 
-               <div className="hidden md:flex items-center gap-4 text-left">
-                  <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 shadow-sm">
-                     <Clock size={18} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold uppercase text-text-primary leading-none mb-1">{readingTime} MIN READ</p>
-                    <p className="text-[9px] font-bold uppercase text-gray-400">Est. Time</p>
-                  </div>
-               </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="aspect-[4/3] md:aspect-[21/9] max-w-3xl mx-auto rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-gray-100 shadow-premium group relative"
-            >
-               <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
-               <Image src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} fill className="w-full h-full object-cover transition-transform duration-1000" />
-               
-               <div className="absolute bottom-8 right-8 z-20">
-                  <button 
-                    onClick={handleShare}
-                    className="w-14 h-14 bg-white/90 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-brand shadow-xl hover:rotate-12 transition-all active:scale-95"
-                  >
-                     <Share2 size={24} />
-                  </button>
-               </div>
-            </motion.div>
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.95 }}
+               animate={{ opacity: 1, scale: 1 }}
+               transition={{ delay: 0.5, duration: 0.8 }}
+               className="aspect-[16/10] md:aspect-[21/9] max-w-3xl mx-auto rounded-3xl md:rounded-[3rem] overflow-hidden border border-gray-100 shadow-premium group relative"
+             >
+                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
+                <Image src={post.image || "https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070"} alt={post.title} fill className="w-full h-full object-cover transition-transform duration-1000" />
+                
+                <div className="absolute bottom-8 right-8 z-20">
+                   <button 
+                     onClick={handleShare}
+                     className="w-14 h-14 bg-white/90 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-brand shadow-xl hover:rotate-12 transition-all active:scale-95"
+                   >
+                      <Share2 size={24} />
+                   </button>
+                </div>
+             </motion.div>
           </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 xl:gap-24 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 xl:gap-24 items-start">
 
             <aside className="lg:col-span-3 lg:sticky lg:top-32 order-2 lg:order-1 self-start max-h-[calc(100vh-160px)] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
                <div className="space-y-12">
@@ -218,7 +218,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                     </div>
                   )}
 
-                  <div className="relative overflow-hidden bg-brand p-8 text-white space-y-6 rounded-[2rem] shadow-xl group">
+                  <div className="relative overflow-hidden bg-brand p-8 text-white space-y-6 rounded-3xl md:rounded-[2rem] shadow-xl group">
                      <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all duration-700" />
                      <TrendingUp size={32} strokeWidth={1.5} className="text-white/40" />
                      <div className="space-y-3">
@@ -233,20 +233,20 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                </div>
             </aside>
 
-            <article className="lg:col-span-9 order-1 lg:order-2">
-                <div className="max-w-3xl prose prose-xl prose-gray blog-content-area
+            <article className="lg:col-span-9 order-1 lg:order-2 w-full max-w-none">
+                <div className="w-full lg:max-w-3xl prose prose-base md:prose-xl prose-gray blog-content-area
                   prose-headings:font-bold prose-headings:tracking-tighter prose-headings:uppercase prose-headings:text-text-primary
-                  prose-h2:text-4xl md:prose-h2:text-5xl
-                  prose-h2:scroll-mt-[120px] prose-h2:mt-40 prose-h2:mb-12
-                  prose-h3:text-2xl md:prose-h3:text-3xl
-                  prose-h3:scroll-mt-[120px] prose-h3:mt-24 prose-h3:mb-8
+                  prose-h2:text-2xl md:prose-h2:text-4xl lg:prose-h2:text-5xl
+                  prose-h2:scroll-mt-[120px] prose-h2:mt-16 md:prose-h2:mt-32 prose-h2:mb-6 md:prose-h2:mb-10
+                  prose-h3:text-xl md:prose-h3:text-2xl lg:prose-h3:text-3xl
+                  prose-h3:scroll-mt-[120px] prose-h3:mt-10 md:prose-h3:mt-20 prose-h3:mb-4 md:prose-h3:mb-8
                   prose-p:text-gray-600 prose-p:leading-[1.9] prose-p:font-medium prose-p:mb-12
                   prose-strong:text-text-primary prose-strong:font-bold
                   prose-ul:list-disc prose-ul:ps-10 prose-ul:my-12 prose-ul:space-y-4
                   prose-ol:list-decimal prose-ol:ps-10 prose-ol:my-12 prose-ol:space-y-4
                   prose-li:marker:text-brand prose-li:marker:font-black prose-li:text-gray-600 prose-li:ps-2
                   prose-hr:my-24 prose-hr:opacity-20
-                  prose-img:rounded-[2.5rem] prose-img:shadow-premium prose-img:my-20">
+                  prose-img:rounded-3xl md:prose-img:rounded-[2.5rem] prose-img:shadow-premium prose-img:my-10 md:prose-img:my-20">
                   <div 
                     ref={contentRef}
                     className="drop-cap-article"
@@ -254,7 +254,7 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
                   />
 
                   {post.tags?.length > 0 && (
-                    <div className="mt-32 pt-12 border-t border-gray-100 flex flex-wrap gap-3">
+                    <div className="mt-16 md:mt-32 pt-8 md:pt-12 border-t border-gray-100 flex flex-wrap gap-3">
                       {post.tags.map((tag: string) => (
                         <span key={tag} className="px-5 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-[9px] font-bold uppercase text-gray-500 hover:border-brand/20 hover:text-brand transition-all cursor-default">#{tag}</span>
                       ))}
@@ -265,18 +265,18 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
           </div>
 
           {relatedPosts.length > 0 && (
-            <section className="mt-40 pt-20 border-t border-gray-200">
-              <div className="flex flex-col md:flex-row justify-between items-end gap-10 mb-20">
+            <section className="mt-20 md:mt-40 pt-10 md:pt-20 border-t border-gray-200">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 md:mb-20">
                 <div className="space-y-6">
                   <span className="text-[10px] font-bold uppercase text-brand tracking-[0.2em]">Deep Stack Analysis</span>
-                  <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter uppercase leading-[0.95]">More <br />Insights.</h2>
+                  <h2 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">More <br />Insights.</h2>
                 </div>
-                <Link href="/blog" className="btn-outline h-16 px-12 text-[10px] uppercase tracking-widest hover:bg-brand hover:text-white transition-all">
+                <Link href="/blog" className="btn-outline h-12 px-6 md:h-16 md:px-12 text-[10px] uppercase tracking-widest hover:bg-brand hover:text-white transition-all self-start md:self-end flex items-center justify-center">
                   View All Articles
                 </Link>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 xl:gap-12">
                 {relatedPosts.map((rPost: any) => (
                   <BlogCard 
                     key={rPost.id}

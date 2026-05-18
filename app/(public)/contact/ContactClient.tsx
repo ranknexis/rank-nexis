@@ -57,9 +57,9 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
   return (
     <div className="min-h-screen bg-white text-text-primary selection:bg-brand/10 selection:text-brand">
       <main className="grain">
-        <div className="container-max">
+        <div className="container-max px-4 md:px-0">
 
-          <section className="relative py-32 md:py-48 overflow-hidden text-center">
+          <section className="relative py-16 md:py-48 overflow-hidden text-center px-4">
              <div className="absolute inset-0 -z-10 overflow-hidden">
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
                 <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4" />
@@ -69,26 +69,26 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 0.8 }}
-               className="space-y-10"
+               className="space-y-6 md:space-y-10"
              >
                <div className="inline-flex items-center gap-3 px-6 py-2.5 bg-white rounded-full shadow-xl border border-stroke">
                     <Zap size={14} className="text-brand animate-pulse" />
                      <p className="text-[10px] font-bold uppercase text-brand tracking-[0.2em]">{hero.badge}</p>
                </div>
                
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.85] text-text-primary max-w-5xl mx-auto uppercase">
-                  {hero.heading} <span className="text-brand">{hero.headingAccent}</span>
-                </h1>
-                <p className="text-text-secondary text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto antialiased">
-                  {hero.subtext}
-                </p>
+                 <h1 className="text-3xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight lg:leading-[0.85] text-text-primary max-w-5xl mx-auto uppercase">
+                   {hero.heading} <br className="hidden sm:inline" /> <span className="text-brand">{hero.headingAccent}</span>
+                 </h1>
+                 <p className="text-text-secondary text-base md:text-xl font-medium leading-relaxed max-w-2xl mx-auto antialiased">
+                   {hero.subtext}
+                 </p>
              </motion.div>
           </section>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 pb-48">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 pb-16 md:pb-48 px-4 md:px-0">
 
-            <div className="lg:col-span-5 space-y-24">
-              <div className="space-y-10">
+            <div className="lg:col-span-5 space-y-16 md:space-y-24">
+              <div className="space-y-8 md:space-y-10">
                 <ContactInfo 
                   icon={Mail} 
                   title="Direct Email" 
@@ -109,13 +109,13 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                 />
               </div>
 
-              <div className="space-y-12 pt-16 border-t border-stroke">
+              <div className="space-y-8 pt-10 md:space-y-12 md:pt-16 border-t border-stroke">
                 <div className="space-y-3">
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">Knowledge Base</p>
-                   <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">{faq.heading}</h3>
+                   <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-none">{faq.heading}</h3>
                 </div>
                 
-                <div className="space-y-8">
+                <div className="space-y-6 md:space-y-8">
                    {faq.items?.map((item: any, i: number) => (
                       <FaqItem key={i} question={item.question} answer={item.answer} />
                    ))}
@@ -124,11 +124,11 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
             </div>
 
             <div className="lg:col-span-7">
-               <div className="p-8 md:p-14 bg-white border border-stroke rounded-[3.5rem] shadow-premium relative overflow-hidden">
+               <div className="p-6 md:p-14 bg-white border border-stroke rounded-3xl md:rounded-[3.5rem] shadow-premium relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-96 h-96 bg-brand/[0.03] rounded-full blur-[100px] -z-10" />
                   
-                  <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                       <div className="space-y-3">
                          <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Client Full Name</label>
                         <input name="name" type="text" required className="contact-input-premium" placeholder="E.G. JOHN DOE" />
@@ -139,10 +139,10 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                       </div>
                     </div>
  
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                       <div className="space-y-3">
                          <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Professional Email</label>
-                         <input name="email" type="email" required className="contact-input-premium" placeholder="NAME@COMPANY.COM" />
+                          <input name="email" type="email" required className="contact-input-premium" placeholder="NAME@COMPANY.COM" />
                       </div>
                       <div className="space-y-3">
                          <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Service Needed</label>
@@ -163,10 +163,10 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
  
                     <div className="space-y-3">
                        <label className="text-[10px] font-bold uppercase text-text-muted ml-2">Your Message</label>
-                       <textarea name="message" required rows={5} className="contact-input-premium py-6 resize-none uppercase" placeholder="BRIEFLY OUTLINE YOUR GOALS..."></textarea>
+                       <textarea name="message" required rows={4} className="contact-input-premium py-4 md:py-6 resize-none uppercase" placeholder="BRIEFLY OUTLINE YOUR GOALS..."></textarea>
                     </div>
  
-                    <button disabled={isSubmitting} className="w-full h-18 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] group shadow-2xl flex items-center justify-center gap-4 hover:bg-zinc-800 transition-all duration-500 disabled:opacity-50 mt-4">
+                    <button disabled={isSubmitting} className="w-full h-16 md:h-18 bg-black text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] group shadow-2xl flex items-center justify-center gap-4 hover:bg-zinc-800 transition-all duration-500 disabled:opacity-50 mt-4">
                       {isSubmitting ? (
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       ) : (
@@ -177,14 +177,14 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
                     </button>
                   </form>
                   
-                  <div className="pt-10 border-t border-stroke mt-12 flex items-center justify-between">
+                  <div className="pt-6 border-t border-stroke mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
                          <ShieldCheck size={16} className="text-brand" />
-                         <p className="text-[5px] text-text-muted font-bold uppercase tracking-widest">Your inquiry is secure</p>
+                         <p className="text-[9px] text-text-muted font-bold uppercase tracking-widest">Your inquiry is secure</p>
                       </div>
-                     <div className="flex gap-4">
+                     <div className="flex gap-4 items-center">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <p className="text-[5px] text-emerald-600 font-bold uppercase tracking-widest">Growth Experts Online</p>
+                        <p className="text-[9px] text-emerald-600 font-bold uppercase tracking-widest">Growth Experts Online</p>
                      </div>
                   </div>
                </div>
@@ -198,14 +198,14 @@ export default function ContactClient({ sectionsMap, settings }: { sectionsMap: 
 
 function ContactInfo({ icon: Icon, title, value, desc }: any) {
   return (
-    <div className="flex gap-8 group">
-      <div className="w-16 h-16 bg-surface border border-stroke rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm shrink-0">
-        <Icon size={28} strokeWidth={1.5} />
+    <div className="flex gap-4 md:gap-8 group">
+      <div className="w-14 h-14 md:w-16 md:h-16 bg-surface border border-stroke rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm shrink-0">
+        <Icon size={24} className="md:w-7 md:h-7" strokeWidth={1.5} />
       </div>
-      <div className="space-y-2">
+      <div className="space-y-1 md:space-y-2">
          <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">{title}</h4>
-        <p className="text-2xl font-black tracking-tighter text-text-primary leading-none group-hover:text-brand transition-colors uppercase">{value}</p>
-        <p className="text-sm font-medium text-text-muted leading-relaxed opacity-70">{desc}</p>
+        <p className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter text-text-primary leading-tight group-hover:text-brand transition-colors uppercase">{value}</p>
+        <p className="text-xs sm:text-sm font-medium text-text-muted leading-relaxed opacity-70">{desc}</p>
       </div>
     </div>
   );
@@ -218,7 +218,7 @@ function FaqItem({ question, answer }: any) {
         <ChevronRight size={14} className="text-brand group-hover:translate-x-1 transition-transform" />
         {question}
       </h5>
-      <p className="text-base text-text-muted leading-relaxed font-medium pl-6 border-l border-stroke/50">{answer}</p>
+      <p className="text-sm md:text-base text-text-muted leading-relaxed font-medium pl-6 border-l border-stroke/50">{answer}</p>
     </div>
   );
 }

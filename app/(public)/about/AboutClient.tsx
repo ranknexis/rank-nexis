@@ -33,28 +33,28 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
 
-        <section className="relative py-24 overflow-hidden">
+        <section className="relative py-16 md:py-24 overflow-hidden">
           <div className="absolute inset-0 -z-10 overflow-hidden">
              <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3" />
              <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4" />
           </div>
           
-          <div className="container-max relative z-10 text-center space-y-12">
+          <div className="container-max relative z-10 text-center space-y-8 md:space-y-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-10"
+              className="space-y-6 md:space-y-10"
             >
               <div className="inline-flex items-center gap-3 px-5 py-2 glass rounded-full shadow-premium border border-stroke">
                  <div className="w-2 h-2 bg-brand rounded-full animate-pulse" />
                  <p className="text-[11px] font-bold uppercase text-brand tracking-[0.4em]">{hero.badge}</p>
               </div>
               
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight uppercase">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight uppercase px-4 md:px-0">
                 {hero.heading} <br /> <span className="text-brand">{hero.headingAccent}</span>
               </h1>
-              <p className="text-text-secondary max-w-3xl mx-auto text-xl md:text-2xl font-medium leading-relaxed">
+              <p className="text-text-secondary max-w-3xl mx-auto text-lg md:text-2xl font-medium leading-relaxed px-4 md:px-0">
                 {hero.subtext}
               </p>
             </motion.div>
@@ -63,30 +63,30 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
 
         <section className="section-padding border-y border-stroke bg-surface/30 relative overflow-hidden">
            <div className="container-max relative z-10">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-                 <div className="space-y-12">
-                    <div className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                 <div className="space-y-8 md:space-y-12">
+                    <div className="space-y-4 md:space-y-6">
                        <p className="text-[11px] font-bold uppercase text-brand tracking-[0.5em]">{narrative.label}</p>
-                       <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight uppercase">{narrative.heading} <br /><span className="text-brand">{narrative.headingAccent}</span></h2>
+                       <h2 className="text-2xl md:text-5xl font-bold tracking-tight leading-tight uppercase">{narrative.heading} <br /><span className="text-brand">{narrative.headingAccent}</span></h2>
                     </div>
                     
-                    <div className="space-y-8 prose prose-xl max-w-none text-text-secondary font-medium leading-relaxed antialiased" dangerouslySetInnerHTML={{ __html: narrative.body }} />
+                    <div className="space-y-6 md:space-y-8 prose prose-lg md:prose-xl max-w-none text-text-secondary font-medium leading-relaxed antialiased" dangerouslySetInnerHTML={{ __html: narrative.body }} />
 
-                    <div className="flex flex-wrap gap-16 pt-12 border-t border-stroke">
+                    <div className="flex flex-wrap gap-8 md:gap-16 pt-8 md:pt-12 border-t border-stroke">
                        {getSectionData(sectionsMap, "growth_stats", { items: [
                           { title: "08+", description: "Years Active" },
                           { title: "180+", description: "Projects Completed" }
                        ]}).items.map((stat: any, i: number) => (
                         <div key={i} className="space-y-2">
-                           <p className="text-5xl font-bold text-brand tracking-tighter">{stat.title}</p>
-                           <p className="text-[11px] font-bold text-text-muted uppercase tracking-[0.3em]">{stat.description}</p>
+                           <p className="text-4xl md:text-5xl font-bold text-brand tracking-tighter">{stat.title}</p>
+                           <p className="text-[10px] md:text-[11px] font-bold text-text-muted uppercase tracking-[0.3em]">{stat.description}</p>
                         </div>
                        ))}
                     </div>
                  </div>
 
                   <div className="relative group p-4">
-                     <div className="aspect-square glass rounded-[4rem] overflow-hidden relative shadow-premium grain border border-stroke">
+                     <div className="aspect-square glass rounded-3xl md:rounded-[4rem] overflow-hidden relative shadow-premium grain border border-stroke">
                         <Image 
                            src={narrative.imageUrl && !narrative.imageUrl.includes('unsplash') ? narrative.imageUrl : "/images/about_agency.png"} 
                            alt="RankNexis Lab" 
@@ -98,7 +98,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                     <motion.div 
                       animate={{ y: [0, -10, 0], rotate: [-12, -10, -12] }}
                       transition={{ duration: 5, repeat: Infinity }}
-                      className="absolute -bottom-8 -left-8 w-44 h-44 glass border border-stroke rounded-[2rem] flex items-center justify-center shadow-premium backdrop-blur-3xl hidden md:flex"
+                      className="absolute -bottom-8 -left-8 w-44 h-44 glass border border-stroke rounded-2xl md:rounded-[2rem] flex items-center justify-center shadow-premium backdrop-blur-3xl hidden md:flex"
                     >
                        <Layers size={64} className="text-brand" strokeWidth={1} />
                     </motion.div>
@@ -107,27 +107,27 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
            </div>
         </section>
 
-        <section className="py-24 bg-white">
-           <div className="container-max space-y-16">
-              <div className="flex flex-col md:flex-row justify-between items-end gap-8 border-b border-stroke pb-12">
-                 <div className="space-y-4">
+        <section className="py-16 md:py-24 bg-white">
+           <div className="container-max space-y-8 md:space-y-16">
+              <div className="flex flex-col md:flex-row justify-between items-end gap-6 md:gap-8 border-b border-stroke pb-8 md:pb-12 px-4 md:px-0">
+                 <div className="space-y-3 md:space-y-4">
                     <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-brand">The Collective</p>
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-none">High-Agency <br /><span className="text-brand">Expertise.</span></h2>
+                    <h2 className="text-2xl md:text-5xl font-bold tracking-tight uppercase leading-none">High-Agency <br /><span className="text-brand">Expertise.</span></h2>
                  </div>
                  <p className="text-text-muted text-sm font-medium max-w-sm leading-relaxed antialiased">
                      A dedicated team of designers, strategists, and experts focused on high-performance digital results.
                  </p>
               </div>
  
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 px-4 md:px-0">
                  {teamMembers.map((member, i) => (
                     <motion.div
                        key={member.id}
                        initial={{ opacity: 0, y: 15 }}
                        whileInView={{ opacity: 1, y: 0 }}
-                       viewport={{ once: true, margin: "-100px 0px" }}
+                       viewport={{ once: true, margin: "0px" }}
                        transition={{ delay: i * 0.05, duration: 0.4 }}
-                       className="group relative aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-stroke shadow-sm hover:shadow-premium transition-all duration-700 will-change-gpu"
+                       className="group relative aspect-[3/4] rounded-3xl md:rounded-[2.5rem] overflow-hidden border border-stroke shadow-sm hover:shadow-premium transition-all duration-700 will-change-gpu"
                     >
                        <Image 
                           src={member.image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2424"} 
@@ -138,10 +138,10 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
 
                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
                        
-                       <div className="absolute bottom-0 left-0 w-full p-8 space-y-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                       <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 space-y-2 md:space-y-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                           <p className="text-brand text-[10px] font-bold uppercase tracking-[0.3em]">{member.role}</p>
-                          <h4 className="text-white text-2xl font-bold tracking-tight uppercase leading-none antialiased">{member.name}</h4>
-                          <div className="pt-4 flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
+                          <h4 className="text-white text-xl md:text-2xl font-bold tracking-tight uppercase leading-none antialiased">{member.name}</h4>
+                          <div className="pt-2 md:pt-4 flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
 
                              <div className="h-px w-8 bg-brand self-center" />
                              <span className="text-white/60 text-[9px] font-bold uppercase tracking-widest italic">Lead Expert</span>
@@ -150,7 +150,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                     </motion.div>
                  ))}
                  {teamMembers.length === 0 && (
-                    <div className="col-span-full py-24 text-center glass border border-stroke rounded-[3rem] grain">
+                    <div className="col-span-full py-16 md:py-24 text-center glass border border-stroke rounded-3xl md:rounded-[3rem] grain">
                        <p className="text-text-muted font-bold uppercase text-[10px] tracking-widest italic">Team members loading...</p>
                     </div>
                  )}
@@ -160,7 +160,7 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
 
         <section className="section-padding border-y border-stroke bg-surface/30">
            <div className="container-max">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12">
                  <ValueCard 
                     icon={Target} 
                     title="Result Oriented" 
@@ -180,22 +180,22 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
            </div>
         </section>
 
-        <section className="py-48 bg-white relative px-6 overflow-hidden grain text-center">
+        <section className="py-16 md:py-48 bg-white relative px-4 md:px-6 overflow-hidden grain text-center">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-brand/5 rounded-full blur-[200px] -z-10" />
-          <div className="container-max relative z-10 space-y-16">
-            <div className="space-y-8">
+          <div className="container-max relative z-10 space-y-8 md:space-y-16">
+            <div className="space-y-4 md:space-y-8">
                <p className="text-[11px] font-bold uppercase tracking-wider text-brand">Connect With Us</p>
-                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase leading-tight">
-                    Our <span className="text-brand text-3xl md:text-5xl block mt-4 tracking-tight">Expertise.</span>
+                  <h2 className="text-2xl md:text-5xl font-bold tracking-tight uppercase leading-tight">
+                    Our <span className="text-brand text-2xl md:text-5xl block mt-2 md:mt-4 tracking-tight">Expertise.</span>
                   </h2>
             </div>
             
-            <p className="text-text-secondary max-w-2xl mx-auto text-xl md:text-2xl font-medium leading-relaxed antialiased">
+            <p className="text-text-secondary max-w-2xl mx-auto text-base md:text-2xl font-medium leading-relaxed antialiased">
                Connect with our team to discuss how we can build a scalable digital strategy for your brand.
             </p>
             
             <div className="flex justify-center">
-              <Link href="/#contact" className="btn-primary h-20 px-16 text-xs font-bold uppercase tracking-[0.3em] group shadow-premium flex items-center gap-3">
+              <Link href="/#contact" className="btn-primary w-full sm:w-auto h-16 md:h-20 px-10 md:px-16 text-xs font-bold uppercase tracking-[0.3em] group shadow-premium flex items-center justify-center gap-3">
                 Book a Call <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>

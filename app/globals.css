@@ -3,24 +3,20 @@
 @theme {
   --font-sans: "Inter", "Manrope", ui-sans-serif, system-ui, sans-serif;
   
-  /* Brand Palette - RankNexis */
-  --color-brand: #FF7A00; /* Orange Lightning */
+  --color-brand: #FF7A00; 
   --color-brand-hover: #E66E00;
   --color-background-dark: #FFFFFF;
   --color-surface: #F9FAFB;
   --color-surface-light: #F3F4F6;
   --color-surface-alt: #E5E7EB;
   
-  /* Text Palette */
   --color-text-primary: #0F0F0F;
   --color-text-secondary: #374151;
   --color-text-muted: #6B7280;
   
-  /* UI elements */
   --color-stroke: #E5E7EB;
   --color-stroke-active: #FF7A00;
 
-  /* Premium Shadows */
   --shadow-sm: 0 2px 4px rgba(0,0,0,0.01);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.02);
   --shadow-lg: 0 12px 24px rgba(0,0,0,0.04);
@@ -28,7 +24,6 @@
   --shadow-premium: 0 40px 80px rgba(0,0,0,0.08);
   --shadow-3xl: 0 50px 100px rgba(0,0,0,0.12);
 
-  /* Typography Utilities */
   --leading-tight-impact: 0.85;
 }
 
@@ -36,7 +31,6 @@
   :root {
     --background: #FFFFFF;
     --foreground: #0F0F0F;
-    scroll-behavior: smooth;
   }
 
   body {
@@ -47,7 +41,6 @@
     @apply font-bold tracking-tight text-text-primary;
   }
 
-  /* Global Transition Defaults - Removed universal selector for performance */
   a, button, input, select, textarea {
     @apply transition-colors duration-200;
   }
@@ -55,7 +48,6 @@
 
 
 @layer components {
-  /* Corporate Button Styles */
   .btn-primary {
     @apply h-14 px-8 bg-brand hover:bg-brand-hover text-white font-bold rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-brand/20 transition-all active:scale-[0.98] tracking-tight;
   }
@@ -64,7 +56,6 @@
     @apply h-14 px-8 bg-white border border-stroke hover:bg-surface-alt text-text-primary font-bold rounded-xl flex items-center justify-center gap-3 transition-all active:scale-[0.98] tracking-tight hover:border-brand/40;
   }
 
-  /* Corporate Card Styles */
   .corporate-card {
     @apply bg-white border border-stroke rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 hover:shadow-premium hover:border-brand/20 transition-all duration-500 relative overflow-hidden;
   }
@@ -74,32 +65,24 @@
     @apply hover:-translate-y-2 hover:shadow-xl transition-all duration-500;
   }
 
-  /* Premium Glassmorphism - Optimized for mobile performance */
   .glass {
-    @apply bg-white/70 border border-white/40 shadow-xl;
-    @apply backdrop-blur-md md:backdrop-blur-lg;
+    @apply bg-white/95 border border-white/40 shadow-xl;
+    @apply md:bg-white/70 md:backdrop-blur-md md:backdrop-blur-lg;
   }
 
   .glass-dark {
-    @apply bg-black/80 border border-white/10 shadow-3xl;
-    @apply backdrop-blur-md md:backdrop-blur-lg;
+    @apply bg-black/95 border border-white/10 shadow-3xl;
+    @apply md:bg-black/80 md:backdrop-blur-md md:backdrop-blur-lg;
   }
 
-
-
-  /* Texture */
   .grain {
     @apply relative after:content-[''] after:absolute after:inset-0 after:opacity-[0.005] md:after:opacity-[0.02] after:pointer-events-none after:bg-[url('/noise.svg')];
   }
 
-
-
-  /* Input & Field Styles */
   .input-field {
     @apply w-full h-14 px-6 bg-surface border border-stroke rounded-xl text-text-primary placeholder:text-text-muted/50 focus:outline-none focus:ring-4 focus:ring-brand/5 focus:border-brand transition-all font-medium;
   }
 
-  /* Section Utilities */
   .section-padding {
     @apply py-8 px-4 md:py-12 md:px-8;
   }
@@ -117,7 +100,8 @@
   }
 
   .glass-premium {
-    @apply bg-white/80 border border-white/40 shadow-premium backdrop-blur-3xl relative overflow-hidden;
+    @apply bg-white/95 border border-white/40 shadow-premium relative overflow-hidden;
+    @apply md:bg-white/80 md:backdrop-blur-3xl;
   }
 
   .blog-content-area ul {
@@ -138,14 +122,11 @@
   }
 }
 
-/* Typography Scale & Polish */
 h1 { @apply text-3xl md:text-5xl lg:text-5xl leading-[1.15] mb-4 md:mb-6 tracking-tight; }
 h2 { @apply text-2xl md:text-3xl lg:text-4xl leading-[1.2] mb-3 md:mb-5 tracking-tight; }
 h3 { @apply text-xl md:text-2xl leading-[1.3] mb-2 md:mb-4 tracking-tight; }
 p { @apply text-sm md:text-base text-text-secondary leading-relaxed font-normal; }
 
-
-/* Scrollbar Polish */
 ::-webkit-scrollbar {
   @apply w-1.5;
 }
@@ -156,7 +137,6 @@ p { @apply text-sm md:text-base text-text-secondary leading-relaxed font-normal;
   @apply bg-gray-200 hover:bg-gray-300 transition-colors rounded-full;
 }
 
-/* Global Animations */
 @keyframes shimmer {
   0% { transform: translateX(-100%); }
   50% { transform: translateX(100%); }
@@ -200,11 +180,12 @@ p { @apply text-sm md:text-base text-text-secondary leading-relaxed font-normal;
   animation: pulse-soft 8s ease-in-out infinite;
 }
 
-/* GPU Hardware Compositing Optimization */
-.will-change-gpu {
-  will-change: transform, opacity;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
+@media (min-width: 768px) {
+  .will-change-gpu {
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
 }
 

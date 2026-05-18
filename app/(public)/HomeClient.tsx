@@ -47,12 +47,21 @@ const SERVICES = [
 
 export default function HomeClient({ sectionsMap, studies, posts, testimonials: dbTestimonials }: { sectionsMap: any, studies: any[], posts: any[], testimonials?: any[] }) {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(true);
+
+  React.useEffect(() => {
+    setIsTouchDevice(
+      "ontouchstart" in window || 
+      navigator.maxTouchPoints > 0 || 
+      window.matchMedia("(pointer: coarse)").matches
+    );
+  }, []);
 
   const hero = useMemo(() => getSectionData(sectionsMap, "hero", {
-    badge: "Full-Service Digital Agency",
+    badge: "High-Performance Agency",
     heading: "Strategic Growth,",
     headingAccent: "Driven by Design.",
-    subtext: "We help brands scale through high-performance marketing, creative design, and expert web development for measurable growth."
+    subtext: "Rank Nexis is a full-service digital marketing agency dedicated to helping businesses grow online. We build websites that look professional, work perfectly on every device, and are designed from the ground up to turn visitors into paying customers."
   }), [sectionsMap]);
 
   const trust = useMemo(() => getSectionData(sectionsMap, "trust", {
@@ -169,7 +178,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
 
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <section className="relative min-h-screen flex items-center pt-8 md:pt-12 overflow-hidden">
 
           <div className="absolute inset-0 -z-10 overflow-hidden">
              <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 hidden md:block" />
@@ -212,18 +221,18 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
               <div className="lg:col-span-7 space-y-10">
                 <motion.div 
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="inline-flex items-center gap-3 px-5 py-1.5 glass rounded-full shadow-premium border border-brand/5 mb-2 will-change-gpu"
+                  className="inline-flex items-center gap-3 px-5 py-1.5 glass rounded-full shadow-premium border border-brand/5 mb-6 md:mb-10 whitespace-nowrap will-change-gpu"
                 >
                    <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
-                   <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand">{hero.badge}</p>
+                   <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand whitespace-nowrap">{hero.badge}</p>
                 </motion.div>
  
                 <div className="space-y-4">
                   <motion.h1 
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] }}
                     className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-text-primary will-change-gpu"
@@ -231,7 +240,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                     {hero.heading}
                   </motion.h1>
                   <motion.h1 
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
                     className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-brand will-change-gpu"
@@ -241,7 +250,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 </div>
  
                 <motion.p 
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.15 }}
                   className="text-gray-500 max-w-xl text-xl md:text-2xl font-medium leading-relaxed will-change-gpu"
@@ -250,7 +259,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 </motion.p>
                 
                 <motion.div 
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                   className="flex flex-col sm:flex-row gap-6 pt-4 will-change-gpu"
@@ -266,7 +275,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               </div>
  
               <motion.div 
-                initial={{ opacity: 0, x: 30 }}
+                initial={isTouchDevice ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
                 className="lg:col-span-5 relative hidden lg:block"
@@ -277,7 +286,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 
                   <div className="relative h-full flex flex-col justify-center items-center gap-10">
                     <motion.div 
-                      animate={{ y: [0, -10, 0] }}
+                      animate={isTouchDevice ? {} : { y: [0, -10, 0] }}
                       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                       className="w-52 h-20 bg-white border border-brand/20 rounded-2xl flex items-center justify-center shadow-xl relative z-10"
                     >
@@ -287,7 +296,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                     
                     <div className="flex gap-10">
                        <motion.div 
-                        animate={{ x: [-15, 0, -15], y: [-5, 5, -5] }}
+                        animate={isTouchDevice ? {} : { x: [-15, 0, -15], y: [-5, 5, -5] }}
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                         className="w-48 h-40 bg-white border border-stroke rounded-3xl flex flex-col items-center justify-center shadow-lg"
                       >
@@ -296,7 +305,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                       </motion.div>
                       
                        <motion.div 
-                        animate={{ x: [15, 0, 15], y: [5, -5, 5] }}
+                        animate={isTouchDevice ? {} : { x: [15, 0, 15], y: [5, -5, 5] }}
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                         className="w-48 h-40 bg-white border border-stroke rounded-3xl flex flex-col items-center justify-center shadow-lg"
                       >
@@ -316,7 +325,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 </div>
 
                 <motion.div 
-                  initial={{ x: -50, opacity: 0 }}
+                  initial={isTouchDevice ? false : { x: -50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ duration: 1, delay: 1.2 }}
                   className="absolute -bottom-8 -left-8 bg-surface border border-stroke p-6 rounded-[1.5rem] shadow-premium flex items-center gap-5 backdrop-blur-3xl grain min-w-[260px] z-20"
@@ -326,7 +335,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   </div>
                   <div>
                     <motion.p 
-                      initial={{ opacity: 0 }}
+                      initial={isTouchDevice ? false : { opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.5 }}
                       className="text-3xl font-bold tracking-tighter leading-none mb-1"
@@ -346,9 +355,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
                <div className="max-w-2xl space-y-6">
                   <motion.div 
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px 0px" }}
+                    initial={isTouchDevice ? false : { opacity: 0, x: -10 }}
+                    whileInView={isTouchDevice ? undefined : { opacity: 1, x: 0 }}
+                    viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
                     transition={{ duration: 0.4 }}
                     className="inline-flex items-center gap-3 px-4 py-1.5 bg-white border border-stroke rounded-full shadow-sm will-change-gpu"
                   >
@@ -376,29 +385,29 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               ].map((vertical) => (
                 <motion.div 
                   key={vertical.id}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px 0px" }}
+                  initial={isTouchDevice ? false : { opacity: 0, y: 15 }}
+                  whileInView={isTouchDevice ? undefined : { opacity: 1, y: 0 }}
+                  viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
                   transition={{ duration: 0.4 }}
-                  className="group flex flex-col justify-between p-12 bg-white border border-stroke rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain will-change-gpu"
+                  className="group flex flex-col justify-between p-6 md:p-12 bg-white border border-stroke rounded-3xl md:rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain will-change-gpu"
                 >
                   <div className="absolute top-0 right-0 w-64 h-64 bg-brand/[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand/5 transition-colors" />
                   
-                  <div className="space-y-12 relative z-10">
-                    <div className="w-24 h-24 rounded-[2rem] bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm">
-                      <vertical.icon size={48} strokeWidth={1} />
+                  <div className="space-y-8 md:space-y-12 relative z-10">
+                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl md:rounded-[2rem] bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm">
+                      <vertical.icon className="w-8 h-8 md:w-12 md:h-12" strokeWidth={1.2} />
                     </div>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
                       <div className="flex items-center gap-4">
                         <span className="text-brand text-xs font-black tracking-[0.4em] uppercase">{vertical.id}</span>
-                        <h4 className="text-3xl font-bold uppercase tracking-tight">{vertical.title}</h4>
+                        <h4 className="text-2xl md:text-3xl font-bold uppercase tracking-tight">{vertical.title}</h4>
                       </div>
-                      <p className="text-text-muted text-lg font-medium leading-relaxed max-w-md">{vertical.desc}</p>
+                      <p className="text-text-muted text-base md:text-lg font-medium leading-relaxed max-w-md">{vertical.desc}</p>
                     </div>
                   </div>
 
-                  <div className="pt-12 border-t border-stroke/50 flex items-center justify-between mt-auto">
+                  <div className="pt-8 md:pt-12 border-t border-stroke/50 flex items-center justify-between mt-8 md:mt-auto">
                      <span className="text-[10px] font-bold uppercase tracking-widest text-text-muted group-hover:text-brand transition-colors">Strategic Roadmap</span>
                      <div className="w-12 h-12 rounded-full border border-stroke group-hover:border-brand/20 flex items-center justify-center transition-all bg-surface">
                         <ArrowRight className="text-text-muted group-hover:text-brand transition-all -rotate-45 group-hover:rotate-0" size={20} />
@@ -407,7 +416,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 </motion.div>
               ))}
 
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-6 md:gap-8">
                 {[
                   { 
                     id: "02", 
@@ -424,20 +433,20 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 ].map((vertical, i) => (
                   <motion.div 
                     key={vertical.id}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px 0px" }}
+                    initial={isTouchDevice ? false : { opacity: 0, y: 15 }}
+                    whileInView={isTouchDevice ? undefined : { opacity: 1, y: 0 }}
+                    viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
                     transition={{ delay: i * 0.05, duration: 0.4 }}
-                    className="group flex-1 flex flex-col md:flex-row items-center gap-10 p-10 bg-white border border-stroke rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden will-change-gpu"
+                    className="group flex-1 flex flex-col md:flex-row items-center gap-6 md:gap-10 p-6 md:p-10 bg-white border border-stroke rounded-2xl md:rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden will-change-gpu"
                   >
-                    <div className="w-20 h-20 rounded-3xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shrink-0 shadow-sm">
-                      <vertical.icon size={36} strokeWidth={1.2} />
+                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-700 shrink-0 shadow-sm">
+                      <vertical.icon className="w-8 h-8 md:w-9 md:h-9" strokeWidth={1.2} />
                     </div>
                     
-                    <div className="space-y-4 text-center md:text-left">
-                      <div className="flex flex-col md:flex-row md:items-center gap-4">
+                    <div className="space-y-2 md:space-y-4 text-center md:text-left">
+                      <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 justify-center md:justify-start">
                         <span className="text-brand text-[10px] font-bold tracking-[0.3em] uppercase">{vertical.id}</span>
-                        <h4 className="text-2xl font-bold uppercase tracking-tight">{vertical.title}</h4>
+                        <h4 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{vertical.title}</h4>
                       </div>
                       <p className="text-text-muted text-sm font-medium leading-relaxed max-w-sm">{vertical.desc}</p>
                     </div>
@@ -462,9 +471,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
               <div className="max-w-2xl space-y-6">
                 <motion.div 
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px 0px" }}
+                  initial={isTouchDevice ? false : { opacity: 0, x: -10 }}
+                  whileInView={isTouchDevice ? undefined : { opacity: 1, x: 0 }}
+                  viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
                   transition={{ duration: 0.4 }}
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full will-change-gpu"
                 >
@@ -520,9 +529,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 ].map((industry, i) => (
                   <motion.div 
                     key={industry.name}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px 0px" }}
+                    initial={isTouchDevice ? false : { opacity: 0, y: 15 }}
+                    whileInView={isTouchDevice ? undefined : { opacity: 1, y: 0 }}
+                    viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
                     transition={{ delay: i * 0.03, duration: 0.4 }}
                     className="glass p-10 border border-white/40 rounded-[2.5rem] flex flex-col items-center justify-center gap-8 group hover:border-brand/40 transition-all duration-500 shadow-premium cursor-default grain will-change-gpu"
                   >
@@ -542,9 +551,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-10">
               <div className="space-y-6">
                 <motion.div 
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px 0px" }}
+                  initial={isTouchDevice ? false : { opacity: 0, x: -10 }}
+                  whileInView={isTouchDevice ? undefined : { opacity: 1, x: 0 }}
+                  viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
                   transition={{ duration: 0.4 }}
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full will-change-gpu"
                 >
@@ -580,9 +589,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
  
         <section className="section-padding border-y border-stroke bg-surface/30 relative">
           <div className="container-max relative z-10">
-            <div className="text-center mb-32 space-y-6">
+            <div className="text-center mb-12 md:mb-32 space-y-4 md:space-y-6">
                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand">{partnership.badge}</p>
-               <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">{partnership.heading}</h2>
+               <h2 className="text-3xl md:text-6xl font-bold tracking-tight uppercase leading-none">{partnership.heading}</h2>
             </div>
  
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12 relative">
@@ -650,7 +659,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                    <div className="relative h-full flex flex-col justify-center gap-6">
                       <div className="flex justify-center">
                         <motion.div 
-                          animate={{ y: [0, -5, 0] }}
+                          animate={isTouchDevice ? {} : { y: [0, -5, 0] }}
                           transition={{ duration: 4, repeat: Infinity }}
                           className="px-8 py-4 glass border border-stroke rounded-2xl flex items-center gap-4 text-xs font-bold uppercase tracking-wider"
                         >
@@ -661,7 +670,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                       
                        <div className="flex justify-center gap-6">
                         <motion.div 
-                          animate={{ x: [-5, 0, -5] }}
+                          animate={isTouchDevice ? {} : { x: [-5, 0, -5] }}
                           transition={{ duration: 5, repeat: Infinity }}
                           className="px-8 py-4 bg-brand border border-stroke rounded-2xl flex items-center gap-4 text-xs font-bold uppercase tracking-wider text-white"
                         >
@@ -669,7 +678,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                            System Hub
                         </motion.div>
                         <motion.div 
-                          animate={{ x: [5, 0, 5] }}
+                          animate={isTouchDevice ? {} : { x: [5, 0, 5] }}
                           transition={{ duration: 5, repeat: Infinity }}
                           className="px-8 py-4 bg-surface border border-stroke rounded-2xl flex items-center gap-4 text-xs font-bold uppercase tracking-wider"
                         >
@@ -680,7 +689,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
  
                       <div className="flex justify-center">
                         <motion.div 
-                          animate={{ y: [0, 5, 0] }}
+                          animate={isTouchDevice ? {} : { y: [0, 5, 0] }}
                           transition={{ duration: 4, repeat: Infinity }}
                           className="px-10 py-5 bg-brand/5 border border-brand/20 rounded-2xl flex flex-col items-center gap-2 text-xs font-bold uppercase tracking-[0.2em]"
                         >
@@ -795,25 +804,25 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
           </div>
         </section>
 
-        <section id="contact" className="py-48 relative overflow-hidden px-6 grain">
+        <section id="contact" className="py-16 md:py-48 relative overflow-hidden px-4 md:px-6 grain">
           <div className="absolute inset-0 bg-brand/[0.03] -z-10" />
           <div className="container-max relative z-10">
-            <div className="max-w-6xl mx-auto glass rounded-[4rem] p-10 md:p-24 shadow-premium relative overflow-hidden grain border border-stroke">
+            <div className="max-w-6xl mx-auto glass rounded-3xl md:rounded-[4rem] p-6 md:p-24 shadow-premium relative overflow-hidden grain border border-stroke">
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand/10 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2 animate-pulse" />
               
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10">
-                <div className="space-y-10">
-                   <div className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 relative z-10">
+                <div className="space-y-6 md:space-y-10">
+                   <div className="space-y-4 md:space-y-6">
                       <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-brand">{connect.badge}</p>
-                      <h2 className="text-4xl md:text-6xl font-bold tracking-tight uppercase leading-none">
+                      <h2 className="text-3xl md:text-6xl font-bold tracking-tight uppercase leading-none">
                         {connect.heading} <span className="text-brand">{connect.headingAccent}</span>
                       </h2>
                    </div>
-                   <p className="text-text-secondary text-xl font-medium leading-relaxed max-w-sm">
+                   <p className="text-text-secondary text-base md:text-xl font-medium leading-relaxed max-w-sm">
                       {connect.subtext}
                    </p>
                    
-                   <div className="pt-10 border-t border-stroke space-y-8">
+                   <div className="pt-8 md:pt-10 border-t border-stroke space-y-6 md:space-y-8">
                       <div className="flex items-center gap-6 group">
                          <div className="w-12 h-12 rounded-xl bg-surface border border-stroke flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-500 shadow-sm">
                             <ShieldCheck size={24} />
@@ -835,8 +844,8 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                    </div>
                 </div>
  
-                <form onSubmit={handleContactSubmit} className="space-y-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <form onSubmit={handleContactSubmit} className="space-y-6 md:space-y-10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     <div className="space-y-3">
                       <label className="text-[11px] font-bold uppercase tracking-wider text-brand ml-4">Full Name</label>
                       <input required name="name" type="text" placeholder="John Doe" className="input-field" />
@@ -851,7 +860,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                      <textarea required name="message" rows={4} placeholder="Tell us about your project goals..." className="input-field h-auto py-6 resize-none" />
                   </div>
                   
-                  <button disabled={isFormSubmitting} type="submit" className="btn-primary w-full h-20 text-[11px] font-bold uppercase tracking-wider group bg-brand flex items-center justify-center gap-3 shadow-2xl">
+                  <button disabled={isFormSubmitting} type="submit" className="btn-primary w-full h-16 md:h-20 text-[11px] font-bold uppercase tracking-wider group bg-brand flex items-center justify-center gap-3 shadow-2xl">
                     {isFormSubmitting ? "Scheduling..." : "Schedule Consultation"}
                     <ArrowRight className="group-hover:translate-x-2 transition-transform duration-500" />
                   </button>
@@ -866,25 +875,26 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
 }
 
 const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug }: any) => {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px 0px" }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
-      className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-8 md:p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-[500px] flex flex-col justify-between will-change-gpu"
+    const isTouch = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    return (
+      <motion.div 
+        initial={isTouch ? false : { opacity: 0, y: 15 }}
+        whileInView={isTouch ? undefined : { opacity: 1, y: 0 }}
+        viewport={isTouch ? undefined : { once: true, margin: "0px" }}
+        transition={{ delay: index * 0.05, duration: 0.4 }}
+      className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-[460px] md:min-h-[500px] flex flex-col justify-between will-change-gpu"
     >
-      <div className="relative z-10 space-y-8">
-        <div className="w-16 h-16 bg-brand/5 border border-brand/10 rounded-2xl flex items-center justify-center text-brand mb-6 group-hover:bg-brand group-hover:text-white transition-all duration-700">
-          <Icon size={28} strokeWidth={1.5} />
+      <div className="relative z-10 space-y-6 md:space-y-8">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-brand/5 border border-brand/10 rounded-xl md:rounded-2xl flex items-center justify-center text-brand mb-4 md:mb-6 group-hover:bg-brand group-hover:text-white transition-all duration-700">
+          <Icon size={24} strokeWidth={1.5} />
         </div>
         
         <div className="space-y-3">
-          <h3 className="text-2xl md:text-3xl font-bold tracking-tight uppercase leading-none">{title}</h3>
-          <p className="text-text-muted text-base leading-relaxed line-clamp-3 pr-4 font-medium">{desc}</p>
+          <h3 className="text-xl md:text-3xl font-bold tracking-tight uppercase leading-none">{title}</h3>
+          <p className="text-text-muted text-sm md:text-base leading-relaxed line-clamp-3 pr-4 font-medium">{desc}</p>
         </div>
  
-        <ul className="grid grid-cols-2 gap-4 pt-8 border-t border-stroke">
+        <ul className="grid grid-cols-2 gap-3 md:gap-4 pt-6 md:pt-8 border-t border-stroke">
           {features && features.map((item: string) => (
             <li key={item} className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-wider text-text-muted">
               <div className="w-1.5 h-1.5 bg-brand rounded-full shrink-0" />
@@ -894,8 +904,8 @@ const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug
         </ul>
       </div>
 
-      <div className="pt-8 mt-auto">
-        <Link href={`/services#${slug}`} className="btn-outline h-14 w-full text-[10px] font-bold uppercase tracking-wider group/link border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
+      <div className="pt-6 md:pt-8 mt-auto">
+        <Link href={`/services#${slug}`} className="btn-outline h-12 md:h-14 w-full text-[10px] font-bold uppercase tracking-wider group/link border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
           Explore Solution <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform" />
         </Link>
       </div>
@@ -907,25 +917,25 @@ const CaseStudyCard = React.memo(({ title, stats, kpi, tag, image, slug }: any) 
   return (
     <motion.div 
       whileHover={{ y: -10 }}
-      className="corporate-card p-0 group overflow-hidden bg-surface border border-stroke rounded-[3rem] shadow-premium"
+      className="corporate-card p-0 group overflow-hidden bg-surface border border-stroke rounded-3xl md:rounded-[3rem] shadow-premium"
     >
       <div className="aspect-[16/10] relative overflow-hidden">
         <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-        <div className="absolute top-8 right-8 px-4 py-1.5 bg-black/50 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider rounded-full border border-white/10">{tag}</div>
+        <div className="absolute top-6 right-6 md:top-8 md:right-8 px-4 py-1.5 bg-black/50 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider rounded-full border border-white/10">{tag}</div>
         
-        <div className="absolute bottom-8 left-8 right-8 flex items-end justify-between">
+        <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 flex items-end justify-between">
             <div className="space-y-1">
-               <p className="text-5xl font-bold text-brand tracking-tight leading-none">{stats}</p>
+               <p className="text-4xl md:text-5xl font-bold text-brand tracking-tight leading-none">{stats}</p>
                <p className="text-[9px] font-bold uppercase tracking-wider text-white/70">{kpi}</p>
             </div>
-            <Link href={`/work/${slug}`} className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 hover:bg-brand hover:border-brand transition-all">
-               <ArrowUpRight size={24} />
+            <Link href={`/work/${slug}`} className="w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 hover:bg-brand hover:border-brand transition-all">
+               <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6" />
             </Link>
         </div>
       </div>
-      <div className="p-10 space-y-6 bg-white">
-        <h3 className="text-3xl font-bold mb-3 tracking-tight uppercase leading-tight">{title}</h3>
+      <div className="p-6 md:p-10 space-y-6 bg-white">
+        <h3 className="text-2xl md:text-3xl font-bold mb-3 tracking-tight uppercase leading-tight">{title}</h3>
         <Link href={`/work/${slug}`} className="btn-outline h-14 w-full text-[10px] font-bold uppercase tracking-wider group/link border border-stroke hover:border-brand/40 flex items-center justify-center gap-2">
           View Project <ArrowRight size={14} className="group-hover/link:translate-x-2 transition-transform" />
         </Link>
@@ -937,11 +947,11 @@ const CaseStudyCard = React.memo(({ title, stats, kpi, tag, image, slug }: any) 
 const ProcessItem = React.memo(({ step, title, desc }: any) => {
   return (
     <div className="text-center md:text-left relative z-10 group">
-      <div className="w-20 h-20 bg-surface border border-stroke rounded-2xl flex items-center justify-center mb-10 mx-auto md:mx-0 group-hover:border-brand transition-all duration-700 shadow-sm">
-        <span className="text-brand font-bold text-2xl">{step}</span>
+      <div className="w-16 h-16 md:w-20 md:h-20 bg-surface border border-stroke rounded-xl md:rounded-2xl flex items-center justify-center mb-6 md:mb-10 mx-auto md:mx-0 group-hover:border-brand transition-all duration-700 shadow-sm">
+        <span className="text-brand font-bold text-xl md:text-2xl">{step}</span>
       </div>
-      <h4 className="text-xl font-bold mb-3 uppercase tracking-tight">{title}</h4>
-      <p className="text-text-muted text-sm font-medium leading-relaxed pr-4">{desc}</p>
+      <h4 className="text-lg md:text-xl font-bold mb-2 md:mb-3 uppercase tracking-tight">{title}</h4>
+      <p className="text-text-muted text-sm font-medium leading-relaxed pr-0 md:pr-4">{desc}</p>
     </div>
   );
 });
@@ -962,10 +972,10 @@ const ValueProp = React.memo(({ title, desc }: any) => {
  
 const TestimonyCard = React.memo(({ name, role, quote, image }: any) => {
   return (
-    <div className="corporate-card relative group hover:scale-[1.02] bg-surface border border-stroke p-10 rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all h-full flex flex-col justify-between">
-      <MessageSquare className="text-brand/5 absolute top-8 right-8 group-hover:text-brand/10 transition-colors" size={60} />
-      <p className="text-text-secondary italic text-xl mb-10 leading-relaxed font-medium relative z-10 antialiased">"{quote}"</p>
-      <div className="flex items-center gap-5 pt-8 border-t border-stroke mt-auto">
+    <div className="corporate-card relative group hover:scale-[1.02] bg-surface border border-stroke p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all h-full flex flex-col justify-between">
+      <MessageSquare className="text-brand/5 absolute top-6 right-6 md:top-8 md:right-8 group-hover:text-brand/10 transition-colors" size={60} />
+      <p className="text-text-secondary italic text-base md:text-xl mb-6 md:mb-10 leading-relaxed font-medium relative z-10 antialiased">"{quote}"</p>
+      <div className="flex items-center gap-5 pt-6 md:pt-8 border-t border-stroke mt-auto">
         {image ? (
             <Image src={image} width={48} height={48} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all duration-700 shadow-sm" alt={name} />
         ) : (
@@ -984,13 +994,13 @@ const TestimonyCard = React.memo(({ name, role, quote, image }: any) => {
  
 const BlogSnippet = React.memo(({ title, date, category, image, slug }: any) => {
   return (
-    <div className="corporate-card p-0 group hover:scale-[1.02] bg-surface border border-stroke overflow-hidden rounded-[2.5rem] shadow-premium">
+    <div className="corporate-card p-0 group hover:scale-[1.02] bg-surface border border-stroke overflow-hidden rounded-3xl md:rounded-[2.5rem] shadow-premium">
       <div className="aspect-[16/10] overflow-hidden relative">
          <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent" />
          <div className="absolute top-6 left-6 px-4 py-1.5 bg-brand text-white rounded-full text-[8px] font-bold uppercase tracking-wider">{category}</div>
       </div>
-      <div className="p-8 space-y-6 relative -mt-16 z-10 bg-white mx-4 mb-4 rounded-3xl border border-stroke shadow-sm">
+      <div className="p-5 md:p-8 space-y-6 relative -mt-16 z-10 bg-white mx-4 mb-4 rounded-3xl border border-stroke shadow-sm">
         <div className="space-y-3">
            <p className="text-[10px] font-bold text-text-muted uppercase tracking-wider">{date}</p>
            <h4 className="text-xl font-bold tracking-tight uppercase group-hover:text-brand transition-colors line-clamp-2 leading-tight">{title}</h4>

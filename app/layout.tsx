@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { getCachedSiteSettings } from "@/lib/dbCache";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
@@ -6,12 +6,12 @@ import AnalyticsScripts from "./components/AnalyticsScripts";
 import CookieConsent from "./components/CookieConsent";
 import "./globals.css";
 
+export const revalidate = 3600;
+
 const inter = Inter({ subsets: ["latin"] });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await prisma.siteSettings.findUnique({
-    where: { id: "global" }
-  });
+  const settings = await getCachedSiteSettings();
 
   const siteName = settings?.siteName || "RankNexis";
   const suffix = settings?.siteTitleSuffix || "High-Performance Digital Growth";
@@ -59,9 +59,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await prisma.siteSettings.findUnique({
-    where: { id: "global" }
-  });
+  const settings = await getCachedSiteSettings();
 
   return (
     <html lang="en">

@@ -1,8 +1,11 @@
+import InternalLinksSection from "@/components/InternalLinksSection";
+import { getCachedHomeData } from "@/lib/dbCache";
 import { getPageData } from "@/lib/pageContent";
 import { buildSeoMetadata } from "@/lib/pageUtils";
-import HomeClient from "./HomeClient";
 import { Metadata } from "next";
-import prisma from "@/lib/prisma";
+import HomeClient from "./HomeClient";
+
+export const revalidate = 1800;
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageData("home");
@@ -12,15 +15,13 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-import InternalLinksSection from "@/components/InternalLinksSection";
-
 export default async function HomePage() {
-  const [pageData, studies, posts, testimonials] = await Promise.all([
+  const [pageData, homeData] = await Promise.all([
     getPageData("home"),
-    prisma.caseStudy.findMany({ take: 2, orderBy: { createdAt: 'desc' } }),
-    prisma.blog.findMany({ take: 3, orderBy: { createdAt: 'desc' }, include: { category: true } }),
-    prisma.testimonial.findMany({ where: { status: 'published' }, orderBy: { createdAt: 'desc' } })
+    getCachedHomeData()
   ]);
+  
+  const { studies, posts, testimonials } = homeData;
   
   return (
     <>
