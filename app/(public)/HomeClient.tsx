@@ -221,7 +221,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
               <div className="lg:col-span-7 space-y-10">
                 <motion.div 
-                  initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
                   className="inline-flex items-center gap-3 px-5 py-1.5 glass rounded-full shadow-premium border border-brand/5 mb-6 md:mb-10 whitespace-nowrap will-change-gpu"
@@ -232,7 +232,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
  
                 <div className="space-y-4">
                   <motion.h1 
-                    initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] }}
                     className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-text-primary will-change-gpu"
@@ -240,7 +240,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                     {hero.heading}
                   </motion.h1>
                   <motion.h1 
-                    initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
                     className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-brand will-change-gpu"
@@ -250,7 +250,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 </div>
  
                 <motion.p 
-                  initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.15 }}
                   className="text-gray-500 max-w-xl text-xl md:text-2xl font-medium leading-relaxed will-change-gpu"
@@ -259,7 +259,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 </motion.p>
                 
                 <motion.div 
-                  initial={isTouchDevice ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                   className="flex flex-col sm:flex-row gap-6 pt-4 will-change-gpu"
@@ -275,7 +275,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               </div>
  
               <motion.div 
-                initial={isTouchDevice ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+                initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
                 className="lg:col-span-5 relative hidden lg:block"
@@ -355,9 +355,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
                <div className="max-w-2xl space-y-6">
                   <motion.div 
-                    initial={isTouchDevice ? false : { opacity: 0, x: -10 }}
-                    whileInView={isTouchDevice ? undefined : { opacity: 1, x: 0 }}
-                    viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "100px 0px" }}
                     transition={{ duration: 0.4 }}
                     className="inline-flex items-center gap-3 px-4 py-1.5 bg-white border border-stroke rounded-full shadow-sm will-change-gpu"
                   >
@@ -385,9 +385,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
               ].map((vertical) => (
                 <motion.div 
                   key={vertical.id}
-                  initial={isTouchDevice ? false : { opacity: 0, y: 15 }}
-                  whileInView={isTouchDevice ? undefined : { opacity: 1, y: 0 }}
-                  viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "100px 0px" }}
                   transition={{ duration: 0.4 }}
                   className="group flex flex-col justify-between p-6 md:p-12 bg-white border border-stroke rounded-3xl md:rounded-[3rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden grain will-change-gpu"
                 >
@@ -433,9 +433,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 ].map((vertical, i) => (
                   <motion.div 
                     key={vertical.id}
-                    initial={isTouchDevice ? false : { opacity: 0, y: 15 }}
-                    whileInView={isTouchDevice ? undefined : { opacity: 1, y: 0 }}
-                    viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "100px 0px" }}
                     transition={{ delay: i * 0.05, duration: 0.4 }}
                     className="group flex-1 flex flex-col md:flex-row items-center gap-6 md:gap-10 p-6 md:p-10 bg-white border border-stroke rounded-2xl md:rounded-[2.5rem] hover:border-brand/40 transition-all duration-500 shadow-premium relative overflow-hidden will-change-gpu"
                   >
@@ -471,9 +471,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end gap-10 mb-20">
               <div className="max-w-2xl space-y-6">
                 <motion.div 
-                  initial={isTouchDevice ? false : { opacity: 0, x: -10 }}
-                  whileInView={isTouchDevice ? undefined : { opacity: 1, x: 0 }}
-                  viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "100px 0px" }}
                   transition={{ duration: 0.4 }}
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full will-change-gpu"
                 >
@@ -529,9 +529,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 ].map((industry, i) => (
                   <motion.div 
                     key={industry.name}
-                    initial={isTouchDevice ? false : { opacity: 0, y: 15 }}
-                    whileInView={isTouchDevice ? undefined : { opacity: 1, y: 0 }}
-                    viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "100px 0px" }}
                     transition={{ delay: i * 0.03, duration: 0.4 }}
                     className="glass p-10 border border-white/40 rounded-[2.5rem] flex flex-col items-center justify-center gap-8 group hover:border-brand/40 transition-all duration-500 shadow-premium cursor-default grain will-change-gpu"
                   >
@@ -551,9 +551,9 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-10">
               <div className="space-y-6">
                 <motion.div 
-                  initial={isTouchDevice ? false : { opacity: 0, x: -10 }}
-                  whileInView={isTouchDevice ? undefined : { opacity: 1, x: 0 }}
-                  viewport={isTouchDevice ? undefined : { once: true, margin: "0px" }}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "100px 0px" }}
                   transition={{ duration: 0.4 }}
                   className="inline-flex items-center gap-3 px-4 py-2 bg-surface border border-stroke rounded-full will-change-gpu"
                 >
@@ -878,9 +878,9 @@ const ServiceCard = React.memo(({ icon: Icon, title, desc, features, index, slug
     const isTouch = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
     return (
       <motion.div 
-        initial={isTouch ? false : { opacity: 0, y: 15 }}
-        whileInView={isTouch ? undefined : { opacity: 1, y: 0 }}
-        viewport={isTouch ? undefined : { once: true, margin: "0px" }}
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "100px 0px" }}
         transition={{ delay: index * 0.05, duration: 0.4 }}
       className="corporate-card group bg-surface border border-stroke hover:scale-[1.01] p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-sm hover:shadow-premium transition-all min-h-[460px] md:min-h-[500px] flex flex-col justify-between will-change-gpu"
     >
