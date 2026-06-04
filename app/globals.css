@@ -41,6 +41,14 @@
     @apply font-bold tracking-tight text-text-primary;
   }
 
+  a, button {
+    @apply cursor-pointer;
+  }
+
+  button:disabled, a:disabled, a[disabled] {
+    @apply cursor-not-allowed;
+  }
+
   a, button, input, select, textarea {
     @apply transition-colors duration-200;
   }
@@ -67,16 +75,27 @@
 
   .glass {
     @apply bg-white/95 border border-white/40 shadow-xl;
-    @apply md:bg-white/70 md:backdrop-blur-md md:backdrop-blur-lg;
+    @apply md:bg-white/70 md:backdrop-blur-md;
   }
 
   .glass-dark {
     @apply bg-black/95 border border-white/10 shadow-3xl;
-    @apply md:bg-black/80 md:backdrop-blur-md md:backdrop-blur-lg;
+    @apply md:bg-black/80 md:backdrop-blur-md;
   }
 
   .grain {
-    @apply relative after:content-[''] after:absolute after:inset-0 after:opacity-[0.005] md:after:opacity-[0.02] after:pointer-events-none after:bg-[url('/noise.svg')];
+    @apply relative;
+  }
+  @media (min-width: 768px) {
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.02;
+      pointer-events: none;
+      background-image: url('/noise.png');
+      background-repeat: repeat;
+    }
   }
 
   .input-field {
@@ -101,7 +120,7 @@
 
   .glass-premium {
     @apply bg-white/95 border border-white/40 shadow-premium relative overflow-hidden;
-    @apply md:bg-white/80 md:backdrop-blur-3xl;
+    @apply md:bg-white/80 md:backdrop-blur-md;
   }
 
   .blog-content-area ul {
@@ -182,7 +201,6 @@ p { @apply text-sm md:text-base text-text-secondary leading-relaxed font-normal;
 
 @media (min-width: 768px) {
   .will-change-gpu {
-    will-change: transform, opacity;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;

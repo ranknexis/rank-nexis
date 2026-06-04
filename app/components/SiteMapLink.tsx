@@ -77,7 +77,7 @@ export default function SiteMapLink({ services, blogs, work }: SiteMapProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-xl"
+              className="absolute inset-0 bg-black/60 backdrop-blur-md"
             />
             
             <motion.div 
