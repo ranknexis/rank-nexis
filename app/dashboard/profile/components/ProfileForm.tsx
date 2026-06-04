@@ -3,8 +3,9 @@
 import { updateMyProfile } from "@/actions/profile";
 import CloudinaryUpload from "@/dashboard/components/CloudinaryUpload";
 import { Briefcase, FileText, Mail, Plus, Save, Share2, Trash2, User } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
+import UnsavedChangesWarning from "@/dashboard/components/UnsavedChangesWarning";
 
 export default function ProfileForm({ initialUser }: { initialUser: any }) {
     const profile = initialUser.teamProfile || {};
@@ -15,6 +16,17 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
     const [image, setImage] = useState(profile.image || "");
     const [socials, setSocials] = useState(profile.socials || []);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [isDirty, setIsDirty] = useState(false);
+    const isInitial = useRef(true);
+
+    useEffect(() => {
+        if (isInitial.current) {
+            isInitial.current = false;
+            return;
+        }
+        setIsDirty(true);
+    }, [name, email, role, bio, image, socials]);
 
     const handleAddSocial = () => {
         setSocials([...socials, { platform: "LinkedIn", url: "" }]);
@@ -35,6 +47,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
         setIsLoading(true);
         const res = await updateMyProfile({ name, email, role, bio, image, socials });
         if (res.success) {
+            setIsDirty(false);
             toast.success("Profile updated successfully.");
         } else {
             toast.error(res.error || "Update failed");
@@ -44,7 +57,9 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
 
     return (
         <div className="max-w-[1400px] mx-auto bg-white border border-stroke rounded-2xl p-6 sm:p-8 shadow-sm">
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <UnsavedChangesWarning isDirty={isDirty} isBusy={isLoading} />
+            <form onSubmit={handleSubmit}>
+                <fieldset disabled={isLoading} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 w-full border-0 p-0 m-0 disabled:opacity-75">
 
                 <div className="lg:col-span-4 space-y-6">
                     <div className="space-y-5">
@@ -185,6 +200,7 @@ export default function ProfileForm({ initialUser }: { initialUser: any }) {
                         </div>
                     </div>
                 </div>
+                </fieldset>
             </form>
         </div>
     );

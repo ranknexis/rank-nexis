@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Link as LinkIcon, Plus, Save, ShieldCheck, Trash2, User as UserIcon, X, Zap } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import CloudinaryUpload from "../../components/CloudinaryUpload";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
 
 interface Props {
   initialData?: any;
@@ -32,6 +33,17 @@ export default function TeamEditor({ initialData }: Props) {
     ],
   });
   const [userEmail, setUserEmail] = useState(initialData?.user?.email || "");
+  const [isDirty, setIsDirty] = useState(false);
+  const isInitial = useRef(true);
+
+  useEffect(() => {
+    if (isInitial.current) {
+      isInitial.current = false;
+      return;
+    }
+    setIsDirty(true);
+  }, [data, userEmail]);
+
   const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
@@ -53,6 +65,7 @@ export default function TeamEditor({ initialData }: Props) {
     
     setLoading(false);
     if (res.success) {
+      setIsDirty(false);
       toast.success(initialData?.id ? "Team profile updated successfully" : "Team profile created successfully");
       router.push("/dashboard/team");
     } else {
@@ -65,6 +78,7 @@ export default function TeamEditor({ initialData }: Props) {
   const handleDelete = async () => {
     const res = await deleteTeamMember(initialData.id);
     if (res.success) {
+      setIsDirty(false);
       toast.success("Team member profile deleted");
       router.push("/dashboard/team");
     } else {
@@ -93,6 +107,7 @@ export default function TeamEditor({ initialData }: Props) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <UnsavedChangesWarning isDirty={isDirty} isBusy={loading} />
 
       <div className="lg:col-span-3 space-y-6">
         <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-4">
@@ -105,7 +120,11 @@ export default function TeamEditor({ initialData }: Props) {
                 <Save size={16} /> {loading ? "Saving..." : "Save Profile"}
             </button>
             
-            <Link href="/dashboard/team" className="w-full h-11 bg-white border border-stroke text-text-muted rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-surface transition-all flex items-center justify-center gap-2">
+            <Link 
+              href={loading ? "#" : "/dashboard/team"} 
+              onClick={loading ? (e) => e.preventDefault() : undefined}
+              className={`w-full h-11 bg-white border border-stroke text-text-muted rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-surface transition-all flex items-center justify-center gap-2 ${loading ? 'opacity-50 pointer-events-none' : ''}`}
+            >
                 <ArrowLeft size={16} /> Cancel
             </Link>
 
@@ -113,7 +132,8 @@ export default function TeamEditor({ initialData }: Props) {
                 <button 
                 type="button"
                 onClick={() => setDeleteConfirmOpen(true)}
-                className="w-full h-11 bg-white border border-red-100 text-red-400 rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-red-50 transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer"
+                disabled={loading}
+                className={`w-full h-11 bg-white border border-red-100 text-red-400 rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-red-50 transition-all flex items-center justify-center gap-2 mt-4 cursor-pointer ${loading ? 'opacity-50' : ''}`}
                 >
                 <Trash2 size={16} /> Delete Profile
                 </button>
@@ -131,7 +151,7 @@ export default function TeamEditor({ initialData }: Props) {
         </div>
       </div>
 
-      <div className="lg:col-span-9 space-y-6">
+      <fieldset disabled={loading} className="lg:col-span-9 space-y-6 border-0 p-0 m-0 w-full disabled:opacity-75">
          <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-brand/[0.01] rounded-full blur-[100px] -z-10" />
             
@@ -277,7 +297,7 @@ export default function TeamEditor({ initialData }: Props) {
                )}
             </div>
          </div>
-      </div>
+      </fieldset>
       <ConfirmationModal 
         isOpen={deleteConfirmOpen}
         onClose={() => setDeleteConfirmOpen(false)}

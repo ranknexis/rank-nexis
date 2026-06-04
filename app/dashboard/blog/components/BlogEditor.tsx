@@ -16,11 +16,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
 import CloudinaryUpload from "../../components/CloudinaryUpload";
 import RichTextEditor from "../../pages/components/RichTextEditor";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
 
 interface Props {
   initialData: any;
@@ -40,6 +41,17 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
     categoryId: categories[0]?.id || "",
     authorId: authors[0]?.id || "",
   });
+  const [isDirty, setIsDirty] = useState(false);
+  const isInitial = useRef(true);
+
+  useEffect(() => {
+    if (isInitial.current) {
+      isInitial.current = false;
+      return;
+    }
+    setIsDirty(true);
+  }, [data]);
+
   const [loading, setLoading] = useState(false);
   const [mdInput, setMdInput] = useState("");
   const [showMdForge, setShowMdForge] = useState(false);
@@ -67,6 +79,7 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
     
     setLoading(false);
     if (res.success) {
+      setIsDirty(false);
       toast.success(initialData?.id ? "Post saved successfully" : "New post created successfully");
       if (!initialData?.id && res.data) router.push(`/dashboard/blog/${res.data.id}`);
     } else {
@@ -79,6 +92,7 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
   const handleDelete = async () => {
     const res = await deleteBlogPost(initialData.id);
     if (res.success) {
+      setIsDirty(false);
       toast.success("Post deleted successfully");
       router.push("/dashboard/blog");
     } else {
@@ -99,12 +113,14 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
 
   return (
     <div className="space-y-6">
+      <UnsavedChangesWarning isDirty={isDirty} isBusy={loading} />
 
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-stroke pb-5">
         <div className="space-y-2">
           <Link 
-            href="/dashboard/blog" 
-            className="flex items-center gap-1.5 text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-all group"
+            href={loading ? "#" : "/dashboard/blog"} 
+            onClick={loading ? (e) => e.preventDefault() : undefined}
+            className={`flex items-center gap-1.5 text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-all group ${loading ? 'opacity-50 pointer-events-none' : ''}`}
           >
             <ChevronLeft size={12} className="group-hover:-translate-x-1 transition-transform" /> Back to Blog Posts
           </Link>
@@ -130,7 +146,8 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
               <button 
                 type="button"
                 onClick={() => setDeleteConfirmOpen(true)}
-                className="h-11 px-6 bg-white border border-stroke text-red-500 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-red-50 transition-all shadow-sm cursor-pointer"
+                disabled={loading}
+                className={`h-11 px-6 bg-white border border-stroke text-red-500 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-red-50 transition-all shadow-sm cursor-pointer ${loading ? 'opacity-50' : ''}`}
               >
                 <Trash2 size={16} /> Delete Post
               </button>
@@ -138,7 +155,7 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <fieldset disabled={loading} className="grid grid-cols-1 lg:grid-cols-12 gap-6 border-0 p-0 m-0 w-full disabled:opacity-75">
 
         <div className="lg:col-span-8 space-y-6">
            <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-6">
@@ -292,7 +309,7 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
               </div>
            </div>
         </div>
-      </div>
+      </fieldset>
       <ConfirmationModal 
         isOpen={deleteConfirmOpen}
         onClose={() => setDeleteConfirmOpen(false)}

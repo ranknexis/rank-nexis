@@ -16,10 +16,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import RepeaterField from "../../pages/components/RepeaterField";
+import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
 
 export default function JobEditor({ initialData }: { initialData: any }) {
   const router = useRouter();
@@ -37,6 +38,17 @@ export default function JobEditor({ initialData }: { initialData: any }) {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const [isDirty, setIsDirty] = useState(false);
+  const isInitial = useRef(true);
+
+  useEffect(() => {
+    if (isInitial.current) {
+      isInitial.current = false;
+      return;
+    }
+    setIsDirty(true);
+  }, [data]);
 
   useEffect(() => {
     if (!initialData && data.title) {
@@ -61,6 +73,7 @@ export default function JobEditor({ initialData }: { initialData: any }) {
     
     setLoading(false);
     if (res.success) {
+      setIsDirty(false);
       toast.success(initialData?.id ? "Job opening updated successfully" : "Job opening created successfully");
       if (!initialData?.id && res.data) router.push(`/dashboard/careers/${res.data.id}`);
     } else {
@@ -71,6 +84,7 @@ export default function JobEditor({ initialData }: { initialData: any }) {
   const handleDeleteConfirm = async () => {
     const res = await deleteJob(initialData.id);
     if (res.success) {
+      setIsDirty(false);
       toast.success("Job opening deleted successfully");
       router.push("/dashboard/careers");
     } else {
@@ -86,14 +100,16 @@ export default function JobEditor({ initialData }: { initialData: any }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <UnsavedChangesWarning isDirty={isDirty} isBusy={loading} />
       <div className="lg:col-span-3 space-y-6">
         <div className="bg-white rounded-2xl border border-stroke p-4 shadow-sm space-y-1.5">
            {tabs.map(tab => (
              <button 
               type="button"
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-xs font-bold uppercase tracking-tight ${
+              disabled={loading}
+              onClick={loading ? undefined : () => setActiveTab(tab.id)}
+              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-xs font-bold uppercase tracking-tight ${loading ? 'opacity-50 pointer-events-none' : ''} ${
                 activeTab === tab.id 
                   ? "bg-brand text-white shadow-lg shadow-brand/20" 
                   : "bg-surface text-text-muted hover:bg-brand/5 hover:text-brand"
@@ -114,7 +130,11 @@ export default function JobEditor({ initialData }: { initialData: any }) {
             <Save size={16} /> {loading ? "Saving..." : "Save Job Opening"}
           </button>
           
-          <Link href="/dashboard/careers" className="w-full h-11 bg-white border border-stroke text-text-muted rounded-xl text-xs font-bold uppercase hover:bg-surface transition-all flex items-center justify-center gap-2.5">
+          <Link 
+            href={loading ? "#" : "/dashboard/careers"} 
+            onClick={loading ? (e) => e.preventDefault() : undefined}
+            className={`w-full h-11 bg-white border border-stroke text-text-muted rounded-xl text-xs font-bold uppercase hover:bg-surface transition-all flex items-center justify-center gap-2.5 ${loading ? 'opacity-50 pointer-events-none' : ''}`}
+          >
             <ArrowLeft size={16} /> Back to Careers
           </Link>
 
@@ -122,7 +142,8 @@ export default function JobEditor({ initialData }: { initialData: any }) {
              <button 
               type="button"
               onClick={() => setShowDeleteConfirm(true)}
-              className="w-full h-11 bg-white border border-stroke text-red-500 rounded-xl text-xs font-bold uppercase hover:bg-red-50 transition-all flex items-center justify-center gap-2.5"
+              disabled={loading}
+              className={`w-full h-11 bg-white border border-stroke text-red-500 rounded-xl text-xs font-bold uppercase hover:bg-red-50 transition-all flex items-center justify-center gap-2.5 ${loading ? 'opacity-50' : ''}`}
             >
               <Trash2 size={16} /> Delete Job
             </button>
@@ -130,7 +151,7 @@ export default function JobEditor({ initialData }: { initialData: any }) {
         </div>
       </div>
 
-      <div className="lg:col-span-9">
+      <fieldset disabled={loading} className="lg:col-span-9 border-0 p-0 m-0 w-full disabled:opacity-75">
          <div className="bg-white rounded-2xl border border-stroke shadow-sm overflow-hidden">
             
             {activeTab === "overview" && (
@@ -298,7 +319,7 @@ export default function JobEditor({ initialData }: { initialData: any }) {
               </div>
             )}
          </div>
-      </div>
+      </fieldset>
 
       <ConfirmationModal 
         isOpen={showDeleteConfirm}
