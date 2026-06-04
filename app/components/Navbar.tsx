@@ -23,10 +23,19 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import Logo from "./Logo";
 
-const services = [
+interface NavbarProps {
+  services?: {
+    title: string;
+    slug: string;
+    category: string;
+    icon: string | null;
+  }[];
+}
+
+const STATIC_SERVICES = [
   {
     category: "Marketing",
     icon: TrendingUp,
@@ -59,7 +68,7 @@ const services = [
   }
 ];
 
-export default function Navbar() {
+export default function Navbar({ services: dbServices }: NavbarProps) {
   const pathname = usePathname();
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -67,26 +76,98 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    const diff = latest - previous;
+  const lastScrollYRef = useRef(0);
+  const scrollAccumulatorRef = useRef(0);
 
-    if (Math.abs(diff) < 5) {
-      if (latest > 50 && !isScrolled) setIsScrolled(true);
-      if (latest <= 50 && isScrolled) setIsScrolled(false);
+  useEffect(() => {
+    lastScrollYRef.current = window.scrollY;
+  }, []);
+
+  const menuSections = useMemo(() => {
+    if (!dbServices || dbServices.length === 0) {
+      return STATIC_SERVICES;
+    }
+
+    const uniqueCategories = Array.from(new Set(dbServices.map(s => s.category || "General")));
+    const orderMap: Record<string, number> = { marketing: 1, design: 2, development: 3 };
+    uniqueCategories.sort((a, b) => {
+      const orderA = orderMap[a.toLowerCase()] || 99;
+      const orderB = orderMap[b.toLowerCase()] || 99;
+      return orderA - orderB;
+    });
+
+    const categoryIcons: Record<string, any> = {
+      Marketing: TrendingUp,
+      Design: Palette,
+      Development: Code2
+    };
+    const categoryStatuses: Record<string, string> = {
+      Marketing: "Popular",
+      Design: "Creative",
+      Development: "Tech"
+    };
+    const IconMap: Record<string, any> = {
+      Search,
+      Share2,
+      Target,
+      BarChart3,
+      Layout,
+      Zap,
+      Layers,
+      Code2,
+      Cpu,
+      TrendingUp,
+      Palette
+    };
+
+    return uniqueCategories.map(cat => {
+      const itemsInCat = dbServices.filter(s => s.category?.toLowerCase() === cat.toLowerCase());
+      return {
+        category: cat,
+        icon: categoryIcons[cat] || Box,
+        status: categoryStatuses[cat] || "Active",
+        items: itemsInCat.map(s => {
+          const IconComponent = IconMap[s.icon || ""] || Search;
+          return {
+            name: s.title,
+            href: `/services/${s.slug}`,
+            icon: IconComponent
+          };
+        })
+      };
+    }).filter(sec => sec.items.length > 0);
+  }, [dbServices]);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = lastScrollYRef.current;
+    const diff = latest - previous;
+    lastScrollYRef.current = latest;
+
+    // Handle isScrolled state (only update when crossed 50px boundary)
+    const shouldScroll = latest > 50;
+    if (shouldScroll !== isScrolled) {
+      setIsScrolled(shouldScroll);
+    }
+
+    // Always show navbar near the top
+    if (latest <= 100) {
+      if (!isVisible) setIsVisible(true);
+      scrollAccumulatorRef.current = 0;
       return;
     }
 
-    if (latest > previous && latest > 100) {
-      if (isVisible) setIsVisible(false);
-    } else {
-      if (!isVisible) setIsVisible(true);
-    }
+    // Accumulate scroll diff
+    scrollAccumulatorRef.current += diff;
 
-    if (latest > 50) {
-      if (!isScrolled) setIsScrolled(true);
-    } else {
-      if (isScrolled) setIsScrolled(false);
+    // If scrolled down by more than 30px, hide navbar
+    if (scrollAccumulatorRef.current > 30) {
+      if (isVisible) setIsVisible(false);
+      scrollAccumulatorRef.current = 0; // reset
+    }
+    // If scrolled up by more than 30px, show navbar
+    else if (scrollAccumulatorRef.current < -30) {
+      if (!isVisible) setIsVisible(true);
+      scrollAccumulatorRef.current = 0; // reset
     }
   });
 
@@ -132,10 +213,10 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                   exit={{ opacity: 0, y: 15, scale: 0.95, filter: "blur(10px)" }}
                   transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                  className="absolute top-20 left-1/2 -translate-x-1/2 w-[900px] bg-white/95 backdrop-blur-xl border border-black/5 rounded-[2.5rem] shadow-premium p-10 z-50 overflow-hidden grain"
+                  className="absolute top-20 left-1/2 -translate-x-1/2 w-[900px] bg-white/95 backdrop-blur-md border border-black/5 rounded-[2.5rem] shadow-premium p-10 z-50 overflow-hidden grain"
                 >
                   <div className="grid grid-cols-3 gap-10 relative z-10">
-                    {services.map((section, idx) => (
+                    {menuSections.map((section, idx) => (
                       <motion.div 
                         key={section.category} 
                         initial={{ opacity: 0, x: -10 }}
@@ -209,7 +290,7 @@ export default function Navbar() {
             </button>
 
             <div className="absolute top-20 right-0 pt-0 opacity-0 invisible group-hover/company:opacity-100 group-hover/company:visible transition-all duration-500 translate-y-4 group-hover/company:translate-y-0 z-50">
-              <div className="w-64 bg-white/95 backdrop-blur-xl border border-black/5 rounded-[2.5rem] shadow-premium p-6 space-y-2 grain relative overflow-hidden">
+              <div className="w-64 bg-white/95 backdrop-blur-md border border-black/5 rounded-[2.5rem] shadow-premium p-6 space-y-2 grain relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 text-brand/5 rotate-12 pointer-events-none">
                   <Box size={80} strokeWidth={1} />
                 </div>
@@ -280,7 +361,7 @@ export default function Navbar() {
                 </button>
 
                 <div className="flex-1 space-y-8">
-                  {services.map((section) => (
+                  {menuSections.map((section) => (
                     <div key={section.category} className="space-y-4">
                       <div className="flex items-center justify-between border-b border-gray-100 pb-1.5">
                         <p className="text-[8px] font-bold uppercase text-brand/70">{section.category}</p>
