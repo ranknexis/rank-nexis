@@ -17,6 +17,15 @@ export default async function EditServicePage({ params }: Props) {
         notFound();
     }
 
+    const pageContent = service ? await prisma.pageContent.findUnique({
+        where: { slug: `services/${service.slug}` },
+        include: {
+            sections: {
+                orderBy: { order: 'asc' }
+            }
+        }
+    }) : null;
+
     return (
         <div className="space-y-6">
             <div className="space-y-1 pb-4 border-b border-stroke">
@@ -25,7 +34,10 @@ export default async function EditServicePage({ params }: Props) {
                 </h1>
                 <p className="text-text-muted text-[9px] font-bold uppercase tracking-wider">Manage details, categories, and value features.</p>
             </div>
-            <ServiceEditor initialData={service ? JSON.parse(JSON.stringify(service)) : null} />
+            <ServiceEditor 
+                initialData={service ? JSON.parse(JSON.stringify(service)) : null} 
+                initialPageData={pageContent ? JSON.parse(JSON.stringify(pageContent)) : null}
+            />
         </div>
     );
 }

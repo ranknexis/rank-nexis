@@ -78,7 +78,7 @@ export default function BlogContent({ initialPosts, categories }: BlogContentPro
                         alt={post.title} 
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
+                        className="object-cover transition-all duration-1000 group-hover:scale-105 antialiased" 
                       />
                       <div className="absolute top-6 left-6">
                         <div className="px-4 py-1.5 glass-dark rounded-full text-[9px] font-bold uppercase tracking-widest text-brand border border-white/10 backdrop-blur-md">

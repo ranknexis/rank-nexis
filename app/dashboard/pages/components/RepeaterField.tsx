@@ -56,7 +56,7 @@ export default function RepeaterField({
          <label className="text-[11px] font-bold uppercase text-brand">{label}</label>
          <button 
            onClick={(e) => { e.preventDefault(); addItem(); }}
-           className="flex items-center gap-2 text-[10px] font-bold uppercase text-brand hover:text-brand/80"
+           className="flex items-center gap-2 text-[10px] font-bold uppercase text-brand hover:text-brand/80 cursor-pointer"
          >
             <Plus size={14} /> Add Item
          </button>
@@ -66,15 +66,15 @@ export default function RepeaterField({
          {items.map((item, index) => (
             <div key={index} className="flex gap-4 group">
                <div className="flex flex-col gap-2 pt-4">
-                  <button onClick={(e) => { e.preventDefault(); moveItem(index, 'up'); }} className="text-text-muted hover:text-brand transition-colors"><ChevronUp size={16} /></button>
+                  <button onClick={(e) => { e.preventDefault(); moveItem(index, 'up'); }} className="text-text-muted hover:text-brand transition-colors cursor-pointer"><ChevronUp size={16} /></button>
                   <GripVertical size={16} className="text-stroke group-hover:text-text-muted" />
-                  <button onClick={(e) => { e.preventDefault(); moveItem(index, 'down'); }} className="text-text-muted hover:text-brand transition-colors"><ChevronDown size={16} /></button>
+                  <button onClick={(e) => { e.preventDefault(); moveItem(index, 'down'); }} className="text-text-muted hover:text-brand transition-colors cursor-pointer"><ChevronDown size={16} /></button>
                </div>
                
                <div className="flex-grow bg-surface/30 border border-stroke rounded-3xl p-6 relative">
                   <button 
                     onClick={(e) => { e.preventDefault(); removeItem(index); }}
-                    className="absolute -top-3 -right-3 w-8 h-8 bg-white border border-stroke rounded-full flex items-center justify-center text-red-500 shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                    className="absolute -top-3 -right-3 w-8 h-8 bg-white border border-stroke rounded-full flex items-center justify-center text-red-500 shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
                   >
                      <Trash2 size={14} />
                   </button>
@@ -89,7 +89,7 @@ export default function RepeaterField({
                <p className="text-[10px] font-bold uppercase text-text-muted">No items added yet.</p>
                <button 
                 onClick={(e) => { e.preventDefault(); addItem(); }}
-                className="mt-4 text-[10px] font-bold uppercase text-brand"
+                className="mt-4 text-[10px] font-bold uppercase text-brand cursor-pointer"
                >
                   Create First Item
                </button>

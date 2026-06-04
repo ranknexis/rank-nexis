@@ -23,7 +23,8 @@ import {
   Target,
   Award,
   Star,
-  Phone
+  Phone,
+  Users
 } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
 import RepeaterField from './RepeaterField';
@@ -131,12 +132,22 @@ interface SectionEditorProps {
   section: any;
   onUpdate: (content: any) => Promise<void>;
   onDelete?: () => void;
+  onDirtyChange?: (isDirty: boolean) => void;
 }
 
-const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps) => {
+const SectionEditor = memo(({ section, onUpdate, onDelete, onDirtyChange }: SectionEditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState(section.content || {});
   const [isSaving, setIsSaving] = useState(false);
+
+  const isDirty = JSON.stringify(content) !== JSON.stringify(section.content || {});
+
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+    return () => {
+      onDirtyChange?.(false);
+    };
+  }, [isDirty, onDirtyChange]);
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -151,38 +162,68 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
   const renderForm = () => {
     switch (section.sectionType) {
       case 'hero':
+        const isLegalHero = content.title !== undefined;
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-             <div className="space-y-4">
-                <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge Text</label>
-                <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" placeholder="e.g. Expert Agency" />
-             </div>
-             <div className="space-y-4">
-                <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading (Main)</label>
-                <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" placeholder="e.g. Results Driven" />
-             </div>
-             <div className="space-y-4">
-                <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
-                <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" placeholder="e.g. Digital Agency" />
-             </div>
-             <div className="space-y-4 md:col-span-2">
-                <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
-                <textarea rows={3} value={content.subtext || ''} onChange={(e) => updateField('subtext', e.target.value)} className="input-field h-auto py-6 resize-none" placeholder="Enter hero subtext..." />
-             </div>
-             <div className="space-y-4">
-                <label className="text-[11px] font-bold uppercase text-brand ml-4">CTA Text</label>
-                <input type="text" value={content.ctaText || ''} onChange={(e) => updateField('ctaText', e.target.value)} className="input-field" />
-             </div>
-             <div className="space-y-2">
-                <LinkSelector label="CTA Link" value={content.ctaLink || ''} onChange={(val) => updateField('ctaLink', val)} />
-             </div>
-             <div className="md:col-span-2">
-                <CloudinaryUpload 
-                  label="Hero Background / Side Image"
-                  value={content.imageUrl || ''} 
-                  onChange={(url) => updateField('imageUrl', url)} 
-                />
-             </div>
+             {isLegalHero ? (
+               <>
+                 <div className="space-y-4">
+                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Title</label>
+                    <input type="text" value={content.title || ''} onChange={(e) => updateField('title', e.target.value)} className="input-field" />
+                 </div>
+                 <div className="space-y-4 md:col-span-2">
+                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Text Description</label>
+                    <textarea rows={3} value={content.text || ''} onChange={(e) => updateField('text', e.target.value)} className="input-field h-auto py-6 resize-none" />
+                 </div>
+               </>
+             ) : (
+               <>
+                 <div className="space-y-4">
+                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge Text</label>
+                    <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" placeholder="e.g. Expert Agency" />
+                 </div>
+                 <div className="space-y-4">
+                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading (Main)</label>
+                    <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" placeholder="e.g. Results Driven" />
+                 </div>
+                 <div className="space-y-4">
+                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
+                    <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" placeholder="e.g. Digital Agency" />
+                 </div>
+                 <div className="space-y-4 md:col-span-2">
+                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
+                    <textarea rows={3} value={content.subtext || ''} onChange={(e) => updateField('subtext', e.target.value)} className="input-field h-auto py-6 resize-none" placeholder="Enter hero subtext..." />
+                 </div>
+                 <div className="space-y-4">
+                    <label className="text-[11px] font-bold uppercase text-brand ml-4">CTA Text</label>
+                    <input type="text" value={content.ctaText || ''} onChange={(e) => updateField('ctaText', e.target.value)} className="input-field" />
+                 </div>
+                 <div className="space-y-2">
+                    <LinkSelector label="CTA Link" value={content.ctaLink || ''} onChange={(val) => updateField('ctaLink', val)} />
+                 </div>
+                 <div className="md:col-span-2">
+                    <CloudinaryUpload 
+                      label="Hero Background / Side Image"
+                      value={content.imageUrl || ''} 
+                      onChange={(url) => updateField('imageUrl', url)} 
+                    />
+                 </div>
+                 <div className="md:col-span-2">
+                    <RepeaterField 
+                      label="Hero Metrics (Stats)"
+                      items={content.metrics || []}
+                      onChange={(metrics) => updateField('metrics', metrics)}
+                      newItemDefault={{ value: "99%", label: "Satisfaction" }}
+                      renderItem={(item, index, update) => (
+                         <div className="grid grid-cols-2 gap-6">
+                            <input type="text" value={item.value} onChange={(e) => update({ value: e.target.value })} className="input-field" placeholder="Value (e.g. 99%)" />
+                            <input type="text" value={item.label} onChange={(e) => update({ label: e.target.value })} className="input-field" placeholder="Label (e.g. Client Retention)" />
+                         </div>
+                      )}
+                    />
+                 </div>
+               </>
+             )}
           </div>
         );
 
@@ -203,6 +244,17 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                 label="Main Body Content"
                 value={content.body || ''} 
                 onChange={(val) => updateField('body', val)} 
+             />
+             <RepeaterField 
+                label="Checklist Features / Tags"
+                items={content.tags || []}
+                onChange={(tags) => updateField('tags', tags)}
+                newItemDefault={{ text: "Keyword Analysis" }}
+                renderItem={(item, index, update) => (
+                   <div className="grid grid-cols-1">
+                      <input type="text" value={item.text} onChange={(e) => update({ text: e.target.value })} className="input-field" placeholder="Feature Tag Text" />
+                   </div>
+                )}
              />
           </div>
         );
@@ -290,6 +342,17 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                 label="Body Content"
                 value={content.body || ''} 
                 onChange={(val) => updateField('body', val)} 
+             />
+             <RepeaterField 
+                label="Checklist Features / Tags"
+                items={content.tags || []}
+                onChange={(tags) => updateField('tags', tags)}
+                newItemDefault={{ text: "Keyword Analysis" }}
+                renderItem={(item, index, update) => (
+                   <div className="grid grid-cols-1">
+                      <input type="text" value={item.text} onChange={(e) => update({ text: e.target.value })} className="input-field" placeholder="Feature Tag Text" />
+                   </div>
+                )}
              />
              <RepeaterField 
                label="Floating Stats (Optional)"
@@ -465,6 +528,14 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
                    <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
                 </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4 md:col-span-2">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
+                   <textarea rows={3} value={content.subtext || ''} onChange={(e) => updateField('subtext', e.target.value)} className="input-field h-auto py-6 resize-none" />
+                </div>
              </div>
              <RepeaterField 
                label="Trust Logos"
@@ -481,30 +552,62 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
           </div>
         );
 
+      case 'services':
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge</label>
+                <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
+                <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4 md:col-span-2">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
+                <textarea rows={3} value={content.subtext || ''} onChange={(e) => updateField('subtext', e.target.value)} className="input-field h-auto py-6 resize-none" />
+             </div>
+          </div>
+        );
+
       case 'expertise':
         return (
           <div className="space-y-10">
              <div className="grid grid-cols-2 gap-10">
                 <div className="space-y-4">
-                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Label</label>
-                   <input type="text" value={content.label || ''} onChange={(e) => updateField('label', e.target.value)} className="input-field" />
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge / Label</label>
+                   <input type="text" value={content.badge || content.label || ''} onChange={(e) => {
+                     updateField('badge', e.target.value);
+                     updateField('label', e.target.value);
+                   }} className="input-field" />
                 </div>
                 <div className="space-y-4">
                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
                    <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
                 </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4 md:col-span-2">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
+                   <textarea rows={3} value={content.subtext || ''} onChange={(e) => updateField('subtext', e.target.value)} className="input-field h-auto py-6 resize-none" />
+                </div>
              </div>
              <RepeaterField 
-               label="Expertise Cards"
+               label="Expertise Cards / Sectors"
                items={content.items || []}
                onChange={(items) => updateField('items', items)}
-               newItemDefault={{ title: "Expertise Title", description: "Details...", icon: "Sparkles", value: "99%" }}
+               newItemDefault={{ title: "Expertise Title", description: "Details...", icon: "Sparkles" }}
                renderItem={(item, index, update) => (
                   <div className="space-y-4">
-                     <div className="grid grid-cols-3 gap-6">
+                     <div className="grid grid-cols-2 gap-6">
                         <input type="text" value={item.title} onChange={(e) => update({ title: e.target.value })} className="input-field" placeholder="Title" />
-                        <input type="text" value={item.icon} onChange={(e) => update({ icon: e.target.value })} className="input-field" placeholder="Icon" />
-                        <input type="text" value={item.value} onChange={(e) => update({ value: e.target.value })} className="input-field" placeholder="Value (e.g. 99%)" />
+                        <input type="text" value={item.icon} onChange={(e) => update({ icon: e.target.value })} className="input-field" placeholder="Lucide Icon (e.g. Box, Globe)" />
                      </div>
                      <textarea rows={2} value={item.description} onChange={(e) => update({ description: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Description" />
                   </div>
@@ -524,6 +627,10 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                 <div className="space-y-4">
                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
                    <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
                 </div>
              </div>
              <RepeaterField 
@@ -549,12 +656,23 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
           <div className="space-y-10">
              <div className="grid grid-cols-2 gap-10">
                 <div className="space-y-4">
-                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Label</label>
-                   <input type="text" value={content.label || ''} onChange={(e) => updateField('label', e.target.value)} className="input-field" />
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge / Label</label>
+                   <input type="text" value={content.badge || content.label || ''} onChange={(e) => {
+                     updateField('badge', e.target.value);
+                     updateField('label', e.target.value);
+                   }} className="input-field" />
                 </div>
                 <div className="space-y-4">
                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
                    <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4 md:col-span-2">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
+                   <textarea rows={3} value={content.subtext || ''} onChange={(e) => updateField('subtext', e.target.value)} className="input-field h-auto py-6 resize-none" />
                 </div>
              </div>
              <RepeaterField 
@@ -580,12 +698,23 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
           <div className="space-y-10">
              <div className="grid grid-cols-2 gap-10">
                 <div className="space-y-4">
-                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Label</label>
-                   <input type="text" value={content.label || ''} onChange={(e) => updateField('label', e.target.value)} className="input-field" />
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge / Label</label>
+                   <input type="text" value={content.badge || content.label || ''} onChange={(e) => {
+                     updateField('badge', e.target.value);
+                     updateField('label', e.target.value);
+                   }} className="input-field" />
                 </div>
                 <div className="space-y-4">
                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
                    <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4 md:col-span-2">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
+                   <textarea rows={3} value={content.subtext || ''} onChange={(e) => updateField('subtext', e.target.value)} className="input-field h-auto py-6 resize-none" />
                 </div>
              </div>
              <RepeaterField 
@@ -608,7 +737,7 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
 
       case 'testimonials':
         return (
-          <div className="p-10 bg-brand/[0.03] rounded-3xl border-2 border-dashed border-brand/20 text-center space-y-6">
+          <div className="p-10 bg-brand/[0.03] rounded-3xl border border-stroke text-center space-y-6">
              <div className="w-16 h-16 bg-white rounded-2xl border border-brand/10 flex items-center justify-center text-brand mx-auto shadow-sm">
                 <Star size={32} />
              </div>
@@ -625,8 +754,144 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                    <label className="text-[11px] font-bold uppercase text-brand ml-4">Section Heading</label>
                    <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" placeholder="e.g. Global Synergy" />
                 </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+             </div>
+             <div className="text-left mt-6 pt-6 border-t border-stroke">
+                <RepeaterField 
+                  label="Fallback Testimonials (Local)"
+                  items={content.items || []}
+                  onChange={(items) => updateField('items', items)}
+                  newItemDefault={{ name: "Client Name", company: "Company", quote: "Feedback...", photo: "" }}
+                  renderItem={(item, index, update) => (
+                     <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-6">
+                           <input type="text" value={item.name} onChange={(e) => update({ name: e.target.value })} className="input-field" placeholder="Client Name" />
+                           <input type="text" value={item.company} onChange={(e) => update({ company: e.target.value })} className="input-field" placeholder="Company/Role" />
+                        </div>
+                        <textarea rows={2} value={item.quote} onChange={(e) => update({ quote: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Testimonial Quote" />
+                        <CloudinaryUpload value={item.photo} onChange={(url) => update({ photo: url })} label="Client Photo" />
+                     </div>
+                  )}
+                />
              </div>
           </div>
+        );
+
+      case 'insights':
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Badge</label>
+                <input type="text" value={content.badge || ''} onChange={(e) => updateField('badge', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
+                <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+             </div>
+          </div>
+        );
+
+      case 'narrative':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Label</label>
+                   <input type="text" value={content.label || ''} onChange={(e) => updateField('label', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+                <div className="md:col-span-2">
+                   <CloudinaryUpload 
+                     label="Narrative Side Image"
+                     value={content.imageUrl || ''} 
+                     onChange={(url) => updateField('imageUrl', url)} 
+                   />
+                </div>
+             </div>
+             <RichTextEditor 
+                label="Narrative Body Content"
+                value={content.body || ''} 
+                onChange={(val) => updateField('body', val)} 
+             />
+          </div>
+        );
+
+      case 'culture':
+        return (
+          <div className="space-y-10">
+             <div className="grid grid-cols-2 gap-10">
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Label</label>
+                   <input type="text" value={content.label || ''} onChange={(e) => updateField('label', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
+                   <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+                </div>
+                <div className="space-y-4">
+                   <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
+                   <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
+                </div>
+                <div className="md:col-span-2">
+                   <CloudinaryUpload 
+                     label="Culture Image"
+                     value={content.imageUrl || ''} 
+                     onChange={(url) => updateField('imageUrl', url)} 
+                   />
+                </div>
+             </div>
+             <RichTextEditor 
+                label="Culture Body Content"
+                value={content.body || ''} 
+                onChange={(val) => updateField('body', val)} 
+             />
+             <RepeaterField 
+                label="Culture Stats"
+                items={content.stats || []}
+                onChange={(stats) => updateField('stats', stats)}
+                newItemDefault={{ label: "Stat Name", value: "Details...", icon: "Zap" }}
+                renderItem={(item, index, update) => (
+                   <div className="grid grid-cols-3 gap-6">
+                      <input type="text" value={item.label} onChange={(e) => update({ label: e.target.value })} className="input-field" placeholder="Label" />
+                      <input type="text" value={item.value} onChange={(e) => update({ value: e.target.value })} className="input-field" placeholder="Description/Value" />
+                      <input type="text" value={item.icon} onChange={(e) => update({ icon: e.target.value })} className="input-field" placeholder="Lucide Icon (e.g. Zap, Layers)" />
+                   </div>
+                )}
+             />
+          </div>
+        );
+
+      case 'strengths':
+        return (
+          <RepeaterField 
+            label="Strengths / Core Features"
+            items={content.items || []}
+            onChange={(items) => updateField('items', items)}
+            newItemDefault={{ title: "Strength Name", description: "Details...", icon: "ShieldCheck" }}
+            renderItem={(item, index, update) => (
+               <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-6">
+                     <input type="text" value={item.title} onChange={(e) => update({ title: e.target.value })} className="input-field" placeholder="Title" />
+                     <input type="text" value={item.icon} onChange={(e) => update({ icon: e.target.value })} className="input-field" placeholder="Lucide Icon (e.g. Zap, ShieldCheck)" />
+                  </div>
+                  <textarea rows={2} value={item.description} onChange={(e) => update({ description: e.target.value })} className="input-field h-auto py-4 resize-none" placeholder="Description" />
+               </div>
+            )}
+          />
         );
 
       case 'pillar_01':
@@ -688,7 +953,6 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
         );
 
       case 'connect':
-
         return (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
              <div className="space-y-4">
@@ -698,6 +962,10 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
              <div className="space-y-4">
                 <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading</label>
                 <input type="text" value={content.heading || ''} onChange={(e) => updateField('heading', e.target.value)} className="input-field" />
+             </div>
+             <div className="space-y-4">
+                <label className="text-[11px] font-bold uppercase text-brand ml-4">Heading Accent (Colorized)</label>
+                <input type="text" value={content.headingAccent || ''} onChange={(e) => updateField('headingAccent', e.target.value)} className="input-field" />
              </div>
              <div className="space-y-4 md:col-span-2">
                 <label className="text-[11px] font-bold uppercase text-brand ml-4">Subtext</label>
@@ -749,6 +1017,11 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
     excellence: Award,
     testimonials: Star,
     connect: Phone,
+    services: Layers,
+    insights: HelpCircle,
+    narrative: FileText,
+    culture: Users,
+    strengths: Sparkles
   };
   const Icon = IconMap[section.sectionType] || Layers;
 
@@ -787,21 +1060,23 @@ const SectionEditor = memo(({ section, onUpdate, onDelete }: SectionEditorProps)
                 <button 
                   onClick={handleSave}
                   disabled={isSaving}
-                  className={`bg-brand text-white px-8 h-12 rounded-xl text-[10px] font-bold uppercase flex items-center gap-3 shadow-xl shadow-brand/20 hover:scale-105 active:scale-95 transition-all ${isSaving ? 'opacity-50' : ''}`}
+                  className={`bg-brand text-white px-8 h-12 rounded-xl text-[10px] font-bold uppercase flex items-center gap-3 shadow-xl shadow-brand/20 hover:scale-105 active:scale-95 transition-all cursor-pointer ${isSaving ? 'opacity-50' : ''}`}
                 >
                    <Save size={16} /> {isSaving ? 'Saving...' : 'Save Section'}
                 </button>
              </div>
              
-             {renderForm()}
+             <fieldset disabled={isSaving} className="space-y-10 border-0 p-0 m-0 w-full disabled:opacity-75 disabled:pointer-events-none">
+                {renderForm()}
+             </fieldset>
 
              <div className="pt-10 border-t border-stroke flex justify-between items-center">
                 <p className="text-[9px] font-bold uppercase text-text-muted">Last updated {new Date(section.updatedAt).toLocaleTimeString()}</p>
                 <div className="flex gap-4">
-                   <button className="text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-colors">Duplicate Section</button>
+                   <button className="text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-colors cursor-pointer">Duplicate Section</button>
                    <button 
                      onClick={onDelete}
-                     className="text-[9px] font-bold uppercase text-red-500 hover:opacity-80 transition-opacity"
+                     className="text-[9px] font-bold uppercase text-red-500 hover:opacity-80 transition-opacity cursor-pointer"
                    >
                      Remove Section
                    </button>

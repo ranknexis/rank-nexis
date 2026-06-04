@@ -2,15 +2,22 @@
 
 import { changePassword } from "@/actions/auth";
 import { Save, ShieldCheck } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import PasswordInput from "../../components/PasswordInput";
+import UnsavedChangesWarning from "@/dashboard/components/UnsavedChangesWarning";
 
 export default function SecurityForm() {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+    const [isDirty, setIsDirty] = useState(false);
+
+    useEffect(() => {
+        setIsDirty(!!(oldPassword || newPassword || confirmPassword));
+    }, [oldPassword, newPassword, confirmPassword]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,6 +33,7 @@ export default function SecurityForm() {
         setIsLoading(true);
         const res = await changePassword({ old: oldPassword, new: newPassword });
         if (res.success) {
+            setIsDirty(false);
             toast.success("Password updated successfully.");
             setOldPassword("");
             setNewPassword("");
@@ -38,6 +46,7 @@ export default function SecurityForm() {
 
     return (
         <div className="max-w-[1400px] mx-auto">
+            <UnsavedChangesWarning isDirty={isDirty} isBusy={isLoading} />
             <div className="bg-white border border-stroke rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
 
                 <div className="flex items-center gap-3">
@@ -50,7 +59,8 @@ export default function SecurityForm() {
                     </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl">
+                <form onSubmit={handleSubmit}>
+                    <fieldset disabled={isLoading} className="space-y-4 max-w-2xl border-0 p-0 m-0 disabled:opacity-75">
                     <div className="space-y-2">
                         <label className="text-[9px] font-black uppercase text-text-muted ml-1 tracking-wider">Current Password</label>
                         <PasswordInput 
@@ -95,6 +105,7 @@ export default function SecurityForm() {
                             )}
                         </button>
                     </div>
+                    </fieldset>
                 </form>
             </div>
         </div>

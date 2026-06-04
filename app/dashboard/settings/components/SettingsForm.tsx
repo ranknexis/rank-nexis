@@ -1,20 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { updateSettings } from "@/actions/settings";
 import { toast } from "sonner";
 import { Globe, Mail, Phone, MapPin, Share2, Shield, Layout, Save, Loader2, Link2, BarChart3, Activity, Target, Zap, Hash } from "lucide-react";
+import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
 
 export default function SettingsForm({ initialData }: { initialData: any }) {
   const [data, setData] = useState(initialData);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("general");
 
+  const [isDirty, setIsDirty] = useState(false);
+  const isInitial = useRef(true);
+
+  useEffect(() => {
+    if (isInitial.current) {
+      isInitial.current = false;
+      return;
+    }
+    setIsDirty(true);
+  }, [data]);
+
   const handleSave = async () => {
     setLoading(true);
     const res = await updateSettings(data);
     setLoading(false);
     if (res.success) {
+      setIsDirty(false);
       toast.success("Settings updated successfully");
     } else {
       toast.error(res.error);
@@ -30,14 +43,16 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <UnsavedChangesWarning isDirty={isDirty} isBusy={loading} />
 
       <div className="lg:col-span-3 space-y-4">
         <div className="bg-white border border-stroke rounded-2xl p-2 shadow-sm grain space-y-1">
           {tabs.map(tab => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center gap-3 px-4 h-11 rounded-xl transition-all text-xs font-bold uppercase tracking-tight ${
+              disabled={loading}
+              onClick={loading ? undefined : () => setActiveTab(tab.id)}
+              className={`w-full flex items-center gap-3 px-4 h-11 rounded-xl transition-all text-xs font-bold uppercase tracking-tight ${loading ? 'opacity-50 pointer-events-none' : ''} ${
                 activeTab === tab.id 
                   ? "bg-brand text-white shadow-md shadow-brand/15 scale-[1.01]" 
                   : "bg-transparent text-text-muted hover:bg-brand/5 hover:text-brand"
@@ -61,7 +76,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
         </div>
       </div>
 
-      <div className="lg:col-span-9">
+      <fieldset disabled={loading} className="lg:col-span-9 border-0 p-0 m-0 w-full disabled:opacity-75">
         <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm relative overflow-hidden grain">
           
           {activeTab === "general" && (
@@ -253,7 +268,7 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
           )}
 
         </div>
-      </div>
+      </fieldset>
     </div>
   );
 }

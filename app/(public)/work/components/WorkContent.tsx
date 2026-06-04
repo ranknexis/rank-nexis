@@ -91,7 +91,7 @@ export default function WorkContent({ initialStudies }: WorkContentProps) {
                            alt={study.title} 
                            fill
                            sizes="(max-width: 1024px) 100vw, 60vw"
-                           className="object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
+                           className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 antialiased" 
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
                         <div className="absolute bottom-3 left-3 md:bottom-10 md:left-10 p-3 md:p-6 glass-dark rounded-xl md:rounded-2xl text-white border border-white/10">

@@ -178,7 +178,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
     <div className="min-h-screen bg-white text-text-primary">
       <main className="grain">
 
-        <section className="relative min-h-screen flex items-center pt-8 md:pt-12 overflow-hidden">
+        <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 lg:pt-0 lg:pb-0 lg:min-h-screen lg:flex lg:items-center overflow-hidden">
 
           <div className="absolute inset-0 -z-10 overflow-hidden">
              <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3 hidden md:block" />
@@ -188,14 +188,13 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                 {[...Array(3)].map((_, i) => (
                    <div
                       key={i}
-                      className="absolute rounded-full border border-brand/10 blur-3xl animate-pulse-soft"
+                      className="absolute rounded-full border border-brand/10 blur-3xl"
                       style={{
                         width: `${400 + i * 100}px`,
                         height: `${400 + i * 100}px`,
                         left: `${20 + (i * 30)}%`,
                         top: `${10 + (i * 20)}%`,
                         background: `radial-gradient(circle, var(--color-brand) 0%, transparent 70%)`,
-                        animationDelay: `${i * 2}s`,
                       }}
                    />
                 ))}
@@ -224,30 +223,30 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="inline-flex items-center gap-3 px-5 py-1.5 glass rounded-full shadow-premium border border-brand/5 mb-6 md:mb-10 whitespace-nowrap will-change-gpu"
+                  className="inline-flex items-center gap-3 px-5 py-1.5 glass rounded-full shadow-premium border border-brand/5 whitespace-nowrap will-change-gpu"
                 >
                    <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
                    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand whitespace-nowrap">{hero.badge}</p>
                 </motion.div>
  
-                <div className="space-y-2 md:space-y-4">
-                  <motion.h1 
+                <h1 className="space-y-2 md:space-y-4 text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-text-primary">
+                  <motion.span 
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] }}
-                    className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-text-primary will-change-gpu"
+                    className="block will-change-gpu"
                   >
                     {hero.heading}
-                  </motion.h1>
-                  <motion.h1 
+                  </motion.span>
+                  <motion.span 
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
-                    className="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tight leading-tight uppercase text-brand will-change-gpu"
+                    className="block text-brand will-change-gpu"
                   >
                     {hero.headingAccent}
-                  </motion.h1>
-                </div>
+                  </motion.span>
+                </h1>
  
                 <motion.p 
                   initial={{ opacity: 0, y: 12 }}
@@ -328,7 +327,7 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
                   initial={isTouchDevice ? false : { x: -50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ duration: 1, delay: 1.2 }}
-                  className="absolute -bottom-8 -left-8 bg-surface border border-stroke p-6 rounded-[1.5rem] shadow-premium flex items-center gap-5 backdrop-blur-3xl grain min-w-[260px] z-20"
+                  className="absolute -bottom-8 -left-8 bg-surface border border-stroke p-6 rounded-[1.5rem] shadow-premium flex items-center gap-5 backdrop-blur-md grain min-w-[260px] z-20"
                 >
                   <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white shadow-2xl shadow-brand/30 shrink-0">
                     <Zap size={24} />
@@ -718,10 +717,10 @@ export default function HomeClient({ sectionsMap, studies, posts, testimonials: 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
               <div className="relative group p-4">
                 <div className="aspect-[4/5] glass rounded-2xl md:rounded-[3rem] overflow-hidden relative shadow-premium grain">
-                  <Image src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2070" alt="Team Session" fill className="w-full h-full object-cover grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" />
+                   <Image src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=2070" alt="Team Session" fill className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent " />
 
-                  <div className="absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 md:right-10 p-4 md:p-8 glass-dark rounded-3xl backdrop-blur-2xl space-y-4">
+                  <div className="absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 md:right-10 p-4 md:p-8 glass-dark rounded-3xl space-y-4">
                      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand brightness-125">The Standard</p>
                      <h4 className="text-3xl font-bold tracking-tighter text-white">Growth Focused.</h4>
                      <p className="text-white/90 text-[11px] font-medium uppercase tracking-wider">We measure our success by your brand's actual growth.</p>
@@ -920,16 +919,16 @@ const CaseStudyCard = React.memo(({ title, stats, kpi, tag, image, slug }: any) 
       className="corporate-card p-0 group overflow-hidden bg-surface border border-stroke rounded-2xl md:rounded-[3rem] shadow-premium"
     >
       <div className="aspect-[16/10] relative overflow-hidden">
-        <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" />
+        <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         <div className="absolute top-6 right-6 md:top-8 md:right-8 px-4 py-1.5 bg-black/50 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider rounded-full border border-white/10">{tag}</div>
         
-        <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 flex items-end justify-between">
-            <div className="space-y-1">
-               <p className="text-4xl md:text-5xl font-bold text-brand tracking-tight leading-none">{stats}</p>
-               <p className="text-[9px] font-bold uppercase tracking-wider text-white/70">{kpi}</p>
+        <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 flex items-center justify-between gap-4">
+            <div className="glass-dark border border-white/10 rounded-2xl p-4 flex-1">
+               <p className="text-3xl md:text-4xl font-bold text-brand tracking-tight leading-none mb-1">{stats}</p>
+               <p className="text-[9px] font-bold uppercase tracking-wider text-white/80 leading-tight">{kpi}</p>
             </div>
-            <Link href={`/work/${slug}`} className="w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 hover:bg-brand hover:border-brand transition-all">
+            <Link href={`/work/${slug}`} className="w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 hover:bg-brand hover:border-brand transition-all shrink-0">
                <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6" />
             </Link>
         </div>
@@ -977,7 +976,7 @@ const TestimonyCard = React.memo(({ name, role, quote, image }: any) => {
       <p className="text-text-secondary italic text-sm md:text-xl mb-4 md:mb-10 leading-relaxed font-medium relative z-10 antialiased">"{quote}"</p>
       <div className="flex items-center gap-5 pt-6 md:pt-8 border-t border-stroke mt-auto">
         {image ? (
-            <Image src={image} width={48} height={48} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all duration-700 shadow-sm" alt={name} />
+            <Image src={image} width={48} height={48} className="w-12 h-12 rounded-xl object-cover transition-all duration-700 shadow-sm" alt={name} />
         ) : (
             <div className="w-12 h-12 bg-surface border border-stroke rounded-xl flex items-center justify-center font-bold text-brand text-lg group-hover:bg-brand group-hover:text-white transition-all duration-700 shadow-sm">
               {name[0]}
@@ -996,7 +995,7 @@ const BlogSnippet = React.memo(({ title, date, category, image, slug }: any) => 
   return (
     <div className="corporate-card p-0 group hover:scale-[1.02] bg-surface border border-stroke overflow-hidden rounded-2xl md:rounded-[2.5rem] shadow-premium">
       <div className="aspect-[16/10] overflow-hidden relative">
-         <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
+         <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent" />
          <div className="absolute top-6 left-6 px-4 py-1.5 bg-brand text-white rounded-full text-[8px] font-bold uppercase tracking-wider">{category}</div>
       </div>

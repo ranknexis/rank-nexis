@@ -211,24 +211,24 @@ const ServiceSummaryCard = React.memo(({ service }: { service: any }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "100px 0px" }}
       transition={{ duration: 0.4 }}
-      className="glass group p-5 md:p-10 flex flex-col justify-between hover:border-brand/40 transition-all duration-500 rounded-2xl md:rounded-[3rem] shadow-sm hover:shadow-premium h-full border border-stroke bg-white relative overflow-hidden will-change-gpu"
+      className="glass group p-6 md:p-8 flex flex-col justify-between hover:border-brand/40 transition-all duration-500 rounded-2xl md:rounded-3xl shadow-sm hover:shadow-premium h-full border border-stroke bg-white relative overflow-hidden will-change-gpu"
     >
-       <div className="space-y-4 md:space-y-8 relative z-10">
-          <div className="bg-surface border border-stroke w-14 h-14 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-500 shadow-sm">
-             <Icon className="w-7 h-7 md:w-8 md:h-8" strokeWidth={1.5} />
+       <div className="space-y-4 md:space-y-6 relative z-10">
+          <div className="bg-surface border border-stroke w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-sm">
+             <Icon className="w-6 h-6 md:w-7 md:h-7" strokeWidth={1.5} />
           </div>
-          <div className="space-y-2 md:space-y-4">
-             <h3 className="text-xl md:text-3xl font-bold uppercase tracking-tight leading-none group-hover:text-brand transition-colors antialiased">
+          <div className="space-y-2 md:space-y-3">
+             <h3 className="text-lg md:text-2xl font-bold uppercase tracking-tight leading-snug group-hover:text-brand transition-colors antialiased">
                 {service.title}
              </h3>
-             <p className="text-text-muted text-sm md:text-lg font-medium leading-relaxed antialiased line-clamp-4">
+             <p className="text-text-muted text-xs md:text-sm font-medium leading-relaxed antialiased line-clamp-4 text-justify">
                 {service.description}
              </p>
           </div>
        </div>
-       <div className="pt-4 mt-4 md:pt-8 md:mt-10 border-t border-stroke relative z-10">
-          <Link href={`/services/${service.slug}`} className="btn-outline h-12 md:h-14 w-full flex items-center justify-center text-[10px] font-bold uppercase tracking-widest group/btn bg-white hover:border-brand hover:text-brand transition-all border border-stroke">
-             Learn More <ArrowRight size={14} className="ml-3 group-hover/btn:translate-x-1 transition-transform" />
+       <div className="pt-4 mt-4 md:pt-6 md:mt-8 border-t border-stroke relative z-10">
+          <Link href={`/services/${service.slug}`} className="btn-outline h-11 md:h-12 w-full flex items-center justify-center text-[10px] font-bold uppercase tracking-widest group/btn bg-white hover:border-brand hover:text-brand transition-all border border-stroke rounded-xl">
+             Learn More <ArrowRight size={14} className="ml-3 group-hover/btn:translate-x-1.5 transition-transform duration-300" />
           </Link>
        </div>
     </motion.div>
@@ -242,7 +242,7 @@ const TechCard = React.memo(({ icon: Icon, label }: any) => {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "100px 0px" }}
       transition={{ duration: 0.4 }}
-      className="glass border border-stroke rounded-xl md:rounded-[2rem] flex flex-col items-center justify-center gap-2 md:gap-6 hover:border-brand transition-all duration-700 shadow-premium group cursor-default p-4 md:p-8 bg-white/50 backdrop-blur-sm will-change-gpu"
+      className="glass border border-stroke rounded-xl md:rounded-[2rem] flex flex-col items-center justify-center gap-2 md:gap-6 hover:border-brand transition-all duration-700 shadow-premium group cursor-default p-4 md:p-8"
     >
       <Icon className="w-9 h-9 md:w-12 md:h-12 text-brand/30 group-hover:text-brand transition-all duration-500 group-hover:scale-110" strokeWidth={1} />
       <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-text-muted text-center leading-tight">{label}</span>
