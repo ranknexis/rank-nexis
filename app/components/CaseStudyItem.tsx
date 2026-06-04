@@ -33,7 +33,7 @@ const CaseStudyItem: React.FC<CaseStudyItemProps> = ({ title, category, stats, i
           alt={title} 
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover opacity-100 md:opacity-70 md:grayscale md:group-hover:grayscale-0 md:group-hover:scale-105 transition-all duration-1000" 
+          className="object-cover opacity-100 transition-all duration-1000 group-hover:scale-105" 
         />
         <div className="absolute top-8 left-8 px-6 py-2 glass-dark border border-white/10 rounded-full text-[11px] font-bold uppercase text-white shadow-xl">
           {category}

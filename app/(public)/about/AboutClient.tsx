@@ -91,14 +91,14 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                            src={narrative.imageUrl && !narrative.imageUrl.includes('unsplash') ? narrative.imageUrl : "/images/about_agency.png"} 
                            alt="RankNexis Lab" 
                            fill
-                           className="object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" 
+                           className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-1000 scale-105 group-hover:scale-100" 
                         />
                         <div className="absolute inset-0 bg-brand/[0.03] group-hover:bg-transparent transition-colors" />
                      </div>
                     <motion.div 
                       animate={{ y: [0, -10, 0], rotate: [-12, -10, -12] }}
                       transition={{ duration: 5, repeat: Infinity }}
-                      className="absolute -bottom-8 -left-8 w-44 h-44 glass border border-stroke rounded-2xl md:rounded-[2rem] flex items-center justify-center shadow-premium backdrop-blur-3xl hidden md:flex"
+                      className="absolute -bottom-8 -left-8 w-44 h-44 glass border border-stroke rounded-2xl md:rounded-[2rem] flex items-center justify-center shadow-premium hidden md:flex"
                     >
                        <Layers size={64} className="text-brand" strokeWidth={1} />
                     </motion.div>
@@ -133,20 +133,19 @@ export default function AboutClient({ sectionsMap, teamMembers }: { sectionsMap:
                           src={member.image || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=2424"} 
                           alt={member.name} 
                           fill
-                          className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 antialiased" 
+                          className="object-cover transition-all duration-1000 group-hover:scale-105 antialiased" 
                        />
 
-                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
-                       
-                       <div className="absolute bottom-0 left-0 w-full p-4 md:p-8 space-y-1.5 md:space-y-3 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                          <p className="text-brand text-[10px] font-bold uppercase tracking-[0.3em]">{member.role}</p>
-                          <h4 className="text-lg md:text-2xl font-bold tracking-tight uppercase leading-none antialiased">{member.name}</h4>
-                          <div className="pt-2 md:pt-4 flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity delay-200">
-
-                             <div className="h-px w-8 bg-brand self-center" />
-                             <span className="text-white/60 text-[9px] font-bold uppercase tracking-widest italic">Lead Expert</span>
-                          </div>
-                       </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                        
+                        <div className="absolute bottom-4 left-4 right-4 p-4 md:p-6 glass-dark border border-white/10 rounded-2xl space-y-1.5 md:space-y-3 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
+                           <p className="text-brand text-[10px] font-bold uppercase tracking-[0.3em]">{member.role}</p>
+                           <h4 className="text-lg md:text-xl font-bold tracking-tight uppercase leading-none antialiased">{member.name}</h4>
+                           <div className="pt-2 md:pt-4 flex gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity delay-200">
+                              <div className="h-px w-8 bg-brand self-center" />
+                              <span className="text-white/60 text-[9px] font-bold uppercase tracking-widest italic">Lead Expert</span>
+                           </div>
+                        </div>
                     </motion.div>
                  ))}
                  {teamMembers.length === 0 && (

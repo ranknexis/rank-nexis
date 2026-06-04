@@ -70,10 +70,10 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ name, role, image, soci
         className="object-cover transition-transform duration-700 group-hover:scale-105" 
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-4 md:p-8">
-        <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 space-y-2 md:space-y-4">
-          <div className="space-y-1">
-            <h3 className="text-lg md:text-2xl font-bold text-white tracking-tight uppercase leading-none">{name}</h3>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-4 md:p-6">
+        <div className="transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 space-y-3">
+          <div className="glass-dark border border-white/10 rounded-2xl p-4 space-y-1">
+            <h3 className="text-lg md:text-xl font-bold text-white tracking-tight uppercase leading-none">{name}</h3>
             <p className="text-[10px] font-bold text-brand uppercase tracking-[0.2em]">{role}</p>
           </div>
           
