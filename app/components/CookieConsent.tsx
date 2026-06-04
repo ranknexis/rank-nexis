@@ -83,29 +83,29 @@ export default function CookieConsent() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 30 }}
-          className="fixed bottom-0 left-0 right-0 z-[100] p-4 md:p-6"
+          className="fixed bottom-0 left-0 right-0 z-[100] p-3 md:p-6"
         >
           <div className="max-w-7xl mx-auto glass border border-white/20 rounded-2xl shadow-2xl overflow-hidden shadow-black/5">
-            <div className="px-6 py-5 md:py-6 relative z-10">
+            <div className="px-4 py-4 md:px-6 md:py-6 relative z-10">
               {showCustomize ? (
-                <div className="space-y-6">
+                <div className="space-y-4 md:space-y-6">
                   <div className="flex items-center justify-between">
                     <h3 className="text-[11px] font-bold uppercase tracking-widest text-text-primary">Cookie Settings</h3>
-                    <button onClick={() => setShowCustomize(false)} className="text-text-muted hover:text-brand transition-colors">
+                    <button onClick={() => setShowCustomize(false)} className="text-text-muted hover:text-brand transition-colors cursor-pointer">
                       <X size={18}/>
                     </button>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
 
-                    <div className="flex items-center justify-between p-4 bg-gray-50 border border-gray-100 rounded-xl">
+                    <div className="flex items-center justify-between p-3 md:p-4 bg-gray-50 border border-gray-100 rounded-xl">
                       <span className="text-[10px] font-bold uppercase text-text-primary">Strictly Necessary</span>
                       <Check size={14} className="text-emerald-500" />
                     </div>
 
                     <div 
                       onClick={() => togglePreference('analytics')}
-                      className={`flex items-center justify-between p-4 border cursor-pointer transition-all rounded-xl ${preferences.analytics ? 'border-brand bg-brand/5' : 'bg-white border-gray-100 hover:border-gray-200'}`}
+                      className={`flex items-center justify-between p-3 md:p-4 border cursor-pointer transition-all rounded-xl ${preferences.analytics ? 'border-brand bg-brand/5' : 'bg-white border-gray-100 hover:border-gray-200'}`}
                     >
                       <span className="text-[10px] font-bold uppercase text-text-primary">Analytics Cookies</span>
                       <div className={`w-8 h-4 rounded-full relative transition-colors ${preferences.analytics ? 'bg-brand' : 'bg-gray-200'}`}>
@@ -115,7 +115,7 @@ export default function CookieConsent() {
 
                     <div 
                       onClick={() => togglePreference('marketing')}
-                      className={`flex items-center justify-between p-4 border cursor-pointer transition-all rounded-xl ${preferences.marketing ? 'border-brand bg-brand/5' : 'bg-white border-gray-100 hover:border-gray-200'}`}
+                      className={`flex items-center justify-between p-3 md:p-4 border cursor-pointer transition-all rounded-xl ${preferences.marketing ? 'border-brand bg-brand/5' : 'bg-white border-gray-100 hover:border-gray-200'}`}
                     >
                       <span className="text-[10px] font-bold uppercase text-text-primary">Marketing Cookies</span>
                       <div className={`w-8 h-4 rounded-full relative transition-colors ${preferences.marketing ? 'bg-brand' : 'bg-gray-200'}`}>
@@ -125,34 +125,36 @@ export default function CookieConsent() {
                   </div>
 
                   <div className="flex justify-end gap-3 pt-2">
-                    <button onClick={handleSavePreferences} className="w-full md:w-auto px-10 py-3 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-brand/10">Save Settings</button>
+                    <button onClick={handleSavePreferences} className="w-full md:w-auto px-10 py-3 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-brand/10 cursor-pointer">Save Settings</button>
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
                   <div className="flex items-center gap-4 text-center md:text-left">
                     <ShieldCheck size={20} className="text-brand hidden md:block" />
-                    <p className="text-[11px] font-medium text-text-primary leading-relaxed uppercase max-w-4xl tracking-tight">
+                    <p className="text-[10px] md:text-[11px] font-medium text-text-primary leading-relaxed uppercase max-w-4xl tracking-tight">
                       We use cookies to optimize your experience.
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-4 w-full md:w-auto shrink-0">
-                    <button 
-                      onClick={() => setShowCustomize(true)}
-                      className="flex-1 md:flex-none text-[10px] font-bold uppercase tracking-widest text-text-muted hover:text-brand transition-colors"
-                    >
-                      Settings
-                    </button>
-                    <button 
-                      onClick={handleRejectAll}
-                      className="flex-1 md:flex-none px-6 py-3 text-[10px] font-bold uppercase tracking-widest border border-gray-200 rounded-xl hover:bg-gray-50"
-                    >
-                      Decline
-                    </button>
+                  <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto shrink-0">
+                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                      <button 
+                        onClick={() => setShowCustomize(true)}
+                        className="flex-1 sm:flex-none py-3 text-[10px] font-bold uppercase tracking-widest text-text-muted hover:text-brand transition-colors cursor-pointer text-center"
+                      >
+                        Settings
+                      </button>
+                      <button 
+                        onClick={handleRejectAll}
+                        className="flex-1 sm:flex-none px-6 py-3 text-[10px] font-bold uppercase tracking-widest border border-gray-200 rounded-xl hover:bg-gray-50 cursor-pointer text-center"
+                      >
+                        Decline
+                      </button>
+                    </div>
                     <button 
                       onClick={handleAcceptAll}
-                      className="flex-1 md:flex-none px-10 py-3 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-xl shadow-xl shadow-brand/20"
+                      className="w-full sm:w-auto px-10 py-3 bg-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-xl shadow-xl shadow-brand/20 cursor-pointer text-center"
                     >
                       Accept All
                     </button>
