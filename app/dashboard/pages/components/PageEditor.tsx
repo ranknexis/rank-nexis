@@ -44,6 +44,7 @@ import SectionEditor from './SectionEditor';
 import SeoEditor from './SeoEditor';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import UnsavedChangesWarning from '../../components/UnsavedChangesWarning';
 
 interface PageEditorProps {
   initialPage: any;
@@ -76,20 +77,63 @@ const MODULE_TYPES = [
 
 export default function PageEditor({ initialPage }: PageEditorProps) {
   const [page, setPage] = useState(initialPage);
+  const [savedPage, setSavedPage] = useState(initialPage);
   const [activeTab, setActiveTab] = useState<'seo' | 'sections' | 'links'>('sections');
   const [isPending, startTransition] = useTransition();
   const [showAddModal, setShowAddModal] = useState(false);
   const [hoveredType, setHoveredType] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; id: string | null }>({
-
     isOpen: false,
     id: null
   });
+
+  const [dirtySections, setDirtySections] = useState<Record<string, boolean>>({});
+  const [isLinksDirty, setIsLinksDirty] = useState(false);
+
+  const handleSectionDirtyChange = useCallback((sectionId: string, isDirty: boolean) => {
+    setDirtySections(prev => {
+      if (prev[sectionId] === isDirty) return prev;
+      return { ...prev, [sectionId]: isDirty };
+    });
+  }, []);
+
+  const isSeoDirty = useMemo(() => {
+    if (!savedPage) return false;
+    const seoFields = [
+      'metaTitle',
+      'metaDescription',
+      'ogTitle',
+      'ogDescription',
+      'ogImage',
+      'canonicalUrl',
+      'noIndex'
+    ];
+    for (const field of seoFields) {
+      const val1 = page[field] ?? '';
+      const val2 = savedPage[field] ?? '';
+      if (val1 !== val2) return true;
+    }
+    const keywords1 = Array.isArray(page.metaKeywords)
+      ? page.metaKeywords.join(',')
+      : (page.metaKeywords || '');
+    const keywords2 = Array.isArray(savedPage.metaKeywords)
+      ? savedPage.metaKeywords.join(',')
+      : (savedPage.metaKeywords || '');
+    if (keywords1 !== keywords2) return true;
+    return false;
+  }, [page, savedPage]);
+
+  const isAnySectionDirty = useMemo(() => {
+    return page.sections.some((s: any) => dirtySections[s.id]);
+  }, [page.sections, dirtySections]);
+
+  const isDirty = isSeoDirty || isAnySectionDirty || isLinksDirty;
 
   const handleSaveSeo = useCallback(async () => {
     startTransition(async () => {
       const result = await updatePageSeo(page.slug, page);
       if (result.success) {
+        setSavedPage(page);
         toast.success("SEO settings saved successfully");
       } else {
         toast.error(result.error);
@@ -177,6 +221,10 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
   const handleUpdateSection = useCallback(async (sectionId: string, sectionLabel: string, newContent: any) => {
      const result = await updateSection(sectionId, newContent);
      if (result.success) {
+        setPage((prev: any) => ({
+          ...prev,
+          sections: prev.sections.map((s: any) => s.id === sectionId ? { ...s, content: newContent } : s)
+        }));
         toast.success(`${sectionLabel} updated`);
      } else {
         toast.error(result.error || `Failed to update ${sectionLabel}`);
@@ -193,8 +241,9 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="space-y-3">
           <Link 
-            href="/dashboard/pages" 
-            className="flex items-center gap-2 text-[10px] font-bold uppercase text-brand hover:gap-3 transition-all"
+            href={isPending ? "#" : "/dashboard/pages"} 
+            onClick={isPending ? (e) => e.preventDefault() : undefined}
+            className={`flex items-center gap-2 text-[10px] font-bold uppercase text-brand hover:gap-3 transition-all ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
           >
             <ChevronLeft size={14} /> Back to Pages
           </Link>
@@ -211,15 +260,17 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
         <div className="flex items-center gap-4">
            <button 
              onClick={handleToggleStatus}
-             className="px-6 h-14 rounded-xl border border-stroke bg-white text-[10px] font-bold uppercase text-text-muted hover:bg-surface transition-all flex items-center gap-3"
+             disabled={isPending}
+             className={`px-6 h-14 rounded-xl border border-stroke bg-white text-[10px] font-bold uppercase text-text-muted hover:bg-surface transition-all flex items-center gap-3 ${isPending ? 'opacity-50' : ''}`}
            >
               {page.status === 'published' ? <AlertCircle size={16} /> : <CheckCircle2 size={16} />}
               {page.status === 'published' ? 'Switch to Draft' : 'Publish Page'}
            </button>
            <Link 
-             href={page.slug === 'home' ? '/' : `/${page.slug}`} 
-             target="_blank"
-             className="px-6 h-14 rounded-xl border border-stroke bg-white text-[10px] font-bold uppercase text-text-muted hover:bg-surface transition-all flex items-center gap-3"
+             href={isPending ? "#" : (page.slug === 'home' ? '/' : `/${page.slug}`)} 
+             onClick={isPending ? (e) => e.preventDefault() : undefined}
+             target={isPending ? undefined : "_blank"}
+             className={`px-6 h-14 rounded-xl border border-stroke bg-white text-[10px] font-bold uppercase text-text-muted hover:bg-surface transition-all flex items-center gap-3 ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
            >
               <Eye size={16} /> Live Preview
            </Link>
@@ -239,24 +290,27 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
            <div className="bg-white rounded-[3rem] p-3 sm:p-4 border border-stroke shadow-sm">
               <button 
                 type="button"
-                onClick={() => setActiveTab('sections')}
-                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all ${activeTab === 'sections' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
+                disabled={isPending}
+                onClick={isPending ? undefined : () => setActiveTab('sections')}
+                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all ${isPending ? 'opacity-50 pointer-events-none' : ''} ${activeTab === 'sections' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
                  <Layers size={22} className="shrink-0" />
                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-left">Page Content</span>
               </button>
               <button 
                 type="button"
-                onClick={() => setActiveTab('seo')}
-                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all mt-3 ${activeTab === 'seo' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
+                disabled={isPending}
+                onClick={isPending ? undefined : () => setActiveTab('seo')}
+                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all mt-3 ${isPending ? 'opacity-50 pointer-events-none' : ''} ${activeTab === 'seo' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
                  <Settings2 size={22} className="shrink-0" />
                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-left">SEO Settings</span>
               </button>
               <button 
                 type="button"
-                onClick={() => setActiveTab('links')}
-                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all mt-3 ${activeTab === 'links' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
+                disabled={isPending}
+                onClick={isPending ? undefined : () => setActiveTab('links')}
+                className={`w-full flex items-center gap-3 sm:gap-4 xl:gap-5 p-4 sm:p-5 lg:p-4 xl:p-6 rounded-[2rem] transition-all mt-3 ${isPending ? 'opacity-50 pointer-events-none' : ''} ${activeTab === 'links' ? 'bg-brand text-white shadow-2xl shadow-brand/20' : 'text-text-muted hover:bg-surface'}`}
               >
                  <LinkIcon size={22} className="shrink-0" />
                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-left">Navigation Links</span>
@@ -274,7 +328,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
            </div>
         </div>
 
-        <div className="lg:col-span-3 min-h-[600px]">
+         <fieldset disabled={isPending} className="lg:col-span-3 min-h-[600px] border-0 p-0 m-0 w-full disabled:opacity-75 disabled:pointer-events-none">
            {activeTab === 'seo' && (
               <SeoEditor 
                 data={page} 
@@ -312,6 +366,7 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
                             section={section} 
                             onUpdate={(newContent: any) => handleUpdateSection(section.id, section.label, newContent)}
                             onDelete={() => handleSectionDeleteConfirm(section.id)}
+                            onDirtyChange={(isDirty) => handleSectionDirtyChange(section.id, isDirty)}
                           />
                        </div>
                     ))}
@@ -337,9 +392,10 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
               <InternalLinksEditor 
                 slug={page.slug} 
                 initialLinks={page.internalLinks as any[]} 
+                onDirtyChange={setIsLinksDirty}
               />
            )}
-        </div>
+        </fieldset>
       </div>
 
       <AnimatePresence>
@@ -453,6 +509,8 @@ export default function PageEditor({ initialPage }: PageEditorProps) {
           </div>
         )}
       </AnimatePresence>
+
+          <UnsavedChangesWarning isDirty={isDirty} isBusy={isPending} />
 
           <ConfirmationModal 
               isOpen={deleteConfirm.isOpen}

@@ -25,6 +25,8 @@ export default async function AdminPagesPage() {
     return <div className="p-10 text-red-500 font-bold uppercase">{error}</div>;
   }
 
+  const mainPages = pages?.filter((p: any) => !p.slug.includes('/')) || [];
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stroke pb-4">
@@ -45,7 +47,7 @@ export default async function AdminPagesPage() {
             />
           </div>
           <p className="text-[9px] font-bold uppercase text-text-muted">
-            Total pages: <span className="text-brand">{pages?.length || 0}</span>
+            Total pages: <span className="text-brand">{mainPages.length}</span>
           </p>
         </div>
 
@@ -61,7 +63,7 @@ export default async function AdminPagesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-stroke">
-              {pages?.map((page: any) => {
+              {mainPages.map((page: any) => {
                 
                 const seoComplete = page.metaTitle && page.metaDescription && page.ogImage;
                 const seoScore = [page.metaTitle, page.metaDescription, page.ogImage].filter(Boolean).length;

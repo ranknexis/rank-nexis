@@ -1,10 +1,9 @@
-
 export const PAGES_DATA = [
   {
     slug: 'home',
     metaTitle: 'Rank Nexis | Full-Service Digital Marketing Agency & Growth Engineering',
     metaDescription: 'Rank Nexis is a high-performance digital growth agency specializing in SEO, Performance Marketing, Custom Web Development, and Creative Design. We help brands scale through data-driven precision.',
-    metaKeywords: ['digital marketing agency', 'SEO services', 'web development', 'performance marketing', 'growth engineering', 'creative design', 'small business marketing', 'B2B marketing', 'agency for startups'],
+    metaKeywords: ['digital marketing agency', 'SEO services', 'web development', 'performance marketing', 'growth engineering', 'creative design'],
     canonicalUrl: 'https://www.ranknexis.com/',
     sections: [
       { 
@@ -17,58 +16,128 @@ export const PAGES_DATA = [
           subtext: 'Rank Nexis is a full-service digital marketing agency dedicated to helping businesses grow online. We build websites that look professional, work perfectly on every device, and are designed from the ground up to turn visitors into paying customers.'
         } 
       },
-      { 
-        key: 'intro', 
-        type: 'text_block', 
-        content: { 
-          label: 'Our Approach',
-          heading: 'We build digital products that work.',
-          body: 'Whether you need a brand new website, a full SEO strategy, high-converting paid ads, or a custom web application, our team handles everything: strategy, design, development, and ongoing support. You focus on running your business. We make sure your digital presence does its job.'
-        } 
-      },
       {
-        key: 'full_service',
-        type: 'text_block',
+        key: 'trust',
+        type: 'trust',
         content: {
-          label: 'Comprehensive Solutions',
-          heading: 'Full-Service Digital Marketing',
-          body: 'Rank Nexis is not just another agency. We are your growth partners. We specialize in helping service-based businesses, professional services, industrial, manufacturing, and ecommerce companies turn their online presence into a reliable source of leads and sales. Our services are tied to outcomes you can measure: more signups, lower churn, faster onboarding, and fewer support tickets.'
+          badge: 'How We Work',
+          heading: 'Bridging Design',
+          headingAccent: '& Tech.',
+          subtext: "We don't just build websites; we create high-performance systems where great design meets expert tech.",
+          items: []
         }
       },
       {
-        key: 'industry_focused',
-        type: 'text_block',
+        key: 'services',
+        type: 'services',
         content: {
-          label: 'Specialized Expertise',
-          heading: 'Industry-Focused Solutions',
-          body: 'We bring industry-specific knowledge to every project so the strategy feels right for your users. We work with SaaS & Technology, Fintech & Banking, Healthcare, Legal, E-Commerce, Real Estate, Education, and Manufacturing.'
+          badge: 'What We Do',
+          heading: 'Tailored Solutions',
+          headingAccent: 'Designed For Growth.',
+          subtext: 'We create effective digital strategies that drive results for businesses and brands.'
         }
       },
       {
-        key: 'performance_marketing',
-        type: 'text_block',
+        key: 'expertise',
+        type: 'expertise',
         content: {
-          label: 'Data-Driven Growth',
-          heading: 'Performance Marketing',
-          body: 'Aggressive, data-driven strategies to dominate your market, scale revenue, and maximize ROI through precision targeting. We focus on leads, sales, and sustainable scale using advanced analytics and reporting.'
+          badge: 'Industry Expertise',
+          heading: 'Sectors',
+          headingAccent: 'We Support.',
+          subtext: 'We bring deep domain expertise to high-growth sectors, delivering customized solutions.',
+          items: [
+            { title: 'SaaS Systems', icon: 'Box', description: 'Tailored software-as-a-service architectures.' },
+            { title: 'Global Commerce', icon: 'Globe', description: 'Scalable e-commerce and international search footprint.' },
+            { title: 'Fintech Systems', icon: 'ShieldCheck', description: 'Highly secure financial software interfaces.' }
+          ]
         }
       },
       {
-        key: 'white_label',
-        type: 'text_block',
+        key: 'partnership',
+        type: 'partnership',
         content: {
-          label: 'Agency Partnerships',
-          heading: 'White Label Solutions',
-          body: 'Marketing agencies and consultancies trust Rank Nexis for white label web design and development. We deliver fully branded projects under your agency\'s name, handling all the technical work while you grow your revenue.'
+          badge: 'Working with Us',
+          heading: 'Our Partnership Process.',
+          headingAccent: '',
+          items: [
+            { step: '01', title: 'Business Review', description: 'Deep-dive into your growth potential and technical needs.' },
+            { step: '02', title: 'Growth Plan', description: 'Designing a high-performance roadmap for market success.' },
+            { step: '03', title: 'Custom Build', description: 'Developing and polishing your digital platform to absolute perfection.' },
+            { step: '04', title: 'Performance', description: 'Continuous improvement based on real-world data.' },
+            { step: '05', title: 'Rapid Growth', description: 'Scaling your business through sustained expert help.' }
+          ]
+        }
+      },
+      {
+        key: 'strategy',
+        type: 'strategy',
+        content: {
+          badge: 'Strategic Approach',
+          heading: 'Beyond',
+          headingAccent: 'Agency.',
+          subtext: 'Our approach integrates commercial strategy with deep creative execution to deliver sustainable impact.',
+          items: []
+        }
+      },
+      {
+        key: 'excellence',
+        type: 'excellence',
+        content: {
+          badge: 'Partnership Values',
+          heading: 'Strategic',
+          headingAccent: 'Excellence.',
+          subtext: 'We focus on long-term value, developing custom solutions that grow alongside your business goals.',
+          items: []
+        }
+      },
+      {
+        key: 'testimonials',
+        type: 'testimonials',
+        content: {
+          badge: 'Expert Feedback',
+          heading: 'Global Synergy',
+          headingAccent: '',
+          items: [
+            { 
+              quote: 'The FruitsZone ERP transformed our chaotic inventory into a precision-guided operation. RankNexis delivered a system that actually thinks like our business.', 
+              name: 'Abdur Rahman', 
+              company: 'FruitsZone CEO',
+              photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=2340'
+            },
+            { 
+              quote: 'Our digital presence now matches the luxury experience we provide. West Bound\'s inquiry volume tripled within two months of the new platform launch.', 
+              name: 'Abid Hasan', 
+              company: 'West Bound Travels',
+              photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=2340'
+            },
+            { 
+              quote: 'Dominating local search was our primary goal, and RankNexis achieved it. The Umrah All marketplace is now a leader in targeted organic traffic.', 
+              name: 'Imran Khan', 
+              company: 'Umrah All Strategy',
+              photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=2340'
+            }
+          ]
+        }
+      },
+      {
+        key: 'insights',
+        type: 'insights',
+        content: {
+          badge: 'Knowledge Hub',
+          heading: 'Strategic',
+          headingAccent: 'Insights.'
         }
       },
       {
         key: 'connect',
-        type: 'text_block',
+        type: 'connect',
         content: {
-          label: 'Get Started',
-          heading: 'Start Your Growth Journey.',
-          body: 'Ready for a digital presence that actually grows your business? Contact Rank Nexis today for a free consultation. No jargon, no pressure, just a straightforward conversation about your goals.'
+          badge: 'Let\'s Connect',
+          heading: 'Start Your',
+          headingAccent: 'Strategy.',
+          subtext: 'Ready to build your next-generation platform? Connect with our team to discuss your strategic objectives.',
+          email: 'ranknexis@gmail.com',
+          phone: '+880 1949-883830'
         }
       }
     ]
@@ -80,8 +149,37 @@ export const PAGES_DATA = [
     metaKeywords: ['about rank nexis', 'digital marketing experts', 'growth agency team', 'agency mission'],
     canonicalUrl: 'https://www.ranknexis.com/about',
     sections: [
-      { key: 'hero', type: 'hero', content: { badge: 'Agency Philosophy', heading: 'Agency Focused', headingAccent: 'On Results.', subtext: 'Rank Nexis is a reliable and professional digital marketing agency dedicated to helping businesses grow online through precision engineering and strategic thinking.' } },
-      { key: 'narrative', type: 'text_block', content: { label: 'Our Story', heading: 'Strategic', headingAccent: 'Impact.', body: 'Our methodology integrates precision engineering with strategic thinking to deliver sustainable impact for your organization. We specialize in digital marketing services for small business owners and startups who are serious about their digital future.' } }
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          badge: 'Our Vision', 
+          heading: 'Driven By', 
+          headingAccent: 'Results.', 
+          subtext: 'RankNexis is a reliable and professional digital marketing agency dedicated to helping businesses grow online.' 
+        } 
+      },
+      { 
+        key: 'narrative', 
+        type: 'narrative', 
+        content: { 
+          label: 'Our Philosophy', 
+          heading: 'Strategic', 
+          headingAccent: 'Impact.', 
+          body: 'Our approach combines expert design with strategic thinking to deliver sustainable impact for your organization. We\'ve spent 8+ years building integrated digital solutions where marketing and development work together seamlessly.',
+          imageUrl: '/images/about_agency.png'
+        } 
+      },
+      {
+        key: 'growth_stats',
+        type: 'growth_stats',
+        content: {
+          items: [
+            { title: '08+', description: 'Years Active' },
+            { title: '180+', description: 'Projects Completed' }
+          ]
+        }
+      }
     ]
   },
   {
@@ -91,9 +189,266 @@ export const PAGES_DATA = [
     metaKeywords: ['digital marketing services', 'SEO services', 'SMM services', 'PPC management', 'web development services'],
     canonicalUrl: 'https://www.ranknexis.com/services',
     sections: [
-      { key: 'hero', type: 'hero', content: { badge: 'Our Expertise', heading: 'Tailored Solutions', headingAccent: 'Designed For Growth.', subtext: 'We offer a full spectrum of digital services designed to help your brand lead the market and find more customers through data-driven precision.' } }
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          badge: 'Our Core Offerings', 
+          heading: 'Strategic', 
+          headingAccent: 'Expertise.', 
+          subtext: 'We provide premium digital solutions designed to scale brands through expert design and data-driven strategy.' 
+        } 
+      },
+      {
+        key: 'pillar_01',
+        type: 'pillar_01',
+        content: {
+          badge: 'Marketing',
+          heading: 'Marketing &',
+          headingAccent: 'Growth Strategy.'
+        }
+      },
+      {
+        key: 'pillar_02',
+        type: 'pillar_02',
+        content: {
+          badge: 'Pillar 02',
+          heading: 'Creative &',
+          headingAccent: 'Brand Design.'
+        }
+      },
+      {
+        key: 'pillar_03',
+        type: 'pillar_03',
+        content: {
+          badge: 'Development',
+          heading: 'Development &',
+          headingAccent: 'Web Solutions.'
+        }
+      },
+      {
+        key: 'tech_stack',
+        type: 'tech_stack',
+        content: {
+          badge: 'The Engine',
+          heading: 'Growth',
+          headingAccent: 'Platform.'
+        }
+      },
+      {
+        key: 'growth_stats',
+        type: 'growth_stats',
+        content: {
+          items: [
+            { title: 'Market Diagnostics', description: 'Comprehensive review of your current digital presence and market positioning.' },
+            { title: 'Growth Scaling', description: 'Designing flexible strategic models built to handle rapid business growth.' },
+            { title: 'Performance Optimization', description: 'Continuous refinement and optimization to ensure your business leads the market.' }
+          ]
+        }
+      }
     ]
   },
+  {
+    slug: 'contact',
+    metaTitle: 'Contact Rank Nexis | Get Your Free Growth Consultation',
+    metaDescription: 'Ready to build a digital presence that actually grows your business? Contact Rank Nexis today for a free discovery consultation.',
+    metaKeywords: ['contact digital agency', 'free marketing consultation', 'growth strategy session'],
+    canonicalUrl: 'https://www.ranknexis.com/contact',
+    sections: [
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          badge: "Let's Connect", 
+          heading: 'Ready To', 
+          headingAccent: 'Grow?', 
+          subtext: 'Contact the experts at Rank Nexis for a customized growth strategy and digital audit. No obligation, just a clear conversation about your goals.' 
+        } 
+      },
+      {
+        key: 'faq',
+        type: 'faq',
+        content: {
+          heading: 'Frequently Asked Questions',
+          items: [
+            { question: 'What services do you offer?', answer: 'We specialize in SEO, social media marketing, Facebook and Google Ads, UI/UX design, and web development.' },
+            { question: 'How long does a project take?', answer: 'Timeline varies based on complexity, but most web projects are completed within 4 to 8 weeks.' }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    slug: 'blog',
+    metaTitle: 'Blog & Insights | Rank Nexis Strategic Intelligence',
+    metaDescription: 'Explore the latest insights on SEO, marketing, and business growth from our team of digital engineers.',
+    metaKeywords: ['marketing blog', 'SEO insights', 'business growth tips'],
+    canonicalUrl: 'https://www.ranknexis.com/blog',
+    sections: [
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          badge: 'Strategic Intelligence', 
+          heading: 'Insights &', 
+          headingAccent: 'Strategy.', 
+          subtext: 'Technical diagnostics, architectural patterns, and strategic growth logic for the modern enterprise.' 
+        } 
+      },
+      {
+        key: 'newsletter',
+        type: 'newsletter',
+        content: {
+          badge: 'Newsletter',
+          heading: 'Get Strategic Insights',
+          subtext: 'Stay ahead with our latest thoughts on search optimization, software engineering, and performance marketing.',
+          buttonText: 'Subscribe'
+        }
+      }
+    ]
+  },
+  {
+    slug: 'work',
+    metaTitle: 'Our Work | Case Studies & Results | Rank Nexis',
+    metaDescription: 'Explore how Rank Nexis helps brands scale through strategic initiatives and expert engineering.',
+    metaKeywords: ['case studies', 'portfolio', 'marketing results'],
+    canonicalUrl: 'https://www.ranknexis.com/work',
+    sections: [
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          badge: 'Case Study Archive', 
+          heading: 'Case', 
+          headingAccent: 'Studies.', 
+          subtext: 'A look at some of our successful projects and how we\'ve helped our clients grow their brands.' 
+        } 
+      },
+      {
+        key: 'stats',
+        type: 'stats_strip',
+        content: {
+          items: [
+            { label: 'Happy Clients', value: '180+', icon: 'Layers' },
+            { label: 'Business Growth', value: '140%', icon: 'TrendingUp' },
+            { label: 'Top Rank Results', value: 'TOP 5', icon: 'Zap' },
+            { label: 'Creative Minds', value: '12', icon: 'Globe' }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    slug: 'privacy',
+    metaTitle: 'Privacy Policy | Rank Nexis',
+    metaDescription: 'Our commitment to protecting your data and privacy.',
+    sections: [
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          title: 'Privacy Policy', 
+          text: 'How we handle and protect your information.' 
+        } 
+      },
+      { 
+        key: 'legal', 
+        type: 'legal_content', 
+        content: { 
+          sections: [
+            { heading: 'Information Collection', body: 'We collect information that you provide to us directly, such as when you create an account or subscribe to our newsletter.' },
+            { heading: 'Use of Information', body: 'We use the information we collect to provide, maintain, and improve our services.' }
+          ] 
+        } 
+      }
+    ]
+  },
+  {
+    slug: 'terms',
+    metaTitle: 'Terms of Service | Rank Nexis',
+    metaDescription: 'The rules and regulations for using our services.',
+    sections: [
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          title: 'Terms of Service', 
+          text: 'The rules and regulations for using our services.' 
+        } 
+      },
+      { 
+        key: 'legal', 
+        type: 'legal_content', 
+        content: { 
+          sections: [
+            { heading: 'Acceptance of Terms', body: 'By accessing our website or services, you agree to be bound by these Terms of Service.' },
+            { heading: 'User Responsibilities', body: 'You agree to use our website and services only for lawful purposes and in accordance with these Terms.' }
+          ] 
+        } 
+      }
+    ]
+  },
+  {
+    slug: 'careers',
+    metaTitle: 'Careers | Join the Rank Nexis Team',
+    metaDescription: 'Explore career opportunities at Rank Nexis. We are looking for creative and hardworking people to join our growing agency.',
+    sections: [
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          badge: 'Careers', 
+          heading: 'Build Your', 
+          headingAccent: 'Career.', 
+          subtext: 'Join our team of experts. We are building the next generation of digital solutions.' 
+        } 
+      },
+      { 
+        key: 'culture', 
+        type: 'culture', 
+        content: { 
+          label: 'The Environment', 
+          heading: 'Join', 
+          headingAccent: 'Our Team.', 
+          body: 'We are looking for creative and hardworking people to join our team.', 
+          imageUrl: '/images/careers_culture.png', 
+          stats: [
+            { label: 'High Velocity', value: 'We deliver maximum impact quickly by skipping unnecessary processes.', icon: 'Zap' },
+            { label: 'Modern Stack', value: 'Work with high-end, modern technologies like React and Next.js.', icon: 'Layers' }
+          ] 
+        } 
+      }
+    ]
+  },
+  {
+    slug: 'team',
+    metaTitle: 'Our Team | The Experts Behind Rank Nexis',
+    metaDescription: 'Meet the dedicated professionals at Rank Nexis who drive your business growth through expert SEO, marketing, and development.',
+    sections: [
+      { 
+        key: 'hero', 
+        type: 'hero', 
+        content: { 
+          badge: 'The Core Team', 
+          heading: 'Meet the', 
+          headingAccent: 'Experts.', 
+          subtext: 'Our team of digital engineers and growth specialists dedicated to your success.' 
+        } 
+      },
+      {
+        key: 'strengths',
+        type: 'strengths',
+        content: {
+          items: [
+            { icon: 'ShieldCheck', title: 'Strategic Precision', description: 'Our work is rooted in deep market diagnostics and competitive analysis.' },
+            { icon: 'Zap', title: 'Creative Velocity', description: 'We operate with maximum efficiency to ensure rapid deployment and impact.' },
+            { icon: 'TrendingUp', title: 'Result Governance', description: 'Every action is monitored against strict ROI benchmarks and scaling goals.' }
+          ]
+        }
+      }
+    ]
+  },
+  
   {
     slug: 'services/seo-service',
     metaTitle: 'SEO Services for Small Business — Get Found on Google | Rank Nexis',
@@ -211,73 +566,5 @@ export const PAGES_DATA = [
       { key: 'saas', type: 'text_block', content: { title: 'SaaS Platform Development', text: 'Multi-tenant architecture, subscription billing, and user onboarding flows for software products designed to scale.', image: '/website-images/web-application-development/custom-web-application-development-company.webp' } },
       { key: 'automation', type: 'text_block', content: { title: 'Process Automation Web Apps', text: 'Eliminate spreadsheet-based workflows and automate repetitive tasks with secure, browser-based software.', image: '/website-images/web-application-development/custom-web-application-development.webp' } }
     ]
-  },
-  {
-    slug: 'contact',
-    metaTitle: 'Contact Rank Nexis | Get Your Free Growth Consultation',
-    metaDescription: 'Ready to build a digital presence that actually grows your business? Contact Rank Nexis today for a free discovery consultation.',
-    metaKeywords: ['contact digital agency', 'free marketing consultation', 'growth strategy session'],
-    canonicalUrl: 'https://www.ranknexis.com/contact',
-    sections: [
-      { key: 'hero', type: 'hero', content: { badge: 'Let\'s Connect', heading: 'Ready To', headingAccent: 'Grow?', subtext: 'Contact the experts at Rank Nexis for a customized growth strategy and digital audit. No obligation, just a clear conversation about your goals.' } }
-    ]
-  },
-  {
-    slug: 'blog',
-    metaTitle: 'Blog & Insights | Rank Nexis Strategic Intelligence',
-    metaDescription: 'Explore the latest insights on SEO, marketing, and business growth from our team of digital engineers.',
-    metaKeywords: ['marketing blog', 'SEO insights', 'business growth tips'],
-    canonicalUrl: 'https://www.ranknexis.com/blog',
-    sections: [
-      { key: 'hero', type: 'hero', content: { badge: 'Strategic Intelligence', heading: 'Insights &', headingAccent: 'Strategy.', subtext: 'Technical diagnostics, architectural patterns, and strategic growth logic for the modern enterprise.' } }
-    ]
-  },
-  {
-    slug: 'work',
-    metaTitle: 'Our Work | Case Studies & Results | Rank Nexis',
-    metaDescription: 'Explore how Rank Nexis helps brands scale through strategic initiatives and expert engineering.',
-    metaKeywords: ['case studies', 'portfolio', 'marketing results'],
-    canonicalUrl: 'https://www.ranknexis.com/work',
-    sections: [
-      { key: 'hero', type: 'hero', content: { badge: 'Case Study Archive', heading: 'Case', headingAccent: 'Studies.', subtext: 'A look at some of our successful projects and how we\'ve helped our clients grow their brands.' } }
-    ]
-  },
-  {
-    slug: 'privacy',
-    metaTitle: 'Privacy Policy | Rank Nexis',
-    metaDescription: 'Our commitment to protecting your data and privacy.',
-    sections: [
-      { key: 'hero', type: 'hero', content: { title: 'Privacy Policy', text: 'How we handle and protect your information.' } },
-      { key: 'legal', type: 'legal_content', content: { sections: [
-        { heading: 'Information Collection', body: 'We collect information that you provide to us directly, such as when you create an account or subscribe to our newsletter.' },
-        { heading: 'Use of Information', body: 'We use the information we collect to provide, maintain, and improve our services.' }
-      ] } }
-    ]
-  },
-  {
-    slug: 'terms',
-    metaTitle: 'Terms of Service | Rank Nexis',
-    metaDescription: 'The rules and regulations for using our services.',
-    sections: [
-      { key: 'hero', type: 'hero', content: { title: 'Terms of Service', text: 'The rules and regulations for using our services.' } }
-    ]
-  },
-  {
-    slug: 'careers',
-    metaTitle: 'Careers | Join the Rank Nexis Team',
-    metaDescription: 'Explore career opportunities at Rank Nexis. We are looking for creative and hardworking people to join our growing agency.',
-    sections: [
-      { key: 'hero', type: 'hero', content: { badge: 'Careers', heading: 'Build Your', headingAccent: 'Career.', subtext: 'Join our team of experts. We are building the next generation of digital solutions.' } },
-      { key: 'culture', type: 'text_block', content: { label: 'The Environment', heading: 'Join', headingAccent: 'Our Team.', body: 'We are looking for creative and hardworking people to join our team. We provide a professional and collaborative environment for growth.', imageUrl: 'https://images.unsplash.com/photo-15222071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2070', stats: [{ label: 'Creative Freedom', value: 'Zap' }, { label: 'Team Growth', value: 'Layers' }] } }
-    ]
-  },
-  {
-    slug: 'team',
-    metaTitle: 'Our Team | The Experts Behind Rank Nexis',
-    metaDescription: 'Meet the dedicated professionals at Rank Nexis who drive your business growth through expert SEO, marketing, and development.',
-    sections: [
-      { key: 'hero', type: 'hero', content: { badge: 'The Core Team', heading: 'Meet the', headingAccent: 'Experts.', subtext: 'Our team of digital engineers and growth specialists dedicated to your success.' } }
-    ]
   }
 ];
-

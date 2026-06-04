@@ -2,7 +2,7 @@
 
 import { updateInternalLinks, getAllPages } from '@/actions/pages';
 import { Link as LinkIcon, MoveDown, MoveUp, Plus, Save, Trash2 } from 'lucide-react';
-import { memo, useState, useEffect } from 'react';
+import { memo, useState, useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
 
 interface InternalLink {
@@ -12,7 +12,7 @@ interface InternalLink {
   isCustom?: boolean;
 }
 
-const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initialLinks: any[] }) => {
+const InternalLinksEditor = memo(({ slug, initialLinks, onDirtyChange }: { slug: string, initialLinks: any[], onDirtyChange?: (isDirty: boolean) => void }) => {
   const [links, setLinks] = useState<InternalLink[]>(() => {
     let parsed: any[] = [];
     if (!initialLinks) parsed = [];
@@ -34,6 +34,43 @@ const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initia
 
   const [availablePages, setAvailablePages] = useState<{ title: string, url: string }[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+  const [savedLinks, setSavedLinks] = useState(initialLinks);
+
+  const initialLinksList = useMemo(() => {
+    let parsed: any[] = [];
+    if (!savedLinks) parsed = [];
+    else if (typeof savedLinks === 'string') {
+      try {
+        const p = JSON.parse(savedLinks);
+        parsed = Array.isArray(p) ? p : [];
+      } catch (e) {
+        parsed = [];
+      }
+    } else {
+      parsed = Array.isArray(savedLinks) ? savedLinks : [];
+    }
+    return parsed.map(link => ({
+      label: link.label || "",
+      url: link.url || "",
+      relationship: link.relationship || "Related"
+    }));
+  }, [savedLinks]);
+
+  const isDirty = useMemo(() => {
+    const current = links.map(link => ({
+      label: link.label || "",
+      url: link.url || "",
+      relationship: link.relationship || "Related"
+    }));
+    return JSON.stringify(current) !== JSON.stringify(initialLinksList);
+  }, [links, initialLinksList]);
+
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+    return () => {
+      onDirtyChange?.(false);
+    };
+  }, [isDirty, onDirtyChange]);
 
   useEffect(() => {
     const fetchPages = async () => {
@@ -113,6 +150,7 @@ const InternalLinksEditor = memo(({ slug, initialLinks }: { slug: string, initia
       }));
       const result = await updateInternalLinks(slug, cleanedLinks);
       if (result.success) {
+        setSavedLinks(cleanedLinks);
         toast.success("Navigation links updated successfully");
       } else {
         toast.error(result.error || "Failed to update links");
