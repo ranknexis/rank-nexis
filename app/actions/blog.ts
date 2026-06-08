@@ -13,6 +13,14 @@ export async function createBlogPost(data: {
     image?: string;
     metaTitle?: string;
     metaDescription?: string;
+    metaKeywords?: string[];
+    ogTitle?: string;
+    ogDescription?: string;
+    ogImage?: string;
+    canonicalUrl?: string;
+    noIndex?: boolean;
+    internalLinks?: any;
+    recommendations?: any;
 }) {
     const session = await getSession();
     const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
@@ -32,6 +40,14 @@ export async function createBlogPost(data: {
                 image: data.image,
                 metaTitle: data.metaTitle,
                 metaDescription: data.metaDescription,
+                metaKeywords: data.metaKeywords || [],
+                ogTitle: data.ogTitle,
+                ogDescription: data.ogDescription,
+                ogImage: data.ogImage,
+                canonicalUrl: data.canonicalUrl,
+                noIndex: data.noIndex || false,
+                internalLinks: data.internalLinks || [],
+                recommendations: data.recommendations || []
             }
         });
         revalidatePath("/blog");
@@ -67,8 +83,16 @@ export async function updateBlogPost(id: string, data: any) {
                 image: data.image,
                 metaTitle: data.metaTitle,
                 metaDescription: data.metaDescription,
+                metaKeywords: data.metaKeywords || [],
+                ogTitle: data.ogTitle,
+                ogDescription: data.ogDescription,
+                ogImage: data.ogImage,
+                canonicalUrl: data.canonicalUrl,
+                noIndex: data.noIndex || false,
+                internalLinks: data.internalLinks || [],
                 categoryId: data.categoryId,
-                authorId: session.role === "ADMIN" ? data.authorId : existing.authorId
+                authorId: session.role === "ADMIN" ? data.authorId : existing.authorId,
+                recommendations: data.recommendations || []
             }
         });
         revalidatePath("/blog");

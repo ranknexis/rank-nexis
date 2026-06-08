@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import CaseStudyDetailClient from "../components/CaseStudyDetailClient";
 import InternalLinksSection from "@/components/InternalLinksSection";
 import { getPageData } from "@/lib/pageContent";
+import { getRecommendations } from "@/lib/queries";
+import { buildSeoMetadata } from "@/lib/pageUtils";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -20,18 +22,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const suffix = settings?.siteTitleSuffix || "Success Story";
 
-  return {
-    title: `${study.title} | ${suffix}`,
-    description: study.description,
-    openGraph: {
-      title: study.title,
+  return buildSeoMetadata(
+    study,
+    {
+      title: `${study.title} | ${suffix}`,
       description: study.description,
-      images: study.image ? [{ url: study.image }] : [],
+      ogImage: study.image || undefined
     },
-    alternates: {
-      canonical: `/work/${study.slug}`
-    }
-  };
+    "work"
+  );
 }
 
 export async function generateStaticParams() {
@@ -48,10 +47,15 @@ export default async function CaseStudyDetailPage({ params }: Props) {
 
   if (!study) notFound();
 
+  const resolvedRecommendations = await getRecommendations(study.recommendations);
+
   return (
     <>
-      <CaseStudyDetailClient study={JSON.parse(JSON.stringify(study))} />
-      <InternalLinksSection links={pageData?.internalLinks as any[] || []} />
+      <CaseStudyDetailClient 
+        study={JSON.parse(JSON.stringify(study))} 
+        recommendations={JSON.parse(JSON.stringify(resolvedRecommendations))}
+      />
+      <InternalLinksSection links={study.internalLinks as any[] || []} />
     </>
   );
 }

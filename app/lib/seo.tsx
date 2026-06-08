@@ -1,4 +1,5 @@
 import { Blog, Service, CaseStudy } from "@prisma/client";
+import { stripHtml } from "./utils";
 
 export function generateBlogSchema(post: any) {
   return {
@@ -32,8 +33,8 @@ export function generateServiceSchema(service: Service) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": service.title,
-    "description": service.description,
+    "name": stripHtml(service.title),
+    "description": stripHtml(service.description),
     "provider": {
       "@type": "Organization",
       "name": "RankNexis"

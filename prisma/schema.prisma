@@ -32,10 +32,18 @@ model Blog {
   image           String?
   metaTitle       String?
   metaDescription String?
+  metaKeywords    String[]
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  canonicalUrl    String?
+  noIndex         Boolean      @default(false)
+  internalLinks   Json?        @default("[]")
   categoryId      String
   category        BlogCategory @relation(fields: [categoryId], references: [id])
   authorId        String
   author          User         @relation(fields: [authorId], references: [id])
+  recommendations Json?        @default("[]")
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 }
@@ -62,9 +70,21 @@ model CaseStudy {
   kpi          String
   tag          String
   technologies String[]
+  liveUrl      String?
   
-  authorId     String?
-  author       User?    @relation(fields: [authorId], references: [id])
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String[]
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  canonicalUrl    String?
+  noIndex         Boolean      @default(false)
+  internalLinks   Json?        @default("[]")
+
+  authorId        String?
+  author          User?    @relation(fields: [authorId], references: [id])
+  recommendations Json?    @default("[]")
   
   createdAt    DateTime @default(now())
 }
@@ -98,6 +118,17 @@ model Job {
   type             String        @default("FULL_TIME")
   active           Boolean       @default(true)
   applications     Application[]
+  
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String[]
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  canonicalUrl    String?
+  noIndex         Boolean      @default(false)
+  internalLinks   Json?        @default("[]")
+
   createdAt        DateTime      @default(now())
 }
 
@@ -162,6 +193,17 @@ model Service {
   features    String[]
   active      Boolean  @default(true)
   order       Int      @default(0)
+  recommendations Json?    @default("[]")
+  
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String[]
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  canonicalUrl    String?
+  noIndex         Boolean      @default(false)
+  internalLinks   Json?        @default("[]")
 }
 
 model PageContent {

@@ -9,14 +9,26 @@ interface Props {
 export default async function EditCaseStudyPage({ params }: Props) {
   const { id } = await params;
   
-  const study = id === "new" ? null : await prisma.caseStudy.findUnique({
-    where: { id }
-  });
+  const [study, allServices, allBlogs, allCaseStudies] = await Promise.all([
+    id === "new" ? null : prisma.caseStudy.findUnique({
+      where: { id }
+    }),
+    prisma.service.findMany({ select: { id: true, title: true, slug: true } }),
+    prisma.blog.findMany({ select: { id: true, title: true, slug: true } }),
+    prisma.caseStudy.findMany({ select: { id: true, title: true, slug: true } })
+  ]);
 
   if (id !== "new" && !study) {
     notFound();
   }
 
-  return <WorkEditor initialData={study} />;
+  return (
+    <WorkEditor 
+      initialData={study} 
+      allServices={allServices}
+      allBlogs={allBlogs}
+      allCaseStudies={allCaseStudies}
+    />
+  );
 }
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import { stripHtml } from "@/lib/utils";
 
 export default function ServicesList({ initialServices }: { initialServices: any[] }) {
     const [services, setServices] = useState(initialServices);
@@ -71,7 +72,7 @@ export default function ServicesList({ initialServices }: { initialServices: any
                                 </td>
                                 <td className="px-8 py-5 transition-colors group-hover:bg-surface/30">
                                     <div>
-                                        <p className="text-sm font-bold uppercase text-text-primary group-hover:text-brand transition-colors truncate">{service.title}</p>
+                                        <p className="text-sm font-bold uppercase text-text-primary group-hover:text-brand transition-colors truncate">{stripHtml(service.title)}</p>
                                         <p className="text-[10px] font-bold uppercase text-text-muted truncate">Slug: {service.slug}</p>
                                     </div>
                                 </td>

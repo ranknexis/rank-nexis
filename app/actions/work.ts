@@ -28,7 +28,18 @@ export async function createCaseStudy(data: any) {
                 kpi: data.kpi,
                 tag: data.tag,
                 technologies: data.technologies,
-                authorId
+                authorId,
+                recommendations: data.recommendations || [],
+                liveUrl: data.liveUrl || "",
+                metaTitle: data.metaTitle,
+                metaDescription: data.metaDescription,
+                metaKeywords: data.metaKeywords || [],
+                ogTitle: data.ogTitle,
+                ogDescription: data.ogDescription,
+                ogImage: data.ogImage,
+                canonicalUrl: data.canonicalUrl,
+                noIndex: data.noIndex || false,
+                internalLinks: data.internalLinks || []
             }
         });
         revalidatePath("/work");
@@ -71,7 +82,18 @@ export async function updateCaseStudy(id: string, data: any) {
                 kpi: data.kpi,
                 tag: data.tag,
                 technologies: data.technologies,
-                authorId: session.role === "ADMIN" ? data.authorId : existing.authorId
+                authorId: session.role === "ADMIN" ? data.authorId : existing.authorId,
+                recommendations: data.recommendations || [],
+                liveUrl: data.liveUrl || "",
+                metaTitle: data.metaTitle,
+                metaDescription: data.metaDescription,
+                metaKeywords: data.metaKeywords || [],
+                ogTitle: data.ogTitle,
+                ogDescription: data.ogDescription,
+                ogImage: data.ogImage,
+                canonicalUrl: data.canonicalUrl,
+                noIndex: data.noIndex || false,
+                internalLinks: data.internalLinks || []
             }
         });
         revalidatePath("/work");

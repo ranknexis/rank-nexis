@@ -21,6 +21,15 @@ export async function createJob(data: {
     responsibilities: string[];
     requirements: string[];
     benefits: string[];
+    metaTitle?: string;
+    metaDescription?: string;
+    metaKeywords?: string[];
+    ogTitle?: string;
+    ogDescription?: string;
+    ogImage?: string;
+    canonicalUrl?: string;
+    noIndex?: boolean;
+    internalLinks?: any;
 }) {
     const { allowed } = await checkCareersPermission();
     if (!allowed) return { success: false, error: "Unauthorized" };
@@ -36,7 +45,16 @@ export async function createJob(data: {
                 responsibilities: data.responsibilities,
                 requirements: data.requirements,
                 benefits: data.benefits,
-                active: true
+                active: true,
+                metaTitle: data.metaTitle,
+                metaDescription: data.metaDescription,
+                metaKeywords: data.metaKeywords || [],
+                ogTitle: data.ogTitle,
+                ogDescription: data.ogDescription,
+                ogImage: data.ogImage,
+                canonicalUrl: data.canonicalUrl,
+                noIndex: data.noIndex || false,
+                internalLinks: data.internalLinks || []
             }
         });
         revalidatePath("/careers");
@@ -130,7 +148,16 @@ export async function updateJob(id: string, data: any) {
                 responsibilities: data.responsibilities,
                 requirements: data.requirements,
                 benefits: data.benefits,
-                active: data.active
+                active: data.active,
+                metaTitle: data.metaTitle,
+                metaDescription: data.metaDescription,
+                metaKeywords: data.metaKeywords || [],
+                ogTitle: data.ogTitle,
+                ogDescription: data.ogDescription,
+                ogImage: data.ogImage,
+                canonicalUrl: data.canonicalUrl,
+                noIndex: data.noIndex || false,
+                internalLinks: data.internalLinks || []
             },
         });
         revalidatePath("/dashboard/careers");

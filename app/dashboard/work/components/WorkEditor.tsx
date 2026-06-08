@@ -11,7 +11,8 @@ import {
   Settings,
   Trash2,
   Type,
-  Zap
+  Zap,
+  Globe
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,23 +22,53 @@ import CloudinaryUpload from "../../components/CloudinaryUpload";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import RepeaterField from "../../pages/components/RepeaterField";
 import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
+import RecommendationsEditor from "../../components/RecommendationsEditor";
+import SeoEditor from "../../pages/components/SeoEditor";
+import LocalInternalLinksEditor from "../../components/LocalInternalLinksEditor";
 
-export default function WorkEditor({ initialData }: { initialData: any }) {
+export default function WorkEditor({ 
+  initialData,
+  allServices = [],
+  allBlogs = [],
+  allCaseStudies = []
+}: { 
+  initialData: any;
+  allServices?: any[];
+  allBlogs?: any[];
+  allCaseStudies?: any[];
+}) {
   const router = useRouter();
-  const [data, setData] = useState(initialData || {
-    title: "",
-    slug: "",
-    client: "",
-    tag: "",
-    description: "",
-    challenge: "",
-    solution: "",
-    execution: [],
-    results: [],
-    stats: "",
-    kpi: "",
-    image: "",
-    technologies: []
+  const [data, setData] = useState(() => {
+    const defaultData = {
+      title: "",
+      slug: "",
+      client: "",
+      tag: "",
+      description: "",
+      challenge: "",
+      solution: "",
+      execution: [],
+      results: [],
+      stats: "",
+      kpi: "",
+      image: "",
+      technologies: [],
+      liveUrl: "",
+      metaTitle: "",
+      metaDescription: "",
+      metaKeywords: [],
+      ogTitle: "",
+      ogDescription: "",
+      ogImage: "",
+      canonicalUrl: "",
+      noIndex: false,
+      internalLinks: []
+    };
+    return initialData ? { ...defaultData, ...initialData } : defaultData;
+  });
+
+  const [recommendations, setRecommendations] = useState<any[]>(() => {
+    return initialData?.recommendations || [];
   });
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
@@ -51,7 +82,7 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
       return;
     }
     setIsDirty(true);
-  }, [data]);
+  }, [data, recommendations]);
 
   useEffect(() => {
     if (!initialData && data.title) {
@@ -70,9 +101,13 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
     }
 
     setLoading(true);
+    const cleanedData = {
+      ...data,
+      recommendations
+    };
     const res = initialData?.id 
-      ? await updateCaseStudy(initialData.id, data)
-      : await createCaseStudy(data);
+      ? await updateCaseStudy(initialData.id, cleanedData)
+      : await createCaseStudy(cleanedData);
     
     setLoading(false);
     if (res.success) {
@@ -101,7 +136,10 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
     { id: "overview", label: "Overview", icon: Layout },
     { id: "narrative", label: "Details & Solution", icon: Type },
     { id: "results", label: "Impact & Results", icon: BarChart3 },
-    { id: "settings", label: "Project Settings", icon: Settings }
+    { id: "settings", label: "Project Settings", icon: Settings },
+    { id: "seo", label: "SEO Settings", icon: Globe },
+    { id: "links", label: "Navigation Links", icon: Link2 },
+    { id: "related", label: "Related & Live link", icon: Link2 }
   ];
 
   return (
@@ -354,9 +392,60 @@ export default function WorkEditor({ initialData }: { initialData: any }) {
               </div>
             )}
 
-        </div>
+            {activeTab === "related" && (
+              <div className="p-5 sm:p-6 space-y-6">
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black uppercase text-text-muted px-1 tracking-wider">Live Preview / Project URL (Optional)</label>
+                  <div className="relative">
+                    <Link2 size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                    <input 
+                      type="url" 
+                      value={data.liveUrl || ""} 
+                      onChange={e => setData({...data, liveUrl: e.target.value})}
+                      placeholder="e.g. https://client-site.com"
+                      className="w-full h-11 bg-surface border border-stroke rounded-xl pl-12 pr-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all"
+                    />
+                  </div>
+                  <p className="text-[9px] text-text-muted pl-1 uppercase font-bold tracking-wider">Provides a link on the case study details page to preview the live project.</p>
+                </div>
 
-      </fieldset>
+                <div className="pt-6 border-t border-stroke space-y-4">
+                  <div className="pb-2 border-b border-stroke/50">
+                    <h3 className="text-xs font-black uppercase tracking-wider text-text-primary">Related Recommendations</h3>
+                    <p className="text-[9px] text-text-muted uppercase tracking-wider mt-1">Select other pages to recommend at the bottom of this case study.</p>
+                  </div>
+                  <RecommendationsEditor 
+                    value={recommendations}
+                    onChange={setRecommendations}
+                    allServices={allServices}
+                    allBlogs={allBlogs}
+                    allCaseStudies={allCaseStudies}
+                  />
+                </div>
+              </div>
+            )}
+            {activeTab === "seo" && (
+              <div className="p-5 sm:p-6">
+                <SeoEditor 
+                  data={data}
+                  onChange={(seoData) => setData((prev: any) => ({ ...prev, ...seoData }))}
+                  slug={`work/${data.slug}`}
+                />
+              </div>
+            )}
+
+            {activeTab === "links" && (
+              <div className="p-5 sm:p-6">
+                <LocalInternalLinksEditor 
+                  links={data.internalLinks || []}
+                  onChange={(newLinks) => setData((prev: any) => ({ ...prev, internalLinks: newLinks }))}
+                />
+              </div>
+            )}
+
+          </div>
+
+        </fieldset>
 
       <ConfirmationModal 
         isOpen={deleteConfirmOpen}

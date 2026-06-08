@@ -7,6 +7,8 @@ import { getPageData } from "@/lib/pageContent";
 import { buildSeoMetadata } from "@/lib/pageUtils";
 import { generateServiceSchema } from "@/lib/seo";
 import Script from "next/script";
+import { stripHtml } from "@/lib/utils";
+import { getRecommendations } from "@/lib/queries";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -24,9 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const suffix = settings?.siteTitleSuffix || "RankNexis Solution";
   
-  return buildSeoMetadata(pageData, {
-    title: `${service.title} | ${suffix}`,
-    description: service.description,
+  return buildSeoMetadata(service, {
+    title: `${stripHtml(service.title)} | ${suffix}`,
+    description: stripHtml(service.description),
   }, "services");
 }
 
@@ -44,16 +46,20 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   if (!service) notFound();
 
-  const relatedCaseStudies = await prisma.caseStudy.findMany({
-    where: {
-      OR: [
-        { tag: { contains: service.title, mode: 'insensitive' } },
-        { title: { contains: service.title.split(' ')[0], mode: 'insensitive' } }
-      ]
-    },
-    take: 2,
-    orderBy: { createdAt: 'desc' }
-  });
+  const cleanTitle = stripHtml(service.title);
+  const [relatedCaseStudies, resolvedRecommendations] = await Promise.all([
+    prisma.caseStudy.findMany({
+      where: {
+        OR: [
+          { tag: { contains: cleanTitle, mode: 'insensitive' } },
+          { title: { contains: cleanTitle.split(' ')[0], mode: 'insensitive' } }
+        ]
+      },
+      take: 2,
+      orderBy: { createdAt: 'desc' }
+    }),
+    getRecommendations(service.recommendations)
+  ]);
 
   return (
     <>
@@ -66,8 +72,9 @@ export default async function ServiceDetailPage({ params }: Props) {
         service={JSON.parse(JSON.stringify(service))} 
         pageData={JSON.parse(JSON.stringify(pageData))}
         relatedCaseStudies={JSON.parse(JSON.stringify(relatedCaseStudies))} 
+        recommendations={JSON.parse(JSON.stringify(resolvedRecommendations))}
       />
-      {pageData?.internalLinks && <InternalLinksSection links={pageData.internalLinks as any[]} />}
+      {service?.internalLinks && <InternalLinksSection links={service.internalLinks as any[]} />}
     </>
   );
 }
