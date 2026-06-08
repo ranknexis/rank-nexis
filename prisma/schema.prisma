@@ -36,6 +36,7 @@ model Blog {
   category        BlogCategory @relation(fields: [categoryId], references: [id])
   authorId        String
   author          User         @relation(fields: [authorId], references: [id])
+  recommendations Json?        @default("[]")
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 }
@@ -62,9 +63,11 @@ model CaseStudy {
   kpi          String
   tag          String
   technologies String[]
+  liveUrl      String?
   
-  authorId     String?
-  author       User?    @relation(fields: [authorId], references: [id])
+  authorId        String?
+  author          User?    @relation(fields: [authorId], references: [id])
+  recommendations Json?    @default("[]")
   
   createdAt    DateTime @default(now())
 }
@@ -162,6 +165,7 @@ model Service {
   features    String[]
   active      Boolean  @default(true)
   order       Int      @default(0)
+  recommendations Json?    @default("[]")
 }
 
 model PageContent {
