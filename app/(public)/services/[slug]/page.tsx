@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const suffix = settings?.siteTitleSuffix || "RankNexis Solution";
   
   return buildSeoMetadata(pageData, {
-    title: `${service.title} | ${suffix}`,
+    title: `${stripHtml(service.title)} | ${suffix}`,
     description: stripHtml(service.description),
   }, "services");
 }
@@ -46,12 +46,13 @@ export default async function ServiceDetailPage({ params }: Props) {
 
   if (!service) notFound();
 
+  const cleanTitle = stripHtml(service.title);
   const [relatedCaseStudies, resolvedRecommendations] = await Promise.all([
     prisma.caseStudy.findMany({
       where: {
         OR: [
-          { tag: { contains: service.title, mode: 'insensitive' } },
-          { title: { contains: service.title.split(' ')[0], mode: 'insensitive' } }
+          { tag: { contains: cleanTitle, mode: 'insensitive' } },
+          { title: { contains: cleanTitle.split(' ')[0], mode: 'insensitive' } }
         ]
       },
       take: 2,

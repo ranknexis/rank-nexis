@@ -35,6 +35,7 @@ import CloudinaryUpload from "../../components/CloudinaryUpload";
 import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
 import RichTextEditor from "@/dashboard/pages/components/RichTextEditor";
 import RecommendationsEditor from "../../components/RecommendationsEditor";
+import { stripHtml } from "@/lib/utils";
 
 interface Props {
   initialData?: any;
@@ -150,7 +151,8 @@ export default function ServiceEditor({
 
   useEffect(() => {
     if (!initialData && data.title) {
-      const slug = data.title
+      const cleanTitle = stripHtml(data.title);
+      const slug = cleanTitle
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
@@ -168,7 +170,7 @@ export default function ServiceEditor({
 
     // Clean tag strings to arrays and keep raw HTML content
     const cleanedSubItems = subItems
-      .filter((item: any) => item.title.trim() !== "")
+      .filter((item: any) => stripHtml(item.title).trim() !== "")
       .map((item: any) => ({
         label: item.label || "Core Expertise",
         title: item.title,
@@ -342,15 +344,13 @@ export default function ServiceEditor({
                <h2 className="text-sm font-bold uppercase tracking-wider text-text-primary">Service Details</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-6">
                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-wider">Service Title</label>
-                  <input 
-                    type="text" 
+                  <RichTextEditor 
                     value={data.title} 
-                    onChange={e => setData({...data, title: e.target.value})}
+                    onChange={val => setData({...data, title: val})}
+                    label="Service Title (Heading)"
                     placeholder="E.G. TECHNICAL SEO AUDIT"
-                    className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
                   />
                </div>
                <div className="space-y-2">
@@ -530,36 +530,36 @@ export default function ServiceEditor({
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-wider">Sub-item Title</label>
-                      <input 
-                        type="text" 
+                      <RichTextEditor 
                         value={item.title} 
-                        onChange={e => updateSubItem(idx, "title", e.target.value)}
+                        onChange={val => updateSubItem(idx, "title", val)}
+                        label="Sub-item Title (Heading)"
                         placeholder="E.G. TECHNICAL SITE AUDITS"
-                        className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-wider">Badge Label (e.g. Core Expertise)</label>
-                      <input 
-                        type="text" 
-                        value={item.label || ""} 
-                        onChange={e => updateSubItem(idx, "label", e.target.value)}
-                        placeholder="E.G. CORE EXPERTISE"
-                        className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-wider">Checklist Tags (Comma Separated)</label>
-                      <input 
-                        type="text" 
-                        value={item.tagsString} 
-                        onChange={e => updateSubItem(idx, "tagsString", e.target.value)}
-                        placeholder="E.G. SPEED AUDITS, SSL VERIFICATION, REDIRECT MAPS"
-                        className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
-                      />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-wider">Badge Label (e.g. Core Expertise)</label>
+                        <input 
+                          type="text" 
+                          value={item.label || ""} 
+                          onChange={e => updateSubItem(idx, "label", e.target.value)}
+                          placeholder="E.G. CORE EXPERTISE"
+                          className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
+                        />
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-wider">Checklist Tags (Comma Separated)</label>
+                        <input 
+                          type="text" 
+                          value={item.tagsString} 
+                          onChange={e => updateSubItem(idx, "tagsString", e.target.value)}
+                          placeholder="E.G. SPEED AUDITS, SSL VERIFICATION, REDIRECT MAPS"
+                          className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
+                        />
+                      </div>
                     </div>
                   </div>
 

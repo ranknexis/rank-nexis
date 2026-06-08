@@ -4,6 +4,7 @@ import { CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import RecommendationsList from "@/components/RecommendationsList";
+import { stripHtml } from "@/lib/utils";
 
 export default function ServiceDetailClient({
   service,
@@ -31,12 +32,12 @@ export default function ServiceDetailClient({
                 <ChevronRight size={12} className="text-text-secondary/40" />
                 <Link href="/services" className="hover:text-brand transition-colors">Services</Link>
                 <ChevronRight size={12} className="text-text-secondary/40" />
-                <span className="text-brand font-extrabold">{service.title}</span>
+                <span className="text-brand font-extrabold">{stripHtml(service.title)}</span>
               </div>
 
               {/* Service Title */}
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-text-primary mb-6 uppercase">
-                {service.title}
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-text-primary mb-6 uppercase prose prose-slate max-w-none blog-content-area">
+                <div dangerouslySetInnerHTML={{ __html: service.title }} className="inline-block" />
               </h1>
 
               {/* Service Summary (3-5 line paragraph) */}
@@ -77,7 +78,7 @@ export default function ServiceDetailClient({
                       <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden border border-stroke shadow-md">
                         <Image
                           src={visualImage}
-                          alt={title || service.title}
+                          alt={stripHtml(title || service.title)}
                           fill
                           sizes="(max-width: 1024px) 100vw, 50vw"
                           className="object-cover"
@@ -93,8 +94,8 @@ export default function ServiceDetailClient({
                         </span>
                       )}
 
-                      <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight uppercase">
-                        {title}
+                      <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight uppercase prose prose-slate max-w-none blog-content-area">
+                        <div dangerouslySetInnerHTML={{ __html: title }} className="inline-block" />
                       </h2>
 
                       {/* Rich Text body content */}

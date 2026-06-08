@@ -33,7 +33,7 @@ export function generateServiceSchema(service: Service) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": service.title,
+    "name": stripHtml(service.title),
     "description": stripHtml(service.description),
     "provider": {
       "@type": "Organization",
