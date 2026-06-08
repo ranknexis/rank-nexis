@@ -8,7 +8,7 @@ import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import TipTapImage from '@tiptap/extension-image';
-import { Mark, mergeAttributes } from '@tiptap/core';
+import { Mark, mergeAttributes, Extension } from '@tiptap/core';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import CloudinaryUpload from '../../components/CloudinaryUpload';
@@ -32,6 +32,16 @@ import {
   Copy,
   Plus
 } from 'lucide-react';
+
+export const DisableEnter = Extension.create({
+  name: 'disableEnter',
+  addKeyboardShortcuts() {
+    return {
+      Enter: () => true,
+      'Shift-Enter': () => true,
+    };
+  },
+});
 
 // 1. Declare Custom Font Size Extension
 export const FontSize = Mark.create({
@@ -96,6 +106,7 @@ interface RichTextEditorProps {
   onChange: (content: string) => void;
   label?: string;
   placeholder?: string;
+  variant?: 'default' | 'heading';
 }
 
 const MenuButton = ({ onClick, isActive, children, title }: any) => (
@@ -115,7 +126,7 @@ const MenuButton = ({ onClick, isActive, children, title }: any) => (
   </button>
 );
 
-export default function RichTextEditor({ value, onChange, label, placeholder }: RichTextEditorProps) {
+export default function RichTextEditor({ value, onChange, label, placeholder, variant = 'default' }: RichTextEditorProps) {
   // Modal states
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
@@ -138,7 +149,7 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
         },
       }),
       Placeholder.configure({
-        placeholder: placeholder || 'Start writing your strategic insight...',
+        placeholder: placeholder || (variant === 'heading' ? 'Enter text...' : 'Start writing your strategic insight...'),
       }),
       TextAlign.configure({
         types: ['heading', 'paragraph'],
@@ -149,11 +160,14 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
         },
       }),
       FontSize,
+      ...(variant === 'heading' ? [DisableEnter] : []),
     ],
     content: value,
     editorProps: {
       attributes: {
-        class: 'focus:outline-none prose prose-slate max-w-none min-h-[400px] text-text-primary antialiased blog-content-area',
+        class: variant === 'heading' 
+          ? 'focus:outline-none prose prose-slate max-w-none text-text-primary antialiased blog-content-area w-full font-bold uppercase' 
+          : 'focus:outline-none prose prose-slate max-w-none min-h-[400px] text-text-primary antialiased blog-content-area',
       },
     },
     onUpdate: ({ editor }) => {
@@ -199,6 +213,69 @@ export default function RichTextEditor({ value, onChange, label, placeholder }: 
   };
 
   const fontSizes = ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '30px', '36px', '40px', '48px', '64px'];
+
+  if (variant === 'heading') {
+    return (
+      <div className="space-y-2 w-full">
+        {label && <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-wider block">{label}</label>}
+        <div className="border border-stroke rounded-xl bg-surface focus-within:border-brand transition-all relative group flex items-center min-h-[44px] w-full">
+          {editor && (
+            <BubbleMenu editor={editor}>
+               <div className="flex items-center gap-1 p-1 bg-black/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden scale-90 md:scale-100 origin-bottom">
+                  <button 
+                    type="button"
+                    onClick={() => editor.chain().focus().toggleBold().run()} 
+                    className={`p-2 rounded-lg text-white transition-all ${editor.isActive('bold') ? 'bg-brand' : 'hover:bg-white/10'}`}
+                  >
+                    <Bold size={14} />
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => editor.chain().focus().toggleItalic().run()} 
+                    className={`p-2 rounded-lg text-white transition-all ${editor.isActive('italic') ? 'bg-brand' : 'hover:bg-white/10'}`}
+                  >
+                    <Italic size={14} />
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => editor.chain().focus().toggleUnderline().run()} 
+                    className={`p-2 rounded-lg text-white transition-all ${editor.isActive('underline') ? 'bg-brand' : 'hover:bg-white/10'}`}
+                  >
+                    <UnderlineIcon size={14} />
+                  </button>
+                  
+                  <div className="w-px h-4 bg-white/10 mx-1" />
+                  
+                  <span className="text-[9px] font-bold uppercase text-white/55 px-1 select-none">Size:</span>
+                  <select
+                    value={editor.getAttributes('fontSize').size || ''}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (!val) {
+                        editor.chain().focus().unsetFontSize().run();
+                      } else {
+                        editor.chain().focus().setFontSize(val).run();
+                      }
+                    }}
+                    className="bg-transparent text-[10px] font-bold uppercase outline-none pr-2 cursor-pointer text-white border-0 py-1"
+                  >
+                    <option value="" className="text-black">Default</option>
+                    {fontSizes.map((size) => (
+                      <option key={size} value={size} className="text-black">
+                        {size}
+                      </option>
+                    ))}
+                  </select>
+               </div>
+            </BubbleMenu>
+          )}
+          <div className="px-4 py-2.5 w-full">
+            <EditorContent editor={editor} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

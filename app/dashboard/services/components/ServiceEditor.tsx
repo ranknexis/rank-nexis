@@ -392,6 +392,7 @@ export default function ServiceEditor({
                     onChange={val => setData({...data, title: val})}
                     label="Service Title (Heading)"
                     placeholder="E.G. TECHNICAL SEO AUDIT"
+                    variant="heading"
                   />
                </div>
                <div className="space-y-2">
@@ -578,6 +579,7 @@ export default function ServiceEditor({
                         onChange={val => updateSubItem(idx, "title", val)}
                         label="Sub-item Title (Heading)"
                         placeholder="E.G. TECHNICAL SITE AUDITS"
+                        variant="heading"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
