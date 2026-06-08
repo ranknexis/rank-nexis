@@ -13,6 +13,7 @@ export async function createBlogPost(data: {
     image?: string;
     metaTitle?: string;
     metaDescription?: string;
+    recommendations?: any;
 }) {
     const session = await getSession();
     const userPermissions = Array.isArray(session?.permissions) ? session.permissions : JSON.parse((session?.permissions as string) || "[]");
@@ -32,6 +33,7 @@ export async function createBlogPost(data: {
                 image: data.image,
                 metaTitle: data.metaTitle,
                 metaDescription: data.metaDescription,
+                recommendations: data.recommendations || []
             }
         });
         revalidatePath("/blog");
@@ -68,7 +70,8 @@ export async function updateBlogPost(id: string, data: any) {
                 metaTitle: data.metaTitle,
                 metaDescription: data.metaDescription,
                 categoryId: data.categoryId,
-                authorId: session.role === "ADMIN" ? data.authorId : existing.authorId
+                authorId: session.role === "ADMIN" ? data.authorId : existing.authorId,
+                recommendations: data.recommendations || []
             }
         });
         revalidatePath("/blog");

@@ -28,7 +28,9 @@ export async function createCaseStudy(data: any) {
                 kpi: data.kpi,
                 tag: data.tag,
                 technologies: data.technologies,
-                authorId
+                authorId,
+                recommendations: data.recommendations || [],
+                liveUrl: data.liveUrl || ""
             }
         });
         revalidatePath("/work");
@@ -71,7 +73,9 @@ export async function updateCaseStudy(id: string, data: any) {
                 kpi: data.kpi,
                 tag: data.tag,
                 technologies: data.technologies,
-                authorId: session.role === "ADMIN" ? data.authorId : existing.authorId
+                authorId: session.role === "ADMIN" ? data.authorId : existing.authorId,
+                recommendations: data.recommendations || [],
+                liveUrl: data.liveUrl || ""
             }
         });
         revalidatePath("/work");

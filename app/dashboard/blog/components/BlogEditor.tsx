@@ -22,15 +22,30 @@ import CloudinaryUpload from "../../components/CloudinaryUpload";
 import RichTextEditor from "../../pages/components/RichTextEditor";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
+import RecommendationsEditor from "../../components/RecommendationsEditor";
 
 interface Props {
   initialData: any;
   categories: any[];
   authors: any[];
+  allServices?: any[];
+  allBlogs?: any[];
+  allCaseStudies?: any[];
 }
 
-export default function BlogEditor({ initialData, categories, authors }: Props) {
+export default function BlogEditor({ 
+  initialData, 
+  categories, 
+  authors,
+  allServices = [],
+  allBlogs = [],
+  allCaseStudies = []
+}: Props) {
   const router = useRouter();
+
+  const [recommendations, setRecommendations] = useState<any[]>(() => {
+    return initialData?.recommendations || [];
+  });
   const [data, setData] = useState(initialData || {
     title: "",
     slug: "",
@@ -50,7 +65,7 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
       return;
     }
     setIsDirty(true);
-  }, [data]);
+  }, [data, recommendations]);
 
   const [loading, setLoading] = useState(false);
   const [mdInput, setMdInput] = useState("");
@@ -73,9 +88,13 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
     }
 
     setLoading(true);
+    const cleanedData = {
+      ...data,
+      recommendations
+    };
     const res = initialData?.id 
-      ? await updateBlogPost(initialData.id, data)
-      : await createBlogPost(data);
+      ? await updateBlogPost(initialData.id, cleanedData)
+      : await createBlogPost(cleanedData);
     
     setLoading(false);
     if (res.success) {
@@ -214,6 +233,21 @@ export default function BlogEditor({ initialData, categories, authors }: Props) 
                    </div>
                  )}
               </div>
+           </div>
+
+           {/* Related Recommendations */}
+           <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-6">
+              <div className="pb-2 border-b border-stroke/50">
+                 <h3 className="text-sm font-bold uppercase tracking-wider text-text-primary">Related Recommendations</h3>
+                 <p className="text-[10px] text-text-muted uppercase tracking-wider mt-1">Recommend specific services, blog posts, or case studies at the bottom of this article.</p>
+              </div>
+              <RecommendationsEditor 
+                value={recommendations}
+                onChange={setRecommendations}
+                allServices={allServices}
+                allBlogs={allBlogs}
+                allCaseStudies={allCaseStudies}
+              />
            </div>
         </div>
 

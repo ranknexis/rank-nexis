@@ -17,14 +17,19 @@ export default async function EditServicePage({ params }: Props) {
         notFound();
     }
 
-    const pageContent = service ? await prisma.pageContent.findUnique({
-        where: { slug: `services/${service.slug}` },
-        include: {
-            sections: {
-                orderBy: { order: 'asc' }
+    const [pageContent, allServices, allBlogs, allCaseStudies] = await Promise.all([
+        service ? prisma.pageContent.findUnique({
+            where: { slug: `services/${service.slug}` },
+            include: {
+                sections: {
+                    orderBy: { order: 'asc' }
+                }
             }
-        }
-    }) : null;
+        }) : null,
+        prisma.service.findMany({ select: { id: true, title: true, slug: true } }),
+        prisma.blog.findMany({ select: { id: true, title: true, slug: true } }),
+        prisma.caseStudy.findMany({ select: { id: true, title: true, slug: true } })
+    ]);
 
     return (
         <div className="space-y-6">
@@ -37,6 +42,9 @@ export default async function EditServicePage({ params }: Props) {
             <ServiceEditor 
                 initialData={service ? JSON.parse(JSON.stringify(service)) : null} 
                 initialPageData={pageContent ? JSON.parse(JSON.stringify(pageContent)) : null}
+                allServices={allServices}
+                allBlogs={allBlogs}
+                allCaseStudies={allCaseStudies}
             />
         </div>
     );

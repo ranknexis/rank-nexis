@@ -23,6 +23,7 @@ export async function createService(data: {
     active?: boolean;
     subItems?: any[];
     industries?: any;
+    recommendations?: any;
 }) {
     const { allowed } = await checkServicesPermission();
     if (!allowed) return { success: false, error: "Unauthorized" };
@@ -38,7 +39,8 @@ export async function createService(data: {
                     features: data.features,
                     order: Number(data.order) || 0,
                     category: data.category,
-                    active: data.active !== undefined ? data.active : true
+                    active: data.active !== undefined ? data.active : true,
+                    recommendations: data.recommendations || []
                 }
             });
 
@@ -167,7 +169,8 @@ export async function updateService(id: string, data: any) {
                     features: data.features,
                     order: Number(data.order) || 0,
                     category: data.category,
-                    active: data.active
+                    active: data.active,
+                    recommendations: data.recommendations || []
                 }
             });
 
