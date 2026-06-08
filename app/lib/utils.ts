@@ -5,3 +5,9 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+export function stripHtml(html: string): string {
+    if (!html) return "";
+    return html.replace(/<[^>]*>/g, "").trim();
+}
+
+
