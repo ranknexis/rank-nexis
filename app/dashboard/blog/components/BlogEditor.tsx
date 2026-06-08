@@ -12,7 +12,8 @@ import {
   Settings2,
   Tags,
   Trash2,
-  User
+  User,
+  Link2
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,6 +24,8 @@ import RichTextEditor from "../../pages/components/RichTextEditor";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
 import RecommendationsEditor from "../../components/RecommendationsEditor";
+import SeoEditor from "../../pages/components/SeoEditor";
+import LocalInternalLinksEditor from "../../components/LocalInternalLinksEditor";
 
 interface Props {
   initialData: any;
@@ -46,16 +49,28 @@ export default function BlogEditor({
   const [recommendations, setRecommendations] = useState<any[]>(() => {
     return initialData?.recommendations || [];
   });
-  const [data, setData] = useState(initialData || {
-    title: "",
-    slug: "",
-    content: "",
-    image: "",
-    metaTitle: "",
-    metaDescription: "",
-    categoryId: categories[0]?.id || "",
-    authorId: authors[0]?.id || "",
+  const [data, setData] = useState(() => {
+    const defaultData = {
+      title: "",
+      slug: "",
+      content: "",
+      image: "",
+      metaTitle: "",
+      metaDescription: "",
+      metaKeywords: [],
+      ogTitle: "",
+      ogDescription: "",
+      ogImage: "",
+      canonicalUrl: "",
+      noIndex: false,
+      internalLinks: [],
+      categoryId: categories[0]?.id || "",
+      authorId: authors[0]?.id || "",
+    };
+    return initialData ? { ...defaultData, ...initialData } : defaultData;
   });
+  
+  const [activeTab, setActiveTab] = useState("content");
   const [isDirty, setIsDirty] = useState(false);
   const isInitial = useRef(true);
 
@@ -130,6 +145,13 @@ export default function BlogEditor({
     toast.success(isHtml ? "HTML content integrated successfully" : "Markdown content processed successfully");
   };
 
+  const tabs = [
+    { id: "content", label: "Article Content", icon: FileText },
+    { id: "settings", label: "Publish Settings", icon: Settings2 },
+    { id: "seo", label: "SEO Settings", icon: Globe },
+    { id: "links", label: "Navigation Links", icon: Link2 }
+  ];
+
   return (
     <div className="space-y-6">
       <UnsavedChangesWarning isDirty={isDirty} isBusy={loading} />
@@ -174,176 +196,186 @@ export default function BlogEditor({
         </div>
       </div>
 
-      <fieldset disabled={loading} className="grid grid-cols-1 lg:grid-cols-12 gap-6 border-0 p-0 m-0 w-full disabled:opacity-75">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-3 space-y-6">
+          <div className="bg-white rounded-2xl border border-stroke p-4 shadow-sm space-y-1.5">
+            {tabs.map(tab => (
+              <button 
+                type="button"
+                key={tab.id}
+                disabled={loading}
+                onClick={loading ? undefined : () => setActiveTab(tab.id)}
+                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-wider ${loading ? 'opacity-50 pointer-events-none' : ''} ${
+                  activeTab === tab.id 
+                    ? "bg-brand text-white shadow-md shadow-brand/15" 
+                    : "bg-surface text-text-muted hover:bg-brand/5 hover:text-brand"
+                }`}
+              >
+                <tab.icon size={16} /> {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-        <div className="lg:col-span-8 space-y-6">
-           <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-6">
-              <div className="space-y-2">
-                 <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-widest">Post Title</label>
-                 <input 
-                   type="text" 
-                   value={data.title} 
-                   onChange={e => setData({...data, title: e.target.value})}
-                   placeholder="e.g. 10 SEO Strategies to Increase Organic Traffic"
-                   className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-sm font-semibold text-text-primary focus:outline-none focus:border-brand transition-all"
-                 />
-              </div>
-
-              <div className="space-y-4">
-                 <div className="flex justify-between items-center px-1">
-                    <label className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Content</label>
-                    <button 
-                      onClick={() => setShowMdForge(!showMdForge)}
-                      type="button"
-                      className="flex items-center gap-1.5 text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-all cursor-pointer"
-                    >
-                      <Code size={12} /> {showMdForge ? "Hide Paste Editor" : "Paste Markdown / HTML"}
-                    </button>
-                 </div>
-
-                 {showMdForge ? (
-                   <div className="space-y-4 bg-surface p-5 rounded-xl border border-stroke">
-                     <div className="space-y-1">
-                       <h4 className="text-[10px] font-black uppercase">Paste Markdown/HTML</h4>
-                       <p className="text-[9px] text-text-muted leading-relaxed uppercase">
-                         Paste pre-formatted HTML or Markdown text here (e.g. from ChatGPT or Claude) to preserve heading structures and lists perfectly.
-                       </p>
-                     </div>
-                     <textarea 
-                       value={mdInput}
-                       onChange={e => setMdInput(e.target.value)}
-                       placeholder="Paste raw Markdown or HTML text here..."
-                       rows={10}
-                       className="w-full bg-white border border-stroke rounded-xl p-4 text-xs font-mono text-text-primary focus:border-brand outline-none transition-all resize-none"
+        <fieldset disabled={loading} className="lg:col-span-9 border-0 p-0 m-0 w-full disabled:opacity-75">
+          {activeTab === "content" && (
+            <div className="space-y-6">
+               <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-6">
+                  <div className="space-y-2">
+                     <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-widest">Post Title</label>
+                     <input 
+                       type="text" 
+                       value={data.title} 
+                       onChange={e => setData({...data, title: e.target.value})}
+                       placeholder="e.g. 10 SEO Strategies to Increase Organic Traffic"
+                       className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-sm font-semibold text-text-primary focus:outline-none focus:border-brand transition-all"
                      />
-                     <button 
-                       onClick={handleMdConvert}
-                       type="button"
-                       className="w-full h-10 bg-brand text-white rounded-xl text-[9px] font-bold uppercase hover:scale-[1.02] active:scale-95 transition-all shadow-md cursor-pointer"
-                     >
-                       Integrate Content
-                     </button>
-                   </div>
-                 ) : (
-                   <div className="mt-2 w-full max-w-full overflow-hidden">
-                      <RichTextEditor 
-                        value={data.content} 
-                        onChange={content => setData({...data, content})} 
-                      />
-                   </div>
-                 )}
-              </div>
-           </div>
+                  </div>
 
-           {/* Related Recommendations */}
-           <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-6">
-              <div className="pb-2 border-b border-stroke/50">
-                 <h3 className="text-sm font-bold uppercase tracking-wider text-text-primary">Related Recommendations</h3>
-                 <p className="text-[10px] text-text-muted uppercase tracking-wider mt-1">Recommend specific services, blog posts, or case studies at the bottom of this article.</p>
-              </div>
-              <RecommendationsEditor 
-                value={recommendations}
-                onChange={setRecommendations}
-                allServices={allServices}
-                allBlogs={allBlogs}
-                allCaseStudies={allCaseStudies}
-              />
-           </div>
-        </div>
+                  <div className="space-y-4">
+                     <div className="flex justify-between items-center px-1">
+                        <label className="text-[10px] font-bold uppercase text-text-muted tracking-widest">Content</label>
+                        <button 
+                          onClick={() => setShowMdForge(!showMdForge)}
+                          type="button"
+                          className="flex items-center gap-1.5 text-[9px] font-bold uppercase text-text-muted hover:text-brand transition-all cursor-pointer"
+                        >
+                          <Code size={12} /> {showMdForge ? "Hide Paste Editor" : "Paste Markdown / HTML"}
+                        </button>
+                     </div>
 
-        <div className="lg:col-span-4 space-y-6">
+                     {showMdForge ? (
+                       <div className="space-y-4 bg-surface p-5 rounded-xl border border-stroke">
+                         <div className="space-y-1">
+                           <h4 className="text-[10px] font-black uppercase">Paste Markdown/HTML</h4>
+                           <p className="text-[9px] text-text-muted leading-relaxed uppercase">
+                             Paste pre-formatted HTML or Markdown text here (e.g. from ChatGPT or Claude) to preserve heading structures and lists perfectly.
+                           </p>
+                         </div>
+                         <textarea 
+                           value={mdInput}
+                           onChange={e => setMdInput(e.target.value)}
+                           placeholder="Paste raw Markdown or HTML text here..."
+                           rows={10}
+                           className="w-full bg-white border border-stroke rounded-xl p-4 text-xs font-mono text-text-primary focus:border-brand outline-none transition-all resize-none"
+                         />
+                         <button 
+                           onClick={handleMdConvert}
+                           type="button"
+                           className="w-full h-10 bg-brand text-white rounded-xl text-[9px] font-bold uppercase hover:scale-[1.02] active:scale-95 transition-all shadow-md cursor-pointer"
+                         >
+                           Integrate Content
+                         </button>
+                       </div>
+                     ) : (
+                       <div className="mt-2 w-full max-w-full overflow-hidden">
+                          <RichTextEditor 
+                            value={data.content} 
+                            onChange={content => setData({...data, content})} 
+                          />
+                       </div>
+                     )}
+                  </div>
+               </div>
 
-           <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-stroke">
-                 <Settings2 size={16} className="text-brand" />
-                 <h2 className="text-xs font-bold uppercase tracking-tight text-text-primary">Configuration</h2>
-              </div>
+               {/* Related Recommendations */}
+               <div className="bg-white rounded-2xl border border-stroke p-5 sm:p-6 shadow-sm space-y-6">
+                  <div className="pb-2 border-b border-stroke/50">
+                     <h3 className="text-sm font-bold uppercase tracking-wider text-text-primary">Related Recommendations</h3>
+                     <p className="text-[10px] text-text-muted uppercase tracking-wider mt-1">Recommend specific services, blog posts, or case studies at the bottom of this article.</p>
+                  </div>
+                  <RecommendationsEditor 
+                    value={recommendations}
+                    onChange={setRecommendations}
+                    allServices={allServices}
+                    allBlogs={allBlogs}
+                    allCaseStudies={allCaseStudies}
+                  />
+               </div>
+            </div>
+          )}
 
-              <div className="space-y-4">
-                 <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
-                       <Globe size={12} /> URL Slug
-                    </label>
-                    <input 
-                      type="text" 
-                      value={data.slug} 
-                      onChange={e => setData({...data, slug: e.target.value})}
-                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:border-brand outline-none transition-all"
-                    />
-                 </div>
+          {activeTab === "settings" && (
+            <div className="space-y-6">
+               <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
+                  <div className="flex items-center gap-2.5 pb-3 border-b border-stroke">
+                     <Settings2 size={16} className="text-brand" />
+                     <h2 className="text-xs font-bold uppercase tracking-tight text-text-primary">Configuration</h2>
+                  </div>
 
-                 <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
-                          <Tags size={12} /> Category
-                       </label>
-                       <select 
-                         value={data.categoryId}
-                         onChange={e => setData({...data, categoryId: e.target.value})}
-                         className="w-full h-11 bg-surface border border-stroke rounded-xl px-3 text-[10px] font-bold uppercase focus:border-brand outline-none transition-all appearance-none text-text-primary cursor-pointer"
-                       >
-                         {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                       </select>
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
-                          <User size={12} /> Author
-                       </label>
-                       <select 
-                         value={data.authorId}
-                         onChange={e => setData({...data, authorId: e.target.value})}
-                         className="w-full h-11 bg-surface border border-stroke rounded-xl px-3 text-[10px] font-bold uppercase focus:border-brand outline-none transition-all appearance-none text-text-primary cursor-pointer"
-                       >
-                         {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
-                       </select>
-                    </div>
-                 </div>
-              </div>
-           </div>
+                  <div className="space-y-4">
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
+                           <Globe size={12} /> URL Slug
+                        </label>
+                        <input 
+                          type="text" 
+                          value={data.slug} 
+                          onChange={e => setData({...data, slug: e.target.value})}
+                          className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:border-brand outline-none transition-all"
+                        />
+                     </div>
 
-           <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-stroke">
-                 <Cloud size={16} className="text-brand" />
-                 <h2 className="text-xs font-bold uppercase tracking-tight text-text-primary">Feature Image</h2>
-              </div>
-              
-              <CloudinaryUpload 
-                value={data.image} 
-                onChange={(url) => setData({...data, image: url})} 
-              />
-           </div>
+                     <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
+                              <Tags size={12} /> Category
+                           </label>
+                           <select 
+                             value={data.categoryId}
+                             onChange={e => setData({...data, categoryId: e.target.value})}
+                             className="w-full h-11 bg-surface border border-stroke rounded-xl px-3 text-[10px] font-bold uppercase focus:border-brand outline-none transition-all appearance-none text-text-primary cursor-pointer"
+                           >
+                             {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                           </select>
+                        </div>
+                        <div className="space-y-2">
+                           <label className="text-[10px] font-bold uppercase text-text-muted flex items-center gap-1.5 px-1 tracking-widest">
+                              <User size={12} /> Author
+                           </label>
+                           <select 
+                             value={data.authorId}
+                             onChange={e => setData({...data, authorId: e.target.value})}
+                             className="w-full h-11 bg-surface border border-stroke rounded-xl px-3 text-[10px] font-bold uppercase focus:border-brand outline-none transition-all appearance-none text-text-primary cursor-pointer"
+                           >
+                             {authors.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+               </div>
 
-           <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-stroke">
-                 <FileText size={16} className="text-brand" />
-                 <h2 className="text-xs font-bold uppercase tracking-tight text-text-primary">SEO Settings</h2>
-              </div>
+               <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
+                  <div className="flex items-center gap-2.5 pb-3 border-b border-stroke">
+                     <Cloud size={16} className="text-brand" />
+                     <h2 className="text-xs font-bold uppercase tracking-tight text-text-primary">Feature Image</h2>
+                  </div>
+                  
+                  <CloudinaryUpload 
+                    value={data.image} 
+                    onChange={(url) => setData({...data, image: url})} 
+                  />
+               </div>
+            </div>
+          )}
 
-              <div className="space-y-4">
-                 <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-widest">Meta Title</label>
-                    <input 
-                      type="text" 
-                      value={data.metaTitle || ""} 
-                      onChange={e => setData({...data, metaTitle: e.target.value})}
-                      placeholder="e.g. SEO Strategies | RankNexis"
-                      className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-semibold focus:border-brand outline-none transition-all"
-                    />
-                 </div>
-                 <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-widest">Meta Description</label>
-                    <textarea 
-                      value={data.metaDescription || ""} 
-                      onChange={e => setData({...data, metaDescription: e.target.value})}
-                      rows={4}
-                      placeholder="Provide a concise description for search results..."
-                      className="w-full bg-surface border border-stroke rounded-xl p-4 text-xs font-semibold focus:border-brand outline-none transition-all resize-none text-text-primary"
-                    />
-                 </div>
-              </div>
-           </div>
-        </div>
-      </fieldset>
+          {activeTab === "seo" && (
+            <SeoEditor 
+              data={data}
+              onChange={(seoData) => setData((prev: any) => ({ ...prev, ...seoData }))}
+              slug={data.slug}
+            />
+          )}
+
+          {activeTab === "links" && (
+            <LocalInternalLinksEditor 
+              links={data.internalLinks || []}
+              onChange={(newLinks) => setData((prev: any) => ({ ...prev, internalLinks: newLinks }))}
+            />
+          )}
+        </fieldset>
+      </div>
+
       <ConfirmationModal 
         isOpen={deleteConfirmOpen}
         onClose={() => setDeleteConfirmOpen(false)}

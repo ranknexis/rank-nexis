@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const suffix = settings?.siteTitleSuffix || "RankNexis Solution";
   
-  return buildSeoMetadata(pageData, {
+  return buildSeoMetadata(service, {
     title: `${stripHtml(service.title)} | ${suffix}`,
     description: stripHtml(service.description),
   }, "services");
@@ -74,7 +74,7 @@ export default async function ServiceDetailPage({ params }: Props) {
         relatedCaseStudies={JSON.parse(JSON.stringify(relatedCaseStudies))} 
         recommendations={JSON.parse(JSON.stringify(resolvedRecommendations))}
       />
-      {pageData?.internalLinks && <InternalLinksSection links={pageData.internalLinks as any[]} />}
+      {service?.internalLinks && <InternalLinksSection links={service.internalLinks as any[]} />}
     </>
   );
 }

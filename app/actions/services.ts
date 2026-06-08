@@ -24,6 +24,15 @@ export async function createService(data: {
     subItems?: any[];
     industries?: any;
     recommendations?: any;
+    metaTitle?: string;
+    metaDescription?: string;
+    metaKeywords?: string[];
+    ogTitle?: string;
+    ogDescription?: string;
+    ogImage?: string;
+    canonicalUrl?: string;
+    noIndex?: boolean;
+    internalLinks?: any;
 }) {
     const { allowed } = await checkServicesPermission();
     if (!allowed) return { success: false, error: "Unauthorized" };
@@ -40,7 +49,16 @@ export async function createService(data: {
                     order: Number(data.order) || 0,
                     category: data.category,
                     active: data.active !== undefined ? data.active : true,
-                    recommendations: data.recommendations || []
+                    recommendations: data.recommendations || [],
+                    metaTitle: data.metaTitle,
+                    metaDescription: data.metaDescription,
+                    metaKeywords: data.metaKeywords || [],
+                    ogTitle: data.ogTitle,
+                    ogDescription: data.ogDescription,
+                    ogImage: data.ogImage,
+                    canonicalUrl: data.canonicalUrl,
+                    noIndex: data.noIndex || false,
+                    internalLinks: data.internalLinks || []
                 }
             });
 
@@ -170,7 +188,16 @@ export async function updateService(id: string, data: any) {
                     order: Number(data.order) || 0,
                     category: data.category,
                     active: data.active,
-                    recommendations: data.recommendations || []
+                    recommendations: data.recommendations || [],
+                    metaTitle: data.metaTitle,
+                    metaDescription: data.metaDescription,
+                    metaKeywords: data.metaKeywords || [],
+                    ogTitle: data.ogTitle,
+                    ogDescription: data.ogDescription,
+                    ogImage: data.ogImage,
+                    canonicalUrl: data.canonicalUrl,
+                    noIndex: data.noIndex || false,
+                    internalLinks: data.internalLinks || []
                 }
             });
 

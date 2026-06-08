@@ -12,7 +12,8 @@ import {
   Save,
   Settings,
   Trash2,
-  Zap
+  Zap,
+  Globe
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,19 +22,33 @@ import { toast } from "sonner";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import RepeaterField from "../../pages/components/RepeaterField";
 import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
+import SeoEditor from "../../pages/components/SeoEditor";
+import LocalInternalLinksEditor from "../../components/LocalInternalLinksEditor";
 
 export default function JobEditor({ initialData }: { initialData: any }) {
   const router = useRouter();
-  const [data, setData] = useState(initialData || {
-    title: "",
-    slug: "",
-    description: "",
-    responsibilities: [],
-    requirements: [],
-    benefits: [],
-    location: "Remote / Hybrid",
-    type: "FULL_TIME",
-    active: true
+  const [data, setData] = useState(() => {
+    const defaultData = {
+      title: "",
+      slug: "",
+      description: "",
+      responsibilities: [],
+      requirements: [],
+      benefits: [],
+      location: "Remote / Hybrid",
+      type: "FULL_TIME",
+      active: true,
+      metaTitle: "",
+      metaDescription: "",
+      metaKeywords: [],
+      ogTitle: "",
+      ogDescription: "",
+      ogImage: "",
+      canonicalUrl: "",
+      noIndex: false,
+      internalLinks: []
+    };
+    return initialData ? { ...defaultData, ...initialData } : defaultData;
   });
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
@@ -95,7 +110,9 @@ export default function JobEditor({ initialData }: { initialData: any }) {
   const tabs = [
     { id: "overview", label: "Job Description", icon: Briefcase },
     { id: "protocol", label: "Requirements", icon: Zap },
-    { id: "settings", label: "Publish Settings", icon: Settings }
+    { id: "settings", label: "Publish Settings", icon: Settings },
+    { id: "seo", label: "SEO Settings", icon: Globe },
+    { id: "links", label: "Navigation Links", icon: Link2 }
   ];
 
   return (
@@ -316,6 +333,25 @@ export default function JobEditor({ initialData }: { initialData: any }) {
                         </button>
                     </div>
                  </div>
+              </div>
+            )}
+
+            {activeTab === "seo" && (
+              <div className="p-5 sm:p-6">
+                <SeoEditor 
+                  data={data}
+                  onChange={(seoData) => setData((prev: any) => ({ ...prev, ...seoData }))}
+                  slug={`careers/${data.slug}`}
+                />
+              </div>
+            )}
+
+            {activeTab === "links" && (
+              <div className="p-5 sm:p-6">
+                <LocalInternalLinksEditor 
+                  links={data.internalLinks || []}
+                  onChange={(newLinks) => setData((prev: any) => ({ ...prev, internalLinks: newLinks }))}
+                />
               </div>
             )}
          </div>

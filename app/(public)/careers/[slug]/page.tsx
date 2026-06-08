@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, CheckCircle2, Clock, DollarSign, MapPin } from "lucide-react";
 import JobApplicationForm from "../components/JobApplicationForm";
+import { buildSeoMetadata } from "@/lib/pageUtils";
+import InternalLinksSection from "@/components/InternalLinksSection";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -11,14 +13,23 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const job = await prisma.job.findUnique({ where: { slug } });
+  const [job, settings] = await Promise.all([
+    prisma.job.findUnique({ where: { slug } }),
+    prisma.siteSettings.findUnique({ where: { id: "global" } })
+  ]);
   
   if (!job) return { title: "Job Not Found | RankNexis" };
 
-  return {
-    title: `${job.title} | Careers at RankNexis`,
-    description: job.description,
-  };
+  const suffix = settings?.siteTitleSuffix || "Careers";
+
+  return buildSeoMetadata(
+    job,
+    {
+      title: `${job.title} | ${suffix}`,
+      description: job.description
+    },
+    "careers"
+  );
 }
 
 export default async function JobDetailPage({ params }: Props) {
@@ -151,6 +162,7 @@ export default async function JobDetailPage({ params }: Props) {
            </div>
         </section>
       </main>
+      <InternalLinksSection links={job.internalLinks as any[] || []} />
     </div>
   );
 }

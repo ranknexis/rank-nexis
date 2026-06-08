@@ -76,7 +76,7 @@ export default async function BlogPostPage({ params }: Props) {
         relatedPosts={JSON.parse(JSON.stringify(relatedPosts))} 
         recommendations={JSON.parse(JSON.stringify(resolvedRecommendations))}
       />
-      <InternalLinksSection links={pageData?.internalLinks as any[] || []} />
+      <InternalLinksSection links={post.internalLinks as any[] || []} />
     </>
   );
 }

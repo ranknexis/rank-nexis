@@ -11,7 +11,8 @@ import {
   Settings,
   Trash2,
   Type,
-  Zap
+  Zap,
+  Globe
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -22,6 +23,8 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import RepeaterField from "../../pages/components/RepeaterField";
 import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
 import RecommendationsEditor from "../../components/RecommendationsEditor";
+import SeoEditor from "../../pages/components/SeoEditor";
+import LocalInternalLinksEditor from "../../components/LocalInternalLinksEditor";
 
 export default function WorkEditor({ 
   initialData,
@@ -50,7 +53,16 @@ export default function WorkEditor({
       kpi: "",
       image: "",
       technologies: [],
-      liveUrl: ""
+      liveUrl: "",
+      metaTitle: "",
+      metaDescription: "",
+      metaKeywords: [],
+      ogTitle: "",
+      ogDescription: "",
+      ogImage: "",
+      canonicalUrl: "",
+      noIndex: false,
+      internalLinks: []
     };
     return initialData ? { ...defaultData, ...initialData } : defaultData;
   });
@@ -125,6 +137,8 @@ export default function WorkEditor({
     { id: "narrative", label: "Details & Solution", icon: Type },
     { id: "results", label: "Impact & Results", icon: BarChart3 },
     { id: "settings", label: "Project Settings", icon: Settings },
+    { id: "seo", label: "SEO Settings", icon: Globe },
+    { id: "links", label: "Navigation Links", icon: Link2 },
     { id: "related", label: "Related & Live link", icon: Link2 }
   ];
 
@@ -410,10 +424,28 @@ export default function WorkEditor({
                 </div>
               </div>
             )}
+            {activeTab === "seo" && (
+              <div className="p-5 sm:p-6">
+                <SeoEditor 
+                  data={data}
+                  onChange={(seoData) => setData((prev: any) => ({ ...prev, ...seoData }))}
+                  slug={`work/${data.slug}`}
+                />
+              </div>
+            )}
 
-        </div>
+            {activeTab === "links" && (
+              <div className="p-5 sm:p-6">
+                <LocalInternalLinksEditor 
+                  links={data.internalLinks || []}
+                  onChange={(newLinks) => setData((prev: any) => ({ ...prev, internalLinks: newLinks }))}
+                />
+              </div>
+            )}
 
-      </fieldset>
+          </div>
+
+        </fieldset>
 
       <ConfirmationModal 
         isOpen={deleteConfirmOpen}

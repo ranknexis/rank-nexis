@@ -26,7 +26,8 @@ import {
   Code2,
   BarChart,
   Eye,
-  EyeOff
+  EyeOff,
+  Link2
 } from "lucide-react";
 import Link from "next/link";
 import { createService, updateService, deleteService } from "@/actions/services";
@@ -36,6 +37,8 @@ import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
 import RichTextEditor from "@/dashboard/pages/components/RichTextEditor";
 import RecommendationsEditor from "../../components/RecommendationsEditor";
 import { stripHtml } from "@/lib/utils";
+import SeoEditor from "@/dashboard/pages/components/SeoEditor";
+import LocalInternalLinksEditor from "../../components/LocalInternalLinksEditor";
 
 interface Props {
   initialData?: any;
@@ -72,14 +75,7 @@ export default function ServiceEditor({
   ];
 
   const [data, setData] = useState(() => {
-    if (initialData) {
-      return {
-        ...initialData,
-        icon: initialData.icon || "Zap",
-        active: initialData.active !== undefined ? initialData.active : true,
-      };
-    }
-    return {
+    const defaultData = {
       title: "",
       slug: "",
       description: "",
@@ -88,8 +84,28 @@ export default function ServiceEditor({
       order: 0,
       icon: "Zap",
       active: true,
+      metaTitle: "",
+      metaDescription: "",
+      metaKeywords: [],
+      ogTitle: "",
+      ogDescription: "",
+      ogImage: "",
+      canonicalUrl: "",
+      noIndex: false,
+      internalLinks: [],
     };
+    if (initialData) {
+      return {
+        ...defaultData,
+        ...initialData,
+        icon: initialData.icon || "Zap",
+        active: initialData.active !== undefined ? initialData.active : true,
+      };
+    }
+    return defaultData;
   });
+  
+  const [activeTab, setActiveTab] = useState("content");
   const [loading, setLoading] = useState(false);
 
   // Initialize subItems state
@@ -285,6 +301,29 @@ export default function ServiceEditor({
       <UnsavedChangesWarning isDirty={isDirty} isBusy={loading} />
 
       <div className="lg:col-span-3 space-y-4">
+        {/* Navigation Tabs */}
+        <div className="bg-white rounded-2xl border border-stroke p-4 shadow-sm space-y-1.5">
+          {[
+            { id: "content", label: "Service Content", icon: Layers },
+            { id: "seo", label: "SEO Settings", icon: Globe },
+            { id: "links", label: "Navigation Links", icon: Link2 }
+          ].map(tab => (
+            <button 
+              type="button"
+              key={tab.id}
+              disabled={loading}
+              onClick={loading ? undefined : () => setActiveTab(tab.id)}
+              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-[10px] font-black uppercase tracking-wider ${loading ? 'opacity-50 pointer-events-none' : ''} ${
+                activeTab === tab.id 
+                  ? "bg-brand text-white shadow-md shadow-brand/15" 
+                  : "bg-surface text-text-muted hover:bg-brand/5 hover:text-brand"
+              }`}
+            >
+              <tab.icon size={16} /> {tab.label}
+            </button>
+          ))}
+        </div>
+
         <div className="bg-white rounded-2xl border border-stroke p-4 shadow-sm space-y-2.5">
             <button 
                 onClick={handleSave}
@@ -335,6 +374,8 @@ export default function ServiceEditor({
       </div>
 
       <fieldset disabled={loading} className="lg:col-span-9 space-y-6 border-0 p-0 m-0 w-full disabled:opacity-75">
+         {activeTab === "content" && (
+           <div className="space-y-6">
          {/* Service Details Section */}
          <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-brand/[0.01] rounded-full blur-[100px] -z-10" />
@@ -666,6 +707,23 @@ export default function ServiceEditor({
               allCaseStudies={allCaseStudies}
             />
          </div>
+         </div>
+         )}
+
+         {activeTab === "seo" && (
+            <SeoEditor 
+              data={data}
+              onChange={(seoData) => setData((prev: any) => ({ ...prev, ...seoData }))}
+              slug={`services/${data.slug}`}
+            />
+         )}
+
+         {activeTab === "links" && (
+            <LocalInternalLinksEditor 
+              links={data.internalLinks || []}
+              onChange={(newLinks) => setData((prev: any) => ({ ...prev, internalLinks: newLinks }))}
+            />
+         )}
       </fieldset>
       
       <ConfirmationModal 
