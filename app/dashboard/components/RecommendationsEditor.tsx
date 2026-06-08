@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
+import { stripHtml } from "@/lib/utils";
 
 interface Target {
   id: string;
@@ -114,12 +115,12 @@ export default function RecommendationsEditor({
               <select
                 value={selectedItemId}
                 onChange={(e) => setSelectedItemId(e.target.value)}
-                className="flex-grow h-11 bg-white border border-stroke rounded-xl px-3 text-[10px] font-bold uppercase focus:border-brand outline-none cursor-pointer text-text-primary"
+                className="flex-grow h-11 bg-white border border-stroke rounded-xl px-3 text-[10px] font-bold uppercase focus:border-brand outline-none cursor-pointer text-text-primary min-w-0"
               >
                 <option value="">-- Select an Item --</option>
                 {availableItems.map((item) => (
                   <option key={item.id} value={item.id}>
-                    {item.title}
+                    {stripHtml(item.title)}
                   </option>
                 ))}
               </select>
@@ -148,10 +149,10 @@ export default function RecommendationsEditor({
             {value.map((rec, index) => (
               <div
                 key={`${rec.type}-${rec.id}`}
-                className="flex items-center justify-between p-4 bg-white border border-stroke rounded-xl hover:border-brand/30 transition-all group shadow-sm"
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-white border border-stroke rounded-xl hover:border-brand/30 transition-all group shadow-sm"
               >
-                <div className="flex items-center gap-4">
-                  <span className={`px-2.5 py-1 text-[8px] font-black uppercase rounded-lg border tracking-wider shrink-0 ${
+                <div className="flex items-start gap-3 min-w-0 flex-grow">
+                  <span className={`px-2.5 py-1 text-[8px] font-black uppercase rounded-lg border tracking-wider shrink-0 mt-0.5 sm:mt-0 ${
                     rec.type === "service"
                       ? "bg-brand/5 border-brand/20 text-brand"
                       : rec.type === "blog"
@@ -160,13 +161,15 @@ export default function RecommendationsEditor({
                   }`}>
                     {rec.type}
                   </span>
-                  <div>
-                    <p className="text-xs font-bold text-text-primary uppercase tracking-tight">{rec.title}</p>
-                    <p className="text-[9px] font-bold text-text-muted uppercase">Slug: {rec.slug}</p>
+                  <div className="min-w-0 flex-grow">
+                    <p className="text-xs font-bold text-text-primary uppercase tracking-tight break-words">
+                      {stripHtml(rec.title)}
+                    </p>
+                    <p className="text-[9px] font-bold text-text-muted uppercase truncate mt-0.5">Slug: {rec.slug}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-end gap-1 border-t sm:border-t-0 pt-2 sm:pt-0 border-stroke shrink-0">
                   <button
                     type="button"
                     onClick={() => moveItem(index, "up")}

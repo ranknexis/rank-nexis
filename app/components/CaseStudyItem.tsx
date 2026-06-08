@@ -35,19 +35,19 @@ const CaseStudyItem: React.FC<CaseStudyItemProps> = ({ title, category, stats, i
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover opacity-100 transition-all duration-1000 group-hover:scale-105" 
         />
-        <div className="absolute top-8 left-8 px-6 py-2 glass-dark border border-white/10 rounded-full text-[11px] font-bold uppercase text-white shadow-xl">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 px-4 sm:px-6 py-1.5 sm:py-2 glass-dark border border-white/10 rounded-full text-[10px] sm:text-[11px] font-bold uppercase text-white shadow-xl">
           {category}
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-700 opacity-60 group-hover:opacity-40" />
       </div>
       
-      <div className="p-12 space-y-10">
-        <div className="space-y-4">
-          <p className="text-[11px] font-bold text-brand uppercase">{brand}</p>
-          <h3 className="text-4xl font-bold tracking-tighter uppercase leading-[0.9] group-hover:text-brand transition-colors">{title}</h3>
+      <div className="p-6 sm:p-8 md:p-12 space-y-6 sm:space-y-8 md:space-y-10">
+        <div className="space-y-3 sm:space-y-4">
+          <p className="text-[10px] sm:text-[11px] font-bold text-brand uppercase">{brand}</p>
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter uppercase leading-[0.95] group-hover:text-brand transition-colors">{title}</h3>
         </div>
 
-        <div className="grid grid-cols-3 gap-8 py-8 border-y border-stroke">
+        <div className="grid grid-cols-3 gap-4 sm:gap-6 md:gap-8 py-6 sm:py-8 border-y border-stroke">
           {stats.map((stat, index) => (
             <MetricNode key={index} label={stat.label} value={stat.value} />
           ))}
@@ -55,10 +55,10 @@ const CaseStudyItem: React.FC<CaseStudyItemProps> = ({ title, category, stats, i
 
         <Link 
           href={`/work/${slug}`} 
-          className="inline-flex items-center gap-3 text-[11px] font-bold uppercase text-text-muted hover:text-brand transition-colors group/link"
+          className="inline-flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] font-bold uppercase text-text-muted hover:text-brand transition-colors group/link"
         >
           View Case Study 
-          <ArrowUpRight size={20} className="group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
+          <ArrowUpRight size={16} className="sm:w-5 sm:h-5 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
         </Link>
       </div>
     </motion.div>
