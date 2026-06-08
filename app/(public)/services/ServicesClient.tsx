@@ -22,6 +22,7 @@ import {
 import Link from "next/link";
 import { getSectionData } from "@/lib/pageUtils";
 import React, { useMemo } from "react";
+import { stripHtml } from "@/lib/utils";
 
 const ICON_MAP: Record<string, any> = {
   TrendingUp,
@@ -222,7 +223,7 @@ const ServiceSummaryCard = React.memo(({ service }: { service: any }) => {
                 {service.title}
              </h3>
              <p className="text-text-muted text-xs md:text-sm font-medium leading-relaxed antialiased line-clamp-4 text-justify">
-                {service.description}
+                {stripHtml(service.description)}
              </p>
           </div>
        </div>

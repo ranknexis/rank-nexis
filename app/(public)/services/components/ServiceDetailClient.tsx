@@ -3,14 +3,17 @@
 import { CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import RecommendationsList from "@/components/RecommendationsList";
 
 export default function ServiceDetailClient({
   service,
-  pageData
+  pageData,
+  recommendations = []
 }: {
   service: any;
   pageData: any;
   relatedCaseStudies?: any[];
+  recommendations?: any[];
 }) {
   const sections = pageData?.sections || [];
 
@@ -37,9 +40,12 @@ export default function ServiceDetailClient({
               </h1>
 
               {/* Service Summary (3-5 line paragraph) */}
-              <p className="text-text-secondary text-base md:text-lg font-medium leading-relaxed w-full text-justify">
-                {service.description}
-              </p>
+              {service.description && (
+                <div 
+                  className="text-text-secondary text-base md:text-lg font-medium leading-relaxed w-full text-justify space-y-4 prose prose-slate max-w-none blog-content-area"
+                  dangerouslySetInnerHTML={{ __html: service.description }}
+                />
+              )}
             </div>
           </div>
         </section>
@@ -177,6 +183,9 @@ export default function ServiceDetailClient({
           return null;
         })}
 
+        <div className="container-max px-4 md:px-0 pb-16">
+          <RecommendationsList recommendations={recommendations} />
+        </div>
       </main>
     </div>
   );

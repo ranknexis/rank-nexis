@@ -33,34 +33,29 @@ import { createService, updateService, deleteService } from "@/actions/services"
 import { motion } from "framer-motion";
 import CloudinaryUpload from "../../components/CloudinaryUpload";
 import UnsavedChangesWarning from "../../components/UnsavedChangesWarning";
+import RichTextEditor from "@/dashboard/pages/components/RichTextEditor";
+import RecommendationsEditor from "../../components/RecommendationsEditor";
 
 interface Props {
   initialData?: any;
   initialPageData?: any;
+  allServices?: any[];
+  allBlogs?: any[];
+  allCaseStudies?: any[];
 }
 
-// Plain text to HTML and vice versa conversion helpers for clean multi-line editing without TipTap overhead
-function htmlToPlainText(html: string): string {
-  if (!html) return "";
-  let text = html;
-  text = text.replace(/<\/p>\s*<p>/gi, "\n\n");
-  text = text.replace(/<p>/gi, "");
-  text = text.replace(/<\/p>/gi, "");
-  text = text.replace(/<br\s*\/?>/gi, "\n");
-  text = text.replace(/<[^>]+>/g, ""); // strip other tags
-  return text.trim();
-}
-
-function plainTextToHtml(text: string): string {
-  if (!text) return "";
-  return text
-    .split(/\n\s*\n/)
-    .map(p => `<p>${p.replace(/\n/g, "<br />")}</p>`)
-    .join("");
-}
-
-export default function ServiceEditor({ initialData, initialPageData }: Props) {
+export default function ServiceEditor({ 
+  initialData, 
+  initialPageData,
+  allServices = [],
+  allBlogs = [],
+  allCaseStudies = []
+}: Props) {
   const router = useRouter();
+
+  const [recommendations, setRecommendations] = useState<any[]>(() => {
+    return initialData?.recommendations || [];
+  });
 
   const SELECTABLE_ICONS = [
     { name: "Zap", icon: Zap },
@@ -113,7 +108,7 @@ export default function ServiceEditor({ initialData, initialPageData }: Props) {
           return {
             label: content.label || "Core Expertise",
             title: content.title || content.heading || "",
-            body: htmlToPlainText(content.body || content.text || ""),
+            body: content.body || content.text || "",
             imageUrl: content.imageUrl || content.image || "",
             tagsString: tagsString
           };
@@ -151,7 +146,7 @@ export default function ServiceEditor({ initialData, initialPageData }: Props) {
       return;
     }
     setIsDirty(true);
-  }, [data, subItems, industries]);
+  }, [data, subItems, industries, recommendations]);
 
   useEffect(() => {
     if (!initialData && data.title) {
@@ -171,13 +166,13 @@ export default function ServiceEditor({ initialData, initialPageData }: Props) {
 
     setLoading(true);
 
-    // Convert sub-items textarea plain text to HTML and tag strings to arrays
+    // Clean tag strings to arrays and keep raw HTML content
     const cleanedSubItems = subItems
       .filter((item: any) => item.title.trim() !== "")
       .map((item: any) => ({
         label: item.label || "Core Expertise",
         title: item.title,
-        body: plainTextToHtml(item.body),
+        body: item.body || "",
         imageUrl: item.imageUrl,
         tags: item.tagsString
           ? item.tagsString.split(",").map((t: string) => ({ text: t.trim() })).filter((t: any) => t.text !== "")
@@ -194,7 +189,8 @@ export default function ServiceEditor({ initialData, initialPageData }: Props) {
       ...data,
       features: data.features.filter((f: string) => f.trim() !== ""),
       subItems: cleanedSubItems,
-      industries: cleanedIndustries
+      industries: cleanedIndustries,
+      recommendations
     };
 
     const res = initialData?.id 
@@ -446,12 +442,11 @@ export default function ServiceEditor({ initialData, initialPageData }: Props) {
             </div>
 
             <div className="space-y-2">
-               <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-wider">Service Overview (Impact Summary)</label>
-               <textarea 
+               <RichTextEditor 
                  value={data.description} 
-                 onChange={e => setData({...data, description: e.target.value})}
-                 placeholder="DESCRIBE THE STRATEGIC IMPACT OF THIS SERVICE..."
-                 className="w-full h-32 bg-surface border border-stroke rounded-xl p-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all resize-none uppercase leading-relaxed"
+                 onChange={val => setData({...data, description: val})}
+                 label="Service Overview (Impact Summary)"
+                 placeholder="Describe the strategic impact of this service..."
                />
             </div>
          </div>
@@ -569,12 +564,11 @@ export default function ServiceEditor({ initialData, initialPageData }: Props) {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-wider">Sub-item Details / Paragraph / Summary</label>
-                    <textarea 
+                    <RichTextEditor 
                       value={item.body} 
-                      onChange={e => updateSubItem(idx, "body", e.target.value)}
-                      placeholder="DESCRIBE THIS SPECIALTY IN DETAIL..."
-                      className="w-full h-28 bg-surface border border-stroke rounded-xl p-4 text-xs font-semibold text-text-primary focus:outline-none focus:border-brand transition-all resize-none leading-relaxed"
+                      onChange={val => updateSubItem(idx, "body", val)}
+                      label="Sub-item Details / Paragraph / Summary"
+                      placeholder="Describe this specialty in detail..."
                     />
                   </div>
 
@@ -656,6 +650,21 @@ export default function ServiceEditor({ initialData, initialPageData }: Props) {
                 )}
               </div>
             </div>
+         </div>
+
+         {/* Recommendations / Related Content */}
+         <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
+            <div className="pb-2 border-b border-stroke/50">
+               <h2 className="text-sm font-bold uppercase tracking-wider text-text-primary">Related Recommendations</h2>
+               <p className="text-[10px] text-text-muted uppercase tracking-wider mt-1">Recommend specific services, blog posts, or case studies on the detail page.</p>
+            </div>
+            <RecommendationsEditor 
+              value={recommendations}
+              onChange={setRecommendations}
+              allServices={allServices}
+              allBlogs={allBlogs}
+              allCaseStudies={allCaseStudies}
+            />
          </div>
       </fieldset>
       
