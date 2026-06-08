@@ -219,7 +219,7 @@ const ServiceSummaryCard = React.memo(({ service }: { service: any }) => {
              <Icon className="w-6 h-6 md:w-7 md:h-7" strokeWidth={1.5} />
           </div>
           <div className="space-y-2 md:space-y-3">
-              <h3 className="text-lg md:text-2xl font-bold uppercase tracking-tight leading-snug group-hover:text-brand transition-colors antialiased prose prose-slate max-w-none blog-content-area">
+              <h3 className="text-lg md:text-2xl font-bold uppercase tracking-tight leading-snug group-hover:text-brand transition-colors antialiased blog-content-area-title">
                  <div dangerouslySetInnerHTML={{ __html: service.title }} />
               </h3>
              <p className="text-text-muted text-xs md:text-sm font-medium leading-relaxed antialiased line-clamp-4 text-justify">

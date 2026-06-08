@@ -207,3 +207,17 @@ p { @apply text-sm md:text-base text-text-secondary leading-relaxed font-normal;
   }
 }
 
+.blog-content-area-title p,
+.blog-content-area-title h1,
+.blog-content-area-title h2,
+.blog-content-area-title h3,
+.blog-content-area-title h4 {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+  text-transform: inherit !important;
+  margin: 0 !important;
+  display: inline !important;
+}
+

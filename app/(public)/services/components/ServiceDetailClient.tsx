@@ -36,7 +36,7 @@ export default function ServiceDetailClient({
               </div>
 
               {/* Service Title */}
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-text-primary mb-6 uppercase prose prose-slate max-w-none blog-content-area">
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-text-primary mb-6 uppercase blog-content-area-title">
                 <div dangerouslySetInnerHTML={{ __html: service.title }} className="inline-block" />
               </h1>
 
@@ -94,7 +94,7 @@ export default function ServiceDetailClient({
                         </span>
                       )}
 
-                      <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight uppercase prose prose-slate max-w-none blog-content-area">
+                      <h2 className="text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight uppercase blog-content-area-title">
                         <div dangerouslySetInnerHTML={{ __html: title }} className="inline-block" />
                       </h2>
 
