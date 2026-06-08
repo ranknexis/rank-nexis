@@ -5,7 +5,7 @@ import BlogDetailClient from "../components/BlogDetailClient";
 import InternalLinksSection from "@/components/InternalLinksSection";
 import { getPageData } from "@/lib/pageContent";
 import { buildSeoMetadata } from "@/lib/pageUtils";
-import { getPostBySlug, getSiteSettings } from "@/lib/queries";
+import { getPostBySlug, getSiteSettings, getRecommendations } from "@/lib/queries";
 import { generateBlogSchema } from "@/lib/seo";
 import Script from "next/script";
 
@@ -49,17 +49,20 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
-  const relatedPosts = await prisma.blog.findMany({
-    where: { categoryId: post.categoryId, NOT: { id: post.id } },
-    include: { 
-      category: true, 
-      author: {
-        include: { teamProfile: true }
-      } 
-    },
-    take: 3,
-    orderBy: { createdAt: 'desc' }
-  });
+  const [relatedPosts, resolvedRecommendations] = await Promise.all([
+    prisma.blog.findMany({
+      where: { categoryId: post.categoryId, NOT: { id: post.id } },
+      include: { 
+        category: true, 
+        author: {
+          include: { teamProfile: true }
+        } 
+      },
+      take: 3,
+      orderBy: { createdAt: 'desc' }
+    }),
+    getRecommendations((post as any).recommendations)
+  ]);
 
   return (
     <>
@@ -71,6 +74,7 @@ export default async function BlogPostPage({ params }: Props) {
       <BlogDetailClient 
         post={JSON.parse(JSON.stringify(post))} 
         relatedPosts={JSON.parse(JSON.stringify(relatedPosts))} 
+        recommendations={JSON.parse(JSON.stringify(resolvedRecommendations))}
       />
       <InternalLinksSection links={pageData?.internalLinks as any[] || []} />
     </>

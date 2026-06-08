@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import CaseStudyDetailClient from "../components/CaseStudyDetailClient";
 import InternalLinksSection from "@/components/InternalLinksSection";
 import { getPageData } from "@/lib/pageContent";
+import { getRecommendations } from "@/lib/queries";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -48,9 +49,14 @@ export default async function CaseStudyDetailPage({ params }: Props) {
 
   if (!study) notFound();
 
+  const resolvedRecommendations = await getRecommendations(study.recommendations);
+
   return (
     <>
-      <CaseStudyDetailClient study={JSON.parse(JSON.stringify(study))} />
+      <CaseStudyDetailClient 
+        study={JSON.parse(JSON.stringify(study))} 
+        recommendations={JSON.parse(JSON.stringify(resolvedRecommendations))}
+      />
       <InternalLinksSection links={pageData?.internalLinks as any[] || []} />
     </>
   );

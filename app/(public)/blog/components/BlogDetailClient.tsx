@@ -8,12 +8,15 @@ import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 
+import RecommendationsList from "@/components/RecommendationsList";
+
 interface Props {
   post: any;
   relatedPosts: any[];
+  recommendations?: any[];
 }
 
-export default function BlogDetailClient({ post, relatedPosts }: Props) {
+export default function BlogDetailClient({ post, relatedPosts, recommendations = [] }: Props) {
   const [headings, setHeadings] = useState<{ id: string; text: string; level: string }[]>([]);
   const [activeId, setActiveId] = useState<string>("");
   const contentRef = useRef<HTMLDivElement>(null);
@@ -264,33 +267,37 @@ export default function BlogDetailClient({ post, relatedPosts }: Props) {
             </article>
           </div>
 
-          {relatedPosts.length > 0 && (
-            <section className="mt-20 md:mt-40 pt-10 md:pt-20 border-t border-gray-200">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 md:mb-20">
-                <div className="space-y-6">
-                  <span className="text-[10px] font-bold uppercase text-brand tracking-[0.2em]">Deep Stack Analysis</span>
-                  <h2 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">More <br />Insights.</h2>
+          {recommendations.length > 0 ? (
+            <RecommendationsList recommendations={recommendations} />
+          ) : (
+            relatedPosts.length > 0 && (
+              <section className="mt-20 md:mt-40 pt-10 md:pt-20 border-t border-gray-200">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 md:mb-20">
+                  <div className="space-y-6">
+                    <span className="text-[10px] font-bold uppercase text-brand tracking-[0.2em]">Deep Stack Analysis</span>
+                    <h2 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase leading-[0.95]">More <br />Insights.</h2>
+                  </div>
+                  <Link href="/blog" className="btn-outline h-12 px-6 md:h-16 md:px-12 text-[10px] uppercase tracking-widest hover:bg-brand hover:text-white transition-all self-start md:self-end flex items-center justify-center">
+                    View All Articles
+                  </Link>
                 </div>
-                <Link href="/blog" className="btn-outline h-12 px-6 md:h-16 md:px-12 text-[10px] uppercase tracking-widest hover:bg-brand hover:text-white transition-all self-start md:self-end flex items-center justify-center">
-                  View All Articles
-                </Link>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 xl:gap-12">
-                {relatedPosts.map((rPost: any) => (
-                  <BlogCard 
-                    key={rPost.id}
-                    title={rPost.title}
-                    excerpt={rPost.excerpt}
-                    category={rPost.category?.name}
-                    author={rPost.author?.name}
-                    date={new Date(rPost.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
-                    slug={rPost.slug}
-                    image={rPost.image}
-                  />
-                ))}
-              </div>
-            </section>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 xl:gap-12">
+                  {relatedPosts.map((rPost: any) => (
+                    <BlogCard 
+                      key={rPost.id}
+                      title={rPost.title}
+                      excerpt={rPost.excerpt}
+                      category={rPost.category?.name}
+                      author={rPost.author?.name}
+                      date={new Date(rPost.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
+                      slug={rPost.slug}
+                      image={rPost.image}
+                    />
+                  ))}
+                </div>
+              </section>
+            )
           )}
         </div>
       </main>
