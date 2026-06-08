@@ -69,8 +69,8 @@ export default function RecommendationsList({ recommendations = [] }: Recommenda
                   </div>
                   <div className="space-y-2 md:space-y-3">
                     <span className="text-[9px] font-black uppercase text-brand tracking-wider">{item.category || "Service offering"}</span>
-                    <h3 className="text-lg md:text-xl font-bold uppercase tracking-tight leading-snug group-hover:text-brand transition-colors">
-                      {item.title}
+                    <h3 className="text-lg md:text-xl font-bold uppercase tracking-tight leading-snug group-hover:text-brand transition-colors blog-content-area-title">
+                      <div dangerouslySetInnerHTML={{ __html: item.title }} />
                     </h3>
                     <p className="text-text-muted text-xs md:text-sm font-medium leading-relaxed line-clamp-3">
                       {stripHtml(item.description)}
