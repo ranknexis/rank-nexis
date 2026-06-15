@@ -689,13 +689,12 @@ export default function ServiceEditor({
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-wider">Section Heading</label>
-                <input 
-                  type="text" 
+                <RichTextEditor 
                   value={industries.heading} 
-                  onChange={e => setIndustries({ ...industries, heading: e.target.value })}
+                  onChange={val => setIndustries({ ...industries, heading: val })}
+                  label="Section Heading"
                   placeholder="E.G. INDUSTRIES WE SERVE"
-                  className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
+                  variant="heading"
                 />
               </div>
 
@@ -758,13 +757,12 @@ export default function ServiceEditor({
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-wider">FAQ Heading</label>
-                <input 
-                  type="text" 
+                <RichTextEditor 
                   value={faqs.heading} 
-                  onChange={e => setFaqs({ ...faqs, heading: e.target.value })}
+                  onChange={val => setFaqs({ ...faqs, heading: val })}
+                  label="FAQ Heading"
                   placeholder="E.G. FREQUENTLY ASKED QUESTIONS"
-                  className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
+                  variant="heading"
                 />
               </div>
 

@@ -319,6 +319,53 @@ export default function RichTextEditor({ value, onChange, label, placeholder, va
             <EditorContent editor={editor} />
           </div>
         </div>
+
+        {/* Link Dialog Modal Overlay */}
+        {isLinkModalOpen && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999] flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl border border-stroke shadow-2xl p-6 w-full max-w-md space-y-4 animate-in fade-in zoom-in-95 duration-200">
+              <div className="flex items-center gap-2.5 pb-2.5 border-b border-stroke">
+                <LinkIcon className="text-brand animate-pulse" size={18} />
+                <h3 className="text-xs font-black uppercase tracking-wider text-text-primary">Insert / Modify Link</h3>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-widest">Destination URL</label>
+                <input
+                  type="text"
+                  value={linkUrl}
+                  onChange={(e) => setLinkUrl(e.target.value)}
+                  placeholder="e.g. https://ranknexis.com"
+                  className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-semibold focus:outline-none focus:border-brand transition-all text-text-primary"
+                />
+              </div>
+              <div className="flex gap-2 justify-end pt-3 border-t border-stroke">
+                <button
+                  type="button"
+                  onClick={() => setIsLinkModalOpen(false)}
+                  className="px-4 h-10 border border-stroke rounded-xl text-[10px] font-bold uppercase text-text-muted hover:bg-surface transition-all cursor-pointer"
+                >
+                  Cancel
+                </button>
+                {editor.isActive('link') && (
+                  <button
+                    type="button"
+                    onClick={handleRemoveLink}
+                    className="px-4 h-10 border border-red-200 text-red-500 rounded-xl text-[10px] font-bold uppercase hover:bg-red-50 transition-all cursor-pointer"
+                  >
+                    Remove Link
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleApplyLink}
+                  className="px-5 h-10 bg-brand text-white rounded-xl text-[10px] font-bold uppercase hover:scale-[1.02] active:scale-98 transition-all cursor-pointer"
+                >
+                  Apply Link
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
