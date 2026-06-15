@@ -245,6 +245,52 @@ export default function RichTextEditor({ value, onChange, label, placeholder, va
                   </button>
                   
                   <div className="w-px h-4 bg-white/10 mx-1" />
+
+                  <button 
+                    type="button"
+                    title="Heading 1"
+                    onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} 
+                    className={`p-2 rounded-lg text-white transition-all ${editor.isActive('heading', { level: 1 }) ? 'bg-brand' : 'hover:bg-white/10'}`}
+                  >
+                    <Heading1 size={14} />
+                  </button>
+                  <button 
+                    type="button"
+                    title="Heading 2"
+                    onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} 
+                    className={`p-2 rounded-lg text-white transition-all ${editor.isActive('heading', { level: 2 }) ? 'bg-brand' : 'hover:bg-white/10'}`}
+                  >
+                    <Heading2 size={14} />
+                  </button>
+                  <button 
+                    type="button"
+                    title="Heading 3"
+                    onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} 
+                    className={`p-2 rounded-lg text-white transition-all ${editor.isActive('heading', { level: 3 }) ? 'bg-brand' : 'hover:bg-white/10'}`}
+                  >
+                    <Heading3 size={14} />
+                  </button>
+                  <button 
+                    type="button"
+                    title="Paragraph Text"
+                    onClick={() => editor.chain().focus().setParagraph().run()} 
+                    className={`p-2 rounded-lg text-white transition-all ${editor.isActive('paragraph') ? 'bg-brand' : 'hover:bg-white/10'}`}
+                  >
+                    <Type size={14} />
+                  </button>
+
+                  <div className="w-px h-4 bg-white/10 mx-1" />
+
+                  <button 
+                    type="button"
+                    title="Add / Edit Link"
+                    onClick={openLinkModal} 
+                    className={`p-2 rounded-lg text-white transition-all ${editor.isActive('link') ? 'bg-brand' : 'hover:bg-white/10'}`}
+                  >
+                    <LinkIcon size={14} />
+                  </button>
+                  
+                  <div className="w-px h-4 bg-white/10 mx-1" />
                   
                   <span className="text-[9px] font-bold uppercase text-white/55 px-1 select-none">Size:</span>
                   <select
