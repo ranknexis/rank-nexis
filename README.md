@@ -1,6 +1,6 @@
 # RankNexis | Strategic Digital Operating System
 
-![RankNexis Banner](https://images.unsplash.com/photo-1519389950473-47002064a126?auto=format&fit=crop&q=80&w=2070)
+![RankNexis Banner](public/og-image.png)
 
 RankNexis is a high-performance, agency-grade digital platform designed for strategic market positioning and service dominance. Built with a focus on speed, scalability, and premium aesthetics, it provides a unified CMS for managing complex service architectures, case studies, and enterprise-level insights.
 
