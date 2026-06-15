@@ -24,6 +24,7 @@ export async function createService(data: {
     subItems?: any[];
     industries?: any;
     recommendations?: any;
+    faqs?: any;
     metaTitle?: string;
     metaDescription?: string;
     metaKeywords?: string[];
@@ -138,6 +139,25 @@ export async function createService(data: {
                 });
             }
 
+            const defaultFaqs = data.faqs || {
+                heading: "Frequently Asked Questions",
+                items: [
+                    { question: "What is your project timeline?", answer: "Typical engagements deliver strategy in 2 weeks and full deployment in 4-6 weeks." },
+                    { question: "How do you measure project success?", answer: "We define precise KPIs around organic ranking increases, conversions, and revenue growth." }
+                ]
+            };
+
+            initialSections.push({
+                sectionKey: "faq_01",
+                sectionType: "faq",
+                label: "Frequently Asked Questions",
+                order: defaultSubItems.length + 2,
+                content: {
+                    heading: defaultFaqs.heading || "Frequently Asked Questions",
+                    items: defaultFaqs.items || []
+                }
+            });
+
             await tx.pageContent.create({
                 data: {
                     slug: `services/${data.slug}`,
@@ -207,6 +227,7 @@ export async function updateService(id: string, data: any) {
 
             const subItemsList = data.subItems || [];
             const industriesData = data.industries || { heading: "Industries We Support", rows: [] };
+            const faqsData = data.faqs || { heading: "Frequently Asked Questions", items: [] };
 
             if (existingPage) {
                 await tx.pageContent.update({
@@ -241,7 +262,7 @@ export async function updateService(id: string, data: any) {
                 await tx.pageSection.deleteMany({
                     where: {
                         pageId: existingPage.id,
-                        sectionType: { in: ["text_block", "text_image", "table"] }
+                        sectionType: { in: ["text_block", "text_image", "table", "faq"] }
                     }
                 });
 
@@ -273,6 +294,18 @@ export async function updateService(id: string, data: any) {
                         badge: "Market Sectors",
                         heading: industriesData.heading,
                         rows: industriesData.rows || []
+                    }
+                });
+
+                sectionsToCreate.push({
+                    pageId: existingPage.id,
+                    sectionKey: "faq_01",
+                    sectionType: "faq",
+                    label: "Frequently Asked Questions",
+                    order: subItemsList.length + 2,
+                    content: {
+                        heading: faqsData.heading || "Frequently Asked Questions",
+                        items: faqsData.items || []
                     }
                 });
 
@@ -327,6 +360,17 @@ export async function updateService(id: string, data: any) {
                         badge: "Market Sectors",
                         heading: industriesData.heading,
                         rows: industriesData.rows || []
+                    }
+                });
+
+                initialSections.push({
+                    sectionKey: "faq_01",
+                    sectionType: "faq",
+                    label: "Frequently Asked Questions",
+                    order: subItemsList.length + 2,
+                    content: {
+                        heading: faqsData.heading || "Frequently Asked Questions",
+                        items: faqsData.items || []
                     }
                 });
 

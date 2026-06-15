@@ -154,6 +154,24 @@ export default function ServiceEditor({
     };
   });
 
+  // Initialize FAQs state
+  const [faqs, setFaqs] = useState(() => {
+    const faqSection = initialPageData?.sections?.find((sec: any) => sec.sectionType === "faq");
+    if (faqSection) {
+      return {
+        heading: faqSection.content?.heading || "Frequently Asked Questions",
+        items: faqSection.content?.items || []
+      };
+    }
+    return {
+      heading: "Frequently Asked Questions",
+      items: [
+        { question: "What is your project timeline?", answer: "Typical engagements deliver strategy in 2 weeks and full deployment in 4-6 weeks." },
+        { question: "How do you measure project success?", answer: "We define precise KPIs around organic ranking increases, conversions, and revenue growth." }
+      ]
+    };
+  });
+
   const [isDirty, setIsDirty] = useState(false);
   const isInitial = useRef(true);
 
@@ -163,7 +181,7 @@ export default function ServiceEditor({
       return;
     }
     setIsDirty(true);
-  }, [data, subItems, industries, recommendations]);
+  }, [data, subItems, industries, faqs, recommendations]);
 
   useEffect(() => {
     if (!initialData && data.title) {
@@ -203,11 +221,18 @@ export default function ServiceEditor({
       rows: industries.rows.filter((r: any) => r.industry.trim() !== "")
     };
 
+    // Process FAQs
+    const cleanedFaqs = {
+      heading: faqs.heading,
+      items: faqs.items.filter((item: any) => item.question.trim() !== "")
+    };
+
     const cleanedData = {
       ...data,
       features: data.features.filter((f: string) => f.trim() !== ""),
       subItems: cleanedSubItems,
       industries: cleanedIndustries,
+      faqs: cleanedFaqs,
       recommendations
     };
 
@@ -294,6 +319,26 @@ export default function ServiceEditor({
     const newRows = [...industries.rows];
     newRows.splice(index, 1);
     setIndustries({ ...industries, rows: newRows });
+  };
+
+  // FAQs management helpers
+  const addFaqItem = () => {
+    setFaqs({
+      ...faqs,
+      items: [...faqs.items, { question: "", answer: "" }]
+    });
+  };
+
+  const updateFaqItem = (index: number, field: string, value: string) => {
+    const newItems = [...faqs.items];
+    newItems[index] = { ...newItems[index], [field]: value };
+    setFaqs({ ...faqs, items: newItems });
+  };
+
+  const removeFaqItem = (index: number) => {
+    const newItems = [...faqs.items];
+    newItems.splice(index, 1);
+    setFaqs({ ...faqs, items: newItems });
   };
 
   return (
@@ -689,6 +734,86 @@ export default function ServiceEditor({
                 {industries.rows.length === 0 && (
                   <div className="py-8 border border-dashed border-stroke rounded-xl text-center">
                      <p className="text-[10px] font-bold uppercase text-text-muted tracking-wider">No industries defined. This section is optional.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+         </div>
+
+         {/* FAQ Section */}
+         <div className="bg-white rounded-2xl border border-stroke shadow-sm p-5 sm:p-6 space-y-6">
+            <div className="flex justify-between items-center pb-2 border-b border-stroke/50">
+               <div className="flex items-center gap-2">
+                  <HelpCircle size={16} className="text-brand" />
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-text-primary">Frequently Asked Questions</h2>
+               </div>
+               <button 
+                 type="button"
+                 onClick={addFaqItem}
+                 className="px-4 h-11 bg-brand text-white text-xs font-bold rounded-xl shadow-md uppercase flex items-center gap-1.5 hover:bg-brand-dark active:scale-95 transition-all"
+               >
+                 <Plus size={16} /> Add FAQ
+               </button>
+            </div>
+
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold uppercase text-text-muted px-1 tracking-wider">FAQ Heading</label>
+                <input 
+                  type="text" 
+                  value={faqs.heading} 
+                  onChange={e => setFaqs({ ...faqs, heading: e.target.value })}
+                  placeholder="E.G. FREQUENTLY ASKED QUESTIONS"
+                  className="w-full h-11 bg-surface border border-stroke rounded-xl px-4 text-xs font-bold text-text-primary focus:outline-none focus:border-brand transition-all uppercase tracking-tight"
+                />
+              </div>
+
+              <div className="space-y-4">
+                {faqs.items.map((item: any, idx: number) => (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    key={idx} 
+                    className="flex flex-col gap-3 p-4 bg-surface/30 rounded-xl border border-stroke relative group"
+                  >
+                    <div className="flex justify-between items-center pb-2 border-b border-stroke/50">
+                      <span className="text-[10px] font-extrabold uppercase text-brand tracking-wider">FAQ #{idx + 1}</span>
+                      <button 
+                        type="button"
+                        onClick={() => removeFaqItem(idx)}
+                        className="px-2.5 py-1 border border-red-100 text-red-500 hover:bg-red-50 text-[9px] font-bold rounded-lg uppercase flex items-center gap-1 transition-all"
+                      >
+                        <Trash2 size={12} /> Remove
+                      </button>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="space-y-1">
+                        <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-wider">Question</label>
+                        <input 
+                          type="text"
+                          value={item.question}
+                          onChange={e => updateFaqItem(idx, "question", e.target.value)}
+                          placeholder="E.G. WHAT IS YOUR REVENUE MODEL?"
+                          className="h-11 px-4 bg-surface border border-stroke rounded-xl text-xs font-bold outline-none focus:border-brand transition-all uppercase text-text-primary w-full"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[9px] font-bold uppercase text-text-muted px-1 tracking-wider">Answer</label>
+                        <textarea 
+                          rows={3}
+                          value={item.answer}
+                          onChange={e => updateFaqItem(idx, "answer", e.target.value)}
+                          placeholder="E.G. WE OPERATE ON A MONTHLY RETAINER BASIS..."
+                          className="p-4 bg-surface border border-stroke rounded-xl text-xs font-bold outline-none focus:border-brand transition-all uppercase text-text-primary w-full h-auto resize-none"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+                {faqs.items.length === 0 && (
+                  <div className="py-8 border border-dashed border-stroke rounded-xl text-center">
+                     <p className="text-[10px] font-bold uppercase text-text-muted tracking-wider">No FAQs defined. This section is optional.</p>
                   </div>
                 )}
               </div>

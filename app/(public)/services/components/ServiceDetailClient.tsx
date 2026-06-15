@@ -181,6 +181,42 @@ export default function ServiceDetailClient({
             );
           }
 
+          if (type === 'faq') {
+            const heading = content.heading || "Frequently Asked Questions";
+            const items = content.items || [];
+            return (
+              <section key={idx} className="py-16 md:py-24 bg-white border-b border-stroke px-4">
+                <div className="container-max">
+                  <div className="max-w-4xl mx-auto space-y-10">
+                    <div className="space-y-3 text-center">
+                      <span className="text-xs font-bold uppercase text-brand tracking-[0.2em]">FAQ</span>
+                      <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-text-primary uppercase">
+                        {heading}
+                      </h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 pt-6">
+                      {items.map((item: any, i: number) => (
+                        <div key={i} className="space-y-3 group cursor-default">
+                          <h3 className="text-[12px] font-bold uppercase tracking-wider text-text-primary flex items-start gap-3 group-hover:text-brand transition-all duration-300">
+                            <ChevronRight size={14} className="text-brand group-hover:translate-x-1 transition-transform shrink-0 mt-0.5" />
+                            <span>{item.question}</span>
+                          </h3>
+                          <p className="text-sm md:text-base text-text-secondary leading-relaxed font-normal pl-6 border-l border-stroke/50">
+                            {item.answer}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    {items.length === 0 && (
+                      <p className="text-center text-text-muted text-sm font-bold">No FAQs available.</p>
+                    )}
+                  </div>
+                </div>
+              </section>
+            );
+          }
+
           return null;
         })}
 

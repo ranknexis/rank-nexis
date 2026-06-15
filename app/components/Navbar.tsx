@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, stripHtml } from "@/lib/utils";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 
 import {
@@ -129,7 +129,7 @@ export default function Navbar({ services: dbServices }: NavbarProps) {
         items: itemsInCat.map(s => {
           const IconComponent = IconMap[s.icon || ""] || Search;
           return {
-            name: s.title,
+            name: stripHtml(s.title),
             href: `/services/${s.slug}`,
             icon: IconComponent
           };
