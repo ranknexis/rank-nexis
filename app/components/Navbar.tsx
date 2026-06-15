@@ -213,7 +213,7 @@ export default function Navbar({ services: dbServices }: NavbarProps) {
                   animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                   exit={{ opacity: 0, y: 15, scale: 0.95, filter: "blur(10px)" }}
                   transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-                  className="absolute top-20 left-1/2 -translate-x-1/2 w-[900px] bg-white/95 backdrop-blur-md border border-black/5 rounded-[2.5rem] shadow-premium p-10 z-50 overflow-hidden grain"
+                  className="absolute top-20 left-1/2 -translate-x-1/2 w-[900px] bg-white/95 backdrop-blur-md border border-black/5 rounded-[2.5rem] shadow-premium p-10 z-50 max-h-[calc(100vh-6rem)] overflow-y-auto grain"
                 >
                   <div className="grid grid-cols-3 gap-10 relative z-10">
                     {menuSections.map((section, idx) => (
@@ -290,7 +290,7 @@ export default function Navbar({ services: dbServices }: NavbarProps) {
             </button>
 
             <div className="absolute top-20 right-0 pt-0 opacity-0 invisible group-hover/company:opacity-100 group-hover/company:visible transition-all duration-500 translate-y-4 group-hover/company:translate-y-0 z-50">
-              <div className="w-64 bg-white/95 backdrop-blur-md border border-black/5 rounded-[2.5rem] shadow-premium p-6 space-y-2 grain relative overflow-hidden">
+              <div className="w-64 bg-white/95 backdrop-blur-md border border-black/5 rounded-[2.5rem] shadow-premium p-6 space-y-2 grain relative max-h-[calc(100vh-6rem)] overflow-y-auto">
                 <div className="absolute top-0 right-0 p-4 text-brand/5 rotate-12 pointer-events-none">
                   <Box size={80} strokeWidth={1} />
                 </div>

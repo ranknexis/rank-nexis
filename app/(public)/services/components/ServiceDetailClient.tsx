@@ -1,10 +1,12 @@
 "use client";
 
-import { CheckCircle2, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { CheckCircle2, ChevronRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import RecommendationsList from "@/components/RecommendationsList";
 import { stripHtml } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ServiceDetailClient({
   service,
@@ -17,6 +19,7 @@ export default function ServiceDetailClient({
   recommendations?: any[];
 }) {
   const sections = pageData?.sections || [];
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <div className="min-h-screen bg-white text-text-primary">
@@ -138,7 +141,7 @@ export default function ServiceDetailClient({
                   <div className="max-w-4xl mx-auto space-y-8">
                     <div className="space-y-2 text-center">
                       <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-text-primary uppercase">
-                        {heading}
+                        <div dangerouslySetInnerHTML={{ __html: heading }} className="inline-block" />
                       </h2>
                     </div>
 
@@ -185,32 +188,61 @@ export default function ServiceDetailClient({
             const heading = content.heading || "Frequently Asked Questions";
             const items = content.items || [];
             return (
-              <section key={idx} className="py-16 md:py-24 bg-white border-b border-stroke px-4">
+              <section key={idx} className="py-16 md:py-24 bg-white border-b border-stroke last:border-b-0 px-4">
                 <div className="container-max">
                   <div className="max-w-4xl mx-auto space-y-10">
                     <div className="space-y-3 text-center">
                       <span className="text-xs font-bold uppercase text-brand tracking-[0.2em]">FAQ</span>
                       <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-text-primary uppercase">
-                        {heading}
+                        <div dangerouslySetInnerHTML={{ __html: heading }} className="inline-block" />
                       </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 pt-6">
-                      {items.map((item: any, i: number) => (
-                        <div key={i} className="space-y-3 group cursor-default">
-                          <h3 className="text-[12px] font-bold uppercase tracking-wider text-text-primary flex items-start gap-3 group-hover:text-brand transition-all duration-300">
-                            <ChevronRight size={14} className="text-brand group-hover:translate-x-1 transition-transform shrink-0 mt-0.5" />
-                            <span>{item.question}</span>
-                          </h3>
-                          <p className="text-sm md:text-base text-text-secondary leading-relaxed font-normal pl-6 border-l border-stroke/50">
-                            {item.answer}
-                          </p>
-                        </div>
-                      ))}
+                    <div className="space-y-4 max-w-3xl mx-auto pt-6">
+                      {items.map((item: any, i: number) => {
+                        const isOpen = openIndex === i;
+                        return (
+                          <div 
+                            key={i}
+                            onMouseEnter={() => setOpenIndex(i)}
+                            onMouseLeave={() => setOpenIndex(null)}
+                            onClick={() => setOpenIndex(isOpen ? null : i)}
+                            className="group border border-stroke/70 rounded-2xl bg-white hover:border-brand/30 hover:shadow-premium transition-all duration-500 overflow-hidden cursor-pointer"
+                          >
+                            {/* Accordion Header */}
+                            <div className="flex items-center justify-between p-5 md:p-6 select-none">
+                              <h3 className={`text-xs md:text-sm font-extrabold uppercase tracking-wider transition-colors duration-300 ${isOpen ? 'text-brand' : 'text-text-primary'}`}>
+                                {item.question}
+                              </h3>
+                              <div className={`w-8 h-8 rounded-full border border-stroke flex items-center justify-center text-text-secondary transition-all duration-500 ${isOpen ? 'bg-brand text-white border-brand rotate-180 shadow-md' : 'bg-surface-light group-hover:border-brand/30'}`}>
+                                <ChevronDown size={14} className="transition-transform duration-300" />
+                              </div>
+                            </div>
+
+                            {/* Accordion Content */}
+                            <AnimatePresence initial={false}>
+                              {isOpen && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
+                                >
+                                  <div className="px-5 pb-5 md:px-6 md:pb-6 pt-0 border-t border-stroke/30">
+                                    <p className="text-sm md:text-base text-text-secondary leading-relaxed font-normal antialiased pt-4">
+                                      {item.answer}
+                                    </p>
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        );
+                      })}
+                      {items.length === 0 && (
+                        <p className="text-center text-text-muted text-sm font-bold">No FAQs available.</p>
+                      )}
                     </div>
-                    {items.length === 0 && (
-                      <p className="text-center text-text-muted text-sm font-bold">No FAQs available.</p>
-                    )}
                   </div>
                 </div>
               </section>

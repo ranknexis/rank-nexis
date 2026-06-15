@@ -179,6 +179,8 @@ export async function createService(data: {
         revalidatePath(`/services/${service.slug}`);
         revalidatePath("/dashboard/services");
         revalidatePath("/");
+        revalidatePath("/", "layout");
+        revalidatePath("/sitemap.xml");
         return { success: true, service, data: service };
     } catch (error) {
         console.error("Failed to create service:", error);
@@ -396,6 +398,8 @@ export async function updateService(id: string, data: any) {
         revalidatePath(`/services/${service.slug}`);
         revalidatePath("/dashboard/services");
         revalidatePath("/");
+        revalidatePath("/", "layout");
+        revalidatePath("/sitemap.xml");
         return { success: true, service, data: service };
     } catch (error) {
         console.error("Failed to update service:", error);
@@ -441,6 +445,8 @@ export async function deleteService(id: string) {
             revalidatePath("/dashboard/services");
             revalidatePath("/");
             revalidatePath("/services", "page");
+            revalidatePath("/", "layout");
+            revalidatePath("/sitemap.xml");
         }
         return { success: true };
     } catch (error) {
